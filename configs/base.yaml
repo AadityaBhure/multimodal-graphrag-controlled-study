@@ -1,0 +1,16 @@
+# Phase 1 configuration only. No dataset has been downloaded or built.
+schema_version: '1.0'
+seed: 42
+models:
+  embedding: sentence-transformers/all-MiniLM-L6-v2
+  generator: openai/gpt-oss-120b
+  temperature: 0
+dataset:
+  name: MMG-STaRK-MAG
+  version: unbuilt
+  benchmark_version: unbuilt
+paths:
+  dataset: data/MMG_STARK_MAG
+  experiments: artifacts/experiments
+logging:
+  level: INFO

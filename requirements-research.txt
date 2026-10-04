@@ -1,0 +1,3 @@
+# Install in addition to the unchanged MVP requirements.txt.
+pydantic==2.13.5
+PyYAML==6.0.3

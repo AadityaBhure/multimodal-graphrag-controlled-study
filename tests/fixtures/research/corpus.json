@@ -1,0 +1,187 @@
+{
+  "fixture_version": "synthetic-v1",
+  "synthetic": true,
+  "entities": [
+    {
+      "canonical_id": "paper:fixture:1",
+      "stark_node_id": null,
+      "mag_id": null,
+      "entity_type": "Paper",
+      "display_name": "Graph Search"
+    },
+    {
+      "canonical_id": "paper:fixture:2",
+      "stark_node_id": null,
+      "mag_id": null,
+      "entity_type": "Paper",
+      "display_name": "Text Search"
+    },
+    {
+      "canonical_id": "paper:fixture:3",
+      "stark_node_id": null,
+      "mag_id": null,
+      "entity_type": "Paper",
+      "display_name": "Missing Abstract"
+    },
+    {
+      "canonical_id": "author:fixture:1",
+      "stark_node_id": null,
+      "mag_id": null,
+      "entity_type": "Author",
+      "display_name": "Alex Example"
+    },
+    {
+      "canonical_id": "institution:fixture:1",
+      "stark_node_id": null,
+      "mag_id": null,
+      "entity_type": "Institution",
+      "display_name": "Example Institute"
+    },
+    {
+      "canonical_id": "field:fixture:1",
+      "stark_node_id": null,
+      "mag_id": null,
+      "entity_type": "FieldOfStudy",
+      "display_name": "Retrieval"
+    }
+  ],
+  "text": [
+    {
+      "text_id": "text:fixture:1",
+      "paper_id": "paper:fixture:1",
+      "title": "Graph Search",
+      "abstract": "A synthetic paper about connected graph evidence.",
+      "content": "Graph Search\n\nA synthetic paper about connected graph evidence.",
+      "abstract_missing": false
+    },
+    {
+      "text_id": "text:fixture:2",
+      "paper_id": "paper:fixture:2",
+      "title": "Text Search",
+      "abstract": "A synthetic paper about textual evidence.",
+      "content": "Text Search\n\nA synthetic paper about textual evidence.",
+      "abstract_missing": false
+    },
+    {
+      "text_id": "text:fixture:3",
+      "paper_id": "paper:fixture:3",
+      "title": "Missing Abstract",
+      "abstract": null,
+      "content": "Missing Abstract",
+      "abstract_missing": true
+    }
+  ],
+  "nodes": [
+    {
+      "node_id": "paper:fixture:1",
+      "canonical_id": "paper:fixture:1",
+      "node_type": "Paper",
+      "label": "Graph Search",
+      "search_text": "Graph Search"
+    },
+    {
+      "node_id": "paper:fixture:2",
+      "canonical_id": "paper:fixture:2",
+      "node_type": "Paper",
+      "label": "Text Search",
+      "search_text": "Text Search"
+    },
+    {
+      "node_id": "paper:fixture:3",
+      "canonical_id": "paper:fixture:3",
+      "node_type": "Paper",
+      "label": "Missing Abstract",
+      "search_text": "Missing Abstract"
+    },
+    {
+      "node_id": "author:fixture:1",
+      "canonical_id": "author:fixture:1",
+      "node_type": "Author",
+      "label": "Alex Example",
+      "search_text": "Alex Example"
+    },
+    {
+      "node_id": "institution:fixture:1",
+      "canonical_id": "institution:fixture:1",
+      "node_type": "Institution",
+      "label": "Example Institute",
+      "search_text": "Example Institute"
+    },
+    {
+      "node_id": "field:fixture:1",
+      "canonical_id": "field:fixture:1",
+      "node_type": "FieldOfStudy",
+      "label": "Retrieval",
+      "search_text": "Retrieval"
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "edge:fixture:1",
+      "source_id": "author:fixture:1",
+      "relation": "WRITES",
+      "target_id": "paper:fixture:1",
+      "derived_inverse": false
+    },
+    {
+      "edge_id": "edge:fixture:2",
+      "source_id": "author:fixture:1",
+      "relation": "WRITES",
+      "target_id": "paper:fixture:2",
+      "derived_inverse": false
+    },
+    {
+      "edge_id": "edge:fixture:3",
+      "source_id": "author:fixture:1",
+      "relation": "AFFILIATED_WITH",
+      "target_id": "institution:fixture:1",
+      "derived_inverse": false
+    },
+    {
+      "edge_id": "edge:fixture:4",
+      "source_id": "paper:fixture:1",
+      "relation": "CITES",
+      "target_id": "paper:fixture:2",
+      "derived_inverse": false
+    },
+    {
+      "edge_id": "edge:fixture:5",
+      "source_id": "paper:fixture:1",
+      "relation": "HAS_TOPIC",
+      "target_id": "field:fixture:1",
+      "derived_inverse": false
+    }
+  ],
+  "structured": [
+    {
+      "paper_id": "paper:fixture:1",
+      "publication_date": null,
+      "publication_year": 2021,
+      "venue_id": "venue:fixture:1",
+      "venue_name": "Example Venue",
+      "venue_type": "conference",
+      "citation_count": 2,
+      "paper_rank": null
+    },
+    {
+      "paper_id": "paper:fixture:2",
+      "publication_date": null,
+      "publication_year": 2022,
+      "venue_id": "venue:fixture:1",
+      "venue_name": "Example Venue",
+      "venue_type": "conference",
+      "citation_count": 4,
+      "paper_rank": null
+    },
+    {
+      "paper_id": "paper:fixture:3",
+      "publication_date": null,
+      "publication_year": 2023,
+      "venue_id": "venue:fixture:1",
+      "venue_name": "Example Venue",
+      "venue_type": "conference",
+      "citation_count": 6,
+      "paper_rank": null
+    }
+  ]
+}

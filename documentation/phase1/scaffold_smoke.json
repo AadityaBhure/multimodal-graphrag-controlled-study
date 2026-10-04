@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "baseline_commit": "4592d102b363c7d55d3c85ee67efe89409ae96b5",
+  "frozen_files_verified": 54,
+  "storage_files_verified": 4,
+  "config_hash": "95936d850eb9c27c6f3264e026eda920f96de9c85883018fde4d356def3cdd1f",
+  "fresh_process_hashes": [
+    "95936d850eb9c27c6f3264e026eda920f96de9c85883018fde4d356def3cdd1f",
+    "95936d850eb9c27c6f3264e026eda920f96de9c85883018fde4d356def3cdd1f"
+  ],
+  "fixture_directory": "artifacts/experiments/exp-20ef42cbbde968c5cef49f0506a1dec5883d9caa09e3608b76ba0d7285b02954",
+  "model_calls": 0,
+  "dataset_acquisition": false
+}
