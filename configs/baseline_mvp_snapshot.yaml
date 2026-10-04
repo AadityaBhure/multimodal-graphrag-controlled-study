@@ -1,0 +1,31 @@
+{
+  "python": "3.12.14",
+  "settings": {
+    "groq_model": "openai/gpt-oss-120b",
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "text_top_k": 5,
+    "graph_seed_k": 3,
+    "graph_depth": 2,
+    "graph_max_papers": 5,
+    "graph_per_paper_chunks": 2,
+    "chunk_size_words": 450,
+    "chunk_overlap_words": 75,
+    "max_context_chars": 24000
+  },
+  "generation_temperature": 0,
+  "embedding_dimension": 384,
+  "index_type": "IndexFlatIP",
+  "env_names": [
+    "GROQ_API_KEY",
+    "GROQ_MODEL",
+    "TAVILY_API_KEY"
+  ],
+  "counts": {
+    "metadata_papers": 12,
+    "pdfs": 12,
+    "chunks": 394,
+    "vectors": 394,
+    "graph_nodes": 74,
+    "graph_edges": 87
+  }
+}

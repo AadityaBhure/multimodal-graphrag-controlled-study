@@ -1,0 +1,496 @@
+{
+  "mode": "graph_rag",
+  "question": "Which agentic retrieval approaches use self-reflection?",
+  "answer": "Among the agentic retrieval methods, **AGENT‑G** explicitly incorporates a self‑reflection loop that iteratively improves its tool‑use actions [​P011]​, and the **Agent‑Orchestrated Adaptive RAG** system also relies on a reflection step that includes self‑reflection of its intermediate answers [​P012]​. No self‑reflection mechanism is reported for the other agentic approaches (e.g., Think‑on‑Graph, Adaptive‑RAG, Corrective RAG). The evidence for Agent‑Orchestrated Adaptive RAG’s self‑reflection comes from the textual description of “reflection” and “self‑reflection” in its paper, while the graph only labels the component as “Reflection”.​",
+  "status": "ok",
+  "generation_error": null,
+  "seed_nodes": [
+    {
+      "node_id": "AREA::Agentic Retrieval",
+      "label": "Agentic Retrieval",
+      "node_type": "ResearchArea",
+      "score": 0.7016427516937256
+    },
+    {
+      "node_id": "PAPER::P011",
+      "label": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "node_type": "Paper",
+      "score": 0.6110434532165527
+    },
+    {
+      "node_id": "PAPER::P012",
+      "label": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "node_type": "Paper",
+      "score": 0.6108473539352417
+    }
+  ],
+  "graph_edges": [
+    {
+      "source_id": "PAPER::P001",
+      "source_label": "Knowledge Graph-Guided Retrieval Augmented Generation",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Graph",
+      "target_label": "Graph"
+    },
+    {
+      "source_id": "PAPER::P001",
+      "source_label": "Knowledge Graph-Guided Retrieval Augmented Generation",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Text",
+      "target_label": "Text"
+    },
+    {
+      "source_id": "PAPER::P002",
+      "source_label": "G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Graph",
+      "target_label": "Graph"
+    },
+    {
+      "source_id": "PAPER::P003",
+      "source_label": "Query-Aware Flow Diffusion for Graph-Based RAG with Retrieval Guarantees",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Graph",
+      "target_label": "Graph"
+    },
+    {
+      "source_id": "PAPER::P004",
+      "source_label": "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+      "relation": "BELONGS_TO",
+      "target_id": "AREA::Agentic Retrieval",
+      "target_label": "Agentic Retrieval"
+    },
+    {
+      "source_id": "PAPER::P004",
+      "source_label": "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+      "relation": "USES",
+      "target_id": "TECH::Beam Search",
+      "target_label": "Beam Search"
+    },
+    {
+      "source_id": "PAPER::P004",
+      "source_label": "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+      "relation": "USES",
+      "target_id": "TECH::Iterative Graph Traversal",
+      "target_label": "Iterative Graph Traversal"
+    },
+    {
+      "source_id": "PAPER::P004",
+      "source_label": "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+      "relation": "USES",
+      "target_id": "TECH::Llm Pruning",
+      "target_label": "Llm Pruning"
+    },
+    {
+      "source_id": "PAPER::P004",
+      "source_label": "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+      "relation": "USES",
+      "target_id": "TECH::Stopping Decision",
+      "target_label": "Stopping Decision"
+    },
+    {
+      "source_id": "PAPER::P004",
+      "source_label": "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Graph",
+      "target_label": "Graph"
+    },
+    {
+      "source_id": "PAPER::P005",
+      "source_label": "KAG: Boosting LLMs in Professional Domains via Knowledge Augmented Generation",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Graph",
+      "target_label": "Graph"
+    },
+    {
+      "source_id": "PAPER::P005",
+      "source_label": "KAG: Boosting LLMs in Professional Domains via Knowledge Augmented Generation",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Text",
+      "target_label": "Text"
+    },
+    {
+      "source_id": "PAPER::P006",
+      "source_label": "SAG: SQL-Retrieval Augmented Generation with Query-Time Dynamic Hyperedges",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Text",
+      "target_label": "Text"
+    },
+    {
+      "source_id": "PAPER::P007",
+      "source_label": "Query-Driven Multimodal GraphRAG: Dynamic Local Knowledge Graph Construction for Online Reasoning",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Graph",
+      "target_label": "Graph"
+    },
+    {
+      "source_id": "PAPER::P007",
+      "source_label": "Query-Driven Multimodal GraphRAG: Dynamic Local Knowledge Graph Construction for Online Reasoning",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Text",
+      "target_label": "Text"
+    },
+    {
+      "source_id": "PAPER::P008",
+      "source_label": "MegaRAG: Multimodal Knowledge Graph-Based Retrieval Augmented Generation",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Graph",
+      "target_label": "Graph"
+    },
+    {
+      "source_id": "PAPER::P008",
+      "source_label": "MegaRAG: Multimodal Knowledge Graph-Based Retrieval Augmented Generation",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Text",
+      "target_label": "Text"
+    },
+    {
+      "source_id": "PAPER::P009",
+      "source_label": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+      "relation": "BELONGS_TO",
+      "target_id": "AREA::Agentic Retrieval",
+      "target_label": "Agentic Retrieval"
+    },
+    {
+      "source_id": "PAPER::P009",
+      "source_label": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+      "relation": "USES",
+      "target_id": "TECH::Complexity Classifier",
+      "target_label": "Complexity Classifier"
+    },
+    {
+      "source_id": "PAPER::P009",
+      "source_label": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+      "relation": "USES",
+      "target_id": "TECH::Multi-Step",
+      "target_label": "Multi-Step"
+    },
+    {
+      "source_id": "PAPER::P009",
+      "source_label": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+      "relation": "USES",
+      "target_id": "TECH::No Retrieval",
+      "target_label": "No Retrieval"
+    },
+    {
+      "source_id": "PAPER::P009",
+      "source_label": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+      "relation": "USES",
+      "target_id": "TECH::Single-Step",
+      "target_label": "Single-Step"
+    },
+    {
+      "source_id": "PAPER::P009",
+      "source_label": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Text",
+      "target_label": "Text"
+    },
+    {
+      "source_id": "PAPER::P010",
+      "source_label": "Corrective Retrieval Augmented Generation",
+      "relation": "BELONGS_TO",
+      "target_id": "AREA::Agentic Retrieval",
+      "target_label": "Agentic Retrieval"
+    },
+    {
+      "source_id": "PAPER::P010",
+      "source_label": "Corrective Retrieval Augmented Generation",
+      "relation": "USES",
+      "target_id": "TECH::Corrective Retrieval",
+      "target_label": "Corrective Retrieval"
+    },
+    {
+      "source_id": "PAPER::P010",
+      "source_label": "Corrective Retrieval Augmented Generation",
+      "relation": "USES",
+      "target_id": "TECH::Knowledge Refinement",
+      "target_label": "Knowledge Refinement"
+    },
+    {
+      "source_id": "PAPER::P010",
+      "source_label": "Corrective Retrieval Augmented Generation",
+      "relation": "USES",
+      "target_id": "TECH::Query Rewriting",
+      "target_label": "Query Rewriting"
+    },
+    {
+      "source_id": "PAPER::P010",
+      "source_label": "Corrective Retrieval Augmented Generation",
+      "relation": "USES",
+      "target_id": "TECH::Retrieval Evaluator",
+      "target_label": "Retrieval Evaluator"
+    },
+    {
+      "source_id": "PAPER::P010",
+      "source_label": "Corrective Retrieval Augmented Generation",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Text",
+      "target_label": "Text"
+    },
+    {
+      "source_id": "PAPER::P011",
+      "source_label": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "relation": "BELONGS_TO",
+      "target_id": "AREA::Agentic Retrieval",
+      "target_label": "Agentic Retrieval"
+    },
+    {
+      "source_id": "PAPER::P011",
+      "source_label": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "relation": "USES",
+      "target_id": "TECH::Commentor",
+      "target_label": "Commentor"
+    },
+    {
+      "source_id": "PAPER::P011",
+      "source_label": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "relation": "USES",
+      "target_id": "TECH::Hybrid Retrieval",
+      "target_label": "Hybrid Retrieval"
+    },
+    {
+      "source_id": "PAPER::P011",
+      "source_label": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "relation": "USES",
+      "target_id": "TECH::Retriever Bank",
+      "target_label": "Retriever Bank"
+    },
+    {
+      "source_id": "PAPER::P011",
+      "source_label": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "relation": "USES",
+      "target_id": "TECH::Self-Reflection",
+      "target_label": "Self-Reflection"
+    },
+    {
+      "source_id": "PAPER::P011",
+      "source_label": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "relation": "USES",
+      "target_id": "TECH::Tool Selection",
+      "target_label": "Tool Selection"
+    },
+    {
+      "source_id": "PAPER::P011",
+      "source_label": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "relation": "USES",
+      "target_id": "TECH::Validator",
+      "target_label": "Validator"
+    },
+    {
+      "source_id": "PAPER::P011",
+      "source_label": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Graph",
+      "target_label": "Graph"
+    },
+    {
+      "source_id": "PAPER::P011",
+      "source_label": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Text",
+      "target_label": "Text"
+    },
+    {
+      "source_id": "PAPER::P012",
+      "source_label": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "relation": "BELONGS_TO",
+      "target_id": "AREA::Agentic Retrieval",
+      "target_label": "Agentic Retrieval"
+    },
+    {
+      "source_id": "PAPER::P012",
+      "source_label": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "relation": "USES",
+      "target_id": "TECH::Answer Evaluation",
+      "target_label": "Answer Evaluation"
+    },
+    {
+      "source_id": "PAPER::P012",
+      "source_label": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "relation": "USES",
+      "target_id": "TECH::Orchestration",
+      "target_label": "Orchestration"
+    },
+    {
+      "source_id": "PAPER::P012",
+      "source_label": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "relation": "USES",
+      "target_id": "TECH::Query Classification",
+      "target_label": "Query Classification"
+    },
+    {
+      "source_id": "PAPER::P012",
+      "source_label": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "relation": "USES",
+      "target_id": "TECH::Query Decomposition",
+      "target_label": "Query Decomposition"
+    },
+    {
+      "source_id": "PAPER::P012",
+      "source_label": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "relation": "USES",
+      "target_id": "TECH::Reflection",
+      "target_label": "Reflection"
+    },
+    {
+      "source_id": "PAPER::P012",
+      "source_label": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "relation": "USES_MODALITY",
+      "target_id": "MOD::Text",
+      "target_label": "Text"
+    }
+  ],
+  "candidate_papers": [
+    {
+      "paper_id": "P011",
+      "title": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "graph_score": 0.6110434532165527,
+      "supporting_seed_ids": [
+        "AREA::Agentic Retrieval",
+        "PAPER::P011",
+        "PAPER::P012"
+      ]
+    },
+    {
+      "paper_id": "P012",
+      "title": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "graph_score": 0.6108473539352417,
+      "supporting_seed_ids": [
+        "AREA::Agentic Retrieval",
+        "PAPER::P011",
+        "PAPER::P012"
+      ]
+    },
+    {
+      "paper_id": "P004",
+      "title": "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+      "graph_score": 0.3508213758468628,
+      "supporting_seed_ids": [
+        "AREA::Agentic Retrieval",
+        "PAPER::P011",
+        "PAPER::P012"
+      ]
+    },
+    {
+      "paper_id": "P009",
+      "title": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+      "graph_score": 0.3508213758468628,
+      "supporting_seed_ids": [
+        "AREA::Agentic Retrieval",
+        "PAPER::P011",
+        "PAPER::P012"
+      ]
+    },
+    {
+      "paper_id": "P010",
+      "title": "Corrective Retrieval Augmented Generation",
+      "graph_score": 0.3508213758468628,
+      "supporting_seed_ids": [
+        "AREA::Agentic Retrieval",
+        "PAPER::P011",
+        "PAPER::P012"
+      ]
+    }
+  ],
+  "supporting_chunks": [
+    {
+      "rank": 1,
+      "chunk_id": "P011_C0015",
+      "paper_id": "P011",
+      "title": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "score": 0.5550824403762817,
+      "text": "(Gou et al., 2024), or fine-tuned LLMs (Paul et al., 2024; Asai et al., 2024; Yan et al., 2024). 6 CONCLUSIONS We propose AGENT-G, an agentic framework for Graph Retrieval-Augmented Generation (GRAG). In summary, AGENT-G has following advantages: 1. Agentic: it automatically improves the tool-use action with self-reflection; 2. Adaptive: it solves textual, relational and hybrid questions with a unified framework; 3. Interpretable: it justifies the decision making and reduces hallucinations; and 4. Effective: it adapts to different GRAG settings and outperforms all the baselines. Applied on two GRAG benchmarks, STARK and CRAG, AGENT-G outperforms all baselines. In STARK, AGENT-G achieves an averaged relative improvement 48% in Hit@1; in CRAG, AGENT- G increases the accuracy by 35% while reducing hallucination by 11%, both relatively. 9 486 487 488 489 490 491 492 493 494 495 496 497 498 499 500 501 502 503 504 505 506 507 508 509 510 511 512 513 514 515 516 517 518 519 520 521 522 523 524 525 526 527 528 529 530 531 532 533 534 535 536 537 538 539 Under review as a conference paper at ICLR 2025 REFERENCES Akari Asai, Zeqiu Wu, Yizhong Wang, Avirup Sil, and Hannaneh Hajishirzi. Self-RAG: Learning to retrieve, generate, and critique through self-reflection. In The Twelfth International Conference on Learning Representations, 2024. Patrice B´echard and Orlando Marquez Ayala. Reducing hallucination in structured outputs via retrieval-augmented generation. arXiv preprint arXiv:2404.08189, 2024. Jianlv Chen, Shitao Xiao, Peitian Zhang, Kun Luo, Defu Lian, and Zheng Liu. Bge m3-embedding: Multi-lingual, multi-functionality, multi-granularity text embeddings through self-knowledge dis- tillation. arXiv preprint arXiv:2402.03216, 2024. Jialin Dong, Bahare Fatemi, Bryan Perozzi, Lin F Yang, and Anton Tsitsulin. Don’t forget to connect! improving rag with graph-based reranking. arXiv preprint arXiv:2405.18414, 2024. Darren Edge, Ha Trinh, Newman Cheng, Joshua Bradley, Alex Chao, Apurva Mody, Steven Truitt, and Jonathan Larson. From local to global: A graph rag approach to query-focused summariza- tion. arXiv preprint arXiv:2404.16130, 2024. Silin Gao, Jane Dwivedi-Yu, Ping Yu, Xiaoqing Ellen Tan, Ramakanth Pasunuru, Olga Golovneva, Koustuv Sinha, Asli Celikyilmaz, Antoine Bosselut, and Tianlu Wang. Efficient tool use with chain-of-abstraction reasoning. arXiv preprint arXiv:2401.17464, 2024. Yunfan Gao, Yun Xiong, Xinyu Gao, Kangxiang Jia, Jinliu Pan, Yuxi Bi, Yi Dai, Jiawei Sun, and Haofen Wang. Retrieval-augmented generation for large language models: A survey. arXiv preprint arXiv:2312.10997, 2023. Zhibin Gou, Zhihong Shao, Yeyun Gong, yelong shen, Yujiu Yang, Nan Duan, and Weizhu Chen. CRITIC: Large language models can self-correct with tool-interactive critiquing. In The Twelfth International Conference on Learning Representations, 2024. Kelvin Guu, Kenton Lee, Zora Tung, Panupong Pasupat, and Mingwei Chang. Retrieval augmented language model pre-training. In International conference on machine learning, pp. 3929–3938. PMLR, 2020. Xiaoxin He, Yijun Tian, Yifei Sun,"
+    },
+    {
+      "rank": 2,
+      "chunk_id": "P011_C0013",
+      "paper_id": "P011",
+      "title": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "score": 0.5098268985748291,
+      "text": "entity has no intersection with the ego-graph extracted based on “Netaji Subhash Engineering College”, the critic module identifies that the former entity has a higher chance of being a textual aspect. Thus, it gives the feedback to the agent, and the agent addresses it accordingly. This decision-making process of AGENT-G is similar to chain-of-thought, making it interpretable and easy to understand by the user. 4.3 ABLATION STUDY (RQ3) In this section, we study the effect of different components in AGENT-G, including the design choices in the critic module, and the improvement over iterations by self-reflection. Critic Module We compare AGENT-G variants with validators without validator context, com- mentors with few or zero shots, and those with oracles. The oracle has access to the ground truth, which gives the optimal judgement on the correctness of the output and the error type of the action, if there is any. In Table 6 and 7, we show that AGENT-G performs the best with all our design choices, approaching the performance of an oracle. Self-Reflection In Figure 5, we demonstrate that with more self-reflection iterations, the perfor- mance of AGENT-G improves further. Performance improves significantly when increasing the number of iterations from 1 to 2, where no self-reflection is performed in iteration 1. It is also shown that a few iterations are sufficient, as the improvement diminishes over iterations. 8 432 433 434 435 436 437 438 439 440 441 442 443 444 445 446 447 448 449 450 451 452 453 454 455 456 457 458 459 460 461 462 463 464 465 466 467 468 469 470 471 472 473 474 475 476 477 478 479 480 481 482 483 484 485 Under review as a conference paper at ICLR 2025 Table 6: The design choices in AGENT-G are necessary in STARK. denotes the settings of AGENT-G, and denotes the baseline that use ground truth during inference. Validator Commentor STARK-MAG STARK-PRIME Hit@1 Hit@5 Recall@20 MRR Hit@1 Hit@5 Recall@20 MRR w/o Context ICL 0.6105 0.7073 0.6245 0.6541 0.1946 0.2592 0.2685 0.2251 w/ Context 5-Shot 0.6465 0.7407 0.6458 0.6884 0.2406 0.3006 0.3038 0.2676 w/ Context ICL 0.6540 0.7531 0.6570 0.6980 0.2856 0.4138 0.4358 0.3449 Oracle Oracle 0.7193 0.7824 0.6840 0.7479 0.3606 0.4320 0.4358 0.3932 Table 7: The design choices in AGENT-G are necessary in CRAG. denotes the settings of AGENT-G, and denotes the baseline that use ground truth during inference. Validator Commentor Accuracy ↑ Halluc. ↓ Missing Scorea ↑ w/o Context ICL 0.5581 0.3461 0.0958 0.2120 w/ Context 0-Shot 0.6277 0.3004 0.0719 0.3273 w/ Context ICL 0.6322 0.2959 0.0719 0.3363 Oracle Oracle 0.7813 0.1640 0.0547 0.6173 1 2 3 4 # of Iterations 0.500 0.525 0.550 0.575 0.600 0.625 0.650 Hit@1 STaRK-MAG 0.25 0.26"
+    },
+    {
+      "rank": 3,
+      "chunk_id": "P012_C0011",
+      "paper_id": "P012",
+      "title": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "score": 0.5559937357902527,
+      "text": "move from a research prototype to a deployed assistant. Recent advances in adap- tive retrieval and cost-aware agentic reasoning reinforce the importance of these directions [34], [38]. REFERENCES [1] Z. Ji, N. Lee, R. Frieske, T. Yu, D. Su, Y. Xu, E. Ishii, Y. J. Bang, A. Madotto, and P. Fung, “Survey of hallucination in natural language generation,” ACM Computing Surveys, vol. 55, no. 12, pp. 1–38, 2023. [2] G. Mialon, R. Dess`ı, M. Lomeli, C. Nalmpantis, R. Pasunuru, R. Raileanu, B. Rozi`ere, N. Goyal, A. Joulin, and T. Scialom, “Aug- mented language models: A survey,” arXiv preprint arXiv:2302.07842, 2023. [3] Amazon Bedrock, “Building a genai-rag runbooks-based chatops assis- tant,” DevOps.com, 2024. [4] P. Lewis, E. Perez, A. Piktus, F. Petroni, V. Karpukhin, N. Goyal, H. K¨uttler, M. Lewis, W. Yih, T. Rockt¨aschel et al., “Retrieval- augmented generation for knowledge-intensive nlp tasks,” in Advances in Neural Information Processing Systems (NeurIPS), vol. 33, 2020, pp. 9459–9474. [5] K. Guu, K. Lee et al., “Realm: Retrieval-augmented language model pre-training,” in ICML, 2020. [6] L. Amorim et al., “Empirical evaluation of rag patterns: Naive, fusion, and self-rag,” in SBC, 2024. [7] S. Feldman et al., “Multi-hop question answering: A survey,” arXiv preprint, 2023. [8] Y. Gao et al., “Retrieval-augmented generation for large language models: A survey,” arXiv preprint arXiv:2312.10997, 2023. [9] P. Ghadekar et al., “Agentic retrieval-augmented generation: A survey,” arXiv preprint arXiv:2501.09136, 2025. [10] B. Wang et al., “The evolution of retrieval-augmented generation,” Journal of AI Research, 2024. [11] A. Asai et al., “Self-rag: Learning to retrieve, generate, and critique through self-reflection,” in Proceedings of ICLR, 2024. [12] S. Yao et al., “React: Synergizing reasoning and acting in language models,” arXiv preprint arXiv:2210.03629, 2022. [13] Meta AI, “The llama 3 herd of models,” Meta AI, Tech. Rep., 2024. [14] G. Gerganov, “Gguf: A new format for local llm inference,” llama.cpp documentation, 2023. [15] H. Trivedi et al., “Musique: Multihop questions via single-hop ques- tion composition,” Transactions of the Association for Computational Linguistics, 2022. [16] I. Goodfellow, J. Pouget-Abadie, M. Mirza, B. Xu, D. Warde-Farley, S. Ozair, A. Courville, and Y. Bengio, “Generative adversarial nets,” in Advances in Neural Information Processing Systems, 2014, pp. 2672– 2680. [17] J. Gui, Z. Sun, Y. Wen, D. Tao, and J. Ye, “A survey on generative adversarial networks: Algorithms, theory, and applications,” IEEE Trans- actions on Knowledge and Data Engineering, 2021. [18] T. Brown, B. Mann, N. Ryder, M. Subbiah, J. D. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry, A. Askell et al., “Language models are few-shot learners,” Advances in Neural Information Processing Systems, vol. 33, pp. 1877–1901, 2020. [19] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, L. Kaiser,"
+    },
+    {
+      "rank": 4,
+      "chunk_id": "P012_C0001",
+      "paper_id": "P012",
+      "title": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "score": 0.5526947975158691,
+      "text": "documents or chaining intermediate results [7], [8]. Agentic RAG extends this paradigm by delegating retrieval to autonomous agents that can plan, retrieve iteratively, and critique their own output [9], [10]. Instead of a single retrieve- then-generate step, an agentic system can decompose a com- plex query into sub-questions, gather evidence for each, and refine its answer through self-reflection [11], [12]. Interest in this direction has grown quickly, but most studies evaluate agentic RAG on a single domain or benchmark. As a result, it remains unclear how these enhancements behave across domains that differ in structure and reasoning demand. This paper addresses that gap through a deliberately dual- dataset evaluation. We make the following contributions: 1) We implement a complete Agent-Orchestrated Adaptive RAG system composed of a Query Classifier, a Query Decomposer, an Answer Evaluator, and a central Or- chestrator, built on a fully local, privacy-first inference stack [13], [14]. 2) We evaluate the system on two complementary datasets: a custom DevOps knowledge base that represents struc- tured, domain-specific retrieval, and MuSiQue [15], a compositional multi-hop benchmark. This pairing lets us observe agentic behavior under contrasting conditions. 3) We characterize the tradeoffs introduced by decompo- sition and reflection, showing empirically that decom- position is domain-dependent and that reflection adds significant latency for inconsistent quality gains. II. BACKGROUND AND RELATED WORK A. Generative Models and LLMs Generative models learn an underlying data distribution and sample novel outputs from it, a lineage that runs from generative adversarial networks [16], [17] to the autoregressive language models that dominate today [18]. A language model factorizes the probability of a token sequence and predicts each token conditioned on its predecessors, P(xn | x1, x2, . . . , xn−1), (1) which lets it generate coherent, contextually appropriate text across domains. The success of modern LLMs is largely attributable to the Transformer architecture [19], which replaced recurrence with arXiv:2606.05658v1 [cs.IR] 4 Jun 2026 attention. The self-attention operation weighs the relevance of every token to every other token, Attention(Q, K, V ) = softmax \u0012QK⊤ √dk \u0013 V, (2) where Q, K, and V are the query, key, and value projections and dk is the key dimensionality. Multi-head attention runs several such operations in parallel to capture diverse linguis- tic relationships, while feedforward sublayers and positional encodings [20], [21] supply non-linearity and sequence order. Input text is first segmented by subword tokenization such as byte-pair encoding [22] and embedded into dense vectors be- fore passing through the stacked Transformer layers [23], [24]. At generation time, decoding strategies—greedy selection, beam search [25], and stochastic methods such as temperature scaling and nucleus sampling [26]—balance coherence against diversity. Despite their fluency, these models exhibit well-documented limitations: they hallucinate and lack grounding"
+    },
+    {
+      "rank": 5,
+      "chunk_id": "P004_C0024",
+      "paper_id": "P004",
+      "title": "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+      "score": 0.38397908210754395,
+      "text": "Volume 2: Short Papers. The Association for Computer Linguistics, 2016. doi: 10.18653/v1/p16-2033. URL https://doi.org/10.18653/v1/p16-2033. Donghan Yu, Sheng Zhang, Patrick Ng, Henghui Zhu, Alexander Hanbo Li, Jun Wang, Yiqun Hu, William Wang, Zhiguo Wang, and Bing Xiang. Decaf: Joint decoding of answers and logical forms for question answering over knowledge bases, 2023. Wenhao Yu, Chenguang Zhu, Zhihan Zhang, Shuohang Wang, Zhuosheng Zhang, Yuwei Fang, and Meng Jiang. Retrieval augmentation for commonsense reasoning: A unified approach. In Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing, pp. 4364–4377, Abu Dhabi, United Arab Emirates, December 2022. Association for Computational Linguistics. doi: 10.18653/v1/2022.emnlp-main.294. URL https://aclanthology.org/ 2022.emnlp-main.294. Hang Zhang, Yeyun Gong, Yelong Shen, Weisheng Li, Jiancheng Lv, Nan Duan, and Weizhu Chen. Poolingformer: Long document modeling with pooling attention. In International Conference on Machine Learning, pp. 12437–12446. PMLR, 2021. Hang Zhang, Yeyun Gong, Xingwei He, Dayiheng Liu, Daya Guo, Jiancheng Lv, and Jian Guo. Noisy pair corrector for dense retrieval. arXiv preprint arXiv:2311.03798, 2023. Zhuosheng Zhang, Aston Zhang, Mu Li, and Alex Smola. Automatic chain of thought prompting in large language models. arXiv Preprint, 2022. doi: 10.48550/arXiv.2210.03493. URL https: //doi.org/10.48550/arXiv.2210.03493. 16 Published as a conference paper at ICLR 2024 A ALGORITHM FOR TOG We summarize the comprehensive algorithmic procedure of ToG and ToG-R, as shown in Figure Algorithm 1 and 2. Algorithm 1 ToG Require: Input x, LLM π, depth limit Dmax sam- ple limit N. Initialize E0 ←Extract entities on x, P ←[], M ←0. while D ≤Dmax do RD cand, Pcand ←Search(x, ED−1, P) RD, P ←Prune(π, x, RD cand, Pcand) ED cand, Pcand ←Search(x, ED−1, RD, P) ED, P ←Prune(π, x, ED cand, Pcand) if Reasoning(π, x, P) then Generate(π, x, P) break end if Increment D by 1. end while if D > Dmax then Generate(π, x) end if Algorithm 2 ToG-R Require: Input x, LLM π, depth limit Dmax sam- ple limit N. Initialize E0 ←Extract entities on x, P ←[], M ←0. while D ≤Dmax do RD cand, Pcand ←Search(x, ED−1, P) RD, P ←Prune(π, x, RD cand, Pcand) ED cand, Pcand ←Search(x, ED−1, RD, P) if Reasoning(π, x, P, ED cand) then Generate(π, x, P, ED cand) break end if ED, P ←Random_Prune(ED cand, Pcand) Increment D by 1. end while if D > Dmax then Generate(π, x) end if B ADDITIONAL ABLATION STUDY AND EXPERIMENT ANALYSIS In this section, we conduct more experiments for ablation study in addition to Section 3.2.3, and analyze experimental results of ToG in detail. B.1 ADDITIONAL ABLATION STUDY Sensitivity to the Number of Seed Examplars To better understand how sensitive ToG is sensitivity to the number of seed exemplars, we employ sensitivity analysis shown in Figure 5. We conduct"
+    },
+    {
+      "rank": 6,
+      "chunk_id": "P004_C0033",
+      "paper_id": "P004",
+      "title": "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+      "score": 0.3679264187812805,
+      "text": "the ToG. We compared ToG with IO, CoT and the New Bing search engine4. We have selected four examples for analysis, each with top-3 reasoning paths and normalized scores. In the first example in Table 19, ToG initially identifies \"Arthur Miller\" and \"Lucian\", in the question and subsequently expands its reasoning path through the Exploration and Reasoning processes. After conducting two iterations of the search, ToG successfully arrived at the correct answer, as it links the two entities with the reasoning path, which represents the perfect route for locating solutions. Additionally, the presence of UnName_Entity in the intermediate steps of reasoning paths, reflects the incompleteness of the knowledge graph (i.e., some entities lack the \"name\" relation). However, ToG is still capable of performing the next reasoning step, as all available relations contain relevant information. We observe that IO and CoT do not answer the query correctly since they lack the appropriate knowledge, and New Bing do not retrieve the appropriate information during the retrieval process. In the second example shown in Table 20, IO prompt and CoT even New Bing suffer from a hallucination issue and provide an erroneous answer, \"Florida\", since the \"Renegade\" is the mascot of \"Florida State Seminoles\" instead of \"fight song\". ToG obtain the reasoning path \"Renegade\" → \"sports.fight_song.sports_team\" →\"Pittsburgh Steeler\". However, this reasoning path does not lead to a final answer, but combined with LLMs’, ToG can answer the correct answer \"Pennsylvania\". The third example in Table 21 demonstrates an example of the ToG-R, where ToG ignores the intermediate entities and focuses on the information in the relations instead. After two-hop of reasoning to \"Harvard College\", combined with LLMs’, ToG gives the final result: \"Massachusetts\". It can be observed that IO and CoT do not have background knowledge, and New Bing answers the question correctly since it retrieves the correct information. The final example is shown in Table 22. Where ToG generates a reasoning path to the final question (Path 1). Notably, the Ground-Truth reasoning path for the answer is sports.sports_team.team_mascot →base.schemastaging.team_training_ground_relationship.facility 4Accessed version July 2023. 25 Published as a conference paper at ICLR 2024 →base.schemastaging.sports_team_extra.training_ground (retrievable from the SPARQL), which is more hop than ToG. The ToG enables the exploration of new reasoning paths to reach the correct an- swer, which represents a significant application of knowledge graph reasoning. However, the answer to the current question in the KB, is \"Bright House Field\", which is incorrect since \"Philadelphia Phillies\" training stadium is \"Spectrum Field\" now. This example exemplifies a constraint of ToG, specifically its dependence on the correctness of the KB, where the incorrect KB has negative impact on ToG’s reasoning accuracy. However, as depicted in Figure 4, ToG presents a novel framework to"
+    },
+    {
+      "rank": 7,
+      "chunk_id": "P009_C0001",
+      "paper_id": "P009",
+      "title": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+      "score": 0.448164165019989,
+      "text": "ally incorrect answers since their knowledge solely relies on their parametric memory (Kasai et al., 2022; Mallen et al., 2023). Meanwhile, memoriz- ing all the (ever-changing) world knowledge may not be possible. To address this problem, retrieval- augmented LLMs (Borgeaud et al., 2022; Izacard et al., 2023; Shi et al., 2023), which incorporate non-parametric knowledge into LLMs with addi- tional retrieval modules, have gained much increas- ing attention. Specifically, these models access a knowledge base, which serves as an extensive repository of information across various subjects and disciplines, to retrieve information relevant to the given input, and then incorporate the retrieved information into LLMs, which enables them to stay accurate and current with the world knowledge. A particularly salient application of retrieval- augmented LLMs is to handling QA tasks, whose goal is to provide correct answers in response to user queries, especially those of high complexity. Early work on retrieval-augmented LLMs focuses primarily on single-hop queries (Lazaridou et al., 2022; Ram et al., 2023), whose answers are typ- ically found within a single document; therefore, this approach involves retrieving a relevant doc- ument based on the query and subsequently inte- grating this information into QA models to formu- late a response. However, unlike this single-hop QA, some queries require connecting and aggregat- ing multiple documents, which are, furthermore, arXiv:2403.14403v2 [cs.CL] 28 Mar 2024 Retrieval Complex Query: What currency is in Billy Giles’ birthplace? Simple Query: When is the birthday of Michael F. Phelps? Documents Answer Documents Answer (A) Single-Step Approach Inaccurate Retrieval Retrieval Simple Query: When is the birthday of Michael F. Phelps? Documents (Intermediate) Answers (B) Multi-Step Approach Inefficient k times Complex Query: What currency is in Billy Giles’ birthplace? Documents (Intermediate) Answers k times Straightforward Query: Paris is the capital of what? (C) Our Adaptive Approach Answer Simple Query: When is the birthday of Michael F. Phelps? Documents Answer Complex Query: What currency is in Billy Giles’ birthplace? Documents (Intermediate) Answers k times Classifier Figure 2: A conceptual comparison of different retrieval-augmented LLM approaches to question answering. (A) In response to a query, this single-step approach retrieves relevant documents and then generates an answer. However, it may not be sufficient for complex queries that require multi-step reasoning. (B) This multi-step approach iteratively retrieves documents and generates intermediate answers, which is powerful yet largely inefficient for the simple query since it requires multiple accesses to both LLMs and retrievers. (C) Our adaptive approach can select the most suitable strategy for retrieval-augmented LLMs, ranging from iterative, to single, to even no retrieval approaches, based on the complexity of given queries determined by our classifier. often not answerable through a single-step pro- cess of retrieval-and-response. An example query is ‘When did"
+    },
+    {
+      "rank": 8,
+      "chunk_id": "P009_C0019",
+      "paper_id": "P009",
+      "title": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+      "score": 0.4340541660785675,
+      "text": "Yuanzhong Xu, Yujing Zhang, Gustavo Hernández Ábrego, Junwhan Ahn, Jacob Austin, Paul Barham, Jan A. Botha, James Bradbury, Siddhartha Brahma, Kevin Brooks, Michele Catasta, Yong Cheng, Colin Cherry, Christopher A. Choquette-Choo, Aakanksha Chowdhery, Clément Crepy, Shachi Dave, Mostafa Dehghani, Sunipa Dev, Jacob Devlin, Mark Díaz, Nan Du, Ethan Dyer, Vladimir Feinberg, Fangxi- aoyu Feng, Vlad Fienber, Markus Freitag, Xavier Garcia, Sebastian Gehrmann, Lucas Gonzalez, and et al. 2023. Palm 2 technical report. arXiv preprint arXiv:2305.10403. Akari Asai, Zeqiu Wu, Yizhong Wang, Avirup Sil, and Hannaneh Hajishirzi. 2024. Self-RAG: Learning to retrieve, generate, and critique through self-reflection. In The Twelfth International Conference on Learning Representations. Jinheon Baek, Soyeong Jeong, Minki Kang, Jong Park, and Sung Ju Hwang. 2023. Knowledge-augmented language model verification. In Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing, EMNLP 2023, Singapore, De- cember 6-10, 2023, pages 1720–1736. Association for Computational Linguistics. Sebastian Borgeaud, Arthur Mensch, Jordan Hoffmann, Trevor Cai, Eliza Rutherford, Katie Millican, George van den Driessche, Jean-Baptiste Lespiau, Bogdan Damoc, Aidan Clark, Diego de Las Casas, Aurelia Guy, Jacob Menick, Roman Ring, Tom Hennigan, Saffron Huang, Loren Maggiore, Chris Jones, Albin Cassirer, Andy Brock, Michela Paganini, Geoffrey Irving, Oriol Vinyals, Simon Osindero, Karen Si- monyan, Jack W. Rae, Erich Elsen, and Laurent Sifre. 2022. Improving language models by retrieving from trillions of tokens. In International Conference on Machine Learning, ICML 2022, 17-23 July 2022, Bal- timore, Maryland, USA, volume 162 of Proceedings of Machine Learning Research, pages 2206–2240. PMLR. Tom B. Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel Herbert-Voss, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel M. Ziegler, Jeffrey Wu, Clemens Winter, Christopher Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei. 2020. Language models are few-shot learners. In Ad- vances in Neural Information Processing Systems 33: Annual Conference on Neural Information Process- ing Systems 2020, NeurIPS 2020, December 6-12, 2020, virtual. Danqi Chen, Adam Fisch, Jason Weston, and Antoine Bordes. 2017. Reading wikipedia to answer open- domain questions. In Proceedings of the 55th Annual Meeting of the Association for Computational Lin- guistics, ACL 2017, Vancouver, Canada, July 30 - August 4, Volume 1: Long Papers, pages 1870–1879. Association for Computational Linguistics. Sukmin Cho, Jeongyeon Seo, Soyeong Jeong, and Jong C. Park. 2023. Improving zero-shot reader by reducing distractions from irrelevant documents in open-domain question answering. In Findings of the Association for Computational Linguistics: EMNLP 2023, Singapore, December 6-10, 2023, pages 3145– 3157. Association for Computational Linguistics. Hyung Won Chung, Le Hou, Shayne Longpre, Barret Zoph, Yi Tay, William Fedus, Eric"
+    },
+    {
+      "rank": 9,
+      "chunk_id": "P010_C0015",
+      "paper_id": "P010",
+      "title": "Corrective Retrieval Augmented Generation",
+      "score": 0.4855080246925354,
+      "text": "generation. Essentially, a lightweight retrieval evaluator is to estimate and trigger three knowledge retrieval actions discriminately. With the further leverage of web search and optimized knowledge utilization, CRAG has significantly improved the ability of automatic self-correction and efficient utilization of retrieved documents. Experiments extensively demonstrate its adaptabil- ity to RAG-based approaches as well as general- izability across short- and long-form generation tasks. While we primarily proposed to improve the RAG framework from a corrective perspective and CRAG can be seamlessly coupled with various RAG-based approaches, fine-tuning an external retrieval evaluator is inevitable. How to eliminate this external evaluator and equip LLMs with better retrieval evaluation capabilities will be our future work. References Rohan Anil, Andrew M. Dai, Orhan Firat, Melvin John- son, Dmitry Lepikhin, Alexandre Passos, Siamak Shakeri, Emanuel Taropa, Paige Bailey, Zhifeng Chen, Eric Chu, Jonathan H. Clark, Laurent El Shafey, Yanping Huang, Kathy Meier-Hellstern, Gaurav Mishra, Erica Moreira, Mark Omernick, Kevin Robinson, Sebastian Ruder, et al. 2023. PaLM 2 technical report. CoRR, abs/2305.10403. Akari Asai, Zeqiu Wu, Yizhong Wang, Avirup Sil, and Hannaneh Hajishirzi. 2024. Self-rag: Learning to retrieve, generate, and critique through self-reflection. In The Twelfth International Conference on Learning Representations, ICLR 2024, Vienna, Austria, May 7-11, 2024. OpenReview.net. Yejin Bang, Samuel Cahyawijaya, Nayeon Lee, Wenliang Dai, Dan Su, Bryan Wilie, Holy Lovenia, Ziwei Ji, Tiezheng Yu, Willy Chung, Quyet V. Do, Yan Xu, and Pascale Fung. 2023. A multitask, multilingual, multimodal evaluation of chatgpt on reasoning, hallucination, and interactivity. pages 675–718. Sumithra Bhakthavatsalam, Daniel Khashabi, Tushar Khot, Bhavana Dalvi Mishra, Kyle Richardson, Ashish Sabharwal, Carissa Schoenick, Oyvind Tafjord, and Peter Clark. 2021. Think you have solved direct-answer question answering? try arc-da, the direct-answer AI2 reasoning challenge. CoRR, abs/2102.03315. Tom B Brown, Benjamin Mann, Nick Ryder, et al. 2020. Language models are few-shot learners. In Advances in neural information processing systems, pages 1877–1901. Aakanksha Chowdhery, Sharan Narang, Jacob Devlin, Maarten Bosma, Gaurav Mishra, Adam Roberts, Paul Barham, Hyung Won Chung, Charles Sutton, Sebastian Gehrmann, Parker Schuh, Kensen Shi, Sasha Tsvyashchenko, Joshua Maynez, Abhishek Rao, Parker Barnes, Yi Tay, Noam Shazeer, Vinodkumar Prabhakaran, Emily Reif, Nan Du, Ben Hutchinson, Reiner Pope, James Bradbury, Jacob Austin, Michael Isard, Guy Gur-Ari, Pengcheng Yin, Toju Duke, Anselm Levskaya, Sanjay Ghemawat, Sunipa Dev, Henryk Michalewski, Xavier Garcia, Vedant Misra, Kevin Robinson, Liam Fedus, Denny Zhou, Daphne Ippolito, David Luan, Hyeontaek Lim, Barret Zoph, Alexander Spiridonov, Ryan Sepassi, David Dohan, Shivani Agrawal, Mark Omernick, Andrew M. Dai, Thanumalayan Sankaranarayana Pillai, Marie Pellat, Aitor Lewkowycz, Erica Moreira, Rewon Child, Oleksandr Polozov, Katherine Lee, Zongwei Zhou, Xuezhi Wang, Brennan Saeta, Mark Diaz, Orhan Firat, Michele Catasta, Jason Wei, Kathy Meier-Hellstern, Douglas Eck, Jeff Dean, Slav Petrov, and Noah Fiedel. 2023. Palm: Scaling language modeling with"
+    },
+    {
+      "rank": 10,
+      "chunk_id": "P010_C0006",
+      "paper_id": "P010",
+      "title": "Corrective Retrieval Augmented Generation",
+      "score": 0.4456990957260132,
+      "text": "retrieval evaluator.2 On the other hand, the negative samples for fine-tuning were all randomly sampled from the retrieval results, which are rather similar to the input query but 2https://huggingface.co/datasets/akariasai/PopQA not relevant. More details about this fine-tuning step can be referred to in Appendix B.3. For every question, there are generally 10 documents retrieved. The question is concatenated with each single document as the input, and the evaluator predicts the relevance score for each question- document pair individually. We also tried to prompt ChatGPT to identify the retrieval relevance for comparison, but it underperforms as elaborated in Section 5.5. Based on these calculated relevance scores, a final judgment is made as to whether the retrieval is correct or not associated with the action trigger. In our proposed framework, the retrieval quality is evaluated at a relatively low cost without the need to have access to large and expensive LLMs. Compared with the critic model of Self-RAG (Asai et al., 2024) that instruction- tuned LLaMA-2 (7B), the evaluator designed in CRAG demonstrates the advantages of being quite lightweight (0.77B). Algorithm 1: CRAG Inference Require :E (Retrieval Evaluator), W (Query Rewriter), G (Generator) Input :x (Input question), D = {d1, d2, ..., dk} (Retrieved documents) Output :y (Generated response) 1 scorei = E evaluates the relevance of each pair (x, di), di ∈D 2 Confidence = Calculate and give a final judgment based on {score1, score2, ...scorek} // Confidence has 3 optional values: [CORRECT], [INCORRECT] or [AMBIGUOUS] 3 if Confidence == [CORRECT] then 4 Internal_Knowledge = Knowledge_Refine(x, D) 5 k = Internal_Knowledge 6 else if Confidence == [INCORRECT] then 7 External_Knowledge = Web_Search(W Rewrites x for searching) 8 k = External_Knowledge 9 else if Confidence == [AMBIGUOUS] then 10 Internal_Knowledge = Knowledge_Refine(x, D) 11 External_Knowledge = Web_Search(W Rewrites x for searching) 12 k = Internal_Knowledge + External_Knowledge 13 end 14 G predicts y given x and k 4.3 Action Trigger To correct the irrelevant documents and refine the target documents as needed, actions should be exe- cuted discriminately. Based on the aforementioned confidence score for each retrieved document, three types of actions are designed and triggered accord- ingly where the upper and lower thresholds are set. If the confidence score is higher than the upper threshold, the retrieved document is identified as Correct, while identified as Incorrect if below the lower threshold. Otherwise, a more soft and intermediate action, i.e., Ambiguous is executed. Each retrieved document is conducted individually and integrated eventually. Correct Here, a retrieval is assumed Correct when the confidence score of at least one retrieved document is higher than the upper threshold. If so, it means that there are relevant documents in the retrieved results, and the knowledge from the"
+    }
+  ],
+  "node_count": 38,
+  "edge_count": 45,
+  "depth": 2,
+  "context": "GRAPH STRUCTURE\n[P001] Knowledge Graph-Guided Retrieval Augmented Generation\n-- USES_MODALITY --> Graph\n-- USES_MODALITY --> Text\n\n[P002] G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering\n-- USES_MODALITY --> Graph\n\n[P003] Query-Aware Flow Diffusion for Graph-Based RAG with Retrieval Guarantees\n-- USES_MODALITY --> Graph\n\n[P004] Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph\n-- BELONGS_TO --> Agentic Retrieval\n-- USES --> Beam Search\n-- USES --> Iterative Graph Traversal\n-- USES --> Llm Pruning\n-- USES --> Stopping Decision\n-- USES_MODALITY --> Graph\n\n[P005] KAG: Boosting LLMs in Professional Domains via Knowledge Augmented Generation\n-- USES_MODALITY --> Graph\n-- USES_MODALITY --> Text\n\n[P006] SAG: SQL-Retrieval Augmented Generation with Query-Time Dynamic Hyperedges\n-- USES_MODALITY --> Text\n\n[P007] Query-Driven Multimodal GraphRAG: Dynamic Local Knowledge Graph Construction for Online Reasoning\n-- USES_MODALITY --> Graph\n-- USES_MODALITY --> Text\n\n[P008] MegaRAG: Multimodal Knowledge Graph-Based Retrieval Augmented Generation\n-- USES_MODALITY --> Graph\n-- USES_MODALITY --> Text\n\n[P009] Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity\n-- BELONGS_TO --> Agentic Retrieval\n-- USES --> Complexity Classifier\n-- USES --> Multi-Step\n-- USES --> No Retrieval\n-- USES --> Single-Step\n-- USES_MODALITY --> Text\n\n[P010] Corrective Retrieval Augmented Generation\n-- BELONGS_TO --> Agentic Retrieval\n-- USES --> Corrective Retrieval\n-- USES --> Knowledge Refinement\n-- USES --> Query Rewriting\n-- USES --> Retrieval Evaluator\n-- USES_MODALITY --> Text\n\n[P011] AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation\n-- BELONGS_TO --> Agentic Retrieval\n-- USES --> Commentor\n-- USES --> Hybrid Retrieval\n-- USES --> Retriever Bank\n-- USES --> Self-Reflection\n-- USES --> Tool Selection\n-- USES --> Validator\n-- USES_MODALITY --> Graph\n-- USES_MODALITY --> Text\n\n[P012] Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval\n-- BELONGS_TO --> Agentic Retrieval\n-- USES --> Answer Evaluation\n-- USES --> Orchestration\n-- USES --> Query Classification\n-- USES --> Query Decomposition\n-- USES --> Reflection\n-- USES_MODALITY --> Text\n\nSUPPORTING PAPER TEXT\n[P011 | P011_C0015 | rank=1 | score=0.5551]\nTitle: AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation\n(Gou et al., 2024), or fine-tuned LLMs (Paul et al., 2024; Asai et al., 2024; Yan et al., 2024). 6 CONCLUSIONS We propose AGENT-G, an agentic framework for Graph Retrieval-Augmented Generation (GRAG). In summary, AGENT-G has following advantages: 1. Agentic: it automatically improves the tool-use action with self-reflection; 2. Adaptive: it solves textual, relational and hybrid questions with a unified framework; 3. Interpretable: it justifies the decision making and reduces hallucinations; and 4. Effective: it adapts to different GRAG settings and outperforms all the baselines. Applied on two GRAG benchmarks, STARK and CRAG, AGENT-G outperforms all baselines. In STARK, AGENT-G achieves an averaged relative improvement 48% in Hit@1; in CRAG, AGENT- G increases the accuracy by 35% while reducing hallucination by 11%, both relatively. 9 486 487 488 489 490 491 492 493 494 495 496 497 498 499 500 501 502 503 504 505 506 507 508 509 510 511 512 513 514 515 516 517 518 519 520 521 522 523 524 525 526 527 528 529 530 531 532 533 534 535 536 537 538 539 Under review as a conference paper at ICLR 2025 REFERENCES Akari Asai, Zeqiu Wu, Yizhong Wang, Avirup Sil, and Hannaneh Hajishirzi. Self-RAG: Learning to retrieve, generate, and critique through self-reflection. In The Twelfth International Conference on Learning Representations, 2024. Patrice B´echard and Orlando Marquez Ayala. Reducing hallucination in structured outputs via retrieval-augmented generation. arXiv preprint arXiv:2404.08189, 2024. Jianlv Chen, Shitao Xiao, Peitian Zhang, Kun Luo, Defu Lian, and Zheng Liu. Bge m3-embedding: Multi-lingual, multi-functionality, multi-granularity text embeddings through self-knowledge dis- tillation. arXiv preprint arXiv:2402.03216, 2024. Jialin Dong, Bahare Fatemi, Bryan Perozzi, Lin F Yang, and Anton Tsitsulin. Don’t forget to connect! improving rag with graph-based reranking. arXiv preprint arXiv:2405.18414, 2024. Darren Edge, Ha Trinh, Newman Cheng, Joshua Bradley, Alex Chao, Apurva Mody, Steven Truitt, and Jonathan Larson. From local to global: A graph rag approach to query-focused summariza- tion. arXiv preprint arXiv:2404.16130, 2024. Silin Gao, Jane Dwivedi-Yu, Ping Yu, Xiaoqing Ellen Tan, Ramakanth Pasunuru, Olga Golovneva, Koustuv Sinha, Asli Celikyilmaz, Antoine Bosselut, and Tianlu Wang. Efficient tool use with chain-of-abstraction reasoning. arXiv preprint arXiv:2401.17464, 2024. Yunfan Gao, Yun Xiong, Xinyu Gao, Kangxiang Jia, Jinliu Pan, Yuxi Bi, Yi Dai, Jiawei Sun, and Haofen Wang. Retrieval-augmented generation for large language models: A survey. arXiv preprint arXiv:2312.10997, 2023. Zhibin Gou, Zhihong Shao, Yeyun Gong, yelong shen, Yujiu Yang, Nan Duan, and Weizhu Chen. CRITIC: Large language models can self-correct with tool-interactive critiquing. In The Twelfth International Conference on Learning Representations, 2024. Kelvin Guu, Kenton Lee, Zora Tung, Panupong Pasupat, and Mingwei Chang. Retrieval augmented language model pre-training. In International conference on machine learning, pp. 3929–3938. PMLR, 2020. Xiaoxin He, Yijun Tian, Yifei Sun,\n\n[P011 | P011_C0013 | rank=2 | score=0.5098]\nTitle: AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation\nentity has no intersection with the ego-graph extracted based on “Netaji Subhash Engineering College”, the critic module identifies that the former entity has a higher chance of being a textual aspect. Thus, it gives the feedback to the agent, and the agent addresses it accordingly. This decision-making process of AGENT-G is similar to chain-of-thought, making it interpretable and easy to understand by the user. 4.3 ABLATION STUDY (RQ3) In this section, we study the effect of different components in AGENT-G, including the design choices in the critic module, and the improvement over iterations by self-reflection. Critic Module We compare AGENT-G variants with validators without validator context, com- mentors with few or zero shots, and those with oracles. The oracle has access to the ground truth, which gives the optimal judgement on the correctness of the output and the error type of the action, if there is any. In Table 6 and 7, we show that AGENT-G performs the best with all our design choices, approaching the performance of an oracle. Self-Reflection In Figure 5, we demonstrate that with more self-reflection iterations, the perfor- mance of AGENT-G improves further. Performance improves significantly when increasing the number of iterations from 1 to 2, where no self-reflection is performed in iteration 1. It is also shown that a few iterations are sufficient, as the improvement diminishes over iterations. 8 432 433 434 435 436 437 438 439 440 441 442 443 444 445 446 447 448 449 450 451 452 453 454 455 456 457 458 459 460 461 462 463 464 465 466 467 468 469 470 471 472 473 474 475 476 477 478 479 480 481 482 483 484 485 Under review as a conference paper at ICLR 2025 Table 6: The design choices in AGENT-G are necessary in STARK. denotes the settings of AGENT-G, and denotes the baseline that use ground truth during inference. Validator Commentor STARK-MAG STARK-PRIME Hit@1 Hit@5 Recall@20 MRR Hit@1 Hit@5 Recall@20 MRR w/o Context ICL 0.6105 0.7073 0.6245 0.6541 0.1946 0.2592 0.2685 0.2251 w/ Context 5-Shot 0.6465 0.7407 0.6458 0.6884 0.2406 0.3006 0.3038 0.2676 w/ Context ICL 0.6540 0.7531 0.6570 0.6980 0.2856 0.4138 0.4358 0.3449 Oracle Oracle 0.7193 0.7824 0.6840 0.7479 0.3606 0.4320 0.4358 0.3932 Table 7: The design choices in AGENT-G are necessary in CRAG. denotes the settings of AGENT-G, and denotes the baseline that use ground truth during inference. Validator Commentor Accuracy ↑ Halluc. ↓ Missing Scorea ↑ w/o Context ICL 0.5581 0.3461 0.0958 0.2120 w/ Context 0-Shot 0.6277 0.3004 0.0719 0.3273 w/ Context ICL 0.6322 0.2959 0.0719 0.3363 Oracle Oracle 0.7813 0.1640 0.0547 0.6173 1 2 3 4 # of Iterations 0.500 0.525 0.550 0.575 0.600 0.625 0.650 Hit@1 STaRK-MAG 0.25 0.26\n\n[P012 | P012_C0011 | rank=3 | score=0.5560]\nTitle: Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval\nmove from a research prototype to a deployed assistant. Recent advances in adap- tive retrieval and cost-aware agentic reasoning reinforce the importance of these directions [34], [38]. REFERENCES [1] Z. Ji, N. Lee, R. Frieske, T. Yu, D. Su, Y. Xu, E. Ishii, Y. J. Bang, A. Madotto, and P. Fung, “Survey of hallucination in natural language generation,” ACM Computing Surveys, vol. 55, no. 12, pp. 1–38, 2023. [2] G. Mialon, R. Dess`ı, M. Lomeli, C. Nalmpantis, R. Pasunuru, R. Raileanu, B. Rozi`ere, N. Goyal, A. Joulin, and T. Scialom, “Aug- mented language models: A survey,” arXiv preprint arXiv:2302.07842, 2023. [3] Amazon Bedrock, “Building a genai-rag runbooks-based chatops assis- tant,” DevOps.com, 2024. [4] P. Lewis, E. Perez, A. Piktus, F. Petroni, V. Karpukhin, N. Goyal, H. K¨uttler, M. Lewis, W. Yih, T. Rockt¨aschel et al., “Retrieval- augmented generation for knowledge-intensive nlp tasks,” in Advances in Neural Information Processing Systems (NeurIPS), vol. 33, 2020, pp. 9459–9474. [5] K. Guu, K. Lee et al., “Realm: Retrieval-augmented language model pre-training,” in ICML, 2020. [6] L. Amorim et al., “Empirical evaluation of rag patterns: Naive, fusion, and self-rag,” in SBC, 2024. [7] S. Feldman et al., “Multi-hop question answering: A survey,” arXiv preprint, 2023. [8] Y. Gao et al., “Retrieval-augmented generation for large language models: A survey,” arXiv preprint arXiv:2312.10997, 2023. [9] P. Ghadekar et al., “Agentic retrieval-augmented generation: A survey,” arXiv preprint arXiv:2501.09136, 2025. [10] B. Wang et al., “The evolution of retrieval-augmented generation,” Journal of AI Research, 2024. [11] A. Asai et al., “Self-rag: Learning to retrieve, generate, and critique through self-reflection,” in Proceedings of ICLR, 2024. [12] S. Yao et al., “React: Synergizing reasoning and acting in language models,” arXiv preprint arXiv:2210.03629, 2022. [13] Meta AI, “The llama 3 herd of models,” Meta AI, Tech. Rep., 2024. [14] G. Gerganov, “Gguf: A new format for local llm inference,” llama.cpp documentation, 2023. [15] H. Trivedi et al., “Musique: Multihop questions via single-hop ques- tion composition,” Transactions of the Association for Computational Linguistics, 2022. [16] I. Goodfellow, J. Pouget-Abadie, M. Mirza, B. Xu, D. Warde-Farley, S. Ozair, A. Courville, and Y. Bengio, “Generative adversarial nets,” in Advances in Neural Information Processing Systems, 2014, pp. 2672– 2680. [17] J. Gui, Z. Sun, Y. Wen, D. Tao, and J. Ye, “A survey on generative adversarial networks: Algorithms, theory, and applications,” IEEE Trans- actions on Knowledge and Data Engineering, 2021. [18] T. Brown, B. Mann, N. Ryder, M. Subbiah, J. D. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry, A. Askell et al., “Language models are few-shot learners,” Advances in Neural Information Processing Systems, vol. 33, pp. 1877–1901, 2020. [19] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, L. Kaiser,\n\n[P012 | P012_C0001 | rank=4 | score=0.5527]\nTitle: Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval\ndocuments or chaining intermediate results [7], [8]. Agentic RAG extends this paradigm by delegating retrieval to autonomous agents that can plan, retrieve iteratively, and critique their own output [9], [10]. Instead of a single retrieve- then-generate step, an agentic system can decompose a com- plex query into sub-questions, gather evidence for each, and refine its answer through self-reflection [11], [12]. Interest in this direction has grown quickly, but most studies evaluate agentic RAG on a single domain or benchmark. As a result, it remains unclear how these enhancements behave across domains that differ in structure and reasoning demand. This paper addresses that gap through a deliberately dual- dataset evaluation. We make the following contributions: 1) We implement a complete Agent-Orchestrated Adaptive RAG system composed of a Query Classifier, a Query Decomposer, an Answer Evaluator, and a central Or- chestrator, built on a fully local, privacy-first inference stack [13], [14]. 2) We evaluate the system on two complementary datasets: a custom DevOps knowledge base that represents struc- tured, domain-specific retrieval, and MuSiQue [15], a compositional multi-hop benchmark. This pairing lets us observe agentic behavior under contrasting conditions. 3) We characterize the tradeoffs introduced by decompo- sition and reflection, showing empirically that decom- position is domain-dependent and that reflection adds significant latency for inconsistent quality gains. II. BACKGROUND AND RELATED WORK A. Generative Models and LLMs Generative models learn an underlying data distribution and sample novel outputs from it, a lineage that runs from generative adversarial networks [16], [17] to the autoregressive language models that dominate today [18]. A language model factorizes the probability of a token sequence and predicts each token conditioned on its predecessors, P(xn | x1, x2, . . . , xn−1), (1) which lets it generate coherent, contextually appropriate text across domains. The success of modern LLMs is largely attributable to the Transformer architecture [19], which replaced recurrence with arXiv:2606.05658v1 [cs.IR] 4 Jun 2026 attention. The self-attention operation weighs the relevance of every token to every other token, Attention(Q, K, V ) = softmax \u0012QK⊤ √dk \u0013 V, (2) where Q, K, and V are the query, key, and value projections and dk is the key dimensionality. Multi-head attention runs several such operations in parallel to capture diverse linguis- tic relationships, while feedforward sublayers and positional encodings [20], [21] supply non-linearity and sequence order. Input text is first segmented by subword tokenization such as byte-pair encoding [22] and embedded into dense vectors be- fore passing through the stacked Transformer layers [23], [24]. At generation time, decoding strategies—greedy selection, beam search [25], and stochastic methods such as temperature scaling and nucleus sampling [26]—balance coherence against diversity. Despite their fluency, these models exhibit well-documented limitations: they hallucinate and lack grounding\n\n[P004 | P004_C0024 | rank=5 | score=0.3840]\nTitle: Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph\nVolume 2: Short Papers. The Association for Computer Linguistics, 2016. doi: 10.18653/v1/p16-2033. URL https://doi.org/10.18653/v1/p16-2033. Donghan Yu, Sheng Zhang, Patrick Ng, Henghui Zhu, Alexander Hanbo Li, Jun Wang, Yiqun Hu, William Wang, Zhiguo Wang, and Bing Xiang. Decaf: Joint decoding of answers and logical forms for question answering over knowledge bases, 2023. Wenhao Yu, Chenguang Zhu, Zhihan Zhang, Shuohang Wang, Zhuosheng Zhang, Yuwei Fang, and Meng Jiang. Retrieval augmentation for commonsense reasoning: A unified approach. In Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing, pp. 4364–4377, Abu Dhabi, United Arab Emirates, December 2022. Association for Computational Linguistics. doi: 10.18653/v1/2022.emnlp-main.294. URL https://aclanthology.org/ 2022.emnlp-main.294. Hang Zhang, Yeyun Gong, Yelong Shen, Weisheng Li, Jiancheng Lv, Nan Duan, and Weizhu Chen. Poolingformer: Long document modeling with pooling attention. In International Conference on Machine Learning, pp. 12437–12446. PMLR, 2021. Hang Zhang, Yeyun Gong, Xingwei He, Dayiheng Liu, Daya Guo, Jiancheng Lv, and Jian Guo. Noisy pair corrector for dense retrieval. arXiv preprint arXiv:2311.03798, 2023. Zhuosheng Zhang, Aston Zhang, Mu Li, and Alex Smola. Automatic chain of thought prompting in large language models. arXiv Preprint, 2022. doi: 10.48550/arXiv.2210.03493. URL https: //doi.org/10.48550/arXiv.2210.03493. 16 Published as a conference paper at ICLR 2024 A ALGORITHM FOR TOG We summarize the comprehensive algorithmic procedure of ToG and ToG-R, as shown in Figure Algorithm 1 and 2. Algorithm 1 ToG Require: Input x, LLM π, depth limit Dmax sam- ple limit N. Initialize E0 ←Extract entities on x, P ←[], M ←0. while D ≤Dmax do RD cand, Pcand ←Search(x, ED−1, P) RD, P ←Prune(π, x, RD cand, Pcand) ED cand, Pcand ←Search(x, ED−1, RD, P) ED, P ←Prune(π, x, ED cand, Pcand) if Reasoning(π, x, P) then Generate(π, x, P) break end if Increment D by 1. end while if D > Dmax then Generate(π, x) end if Algorithm 2 ToG-R Require: Input x, LLM π, depth limit Dmax sam- ple limit N. Initialize E0 ←Extract entities on x, P ←[], M ←0. while D ≤Dmax do RD cand, Pcand ←Search(x, ED−1, P) RD, P ←Prune(π, x, RD cand, Pcand) ED cand, Pcand ←Search(x, ED−1, RD, P) if Reasoning(π, x, P, ED cand) then Generate(π, x, P, ED cand) break end if ED, P ←Random_Prune(ED cand, Pcand) Increment D by 1. end while if D > Dmax then Generate(π, x) end if B ADDITIONAL ABLATION STUDY AND EXPERIMENT ANALYSIS In this section, we conduct more experiments for ablation study in addition to Section 3.2.3, and analyze experimental results of ToG in detail. B.1 ADDITIONAL ABLATION STUDY Sensitivity to the Number of Seed Examplars To better understand how sensitive ToG is sensitivity to the number of seed exemplars, we employ sensitivity analysis shown in Figure 5. We conduct\n\n[P004 | P004_C0033 | rank=6 | score=0.3679]\nTitle: Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph\nthe ToG. We compared ToG with IO, CoT and the New Bing search engine4. We have selected four examples for analysis, each with top-3 reasoning paths and normalized scores. In the first example in Table 19, ToG initially identifies \"Arthur Miller\" and \"Lucian\", in the question and subsequently expands its reasoning path through the Exploration and Reasoning processes. After conducting two iterations of the search, ToG successfully arrived at the correct answer, as it links the two entities with the reasoning path, which represents the perfect route for locating solutions. Additionally, the presence of UnName_Entity in the intermediate steps of reasoning paths, reflects the incompleteness of the knowledge graph (i.e., some entities lack the \"name\" relation). However, ToG is still capable of performing the next reasoning step, as all available relations contain relevant information. We observe that IO and CoT do not answer the query correctly since they lack the appropriate knowledge, and New Bing do not retrieve the appropriate information during the retrieval process. In the second example shown in Table 20, IO prompt and CoT even New Bing suffer from a hallucination issue and provide an erroneous answer, \"Florida\", since the \"Renegade\" is the mascot of \"Florida State Seminoles\" instead of \"fight song\". ToG obtain the reasoning path \"Renegade\" → \"sports.fight_song.sports_team\" →\"Pittsburgh Steeler\". However, this reasoning path does not lead to a final answer, but combined with LLMs’, ToG can answer the correct answer \"Pennsylvania\". The third example in Table 21 demonstrates an example of the ToG-R, where ToG ignores the intermediate entities and focuses on the information in the relations instead. After two-hop of reasoning to \"Harvard College\", combined with LLMs’, ToG gives the final result: \"Massachusetts\". It can be observed that IO and CoT do not have background knowledge, and New Bing answers the question correctly since it retrieves the correct information. The final example is shown in Table 22. Where ToG generates a reasoning path to the final question (Path 1). Notably, the Ground-Truth reasoning path for the answer is sports.sports_team.team_mascot →base.schemastaging.team_training_ground_relationship.facility 4Accessed version July 2023. 25 Published as a conference paper at ICLR 2024 →base.schemastaging.sports_team_extra.training_ground (retrievable from the SPARQL), which is more hop than ToG. The ToG enables the exploration of new reasoning paths to reach the correct an- swer, which represents a significant application of knowledge graph reasoning. However, the answer to the current question in the KB, is \"Bright House Field\", which is incorrect since \"Philadelphia Phillies\" training stadium is \"Spectrum Field\" now. This example exemplifies a constraint of ToG, specifically its dependence on the correctness of the KB, where the incorrect KB has negative impact on ToG’s reasoning accuracy. However, as depicted in Figure 4, ToG presents a novel framework to",
+  "context_chunk_ids": [
+    "P011_C0015",
+    "P011_C0013",
+    "P012_C0011",
+    "P012_C0001",
+    "P004_C0024",
+    "P004_C0033"
+  ],
+  "system_prompt": "You are a research assistant answering questions about retrieval-augmented generation research papers.\nYou have been given a retrieved knowledge subgraph together with supporting text from papers connected to that subgraph.\nUse ONLY the supplied graph and text evidence.\nDo not invent relationships or paper claims.\nIf the evidence is insufficient, state that clearly.\nWhenever possible cite paper IDs such as [P011].\nAnswer in one short paragraph. Include only mechanisms explicitly attributed to the named method.\nWhen excerpts mix a method, variants, and experimental comparisons, omit variant-specific\nimplementation details instead of combining them into a single pipeline. A mention of a number\nof actions does not establish what those actions are: never supply an unnamed action list.\nDo not turn table captions or experimental outcomes into algorithm steps.\nUse exact paper-ID citations such as [P010], not chunk IDs. State limitations of the supplied evidence.",
+  "user_prompt": "Give a concise answer supported directly by the evidence. Cite paper IDs in the exact form [P010].\nDistinguish the queried method from its variants, baselines, and experimental comparisons.\nDo not transfer a variant's mechanism or an experimental observation to the base method.\nOmit procedural details not explicitly supported by the retrieved text; state evidence limitations when necessary.\nIf evidence mentions a number of actions without naming each one, do not infer or invent that enumeration. Prefer a short prose explanation of the supported mechanisms.\n\nQuestion: Which agentic retrieval approaches use self-reflection?\n\nGRAPH STRUCTURE\n[P001] Knowledge Graph-Guided Retrieval Augmented Generation\n-- USES_MODALITY --> Graph\n-- USES_MODALITY --> Text\n\n[P002] G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering\n-- USES_MODALITY --> Graph\n\n[P003] Query-Aware Flow Diffusion for Graph-Based RAG with Retrieval Guarantees\n-- USES_MODALITY --> Graph\n\n[P004] Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph\n-- BELONGS_TO --> Agentic Retrieval\n-- USES --> Beam Search\n-- USES --> Iterative Graph Traversal\n-- USES --> Llm Pruning\n-- USES --> Stopping Decision\n-- USES_MODALITY --> Graph\n\n[P005] KAG: Boosting LLMs in Professional Domains via Knowledge Augmented Generation\n-- USES_MODALITY --> Graph\n-- USES_MODALITY --> Text\n\n[P006] SAG: SQL-Retrieval Augmented Generation with Query-Time Dynamic Hyperedges\n-- USES_MODALITY --> Text\n\n[P007] Query-Driven Multimodal GraphRAG: Dynamic Local Knowledge Graph Construction for Online Reasoning\n-- USES_MODALITY --> Graph\n-- USES_MODALITY --> Text\n\n[P008] MegaRAG: Multimodal Knowledge Graph-Based Retrieval Augmented Generation\n-- USES_MODALITY --> Graph\n-- USES_MODALITY --> Text\n\n[P009] Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity\n-- BELONGS_TO --> Agentic Retrieval\n-- USES --> Complexity Classifier\n-- USES --> Multi-Step\n-- USES --> No Retrieval\n-- USES --> Single-Step\n-- USES_MODALITY --> Text\n\n[P010] Corrective Retrieval Augmented Generation\n-- BELONGS_TO --> Agentic Retrieval\n-- USES --> Corrective Retrieval\n-- USES --> Knowledge Refinement\n-- USES --> Query Rewriting\n-- USES --> Retrieval Evaluator\n-- USES_MODALITY --> Text\n\n[P011] AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation\n-- BELONGS_TO --> Agentic Retrieval\n-- USES --> Commentor\n-- USES --> Hybrid Retrieval\n-- USES --> Retriever Bank\n-- USES --> Self-Reflection\n-- USES --> Tool Selection\n-- USES --> Validator\n-- USES_MODALITY --> Graph\n-- USES_MODALITY --> Text\n\n[P012] Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval\n-- BELONGS_TO --> Agentic Retrieval\n-- USES --> Answer Evaluation\n-- USES --> Orchestration\n-- USES --> Query Classification\n-- USES --> Query Decomposition\n-- USES --> Reflection\n-- USES_MODALITY --> Text\n\nSUPPORTING PAPER TEXT\n[P011 | P011_C0015 | rank=1 | score=0.5551]\nTitle: AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation\n(Gou et al., 2024), or fine-tuned LLMs (Paul et al., 2024; Asai et al., 2024; Yan et al., 2024). 6 CONCLUSIONS We propose AGENT-G, an agentic framework for Graph Retrieval-Augmented Generation (GRAG). In summary, AGENT-G has following advantages: 1. Agentic: it automatically improves the tool-use action with self-reflection; 2. Adaptive: it solves textual, relational and hybrid questions with a unified framework; 3. Interpretable: it justifies the decision making and reduces hallucinations; and 4. Effective: it adapts to different GRAG settings and outperforms all the baselines. Applied on two GRAG benchmarks, STARK and CRAG, AGENT-G outperforms all baselines. In STARK, AGENT-G achieves an averaged relative improvement 48% in Hit@1; in CRAG, AGENT- G increases the accuracy by 35% while reducing hallucination by 11%, both relatively. 9 486 487 488 489 490 491 492 493 494 495 496 497 498 499 500 501 502 503 504 505 506 507 508 509 510 511 512 513 514 515 516 517 518 519 520 521 522 523 524 525 526 527 528 529 530 531 532 533 534 535 536 537 538 539 Under review as a conference paper at ICLR 2025 REFERENCES Akari Asai, Zeqiu Wu, Yizhong Wang, Avirup Sil, and Hannaneh Hajishirzi. Self-RAG: Learning to retrieve, generate, and critique through self-reflection. In The Twelfth International Conference on Learning Representations, 2024. Patrice B´echard and Orlando Marquez Ayala. Reducing hallucination in structured outputs via retrieval-augmented generation. arXiv preprint arXiv:2404.08189, 2024. Jianlv Chen, Shitao Xiao, Peitian Zhang, Kun Luo, Defu Lian, and Zheng Liu. Bge m3-embedding: Multi-lingual, multi-functionality, multi-granularity text embeddings through self-knowledge dis- tillation. arXiv preprint arXiv:2402.03216, 2024. Jialin Dong, Bahare Fatemi, Bryan Perozzi, Lin F Yang, and Anton Tsitsulin. Don’t forget to connect! improving rag with graph-based reranking. arXiv preprint arXiv:2405.18414, 2024. Darren Edge, Ha Trinh, Newman Cheng, Joshua Bradley, Alex Chao, Apurva Mody, Steven Truitt, and Jonathan Larson. From local to global: A graph rag approach to query-focused summariza- tion. arXiv preprint arXiv:2404.16130, 2024. Silin Gao, Jane Dwivedi-Yu, Ping Yu, Xiaoqing Ellen Tan, Ramakanth Pasunuru, Olga Golovneva, Koustuv Sinha, Asli Celikyilmaz, Antoine Bosselut, and Tianlu Wang. Efficient tool use with chain-of-abstraction reasoning. arXiv preprint arXiv:2401.17464, 2024. Yunfan Gao, Yun Xiong, Xinyu Gao, Kangxiang Jia, Jinliu Pan, Yuxi Bi, Yi Dai, Jiawei Sun, and Haofen Wang. Retrieval-augmented generation for large language models: A survey. arXiv preprint arXiv:2312.10997, 2023. Zhibin Gou, Zhihong Shao, Yeyun Gong, yelong shen, Yujiu Yang, Nan Duan, and Weizhu Chen. CRITIC: Large language models can self-correct with tool-interactive critiquing. In The Twelfth International Conference on Learning Representations, 2024. Kelvin Guu, Kenton Lee, Zora Tung, Panupong Pasupat, and Mingwei Chang. Retrieval augmented language model pre-training. In International conference on machine learning, pp. 3929–3938. PMLR, 2020. Xiaoxin He, Yijun Tian, Yifei Sun,\n\n[P011 | P011_C0013 | rank=2 | score=0.5098]\nTitle: AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation\nentity has no intersection with the ego-graph extracted based on “Netaji Subhash Engineering College”, the critic module identifies that the former entity has a higher chance of being a textual aspect. Thus, it gives the feedback to the agent, and the agent addresses it accordingly. This decision-making process of AGENT-G is similar to chain-of-thought, making it interpretable and easy to understand by the user. 4.3 ABLATION STUDY (RQ3) In this section, we study the effect of different components in AGENT-G, including the design choices in the critic module, and the improvement over iterations by self-reflection. Critic Module We compare AGENT-G variants with validators without validator context, com- mentors with few or zero shots, and those with oracles. The oracle has access to the ground truth, which gives the optimal judgement on the correctness of the output and the error type of the action, if there is any. In Table 6 and 7, we show that AGENT-G performs the best with all our design choices, approaching the performance of an oracle. Self-Reflection In Figure 5, we demonstrate that with more self-reflection iterations, the perfor- mance of AGENT-G improves further. Performance improves significantly when increasing the number of iterations from 1 to 2, where no self-reflection is performed in iteration 1. It is also shown that a few iterations are sufficient, as the improvement diminishes over iterations. 8 432 433 434 435 436 437 438 439 440 441 442 443 444 445 446 447 448 449 450 451 452 453 454 455 456 457 458 459 460 461 462 463 464 465 466 467 468 469 470 471 472 473 474 475 476 477 478 479 480 481 482 483 484 485 Under review as a conference paper at ICLR 2025 Table 6: The design choices in AGENT-G are necessary in STARK. denotes the settings of AGENT-G, and denotes the baseline that use ground truth during inference. Validator Commentor STARK-MAG STARK-PRIME Hit@1 Hit@5 Recall@20 MRR Hit@1 Hit@5 Recall@20 MRR w/o Context ICL 0.6105 0.7073 0.6245 0.6541 0.1946 0.2592 0.2685 0.2251 w/ Context 5-Shot 0.6465 0.7407 0.6458 0.6884 0.2406 0.3006 0.3038 0.2676 w/ Context ICL 0.6540 0.7531 0.6570 0.6980 0.2856 0.4138 0.4358 0.3449 Oracle Oracle 0.7193 0.7824 0.6840 0.7479 0.3606 0.4320 0.4358 0.3932 Table 7: The design choices in AGENT-G are necessary in CRAG. denotes the settings of AGENT-G, and denotes the baseline that use ground truth during inference. Validator Commentor Accuracy ↑ Halluc. ↓ Missing Scorea ↑ w/o Context ICL 0.5581 0.3461 0.0958 0.2120 w/ Context 0-Shot 0.6277 0.3004 0.0719 0.3273 w/ Context ICL 0.6322 0.2959 0.0719 0.3363 Oracle Oracle 0.7813 0.1640 0.0547 0.6173 1 2 3 4 # of Iterations 0.500 0.525 0.550 0.575 0.600 0.625 0.650 Hit@1 STaRK-MAG 0.25 0.26\n\n[P012 | P012_C0011 | rank=3 | score=0.5560]\nTitle: Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval\nmove from a research prototype to a deployed assistant. Recent advances in adap- tive retrieval and cost-aware agentic reasoning reinforce the importance of these directions [34], [38]. REFERENCES [1] Z. Ji, N. Lee, R. Frieske, T. Yu, D. Su, Y. Xu, E. Ishii, Y. J. Bang, A. Madotto, and P. Fung, “Survey of hallucination in natural language generation,” ACM Computing Surveys, vol. 55, no. 12, pp. 1–38, 2023. [2] G. Mialon, R. Dess`ı, M. Lomeli, C. Nalmpantis, R. Pasunuru, R. Raileanu, B. Rozi`ere, N. Goyal, A. Joulin, and T. Scialom, “Aug- mented language models: A survey,” arXiv preprint arXiv:2302.07842, 2023. [3] Amazon Bedrock, “Building a genai-rag runbooks-based chatops assis- tant,” DevOps.com, 2024. [4] P. Lewis, E. Perez, A. Piktus, F. Petroni, V. Karpukhin, N. Goyal, H. K¨uttler, M. Lewis, W. Yih, T. Rockt¨aschel et al., “Retrieval- augmented generation for knowledge-intensive nlp tasks,” in Advances in Neural Information Processing Systems (NeurIPS), vol. 33, 2020, pp. 9459–9474. [5] K. Guu, K. Lee et al., “Realm: Retrieval-augmented language model pre-training,” in ICML, 2020. [6] L. Amorim et al., “Empirical evaluation of rag patterns: Naive, fusion, and self-rag,” in SBC, 2024. [7] S. Feldman et al., “Multi-hop question answering: A survey,” arXiv preprint, 2023. [8] Y. Gao et al., “Retrieval-augmented generation for large language models: A survey,” arXiv preprint arXiv:2312.10997, 2023. [9] P. Ghadekar et al., “Agentic retrieval-augmented generation: A survey,” arXiv preprint arXiv:2501.09136, 2025. [10] B. Wang et al., “The evolution of retrieval-augmented generation,” Journal of AI Research, 2024. [11] A. Asai et al., “Self-rag: Learning to retrieve, generate, and critique through self-reflection,” in Proceedings of ICLR, 2024. [12] S. Yao et al., “React: Synergizing reasoning and acting in language models,” arXiv preprint arXiv:2210.03629, 2022. [13] Meta AI, “The llama 3 herd of models,” Meta AI, Tech. Rep., 2024. [14] G. Gerganov, “Gguf: A new format for local llm inference,” llama.cpp documentation, 2023. [15] H. Trivedi et al., “Musique: Multihop questions via single-hop ques- tion composition,” Transactions of the Association for Computational Linguistics, 2022. [16] I. Goodfellow, J. Pouget-Abadie, M. Mirza, B. Xu, D. Warde-Farley, S. Ozair, A. Courville, and Y. Bengio, “Generative adversarial nets,” in Advances in Neural Information Processing Systems, 2014, pp. 2672– 2680. [17] J. Gui, Z. Sun, Y. Wen, D. Tao, and J. Ye, “A survey on generative adversarial networks: Algorithms, theory, and applications,” IEEE Trans- actions on Knowledge and Data Engineering, 2021. [18] T. Brown, B. Mann, N. Ryder, M. Subbiah, J. D. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry, A. Askell et al., “Language models are few-shot learners,” Advances in Neural Information Processing Systems, vol. 33, pp. 1877–1901, 2020. [19] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, L. Kaiser,\n\n[P012 | P012_C0001 | rank=4 | score=0.5527]\nTitle: Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval\ndocuments or chaining intermediate results [7], [8]. Agentic RAG extends this paradigm by delegating retrieval to autonomous agents that can plan, retrieve iteratively, and critique their own output [9], [10]. Instead of a single retrieve- then-generate step, an agentic system can decompose a com- plex query into sub-questions, gather evidence for each, and refine its answer through self-reflection [11], [12]. Interest in this direction has grown quickly, but most studies evaluate agentic RAG on a single domain or benchmark. As a result, it remains unclear how these enhancements behave across domains that differ in structure and reasoning demand. This paper addresses that gap through a deliberately dual- dataset evaluation. We make the following contributions: 1) We implement a complete Agent-Orchestrated Adaptive RAG system composed of a Query Classifier, a Query Decomposer, an Answer Evaluator, and a central Or- chestrator, built on a fully local, privacy-first inference stack [13], [14]. 2) We evaluate the system on two complementary datasets: a custom DevOps knowledge base that represents struc- tured, domain-specific retrieval, and MuSiQue [15], a compositional multi-hop benchmark. This pairing lets us observe agentic behavior under contrasting conditions. 3) We characterize the tradeoffs introduced by decompo- sition and reflection, showing empirically that decom- position is domain-dependent and that reflection adds significant latency for inconsistent quality gains. II. BACKGROUND AND RELATED WORK A. Generative Models and LLMs Generative models learn an underlying data distribution and sample novel outputs from it, a lineage that runs from generative adversarial networks [16], [17] to the autoregressive language models that dominate today [18]. A language model factorizes the probability of a token sequence and predicts each token conditioned on its predecessors, P(xn | x1, x2, . . . , xn−1), (1) which lets it generate coherent, contextually appropriate text across domains. The success of modern LLMs is largely attributable to the Transformer architecture [19], which replaced recurrence with arXiv:2606.05658v1 [cs.IR] 4 Jun 2026 attention. The self-attention operation weighs the relevance of every token to every other token, Attention(Q, K, V ) = softmax \u0012QK⊤ √dk \u0013 V, (2) where Q, K, and V are the query, key, and value projections and dk is the key dimensionality. Multi-head attention runs several such operations in parallel to capture diverse linguis- tic relationships, while feedforward sublayers and positional encodings [20], [21] supply non-linearity and sequence order. Input text is first segmented by subword tokenization such as byte-pair encoding [22] and embedded into dense vectors be- fore passing through the stacked Transformer layers [23], [24]. At generation time, decoding strategies—greedy selection, beam search [25], and stochastic methods such as temperature scaling and nucleus sampling [26]—balance coherence against diversity. Despite their fluency, these models exhibit well-documented limitations: they hallucinate and lack grounding\n\n[P004 | P004_C0024 | rank=5 | score=0.3840]\nTitle: Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph\nVolume 2: Short Papers. The Association for Computer Linguistics, 2016. doi: 10.18653/v1/p16-2033. URL https://doi.org/10.18653/v1/p16-2033. Donghan Yu, Sheng Zhang, Patrick Ng, Henghui Zhu, Alexander Hanbo Li, Jun Wang, Yiqun Hu, William Wang, Zhiguo Wang, and Bing Xiang. Decaf: Joint decoding of answers and logical forms for question answering over knowledge bases, 2023. Wenhao Yu, Chenguang Zhu, Zhihan Zhang, Shuohang Wang, Zhuosheng Zhang, Yuwei Fang, and Meng Jiang. Retrieval augmentation for commonsense reasoning: A unified approach. In Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing, pp. 4364–4377, Abu Dhabi, United Arab Emirates, December 2022. Association for Computational Linguistics. doi: 10.18653/v1/2022.emnlp-main.294. URL https://aclanthology.org/ 2022.emnlp-main.294. Hang Zhang, Yeyun Gong, Yelong Shen, Weisheng Li, Jiancheng Lv, Nan Duan, and Weizhu Chen. Poolingformer: Long document modeling with pooling attention. In International Conference on Machine Learning, pp. 12437–12446. PMLR, 2021. Hang Zhang, Yeyun Gong, Xingwei He, Dayiheng Liu, Daya Guo, Jiancheng Lv, and Jian Guo. Noisy pair corrector for dense retrieval. arXiv preprint arXiv:2311.03798, 2023. Zhuosheng Zhang, Aston Zhang, Mu Li, and Alex Smola. Automatic chain of thought prompting in large language models. arXiv Preprint, 2022. doi: 10.48550/arXiv.2210.03493. URL https: //doi.org/10.48550/arXiv.2210.03493. 16 Published as a conference paper at ICLR 2024 A ALGORITHM FOR TOG We summarize the comprehensive algorithmic procedure of ToG and ToG-R, as shown in Figure Algorithm 1 and 2. Algorithm 1 ToG Require: Input x, LLM π, depth limit Dmax sam- ple limit N. Initialize E0 ←Extract entities on x, P ←[], M ←0. while D ≤Dmax do RD cand, Pcand ←Search(x, ED−1, P) RD, P ←Prune(π, x, RD cand, Pcand) ED cand, Pcand ←Search(x, ED−1, RD, P) ED, P ←Prune(π, x, ED cand, Pcand) if Reasoning(π, x, P) then Generate(π, x, P) break end if Increment D by 1. end while if D > Dmax then Generate(π, x) end if Algorithm 2 ToG-R Require: Input x, LLM π, depth limit Dmax sam- ple limit N. Initialize E0 ←Extract entities on x, P ←[], M ←0. while D ≤Dmax do RD cand, Pcand ←Search(x, ED−1, P) RD, P ←Prune(π, x, RD cand, Pcand) ED cand, Pcand ←Search(x, ED−1, RD, P) if Reasoning(π, x, P, ED cand) then Generate(π, x, P, ED cand) break end if ED, P ←Random_Prune(ED cand, Pcand) Increment D by 1. end while if D > Dmax then Generate(π, x) end if B ADDITIONAL ABLATION STUDY AND EXPERIMENT ANALYSIS In this section, we conduct more experiments for ablation study in addition to Section 3.2.3, and analyze experimental results of ToG in detail. B.1 ADDITIONAL ABLATION STUDY Sensitivity to the Number of Seed Examplars To better understand how sensitive ToG is sensitivity to the number of seed exemplars, we employ sensitivity analysis shown in Figure 5. We conduct\n\n[P004 | P004_C0033 | rank=6 | score=0.3679]\nTitle: Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph\nthe ToG. We compared ToG with IO, CoT and the New Bing search engine4. We have selected four examples for analysis, each with top-3 reasoning paths and normalized scores. In the first example in Table 19, ToG initially identifies \"Arthur Miller\" and \"Lucian\", in the question and subsequently expands its reasoning path through the Exploration and Reasoning processes. After conducting two iterations of the search, ToG successfully arrived at the correct answer, as it links the two entities with the reasoning path, which represents the perfect route for locating solutions. Additionally, the presence of UnName_Entity in the intermediate steps of reasoning paths, reflects the incompleteness of the knowledge graph (i.e., some entities lack the \"name\" relation). However, ToG is still capable of performing the next reasoning step, as all available relations contain relevant information. We observe that IO and CoT do not answer the query correctly since they lack the appropriate knowledge, and New Bing do not retrieve the appropriate information during the retrieval process. In the second example shown in Table 20, IO prompt and CoT even New Bing suffer from a hallucination issue and provide an erroneous answer, \"Florida\", since the \"Renegade\" is the mascot of \"Florida State Seminoles\" instead of \"fight song\". ToG obtain the reasoning path \"Renegade\" → \"sports.fight_song.sports_team\" →\"Pittsburgh Steeler\". However, this reasoning path does not lead to a final answer, but combined with LLMs’, ToG can answer the correct answer \"Pennsylvania\". The third example in Table 21 demonstrates an example of the ToG-R, where ToG ignores the intermediate entities and focuses on the information in the relations instead. After two-hop of reasoning to \"Harvard College\", combined with LLMs’, ToG gives the final result: \"Massachusetts\". It can be observed that IO and CoT do not have background knowledge, and New Bing answers the question correctly since it retrieves the correct information. The final example is shown in Table 22. Where ToG generates a reasoning path to the final question (Path 1). Notably, the Ground-Truth reasoning path for the answer is sports.sports_team.team_mascot →base.schemastaging.team_training_ground_relationship.facility 4Accessed version July 2023. 25 Published as a conference paper at ICLR 2024 →base.schemastaging.sports_team_extra.training_ground (retrievable from the SPARQL), which is more hop than ToG. The ToG enables the exploration of new reasoning paths to reach the correct an- swer, which represents a significant application of knowledge graph reasoning. However, the answer to the current question in the KB, is \"Bright House Field\", which is incorrect since \"Philadelphia Phillies\" training stadium is \"Spectrum Field\" now. This example exemplifies a constraint of ToG, specifically its dependence on the correctness of the KB, where the incorrect KB has negative impact on ToG’s reasoning accuracy. However, as depicted in Figure 4, ToG presents a novel framework to",
+  "retrieval_time_ms": 13.478400000167312,
+  "generation_time_ms": 1868.3515999991869,
+  "total_time_ms": 1882.080400000632,
+  "query_id": "8cc553d8-65a4-4ac0-9d10-fab8b68ae6b2"
+}

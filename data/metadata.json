@@ -1,0 +1,211 @@
+{
+  "papers": [
+    {
+      "paper_id": "P001",
+      "filename": "P001_KG2RAG.pdf.pdf",
+      "title": "Knowledge Graph-Guided Retrieval Augmented Generation",
+      "short_name": "KG2RAG",
+      "research_area": "Context Management",
+      "techniques": [
+        "semantic retrieval",
+        "graph expansion",
+        "maximum spanning tree",
+        "DFS ordering",
+        "cross-encoder reranking"
+      ],
+      "modalities": [
+        "text",
+        "graph"
+      ]
+    },
+    {
+      "paper_id": "P002",
+      "filename": "P002_G_Retriever.pdf.pdf",
+      "title": "G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering",
+      "short_name": "G-Retriever",
+      "research_area": "Context Management",
+      "techniques": [
+        "graph retrieval",
+        "PCST",
+        "connected subgraph selection",
+        "cosine similarity"
+      ],
+      "modalities": [
+        "graph"
+      ]
+    },
+    {
+      "paper_id": "P003",
+      "filename": "P003_QAFD_RAG.pdf.pdf",
+      "title": "Query-Aware Flow Diffusion for Graph-Based RAG with Retrieval Guarantees",
+      "short_name": "QAFD-RAG",
+      "research_area": "Context Management",
+      "techniques": [
+        "query-aware flow diffusion",
+        "seed selection",
+        "push-relabel",
+        "dynamic edge weighting"
+      ],
+      "modalities": [
+        "graph"
+      ]
+    },
+    {
+      "paper_id": "P004",
+      "filename": "P004_Think_on_Graph.pdf.pdf",
+      "title": "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+      "short_name": "Think-on-Graph",
+      "research_area": "Agentic Retrieval",
+      "techniques": [
+        "iterative graph traversal",
+        "beam search",
+        "LLM pruning",
+        "stopping decision"
+      ],
+      "modalities": [
+        "graph"
+      ]
+    },
+    {
+      "paper_id": "P005",
+      "filename": "P005_KAG.pdf.pdf",
+      "title": "KAG: Boosting LLMs in Professional Domains via Knowledge Augmented Generation",
+      "short_name": "KAG",
+      "research_area": "Fusion",
+      "techniques": [
+        "mutual indexing",
+        "entity alignment",
+        "logical form",
+        "hybrid reasoning",
+        "provenance"
+      ],
+      "modalities": [
+        "text",
+        "graph"
+      ]
+    },
+    {
+      "paper_id": "P006",
+      "filename": "P006_SAG.pdf.pdf",
+      "title": "SAG: SQL-Retrieval Augmented Generation with Query-Time Dynamic Hyperedges",
+      "short_name": "SAG",
+      "research_area": "Fusion",
+      "techniques": [
+        "SQL joins",
+        "event-entity indexing",
+        "dynamic hyperedges",
+        "dual-path retrieval",
+        "contextual selection"
+      ],
+      "modalities": [
+        "text",
+        "structured"
+      ]
+    },
+    {
+      "paper_id": "P007",
+      "filename": "P007_Query_Driven_Multimodal_GraphRAG.pdf.pdf",
+      "title": "Query-Driven Multimodal GraphRAG: Dynamic Local Knowledge Graph Construction for Online Reasoning",
+      "short_name": "Query-Driven Multimodal GraphRAG",
+      "research_area": "Integrated",
+      "techniques": [
+        "pattern graph",
+        "selective attention",
+        "evaluate-augment-expand",
+        "dynamic local KG"
+      ],
+      "modalities": [
+        "text",
+        "graph",
+        "table",
+        "image"
+      ]
+    },
+    {
+      "paper_id": "P008",
+      "filename": "P008_MegaRAG.pdf.pdf",
+      "title": "MegaRAG: Multimodal Knowledge Graph-Based Retrieval Augmented Generation",
+      "short_name": "MegaRAG",
+      "research_area": "Fusion",
+      "techniques": [
+        "multimodal KG",
+        "late fusion",
+        "two-stage generation",
+        "graph retrieval"
+      ],
+      "modalities": [
+        "text",
+        "graph",
+        "image"
+      ]
+    },
+    {
+      "paper_id": "P009",
+      "filename": "P009_Adaptive_RAG.pdf.pdf",
+      "title": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+      "short_name": "Adaptive-RAG",
+      "research_area": "Agentic Retrieval",
+      "techniques": [
+        "complexity classifier",
+        "no retrieval",
+        "single-step",
+        "multi-step"
+      ],
+      "modalities": [
+        "text"
+      ]
+    },
+    {
+      "paper_id": "P010",
+      "filename": "P010_CRAG.pdf.pdf",
+      "title": "Corrective Retrieval Augmented Generation",
+      "short_name": "CRAG",
+      "research_area": "Agentic Retrieval",
+      "techniques": [
+        "retrieval evaluator",
+        "corrective retrieval",
+        "knowledge refinement",
+        "query rewriting"
+      ],
+      "modalities": [
+        "text"
+      ]
+    },
+    {
+      "paper_id": "P011",
+      "filename": "P011_AGENT_G.pdf.pdf",
+      "title": "AGENT-G: An Agentic Framework for Graph Retrieval Augmented Generation",
+      "short_name": "AGENT-G",
+      "research_area": "Agentic Retrieval",
+      "techniques": [
+        "retriever bank",
+        "tool selection",
+        "validator",
+        "commentor",
+        "self-reflection",
+        "hybrid retrieval"
+      ],
+      "modalities": [
+        "text",
+        "graph"
+      ]
+    },
+    {
+      "paper_id": "P012",
+      "filename": "P012_Agent_Orchestrated_Adaptive_RAG.pdf.pdf",
+      "title": "Agent-Orchestrated Adaptive RAG: A Comparative Study on Structured and Multi-Hop Retrieval",
+      "short_name": "Agent-Orchestrated Adaptive RAG",
+      "research_area": "Agentic Retrieval",
+      "techniques": [
+        "query classification",
+        "orchestration",
+        "query decomposition",
+        "reflection",
+        "answer evaluation"
+      ],
+      "modalities": [
+        "text"
+      ]
+    }
+  ]
+}
