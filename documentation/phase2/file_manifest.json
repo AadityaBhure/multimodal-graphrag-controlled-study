@@ -1,0 +1,130 @@
+{
+  "files": [
+    {
+      "path": "data/MMG_STARK_MAG/.gitignore",
+      "bytes": 83,
+      "sha256": "2362f7c5f429ebe6f4a93dec94841884a337007560ed2084fc24581f0cc79a4b"
+    },
+    {
+      "path": "documentation/Dataset_Manifest.md",
+      "bytes": 13959,
+      "sha256": "d8f40d0005c54442e719b4126e6d68298639b9c6ccacb557da15a91e42759dab"
+    },
+    {
+      "path": "documentation/phase2/audit_stark_mag.json",
+      "bytes": 20814,
+      "sha256": "89b41314ecbf98c86305e05a6a8a611bfc788bb3a196c7a912daaca83b924575"
+    },
+    {
+      "path": "documentation/phase2/environment_check.json",
+      "bytes": 135,
+      "sha256": "2179589cfa29a1d21b39b8462da63b0940d56d023651a3d9ecff8648a577af5a"
+    },
+    {
+      "path": "documentation/phase2/node_id_ranges.json",
+      "bytes": 381,
+      "sha256": "62d12457de66dbfa55aa6b0f3a83d162a90f57e15c53130709c36d61d885c9ae"
+    },
+    {
+      "path": "documentation/phase2/preservation_resources.json",
+      "bytes": 425,
+      "sha256": "02d16fbd0b6d37ab6812d3913a46a006054128229ed5f32ff7873a1171cdb1e6"
+    },
+    {
+      "path": "documentation/phase2/pytest.txt",
+      "bytes": 101,
+      "sha256": "e8895ecf9edaaf40393b2f750fa88f4fdfe7d9e42293bea1f5e22f516b0457b0"
+    },
+    {
+      "path": "documentation/phase2/raw_manifest.json",
+      "bytes": 9007,
+      "sha256": "4c1936495d3744ece9869995993b7b64e055634eb9f2cb3673fce83b0505c107"
+    },
+    {
+      "path": "documentation/phase2/secret_scan.json",
+      "bytes": 178,
+      "sha256": "db1707d8382719bc6bed2096ce1059423b007f5630bc06637bc695ab2d592757"
+    },
+    {
+      "path": "documentation/phase2/ui_smoke.json",
+      "bytes": 109,
+      "sha256": "190b18387e227f0c99cf02245f6bc6311444ef766184f8cee1236c7753ae5b77"
+    },
+    {
+      "path": "documentation/phase2/upstream/dataset.py",
+      "bytes": 4469,
+      "sha256": "c229f231f461197492685b3f2321362bb3fec84688bfe3f1f86564915d99ec65"
+    },
+    {
+      "path": "documentation/phase2/upstream/download_hf.py",
+      "bytes": 2892,
+      "sha256": "8c0f591f1cacfb8db7d59d85aa93538d009c76b99a6032954120cff265eb33dc"
+    },
+    {
+      "path": "documentation/phase2/upstream/github_commit.json",
+      "bytes": 5566,
+      "sha256": "6ceaae97858ec9bc911993452d09802cb1111b8c85818e8b2865bff9a5e4c2d4"
+    },
+    {
+      "path": "documentation/phase2/upstream/hf_info.json",
+      "bytes": 5680,
+      "sha256": "b1cd9c30f591bd2cf38c095ea2761b3d97ec35c76cdc50c4a5302207a95323d4"
+    },
+    {
+      "path": "documentation/phase2/upstream/io.py",
+      "bytes": 3010,
+      "sha256": "81a17249b5af114ea1b45d703542d9cbe05453ce86b90ac86546950cc2e14593"
+    },
+    {
+      "path": "documentation/phase2/upstream/knowledge_base.py",
+      "bytes": 11912,
+      "sha256": "1b6925f437dfd3273e123fe2a312925216de4202e8fcb63af7e43e3157e64c23"
+    },
+    {
+      "path": "documentation/phase2/upstream/LICENSE",
+      "bytes": 1068,
+      "sha256": "749943c53fde2b13e5ad1a96000f179a3c8d8446e70e7905b0b2f7cd2cb26e3e"
+    },
+    {
+      "path": "documentation/phase2/upstream/mag.py",
+      "bytes": 29695,
+      "sha256": "2b43b200ccbbf68e0d94951db09b8ddbb768f35acf13942ad1e2dfba73ed15e5"
+    },
+    {
+      "path": "documentation/phase2/upstream/pypi.json",
+      "bytes": 21731,
+      "sha256": "b7fdc93b86cb290a1b217e4881db3d4868968a4bd3886190fdd64f8608c40d7b"
+    },
+    {
+      "path": "documentation/phase2/upstream/README.md",
+      "bytes": 10429,
+      "sha256": "9a88c0e43c259b1d4b0e56729db4cef1d00491217a5bf42139f4ac11911a553d"
+    },
+    {
+      "path": "documentation/Phase_Reports/Phase_02_Acquire_Stage_STaRK_MAG.md",
+      "bytes": 15275,
+      "sha256": "b7a14c661fec1cb4bddac7d00fa7a0d26f49428346c484637cd7181b3d90c9fe"
+    },
+    {
+      "path": "documentation/Research_Decision_Log.md",
+      "bytes": 8136,
+      "sha256": "30e2795a018d10b9dff9c361e88c0a30c34a309d8e4ebc74b3300ee5e55fddc0"
+    },
+    {
+      "path": "scripts/audit_stark_mag.py",
+      "bytes": 17379,
+      "sha256": "80fd3e1d9b9522f8ed2ea1bbb224c8ea049f5c54e6bc8927fbaa03ca144d78e4"
+    },
+    {
+      "path": "scripts/stage_stark_mag.py",
+      "bytes": 7582,
+      "sha256": "57b5315c83ce46b8cf9bacb4d7f7e560355166088338d3339eac4e694118713a"
+    },
+    {
+      "path": "tests/test_stark_source_audit.py",
+      "bytes": 2435,
+      "sha256": "83f1e30ecf71f9f888411137379b543ada206e26d60548a36c8e018bc26ddbdb"
+    }
+  ],
+  "note": "Phase 2 evidence/source manifest excludes itself; raw data covered by raw_manifest.json"
+}

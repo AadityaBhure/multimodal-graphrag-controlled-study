@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0",
+  "dataset": "STaRK-MAG official processed source",
+  "repository": "snap-stanford/stark",
+  "dataset_revision": "88269e23e90587f99476c5dd74e235a0877e69be",
+  "upstream_loader_commit": "b246b9490b1dc216892ce78303140014506932c1",
+  "staging_script_sha256": "57b5315c83ce46b8cf9bacb4d7f7e560355166088338d3339eac4e694118713a",
+  "audit_parser_version": "phase2-v1",
+  "audit_script_sha256": "80fd3e1d9b9522f8ed2ea1bbb224c8ea049f5c54e6bc8927fbaa03ca144d78e4",
+  "method": "Official MagSKB hf_hub_download acquisition primitive, pinned revision; no SKB constructor",
+  "stark_qa_installed": false,
+  "stark_qa_pypi_version_inspected": "1.1.0",
+  "versions": {
+    "huggingface-hub": "1.32.0",
+    "torch": "2.14.0",
+    "numpy": "2.5.3",
+    "requests": "2.34.2"
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "created_at": "2026-10-04T10:12:40.851594+00:00",
+  "verified_at": "2026-10-04T10:24:25.238544+00:00",
+  "download_bytes": 486879729,
+  "total_staged_bytes": 2620778656,
+  "files": [
+    {
+      "path": "qa/mag/split/test-0.1.index",
+      "bytes": 1376,
+      "sha256": "618090b8caaa97d6f757b28cb9a9d2fbd6a258254c9ad5810ba65639e281130c",
+      "source_url": "https://huggingface.co/datasets/snap-stanford/stark/resolve/88269e23e90587f99476c5dd74e235a0877e69be/qa/mag/split/test-0.1.index",
+      "source_blob_id": "714f1df0e63fdd507af703fcebfa8e85426d3b74",
+      "official_lfs_sha256": null,
+      "acquired_at": "2026-10-04T10:11:43.571599+00:00",
+      "kind": "official_download"
+    },
+    {
+      "path": "qa/mag/split/test.index",
+      "bytes": 13804,
+      "sha256": "a82b75974a5726f8b96fffac5eadcdd426df5a2370508e2538b0b19d8ec46e63",
+      "source_url": "https://huggingface.co/datasets/snap-stanford/stark/resolve/88269e23e90587f99476c5dd74e235a0877e69be/qa/mag/split/test.index",
+      "source_blob_id": "5456d0f0ab9e9f34c574e0544e8fe6c6bfd5634f",
+      "official_lfs_sha256": null,
+      "acquired_at": "2026-10-04T10:11:44.326069+00:00",
+      "kind": "official_download"
+    },
+    {
+      "path": "qa/mag/split/train.index",
+      "bytes": 41258,
+      "sha256": "234c070513f77816346dd8049b26e6c65b7049252e9d3ab6ef213bf3035f516f",
+      "source_url": "https://huggingface.co/datasets/snap-stanford/stark/resolve/88269e23e90587f99476c5dd74e235a0877e69be/qa/mag/split/train.index",
+      "source_blob_id": "ac443a9993394c5a2c3f0944a52abb6cb0c4c205",
+      "official_lfs_sha256": null,
+      "acquired_at": "2026-10-04T10:11:45.136454+00:00",
+      "kind": "official_download"
+    },
+    {
+      "path": "qa/mag/split/val.index",
+      "bytes": 13763,
+      "sha256": "a3f8e6a6ce441bb0e00e3d2057bb4232793f3f4a528c776600e70d50433f0a25",
+      "source_url": "https://huggingface.co/datasets/snap-stanford/stark/resolve/88269e23e90587f99476c5dd74e235a0877e69be/qa/mag/split/val.index",
+      "source_blob_id": "27595f5c4e6f6b4750cfda641dfdce49380e7a60",
+      "official_lfs_sha256": null,
+      "acquired_at": "2026-10-04T10:11:45.943788+00:00",
+      "kind": "official_download"
+    },
+    {
+      "path": "qa/mag/stark_qa/stark_qa.csv",
+      "bytes": 2729579,
+      "sha256": "2bde0b3f70dcbb25f594eaab70c123e91a505ba60958374669384b018bb4f1c5",
+      "source_url": "https://huggingface.co/datasets/snap-stanford/stark/resolve/88269e23e90587f99476c5dd74e235a0877e69be/qa/mag/stark_qa/stark_qa.csv",
+      "source_blob_id": "c00306370496c9f2da7828465c78b955d683222e",
+      "official_lfs_sha256": null,
+      "acquired_at": "2026-10-04T10:11:47.384760+00:00",
+      "kind": "official_download"
+    },
+    {
+      "path": "qa/mag/stark_qa/stark_qa_human_generated_eval.csv",
+      "bytes": 13523,
+      "sha256": "3951bfb21976e1fb97664e0db75caf3c90aba0468e8bc6d75579c0e20c0f3471",
+      "source_url": "https://huggingface.co/datasets/snap-stanford/stark/resolve/88269e23e90587f99476c5dd74e235a0877e69be/qa/mag/stark_qa/stark_qa_human_generated_eval.csv",
+      "source_blob_id": "c01397dc842a99efaaac6a6ab32025f5902f44ee",
+      "official_lfs_sha256": null,
+      "acquired_at": "2026-10-04T10:11:48.193977+00:00",
+      "kind": "official_download"
+    },
+    {
+      "path": "skb/mag/processed.zip",
+      "bytes": 484062494,
+      "sha256": "7bfac742c1fb77694b3fab76be5088f9c3a636f47366188b70d3f378cfbd3053",
+      "source_url": "https://huggingface.co/datasets/snap-stanford/stark/resolve/88269e23e90587f99476c5dd74e235a0877e69be/skb/mag/processed.zip",
+      "source_blob_id": "ad76a5ab92d220c70456746a21dbad8635618e3c",
+      "official_lfs_sha256": "7bfac742c1fb77694b3fab76be5088f9c3a636f47366188b70d3f378cfbd3053",
+      "acquired_at": "2026-10-04T10:12:20.259483+00:00",
+      "kind": "official_download"
+    },
+    {
+      "path": "skb/mag/schema/mag.json",
+      "bytes": 2578,
+      "sha256": "1a741bb3fff019551b03f8b92a7be9fd9ba0cc866e0277e1724b187db1c6b218",
+      "source_url": "https://huggingface.co/datasets/snap-stanford/stark/resolve/88269e23e90587f99476c5dd74e235a0877e69be/skb/mag/schema/mag.json",
+      "source_blob_id": "f88b60921930f89279d714020506a91070cd1358",
+      "official_lfs_sha256": null,
+      "acquired_at": "2026-10-04T10:12:21.334842+00:00",
+      "kind": "official_download"
+    },
+    {
+      "path": "skb/mag/schema/reduced_mag.json",
+      "bytes": 1354,
+      "sha256": "13767037e25246e48a56819d4658d8933956e0da94c5160c511c4074daacf7ea",
+      "source_url": "https://huggingface.co/datasets/snap-stanford/stark/resolve/88269e23e90587f99476c5dd74e235a0877e69be/skb/mag/schema/reduced_mag.json",
+      "source_blob_id": "04a25bdfe900912020cfbae539d7d5be4b01e8de",
+      "official_lfs_sha256": null,
+      "acquired_at": "2026-10-04T10:12:22.115173+00:00",
+      "kind": "official_download"
+    },
+    {
+      "path": "extracted/processed/edge_types.pt",
+      "bytes": 478073460,
+      "sha256": "47c49916363995859f04ce4c822e9faa6dba5d9b76f57f926dd6ee84d6b4fa29",
+      "source_archive": "skb/mag/processed.zip",
+      "source_archive_sha256": "7bfac742c1fb77694b3fab76be5088f9c3a636f47366188b70d3f378cfbd3053",
+      "archive_member": "processed/edge_types.pt",
+      "archive_crc32": "86315f6d",
+      "acquired_at": "2026-10-04T10:12:25.193053+00:00",
+      "kind": "unchanged_official_archive_member"
+    },
+    {
+      "path": "extracted/processed/node_types.pt",
+      "bytes": 14984500,
+      "sha256": "3487665ea4fa9b5f9ac28b868203ff414cc9e3f1dd942f97258e5c3f20f1d33d",
+      "source_archive": "skb/mag/processed.zip",
+      "source_archive_sha256": "7bfac742c1fb77694b3fab76be5088f9c3a636f47366188b70d3f378cfbd3053",
+      "archive_member": "processed/node_types.pt",
+      "archive_crc32": "dfa5198c",
+      "acquired_at": "2026-10-04T10:12:25.276600+00:00",
+      "kind": "unchanged_official_archive_member"
+    },
+    {
+      "path": "extracted/processed/edge_index.pt",
+      "bytes": 478073460,
+      "sha256": "8542449e21113fa4f265c496498bedfec892215b3d9deab38143c3c109da776b",
+      "source_archive": "skb/mag/processed.zip",
+      "source_archive_sha256": "7bfac742c1fb77694b3fab76be5088f9c3a636f47366188b70d3f378cfbd3053",
+      "archive_member": "processed/edge_index.pt",
+      "archive_crc32": "9c58642b",
+      "acquired_at": "2026-10-04T10:12:28.053822+00:00",
+      "kind": "unchanged_official_archive_member"
+    },
+    {
+      "path": "extracted/processed/edge_type_dict.pkl",
+      "bytes": 152,
+      "sha256": "26c5bbc4483e430c089ea4696fa37fa4fe1cfabd328975695d5ab18e90206a56",
+      "source_archive": "skb/mag/processed.zip",
+      "source_archive_sha256": "7bfac742c1fb77694b3fab76be5088f9c3a636f47366188b70d3f378cfbd3053",
+      "archive_member": "processed/edge_type_dict.pkl",
+      "archive_crc32": "061049c7",
+      "acquired_at": "2026-10-04T10:12:28.106331+00:00",
+      "kind": "unchanged_official_archive_member"
+    },
+    {
+      "path": "extracted/processed/node_info.pkl",
+      "bytes": 1162767283,
+      "sha256": "cc83e452eefd1b4588d48dc154d9c4a2e3efda6464b72678e4db7b410b3d8668",
+      "source_archive": "skb/mag/processed.zip",
+      "source_archive_sha256": "7bfac742c1fb77694b3fab76be5088f9c3a636f47366188b70d3f378cfbd3053",
+      "archive_member": "processed/node_info.pkl",
+      "archive_crc32": "fd05459e",
+      "acquired_at": "2026-10-04T10:12:40.809320+00:00",
+      "kind": "unchanged_official_archive_member"
+    },
+    {
+      "path": "extracted/processed/node_type_dict.pkl",
+      "bytes": 72,
+      "sha256": "4ab254b0e6f3c3a029dbd9f3d29b0f37a550f8b1743dbd78d8df828d6a379947",
+      "source_archive": "skb/mag/processed.zip",
+      "source_archive_sha256": "7bfac742c1fb77694b3fab76be5088f9c3a636f47366188b70d3f378cfbd3053",
+      "archive_member": "processed/node_type_dict.pkl",
+      "archive_crc32": "f0a7b831",
+      "acquired_at": "2026-10-04T10:12:40.840877+00:00",
+      "kind": "unchanged_official_archive_member"
+    }
+  ]
+}

@@ -1,0 +1,896 @@
+{
+  "schema_version": "1.0",
+  "status": "pass_with_findings",
+  "findings": [
+    {
+      "kind": "official_qa_non_paper_answers",
+      "file": "stark_qa_human_generated_eval.csv",
+      "references": [
+        {
+          "query_id": 30,
+          "answer_id": 832321,
+          "actual_node_type": "author"
+        },
+        {
+          "query_id": 50,
+          "answer_id": 15775,
+          "actual_node_type": "author"
+        },
+        {
+          "query_id": 72,
+          "answer_id": 98059,
+          "actual_node_type": "author"
+        }
+      ],
+      "source_modified": false
+    }
+  ],
+  "audited_at": "2026-10-04T10:21:39.192605+00:00",
+  "dataset_revision": "88269e23e90587f99476c5dd74e235a0877e69be",
+  "manifest_files_verified": 15,
+  "node_count": 1872968,
+  "node_counts": {
+    "author": 1104554,
+    "institution": 8701,
+    "field_of_study": 59469,
+    "paper": 700244
+  },
+  "edge_count": 19919698,
+  "relation_counts": {
+    "author___writes___paper": 6768883,
+    "author___affiliated_with___institution": 1029162,
+    "paper___has_topic___field_of_study": 7243269,
+    "paper___cites___paper": 4878384
+  },
+  "endpoint_type_counts": [
+    {
+      "source": "author",
+      "relation": "author___affiliated_with___institution",
+      "target": "institution",
+      "count": 1029162
+    },
+    {
+      "source": "author",
+      "relation": "author___writes___paper",
+      "target": "paper",
+      "count": 6768883
+    },
+    {
+      "source": "paper",
+      "relation": "paper___cites___paper",
+      "target": "paper",
+      "count": 4878384
+    },
+    {
+      "source": "paper",
+      "relation": "paper___has_topic___field_of_study",
+      "target": "field_of_study",
+      "count": 7243269
+    }
+  ],
+  "self_loops": 0,
+  "type_maps": {
+    "node_type_dict": {
+      "0": "author",
+      "1": "institution",
+      "2": "field_of_study",
+      "3": "paper"
+    },
+    "edge_type_dict": {
+      "0": "author___affiliated_with___institution",
+      "1": "paper___cites___paper",
+      "2": "paper___has_topic___field_of_study",
+      "3": "author___writes___paper"
+    }
+  },
+  "tensor_layouts": {
+    "node_types": {
+      "storage": {
+        "key": "0",
+        "elements": 1872968,
+        "dtype": "int64"
+      },
+      "offset": 0,
+      "shape": [
+        1872968
+      ],
+      "stride": [
+        1
+      ]
+    },
+    "edge_types": {
+      "storage": {
+        "key": "0",
+        "elements": 59759094,
+        "dtype": "int64"
+      },
+      "offset": 39839396,
+      "shape": [
+        19919698
+      ],
+      "stride": [
+        1
+      ]
+    },
+    "edge_index": {
+      "storage": {
+        "key": "0",
+        "elements": 59759094,
+        "dtype": "int64"
+      },
+      "offset": 0,
+      "shape": [
+        2,
+        19919698
+      ],
+      "stride": [
+        19919698,
+        1
+      ]
+    }
+  },
+  "tensor_byteorder": "little; upstream legacy headers omit byteorder; counts/bounds verified",
+  "attributes": {
+    "author": {
+      "id": {
+        "present": 1104554,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 1104554
+        },
+        "samples": [
+          "0",
+          "1"
+        ]
+      },
+      "mag_id": {
+        "present": 1104554,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 1104554
+        },
+        "samples": [
+          "29650",
+          "39382"
+        ]
+      },
+      "Rank": {
+        "present": 1104554,
+        "missing_or_sentinel": 140792,
+        "value_types": {
+          "int": 1104554
+        },
+        "samples": [
+          "16355",
+          "18658"
+        ]
+      },
+      "DisplayName": {
+        "present": 1104554,
+        "missing_or_sentinel": 140792,
+        "value_types": {
+          "str": 1021546,
+          "int": 83008
+        },
+        "samples": [
+          "'Alexander Wagenpfahl'",
+          "'Torben Jabben'"
+        ]
+      },
+      "LastKnownAffiliationId": {
+        "present": 1104554,
+        "missing_or_sentinel": 300705,
+        "value_types": {
+          "int": 1104554
+        },
+        "samples": [
+          "25974101",
+          "31512782"
+        ]
+      },
+      "PaperCount": {
+        "present": 1104554,
+        "missing_or_sentinel": 140792,
+        "value_types": {
+          "int": 1104554
+        },
+        "samples": [
+          "16",
+          "8"
+        ]
+      },
+      "CitationCount": {
+        "present": 1104554,
+        "missing_or_sentinel": 140792,
+        "value_types": {
+          "int": 1104554
+        },
+        "samples": [
+          "982",
+          "21"
+        ]
+      },
+      "type": {
+        "present": 1104554,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "str": 1104554
+        },
+        "samples": [
+          "'author'"
+        ]
+      },
+      "new_id": {
+        "present": 1104554,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 1104554
+        },
+        "samples": [
+          "0",
+          "1"
+        ]
+      }
+    },
+    "institution": {
+      "id": {
+        "present": 8701,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 8701
+        },
+        "samples": [
+          "0",
+          "1"
+        ]
+      },
+      "mag_id": {
+        "present": 8701,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 8701
+        },
+        "samples": [
+          "9507",
+          "19722"
+        ]
+      },
+      "Rank": {
+        "present": 8701,
+        "missing_or_sentinel": 16,
+        "value_types": {
+          "int": 8701
+        },
+        "samples": [
+          "11616",
+          "11471"
+        ]
+      },
+      "DisplayName": {
+        "present": 8701,
+        "missing_or_sentinel": 16,
+        "value_types": {
+          "str": 8701
+        },
+        "samples": [
+          "'Sangji University'",
+          "'Ateneo de Manila University'"
+        ]
+      },
+      "PaperCount": {
+        "present": 8701,
+        "missing_or_sentinel": 16,
+        "value_types": {
+          "int": 8701
+        },
+        "samples": [
+          "1259",
+          "1467"
+        ]
+      },
+      "CitationCount": {
+        "present": 8701,
+        "missing_or_sentinel": 16,
+        "value_types": {
+          "int": 8701
+        },
+        "samples": [
+          "10636",
+          "8557"
+        ]
+      },
+      "type": {
+        "present": 8701,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "str": 8701
+        },
+        "samples": [
+          "'institution'"
+        ]
+      },
+      "new_id": {
+        "present": 8701,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 8701
+        },
+        "samples": [
+          "1104554",
+          "1104555"
+        ]
+      }
+    },
+    "field_of_study": {
+      "id": {
+        "present": 59469,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 59469
+        },
+        "samples": [
+          "0",
+          "1"
+        ]
+      },
+      "mag_id": {
+        "present": 59469,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 59469
+        },
+        "samples": [
+          "4250",
+          "12843"
+        ]
+      },
+      "Rank": {
+        "present": 59469,
+        "missing_or_sentinel": 17458,
+        "value_types": {
+          "int": 59469
+        },
+        "samples": [
+          "15252",
+          "11980"
+        ]
+      },
+      "DisplayName": {
+        "present": 59469,
+        "missing_or_sentinel": 17458,
+        "value_types": {
+          "str": 59469
+        },
+        "samples": [
+          "'Sign function'",
+          "'Gravitational singularity'"
+        ]
+      },
+      "Level": {
+        "present": 59469,
+        "missing_or_sentinel": 17458,
+        "value_types": {
+          "int": 59469
+        },
+        "samples": [
+          "3",
+          "2"
+        ]
+      },
+      "PaperCount": {
+        "present": 59469,
+        "missing_or_sentinel": 17458,
+        "value_types": {
+          "int": 59469
+        },
+        "samples": [
+          "820",
+          "29654"
+        ]
+      },
+      "CitationCount": {
+        "present": 59469,
+        "missing_or_sentinel": 17458,
+        "value_types": {
+          "int": 59469
+        },
+        "samples": [
+          "7533",
+          "338027"
+        ]
+      },
+      "type": {
+        "present": 59469,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "str": 59469
+        },
+        "samples": [
+          "'field_of_study'"
+        ]
+      },
+      "new_id": {
+        "present": 59469,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 59469
+        },
+        "samples": [
+          "1113255",
+          "1113256"
+        ]
+      }
+    },
+    "paper": {
+      "id": {
+        "present": 700244,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "1",
+          "2"
+        ]
+      },
+      "mag_id": {
+        "present": 700244,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "274683",
+          "539484"
+        ]
+      },
+      "PaperRank": {
+        "present": 700244,
+        "missing_or_sentinel": 22049,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "21080",
+          "21894"
+        ]
+      },
+      "DocType": {
+        "present": 700244,
+        "missing_or_sentinel": 22740,
+        "value_types": {
+          "str": 692093,
+          "int": 8151
+        },
+        "samples": [
+          "'Journal'",
+          "'Conference'"
+        ]
+      },
+      "OriginalTitle": {
+        "present": 700244,
+        "missing_or_sentinel": 22049,
+        "value_types": {
+          "str": 692093,
+          "int": 8151
+        },
+        "samples": [
+          "'The Impact of Refractory Material Properties on the Helium Cooled Divertor Design'",
+          "'Observing signals of the bulk matter Randall-Sundrum model through rare decays of supersymmetric particles'"
+        ]
+      },
+      "BookTitle": {
+        "present": 700244,
+        "missing_or_sentinel": 699733,
+        "value_types": {
+          "str": 572675,
+          "int": 127569
+        },
+        "samples": [
+          "'DSC'",
+          "'Earth Observing Systems'"
+        ]
+      },
+      "Year": {
+        "present": 700244,
+        "missing_or_sentinel": 22049,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "2012",
+          "2011"
+        ]
+      },
+      "Date": {
+        "present": 700244,
+        "missing_or_sentinel": 22049,
+        "value_types": {
+          "str": 692093,
+          "int": 8151
+        },
+        "samples": [
+          "'2012-01-01'",
+          "'2012-01-19'"
+        ]
+      },
+      "Publisher": {
+        "present": 700244,
+        "missing_or_sentinel": 48914,
+        "value_types": {
+          "str": 692093,
+          "int": 8151
+        },
+        "samples": [
+          "'American Nuclear Society'",
+          "'IOP Publishing'"
+        ]
+      },
+      "JournalId": {
+        "present": 700244,
+        "missing_or_sentinel": 22891,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "104092111",
+          "133490392"
+        ]
+      },
+      "ConferenceSeriesId": {
+        "present": 700244,
+        "missing_or_sentinel": 700098,
+        "value_types": {
+          "float": 700244
+        },
+        "samples": [
+          "2898200789.0",
+          "2623670637.0"
+        ]
+      },
+      "ConferenceInstanceId": {
+        "present": 700244,
+        "missing_or_sentinel": 700173,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "2626806211",
+          "2626384907"
+        ]
+      },
+      "ReferenceCount": {
+        "present": 700244,
+        "missing_or_sentinel": 22049,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "15",
+          "16"
+        ]
+      },
+      "PaperCitationCount": {
+        "present": 700244,
+        "missing_or_sentinel": 22049,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "8",
+          "1"
+        ]
+      },
+      "EstimatedCitationCount": {
+        "present": 700244,
+        "missing_or_sentinel": 22049,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "8",
+          "1"
+        ]
+      },
+      "OriginalVenue": {
+        "present": 700244,
+        "missing_or_sentinel": 22444,
+        "value_types": {
+          "str": 692093,
+          "int": 8151
+        },
+        "samples": [
+          "'Fusion Science and Technology'",
+          "'Physical Review D'"
+        ]
+      },
+      "JournalRank": {
+        "present": 700244,
+        "missing_or_sentinel": 22891,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "10332",
+          "6578"
+        ]
+      },
+      "JournalDisplayName": {
+        "present": 700244,
+        "missing_or_sentinel": 22891,
+        "value_types": {
+          "str": 692093,
+          "int": 8151
+        },
+        "samples": [
+          "'Fusion Science and Technology'",
+          "'Physical Review D'"
+        ]
+      },
+      "JournalPaperCount": {
+        "present": 700244,
+        "missing_or_sentinel": 22891,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "4635",
+          "105666"
+        ]
+      },
+      "JournalCitationCount": {
+        "present": 700244,
+        "missing_or_sentinel": 22891,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "18421",
+          "1678903"
+        ]
+      },
+      "ConferenceSeriesRank": {
+        "present": 700244,
+        "missing_or_sentinel": 700098,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "14285",
+          "8522"
+        ]
+      },
+      "ConferenceSeriesDisplayName": {
+        "present": 700244,
+        "missing_or_sentinel": 700098,
+        "value_types": {
+          "str": 664850,
+          "int": 35394
+        },
+        "samples": [
+          "'IEEE Conference Dependable and Secure Computing'",
+          "'Conference on Lasers and Electro-Optics'"
+        ]
+      },
+      "ConferenceSeriesPaperCount": {
+        "present": 700244,
+        "missing_or_sentinel": 700098,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "155",
+          "48315"
+        ]
+      },
+      "ConferenceSeriesCitationCount": {
+        "present": 700244,
+        "missing_or_sentinel": 700098,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "43",
+          "59087"
+        ]
+      },
+      "ConferenceInstancesDisplayName": {
+        "present": 700244,
+        "missing_or_sentinel": 700173,
+        "value_types": {
+          "str": 664850,
+          "int": 35394
+        },
+        "samples": [
+          "'CLEO 2011'",
+          "'ICTON 2015'"
+        ]
+      },
+      "ConferenceSeriesId.1": {
+        "present": 700244,
+        "missing_or_sentinel": 700173,
+        "value_types": {
+          "float": 700244
+        },
+        "samples": [
+          "2623670637.0",
+          "2622964579.0"
+        ]
+      },
+      "Location": {
+        "present": 700244,
+        "missing_or_sentinel": 700173,
+        "value_types": {
+          "str": 664850,
+          "int": 35394
+        },
+        "samples": [
+          "'Baltimore, MD, USA'",
+          "'Budapest, Hungary'"
+        ]
+      },
+      "StartDate": {
+        "present": 700244,
+        "missing_or_sentinel": 700173,
+        "value_types": {
+          "str": 664850,
+          "int": 35394
+        },
+        "samples": [
+          "'2011-05-01'",
+          "'2015-07-05'"
+        ]
+      },
+      "EndDate": {
+        "present": 700244,
+        "missing_or_sentinel": 700173,
+        "value_types": {
+          "str": 664850,
+          "int": 35394
+        },
+        "samples": [
+          "'2011-05-06'",
+          "'2015-07-09'"
+        ]
+      },
+      "ConferenceInstancesPaperCount": {
+        "present": 700244,
+        "missing_or_sentinel": 700173,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "1851",
+          "453"
+        ]
+      },
+      "ConferenceInstanceCitationCount": {
+        "present": 700244,
+        "missing_or_sentinel": 700173,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "4019",
+          "497"
+        ]
+      },
+      "type": {
+        "present": 700244,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "str": 700244
+        },
+        "samples": [
+          "'paper'"
+        ]
+      },
+      "new_id": {
+        "present": 700244,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "int": 700244
+        },
+        "samples": [
+          "1172724",
+          "1172725"
+        ]
+      },
+      "title": {
+        "present": 700244,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "str": 700244
+        },
+        "samples": [
+          "'The Impact of Refractory Material Properties on the Helium Cooled Divertor Design'",
+          "'Observing signals of the bulk matter Randall-Sundrum model through rare decays of supersymmetric particles'"
+        ]
+      },
+      "abstract": {
+        "present": 700244,
+        "missing_or_sentinel": 0,
+        "value_types": {
+          "str": 700244
+        },
+        "samples": [
+          "'Many divertor design studies for future fusion reactors rely on helium gas cooling. In these concepts, pressurized tubes or channels had to be operated at maximum temperatures bet",
+          "'The bulk matter Randall-Sundrum (RS) model is a setup where Standard Model (SM) matter and gauge fields reside in the bulk of 5D warped spacetime while the Higgs field is confined"
+        ]
+      }
+    }
+  },
+  "metadata_rows": 1872968,
+  "metadata_ids_complete": true,
+  "date_year_disagreements": 0,
+  "qa": {
+    "stark_qa.csv": {
+      "rows": 13323,
+      "columns": [
+        "id",
+        "query",
+        "answer_ids"
+      ],
+      "answer_references": 37044,
+      "multiple_answer_queries": 6872,
+      "empty_answer_queries": 0,
+      "all_answer_ids_valid_paper_nodes": true,
+      "answer_node_type_counts": {
+        "paper": 37044
+      },
+      "non_paper_answer_references": []
+    },
+    "stark_qa_human_generated_eval.csv": {
+      "rows": 84,
+      "columns": [
+        "id",
+        "query",
+        "answer_ids"
+      ],
+      "answer_references": 274,
+      "multiple_answer_queries": 34,
+      "empty_answer_queries": 0,
+      "all_answer_ids_valid_paper_nodes": false,
+      "answer_node_type_counts": {
+        "paper": 271,
+        "author": 3
+      },
+      "non_paper_answer_references": [
+        {
+          "query_id": 30,
+          "answer_id": 832321,
+          "actual_node_type": "author"
+        },
+        {
+          "query_id": 50,
+          "answer_id": 15775,
+          "actual_node_type": "author"
+        },
+        {
+          "query_id": 72,
+          "answer_id": 98059,
+          "actual_node_type": "author"
+        }
+      ]
+    }
+  },
+  "split_counts": {
+    "test-0.1": 266,
+    "test": 2665,
+    "train": 7993,
+    "val": 2665
+  },
+  "splits_disjoint_and_complete": true,
+  "test_01_is_subset": true,
+  "human_split": "Separate official human-generated CSV; no separate index file",
+  "resources": {
+    "elapsed_seconds": 46.45765310000024,
+    "edge_chunk_size": 100000,
+    "node_type_array_bytes": 14983744,
+    "metadata_seen_mask_bytes": 1872968,
+    "referenced_memo_entries": 88982,
+    "full_graph_loaded": false,
+    "peak_working_set_bytes": 84443136,
+    "current_working_set_bytes": 80441344
+  }
+}

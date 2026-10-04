@@ -1,0 +1,22 @@
+{
+  "author": {
+    "min_id": 0,
+    "max_id": 1104553,
+    "contiguous": true
+  },
+  "institution": {
+    "min_id": 1104554,
+    "max_id": 1113254,
+    "contiguous": true
+  },
+  "field_of_study": {
+    "min_id": 1113255,
+    "max_id": 1172723,
+    "contiguous": true
+  },
+  "paper": {
+    "min_id": 1172724,
+    "max_id": 1872967,
+    "contiguous": true
+  }
+}

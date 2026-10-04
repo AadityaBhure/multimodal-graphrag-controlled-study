@@ -1,0 +1,12 @@
+{
+  "phase1_checkpoint": "ea88dcfee5523f609b34fb597ae7a5884ed9899f",
+  "checkpoint_clean_before_acquisition": true,
+  "baseline_commit": "4592d102b363c7d55d3c85ee67efe89409ae96b5",
+  "protected_baseline_files_verified": 54,
+  "storage_files_verified": 4,
+  "stark_qa_installed_version": null,
+  "phase3_views_absent": true,
+  "raw_bytes": 2620787433,
+  "cache_bytes": 487669537,
+  "free_disk_bytes": 336587603968
+}

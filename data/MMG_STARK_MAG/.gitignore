@@ -1,0 +1,3 @@
+# Downloaded source and resumable build/cache material remain local.
+*
+!.gitignore
