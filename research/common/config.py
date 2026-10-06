@@ -1,7 +1,7 @@
 """The only research module that reads environment variables or dotenv files."""
 import os
 from pathlib import Path, PureWindowsPath
-from typing import Annotated, Mapping
+from typing import Annotated, Literal, Mapping
 
 from dotenv import dotenv_values
 from pydantic import BaseModel, ConfigDict, Field, SecretStr, field_validator
@@ -59,6 +59,25 @@ class LoggingConfig(ConfigSection):
         return value
 
 
+class RepresentationConfig(ConfigSection):
+    version: str = "MMG-STaRK-MAG-v1"
+    source_revision: str = "88269e23e90587f99476c5dd74e235a0877e69be"
+    source_nodes: int = 1872968
+    source_papers: int = 700244
+    source_edges: int = 19919698
+    node_batch_size: int = Field(default=10000, ge=1)
+    edge_batch_size: int = Field(default=100000, ge=1)
+    embedding_batch_size: int = Field(default=64, ge=1)
+    embedding_shard_size: int = Field(default=4096, ge=1)
+    embedding_backend: Literal["onnx-cuda-fp32"] = "onnx-cuda-fp32"
+    embedding_dimension: int = 384
+    embedding_max_tokens: int = 256
+    derived_inverses: bool = True
+    duckdb_memory_limit: str = "512MB"
+    duckdb_threads: int = Field(default=2, ge=1, le=8)
+    leakage_policy_version: str = "phase3-approved-v1"
+
+
 class ResearchConfig(ConfigSection):
     schema_version: str = "1.0"
     seed: Annotated[int, Field(ge=0, le=2**32-1)] = 42
@@ -66,6 +85,7 @@ class ResearchConfig(ConfigSection):
     dataset: DatasetConfig = Field(default_factory=DatasetConfig)
     paths: PathConfig = Field(default_factory=PathConfig)
     logging: LoggingConfig = Field(default_factory=LoggingConfig)
+    representations: RepresentationConfig | None = None
     groq_api_key: SecretStr = Field(default=SecretStr(""), exclude=True, repr=False)
 
     @field_validator("schema_version")
@@ -76,7 +96,7 @@ class ResearchConfig(ConfigSection):
         return value
 
     def public_dict(self) -> dict:
-        return self.model_dump(mode="json")
+        return self.model_dump(mode="json", exclude_none=True)
 
     def config_hash(self) -> str:
         return content_hash(self.public_dict())
@@ -122,7 +142,8 @@ def load_config(path: Path = PROJECT_ROOT / "configs/base.yaml", *,
     if "groq_api_key" in data:
         raise ValueError("Credentials belong in environment/dotenv, never YAML")
     env = dict(os.environ if environ is None else environ)
-    sections = {"models": ModelConfig, "dataset": DatasetConfig, "paths": PathConfig, "logging": LoggingConfig}
+    sections = {"models": ModelConfig, "dataset": DatasetConfig, "paths": PathConfig, "logging": LoggingConfig,
+                "representations": RepresentationConfig}
     for name, value in sorted(env.items()):
         if not name.startswith("RESEARCH__"):
             continue

@@ -1,0 +1,33 @@
+{
+  "baseline_commit": "4592d102b363c7d55d3c85ee67efe89409ae96b5",
+  "approved_phase2_checkpoint": "f8fc9a29f95b008a0216620449568f8bba4599a6",
+  "protected_baseline_files_verified": 54,
+  "storage_files_verified": 4,
+  "baseline_inventory_byte_checks": 47,
+  "baseline_package_versions_preserved": 81,
+  "packages_not_listed_in_baseline_freeze": {
+    "coloredlogs": "15.0.1",
+    "duckdb": "1.5.6",
+    "flatbuffers": "25.12.19",
+    "humanfriendly": "10.0",
+    "ml-dtypes": "0.6.0",
+    "nvidia-cublas-cu12": "12.9.2.10",
+    "nvidia-cuda-nvrtc-cu12": "12.9.86",
+    "nvidia-cuda-runtime-cu12": "12.9.79",
+    "nvidia-cudnn-cu12": "9.27.0.42",
+    "nvidia-cufft-cu12": "11.4.1.4",
+    "nvidia-curand-cu12": "10.3.10.19",
+    "nvidia-nvjitlink-cu12": "12.9.86",
+    "onnx": "1.19.1",
+    "onnxruntime-gpu": "1.23.2",
+    "pip": "26.2.1",
+    "pyreadline3": "3.5.6"
+  },
+  "pip_check": "No broken requirements found.",
+  "source_files_verified": 15,
+  "original_human_qa_records_preserved": 84,
+  "benchmark_built": false,
+  "disk_free_bytes": 328175710208,
+  "raw_bytes": 2620787663,
+  "build_cache_bytes": 1703880992
+}

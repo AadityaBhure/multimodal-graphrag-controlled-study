@@ -1,0 +1,144 @@
+{
+  "files": [
+    {
+      "path": "configs/phase3.yaml",
+      "bytes": 821,
+      "sha256": "3a49051df692287c9e18c80d7fe706e4440a2013ac11164a2e8afd4e95429e0c"
+    },
+    {
+      "path": "documentation/Dataset_Manifest.md",
+      "bytes": 15473,
+      "sha256": "82601b01c91002cc1cf194840a51e773199cf826f4ac944228718c7f6459e4fe"
+    },
+    {
+      "path": "documentation/phase3/gpu_sample.txt",
+      "bytes": 62,
+      "sha256": "75631fb5b2af1aa372e4189e5d3a02df3828e540ad210ca51db545c512af5301"
+    },
+    {
+      "path": "documentation/phase3/idempotence.json",
+      "bytes": 203,
+      "sha256": "ff7303975f3787085e3b0d6bf388116442f0e2e331524093601ce0556cf7c826"
+    },
+    {
+      "path": "documentation/phase3/preservation_environment.json",
+      "bytes": 1155,
+      "sha256": "eded1fc4a0a4f33b89e1b653c14fae7b123b0b5c2fc8044d6b431373b2a29fe7"
+    },
+    {
+      "path": "documentation/phase3/pytest.txt",
+      "bytes": 716,
+      "sha256": "32d0b82afe43aea5ddc9bcbd258a9b128ff45fb2eebce1dd2068719fb7ba5b06"
+    },
+    {
+      "path": "documentation/phase3/Representation_Contract.md",
+      "bytes": 9424,
+      "sha256": "2e019808461a0ef8da8c588c30f84f3663bc129dc86b5a19679b00795a6d09ab"
+    },
+    {
+      "path": "documentation/phase3/representation_manifest.json",
+      "bytes": 154597,
+      "sha256": "dd8b516d6a50bb17de70e6e14c7eded7be0192a16be4c7687d534d3388c053b8"
+    },
+    {
+      "path": "documentation/phase3/requirements.freeze.txt",
+      "bytes": 1866,
+      "sha256": "6c0c61d75efcbe90626b81e4ec3b61a53cfab387479b1caa4ed7e238c4c200b1"
+    },
+    {
+      "path": "documentation/phase3/secret_scan.json",
+      "bytes": 82,
+      "sha256": "53f7fd854c7efb22f10a57ffc03fb77e1699c2561b52745d7dab4ba9a9d497f3"
+    },
+    {
+      "path": "documentation/phase3/ui_smoke.json",
+      "bytes": 91,
+      "sha256": "33bfc12d16786b1eb9ce554e8687aa2b72f3b664b484fbfb3a786fb0169e2753"
+    },
+    {
+      "path": "documentation/Phase_Reports/Phase_03_Build_MMG_STaRK_MAG.md",
+      "bytes": 16013,
+      "sha256": "ed233fd26b39697c1df9fe2207c2e0395a14e75b6e20e68e1516dd8a2e18b5f1"
+    },
+    {
+      "path": "documentation/Research_Decision_Log.md",
+      "bytes": 12424,
+      "sha256": "77d8fd6b49bd43da971c8c6a6f03410dbd56e1815ccca9fcf89048204752e1e3"
+    },
+    {
+      "path": "requirements-phase3.txt",
+      "bytes": 108,
+      "sha256": "30223c22b2714c67b80ac23de392cd6d672db1f6baab5a00922348cfd8943496"
+    },
+    {
+      "path": "research/common/config.py",
+      "bytes": 6465,
+      "sha256": "a15885f0a0c7cc4f8f011c04abd0480f62e4d8d9f0361de20361419341e45f12"
+    },
+    {
+      "path": "research/common/contracts.py",
+      "bytes": 7867,
+      "sha256": "b0b71dcc467cdb41796dff311db8f74667108e2335a918fdc8d041b5f8706577"
+    },
+    {
+      "path": "research/data/__init__.py",
+      "bytes": 76,
+      "sha256": "678b2b016a10732f3341513d88e06d81def63c4356557c032fd339fb6b733efc"
+    },
+    {
+      "path": "research/data/build.py",
+      "bytes": 14419,
+      "sha256": "947709f6330a9741334559a81b6cce95abc9e6d4c89ac92f7174a572c73ab747"
+    },
+    {
+      "path": "research/data/embeddings.py",
+      "bytes": 11206,
+      "sha256": "8430bec0ba712b7d31562cc17e3641d53791436c84bea3f044312a9d1df0e631"
+    },
+    {
+      "path": "research/data/representations.py",
+      "bytes": 5557,
+      "sha256": "a7db741191c50a7429b6b04f6b4c57abeb3c89d0155642d660e14a2f7b16904c"
+    },
+    {
+      "path": "research/data/validation.py",
+      "bytes": 22407,
+      "sha256": "0697556c8106146dd2aa804dbc6c2da05f735ef91629f448447941e068511683"
+    },
+    {
+      "path": "scripts/build_mmg_stark_mag.py",
+      "bytes": 911,
+      "sha256": "cad687c88f983677819de811d3c0f605635dce0f6f19be66131479a1bf972bcd"
+    },
+    {
+      "path": "scripts/check_phase3_idempotence.py",
+      "bytes": 1354,
+      "sha256": "f147066310bd4ff22d71668ea4a9a82a5dbbb7d7973a5bad07b0bab306e6b441"
+    },
+    {
+      "path": "scripts/check_phase3_preservation.py",
+      "bytes": 3873,
+      "sha256": "607d81ee5f6a15ac501789353baa5ada4e20b81fb6238dbfadd385f5aae3df78"
+    },
+    {
+      "path": "scripts/report_phase3.py",
+      "bytes": 18104,
+      "sha256": "ecc668a95c79ef8dfbe34ee39d351f9d93ccb8fa94f977e5fdc664d611dcfc5d"
+    },
+    {
+      "path": "scripts/validate_dataset.py",
+      "bytes": 605,
+      "sha256": "ccc610d272e10030115771015e46f74fcc329f1fda1d958c2e3b23c873a6283d"
+    },
+    {
+      "path": "tests/fixtures/research/corpus.json",
+      "bytes": 5111,
+      "sha256": "5c8268882c7ef7e52a15de8400f951072ae3d5be4392eaaaa9935338bed75e25"
+    },
+    {
+      "path": "tests/test_phase3_representations.py",
+      "bytes": 7737,
+      "sha256": "c75fd1f76689b6ac4b1c519dbb770077354c8b8f5442769da175357ed600f96a"
+    }
+  ]
+}

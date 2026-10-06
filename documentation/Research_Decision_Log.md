@@ -51,3 +51,25 @@ Authorization: Phase 1 approved; acquire/stage official STaRK-MAG automatically,
 | P2-10 | Count source directed edges; do not synthesize inverse edges or deduplicate. | Four expected endpoint/relation combinations verified across every stored edge. | Keeps acquisition separate from Phase 3 graph representation choices. |
 
 The source audit is complete with documented findings. Phase 3 views are not built. No external access, licensing or hardware blocker required user intervention; limited free RAM was handled with streaming. These source discrepancies do not authorize changes to the frozen research questions or benchmark ground truth.
+
+## Phase 3 — 2026-10-04
+
+Authorization: Phase 2 approved; build isolated MMG-STaRK-MAG v1 representations and stop before any benchmark work. The user's explicit Phase 3 rules supersede earlier assumed counts and formatting.
+
+| ID | Decision | Evidence and validation | Research impact |
+| --- | --- | --- | --- |
+| P3-01 | Checkpoint approved Phase 2 before implementation. | Commit `f8fc9a29f95b008a0216620449568f8bba4599a6`; clean working tree verified before changes. | Non-destructive recovery; immutable baseline tag retained. |
+| P3-02 | Use global STaRK integers as all physical join keys; retain `stark:<global_id>`, type-local ID and MAG ID in registry. | Full source registry equality, uniqueness and cross-view joins. | No MAG/global-ID ambiguity. Existing contiguous global IDs directly index CSR. |
+| P3-03 | Preserve exact title + two newlines + abstract, one paper/document. | Exhaustive equality against raw metadata and four-column schema. | Supersedes P1-06 stripping/missing-abstract formatting; MVP chunking untouched. |
+| P3-04 | NULL names/attributes stay NULL; zero remains zero. | Full source comparison and sentinel/zero tests. | No date-derived year, recomputed citation count/rank or fabricated aliases. |
+| P3-05 | Apply approved venue precedence using either present member of each ID/name pair; do not fill its missing component from lower levels. | Full source validation plus pair/priority tests. Original-only namespace has NULL ID/type; DocType stays separate. | Normalization is explicit, no invented venue taxonomy. All raw structured audit columns retained. |
+| P3-06 | Keep all 19,919,698 official directed edges and add an equal number of tagged inverse traversal rows. | Every source tensor column and inverse checked; original coverage/uniqueness validated. | 39,839,396 is traversal storage size, never the official source edge count. |
+| P3-07 | Stream metadata/Parquet and external-sort edges into memory-mapped CSR. | Bounded batches, 512 MB DuckDB limit, real/synthetic paths and full CSR equality. | No full NetworkX graph or giant in-memory metadata dictionary. |
+| P3-08 | Exact aliases use NFKC/casefold/whitespace normalization; retain ambiguous associations. | 1,714,702 aliases, 105,792 ambiguous normalized strings; collision regression. | No semantic/fuzzy alias resolution is added. |
+| P3-09 | Use frozen MiniLM weights with a pinned ONNX CUDA float32 export, mean pooling/L2 normalization and the original 256-token limit. | 33-case CPU PyTorch parity: maximum absolute difference 1.8998980522155762e-07, minimum cosine 0.9999999403953552. Model revision/weight/export hashes recorded. | Practical GPU build without replacing CPU torch or changing the showcase. Full text remains in Parquet; embedding truncation remains explicit. |
+| P3-10 | Exact FAISS inner-product storage preallocated once; durable vector/ID shards retained. | Regression equivalence to normal `add`, serialization roundtrip, full reconstruction/mapping audit. | Avoids index-growth memory duplication; no approximate index or quantization. |
+| P3-11 | Lock source/configuration; atomically checkpoint shards/stages; reject corrupt completed outputs. | Intentional embedding interruption/resume, partial-CSR recovery, corruption rejection and full-build reuse checks. | Restartable builds do not silently mix versions. |
+| P3-12 | Add only required research dependencies, constrained by the original package freeze. | All 81 baseline pins retained, pip check and unchanged Streamlit smoke pass. | No baseline package upgrade, prompt change or paid generation call. |
+| P3-13 | Preserve original human QA and defer whole-query exclusions to Phase 4. | Source hashes verify all 84 records unchanged; no benchmark directory constructed. | Primary future human_test must exclude mixed/non-paper queries whole, including IDs 30/50/72; never repair their labels. |
+
+Implementation notes: Windows sandbox process initialization required automatically reviewed elevated commands. Git trust is scoped per command. An initial byte-to-Git preservation comparison flagged checkout CRLF conversion; exact Phase 0 inventory SHA-256 and Git-filtered object identity both confirmed the baseline file was unchanged. No access/hardware blocker required user intervention.

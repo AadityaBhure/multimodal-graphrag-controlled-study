@@ -1,0 +1,3993 @@
+{
+  "schema_version": "1.0",
+  "dataset_version": "MMG-STaRK-MAG-v1",
+  "status": "validated",
+  "created_at": "2026-10-04T15:07:09.517997+00:00",
+  "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+  "build_configuration": {
+    "schema_version": "1.0",
+    "seed": 42,
+    "models": {
+      "embedding": "sentence-transformers/all-MiniLM-L6-v2",
+      "generator": "openai/gpt-oss-120b",
+      "temperature": 0.0
+    },
+    "dataset": {
+      "name": "MMG-STaRK-MAG",
+      "version": "MMG-STaRK-MAG-v1",
+      "benchmark_version": "unbuilt"
+    },
+    "paths": {
+      "dataset": "data/MMG_STARK_MAG",
+      "experiments": "artifacts/experiments"
+    },
+    "logging": {
+      "level": "INFO"
+    },
+    "representations": {
+      "version": "MMG-STaRK-MAG-v1",
+      "source_revision": "88269e23e90587f99476c5dd74e235a0877e69be",
+      "source_nodes": 1872968,
+      "source_papers": 700244,
+      "source_edges": 19919698,
+      "node_batch_size": 10000,
+      "edge_batch_size": 100000,
+      "embedding_batch_size": 64,
+      "embedding_shard_size": 4096,
+      "embedding_backend": "onnx-cuda-fp32",
+      "embedding_dimension": 384,
+      "embedding_max_tokens": 256,
+      "derived_inverses": true,
+      "duckdb_memory_limit": "512MB",
+      "duckdb_threads": 2,
+      "leakage_policy_version": "phase3-approved-v1"
+    }
+  },
+  "python_version": "3.12.14",
+  "approved_phase2_checkpoint": "f8fc9a29f95b008a0216620449568f8bba4599a6",
+  "implementation_sha256": {
+    "research/data/build.py": "947709f6330a9741334559a81b6cce95abc9e6d4c89ac92f7174a572c73ab747",
+    "research/data/embeddings.py": "8430bec0ba712b7d31562cc17e3641d53791436c84bea3f044312a9d1df0e631",
+    "research/data/representations.py": "a7db741191c50a7429b6b04f6b4c57abeb3c89d0155642d660e14a2f7b16904c",
+    "research/data/validation.py": "0697556c8106146dd2aa804dbc6c2da05f735ef91629f448447941e068511683",
+    "research/data/__init__.py": "678b2b016a10732f3341513d88e06d81def63c4356557c032fd339fb6b733efc",
+    "research/common/config.py": "a15885f0a0c7cc4f8f011c04abd0480f62e4d8d9f0361de20361419341e45f12",
+    "configs/phase3.yaml": "3a49051df692287c9e18c80d7fe706e4440a2013ac11164a2e8afd4e95429e0c",
+    "scripts/build_mmg_stark_mag.py": "cad687c88f983677819de811d3c0f605635dce0f6f19be66131479a1bf972bcd",
+    "scripts/validate_dataset.py": "ccc610d272e10030115771015e46f74fcc329f1fda1d958c2e3b23c873a6283d"
+  },
+  "source_revision": "88269e23e90587f99476c5dd74e235a0877e69be",
+  "official_directed_edges": 19919698,
+  "derived_inverse_edges": 19919698,
+  "authoritative_identity": "STaRK global node ID; CSR row uses identity mapping",
+  "leakage_policy": "phase3-approved-v1",
+  "text_content": "title + '\\n\\n' + abstract; only source title/abstract",
+  "graph_semantics": "paper title only; source display names or NULL; inverse edges traversal only",
+  "missing_values": "NULL; audited source sentinels retained in structured audit JSON",
+  "benchmark": "unbuilt; original 84 human QA records unchanged; exclusions deferred to Phase 4",
+  "packages": {
+    "numpy": "2.5.3",
+    "pyarrow": "25.0.1",
+    "duckdb": "1.5.6",
+    "faiss-cpu": "1.15.1",
+    "torch": "2.14.0",
+    "sentence-transformers": "6.1.0",
+    "onnx": "1.19.1",
+    "onnxruntime-gpu": "1.23.2"
+  },
+  "files": [
+    {
+      "path": "canonical/canonical_entities.parquet",
+      "bytes": 61890397,
+      "sha256": "1e1ee6acf967bffbbe1c38dfe90add7551ce262998d309f87e689fad2829c1e1"
+    },
+    {
+      "path": "canonical/alias_registry.parquet",
+      "bytes": 45743542,
+      "sha256": "6dbf42fb37b2682ed8f40331439dee4fc9e94a79b65df60ec27a53d4a0b4629c"
+    },
+    {
+      "path": "graph/nodes.parquet",
+      "bytes": 89737909,
+      "sha256": "a582e98563f278a706edc7961a0d58519c2bc7ab7161fa78095a2bb688535b51"
+    },
+    {
+      "path": "text/text_documents.parquet",
+      "bytes": 609298612,
+      "sha256": "8794cdfb80580a45a8140b527647841556d602fcdc7193a1357774b149db71e8"
+    },
+    {
+      "path": "graph/identity_mapping.json",
+      "bytes": 143,
+      "sha256": "5abf130e3a7d142f092636267cdc7098635f79d4c4e4fb9d48b57fcc1c39db27"
+    },
+    {
+      "path": "structured/stark_mag.duckdb",
+      "bytes": 97005568,
+      "sha256": "b3322ffc703c7419180ee08a49b38b4911266aa0f36ba5921461706910a866eb"
+    },
+    {
+      "path": "graph/edges.parquet",
+      "bytes": 388218335,
+      "sha256": "e79f4a0ec5b60ba73936217ce5480113615991e8e5e838cde0859000dd9bb191"
+    },
+    {
+      "path": "graph/adjacency/derived_inverse.npy",
+      "bytes": 39839524,
+      "sha256": "4b3419fe18c2e0ad510eb3e083928986c785082f5a0e56f6b14d91baf3b7fb9e"
+    },
+    {
+      "path": "graph/adjacency/edge_ids.npy",
+      "bytes": 318715296,
+      "sha256": "7750f6e2b839154b409b84e629d268408f2b12f8632929aa066a7c5b0e3d6a21"
+    },
+    {
+      "path": "graph/adjacency/indptr.npy",
+      "bytes": 14983880,
+      "sha256": "6fcff79882d4939d80315110aa462b04d701dc4f56b17dc920345172c5e74c82"
+    },
+    {
+      "path": "graph/adjacency/neighbors.npy",
+      "bytes": 159357712,
+      "sha256": "246a56c79677cc9f44148c75bf93ff9cd206695b47dc8d149665f172c050761d"
+    },
+    {
+      "path": "graph/adjacency/relation_ids.npy",
+      "bytes": 39839524,
+      "sha256": "e5d0e06d658f0d08f0880b756975d791e0eeb72b57455188a38a5b3869a30261"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000000.npy",
+      "bytes": 6291584,
+      "sha256": "df3e8f53eee9789effd90349054e029d0a48d73b6018e91ed220757bbbe2d360"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000000.npy",
+      "bytes": 32896,
+      "sha256": "7663b0a2a0b645af09a39b5149fd24f56984b3a052a1e348ee4db8f7c56f656b"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000001.npy",
+      "bytes": 6291584,
+      "sha256": "8231f4bf8ffdf6875db9ec5b9d70c296b060e8391303b643847a3e5d49c3537f"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000001.npy",
+      "bytes": 32896,
+      "sha256": "4254bf20383323b531275ebbe1740aa872ae7a586637f32a6d6a4f55b906ddcc"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000002.npy",
+      "bytes": 6291584,
+      "sha256": "8d2120bae16066d69b076a3f36342f8af174afc0fb9784d14e8dc78cf242fce8"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000002.npy",
+      "bytes": 32896,
+      "sha256": "1167d5e2212fc5db371514df35d0f0f794b7d114d73c0e82614ae41256dff32c"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000003.npy",
+      "bytes": 6291584,
+      "sha256": "ec84d7a298727b34d16c474e50f91386e5b2c71e7399317d21293c11df77a20c"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000003.npy",
+      "bytes": 32896,
+      "sha256": "aa5fa9b9391c6699807d8b6f0c5477de911aaf621e58bc3432a55594d245c381"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000004.npy",
+      "bytes": 6291584,
+      "sha256": "294bb36ff53b678281e0adc2f57d4ba5cb29f7220d0429eb2c1eec5b4f9d9ca3"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000004.npy",
+      "bytes": 32896,
+      "sha256": "41c815fcac8f7854c31b6f91345be21a1f03da9bd903389b6ab6eb8ec9e02f60"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000005.npy",
+      "bytes": 6291584,
+      "sha256": "1e501143a9d279e08d07b3c79f6e779526f6c9b6d596afbcdfa576316a086686"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000005.npy",
+      "bytes": 32896,
+      "sha256": "650fc36a0768a7a907bbec8105b2ad30a3a794917783c144a9aea94f7b8c3ce4"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000006.npy",
+      "bytes": 6291584,
+      "sha256": "a8adf6248c71a28175a0a4628d0b8282ddefa7300602f45b42ea6daef009004a"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000006.npy",
+      "bytes": 32896,
+      "sha256": "06ad5ac7270a7c7999d34cba250b1043ab37461608b46634713561dda7f700e7"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000007.npy",
+      "bytes": 6291584,
+      "sha256": "cbc3244c8f4ab8627d35498c007d189d8ce1466b73eb99dbe644e5859d776f58"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000007.npy",
+      "bytes": 32896,
+      "sha256": "c6754e122d0584b3c054f6a545729a76ea13e1197ce0a5b5b48eacc757c4ea97"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000008.npy",
+      "bytes": 6291584,
+      "sha256": "c3eae601d2652ef8267ebcf501624cc59dd04cd21c9df0efc2c3e26d5133537b"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000008.npy",
+      "bytes": 32896,
+      "sha256": "358abb2b60e3c6793cc4d6a1992d673c62851abb9912d7f6ef6eb8555376d4eb"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000009.npy",
+      "bytes": 6291584,
+      "sha256": "34cceb551160a8a8954196331a325feda34f74e5af4dbf16fb6a993f144e7fc6"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000009.npy",
+      "bytes": 32896,
+      "sha256": "251414faf82675f083d6d9b3a268fa965aa5e490637424dcdcb1d4e074a31b2b"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000010.npy",
+      "bytes": 6291584,
+      "sha256": "17a190d136a8a8ef8ed8d613896756416c598dba823e6e00823867a24c16de65"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000010.npy",
+      "bytes": 32896,
+      "sha256": "f16fb324da8c972a2112892ba6b8199ee51c3b5684439a194e183b811daabb0c"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000011.npy",
+      "bytes": 6291584,
+      "sha256": "a0d67cd59a027d816650fbd91e9c593b1b4ad43a32222688acc17d2cdb877840"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000011.npy",
+      "bytes": 32896,
+      "sha256": "e4764e0f855603e64882bbb237266def2459798fc05e1960d1b449c2819558d5"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000012.npy",
+      "bytes": 6291584,
+      "sha256": "7952e16dc64a7ae6ad5cfd7789489f60dfb019268aacee3b6bb98637037a1e6d"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000012.npy",
+      "bytes": 32896,
+      "sha256": "74d08589b783dc0aa26dc7346b5b4dabef747d10b0967fe5b56dd690f12b3cc5"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000013.npy",
+      "bytes": 6291584,
+      "sha256": "34ebb283ac8a722c60be9a02b1dbaf4066f2e84bcffd90e48e96dc3c3f154859"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000013.npy",
+      "bytes": 32896,
+      "sha256": "6c4a9bccc4afdc0d47d37295bba11c21747bd94e19041021ed67e3811fc40d9c"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000014.npy",
+      "bytes": 6291584,
+      "sha256": "188afaf8b41f95f1abc5c67d2accbb5be2283ff6f6a6d6294f8dfe5ec704885c"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000014.npy",
+      "bytes": 32896,
+      "sha256": "07ed04461db251faf2a2fe83e55478b016d4c9dce79b110204dc3d11b6b1fdec"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000015.npy",
+      "bytes": 6291584,
+      "sha256": "9ffeec42f87f49d256865163714f588217c007837e5cb8bdaa61a5e2fdc1554d"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000015.npy",
+      "bytes": 32896,
+      "sha256": "a963f2d0d43b77f6dd511a174cbc8b943c9207c1dcda522f96f691fda45f47a1"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000016.npy",
+      "bytes": 6291584,
+      "sha256": "ea75b6fc29f81f30c124d7045d1933fb1a0aa4e2bb5ad898db57a5c853a739b3"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000016.npy",
+      "bytes": 32896,
+      "sha256": "870b5e85d4b04144a5b8306a153c37591c7ce396c81df6f09b299bfbd0b3c974"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000017.npy",
+      "bytes": 6291584,
+      "sha256": "2df489e4995db11855a3e3f52ef4c72dc60f9b418364d4401414cab3b38db50d"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000017.npy",
+      "bytes": 32896,
+      "sha256": "45902ae46926cccc049e015dda221cb50b5a5432de244a3bd9a4d9151fcf68e3"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000018.npy",
+      "bytes": 6291584,
+      "sha256": "f61a2135b7ba8dd3701c795da644567efbf0229590d50820f557911aa5c96b9c"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000018.npy",
+      "bytes": 32896,
+      "sha256": "57b1e15a1363aff57d3a7243c591e0e27ee98f6f505703fb30da763aeb3276a7"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000019.npy",
+      "bytes": 6291584,
+      "sha256": "a85a38386f93d769ff07479fa1743392ddd0af37fc91632ea58e328026c13253"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000019.npy",
+      "bytes": 32896,
+      "sha256": "1f5c52d7d241e54e932be8e0dbaf51869d2ef82726ad85b93e065dbec69cb6ed"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000020.npy",
+      "bytes": 6291584,
+      "sha256": "8a8aab84574f05aa546a325c04a17cb6b36b0e371093632d9c3def86d9555533"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000020.npy",
+      "bytes": 32896,
+      "sha256": "ac6941d51d91ecd3bfcf34f44180b0e343fd16d6b5a68e45b46340bcbac61095"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000021.npy",
+      "bytes": 6291584,
+      "sha256": "0309266dbe6d745f0c372620e143ad97b488e9a2bed118e21ff7a43b6c247b25"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000021.npy",
+      "bytes": 32896,
+      "sha256": "8501f2e3fb1805837af7ed63ac1e2f47bd5909f65ecc33774273ecc9755b2da2"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000022.npy",
+      "bytes": 6291584,
+      "sha256": "98990f4d82aad30e0554c818ec83a73baba97985834fbbe97b4a4a330861005b"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000022.npy",
+      "bytes": 32896,
+      "sha256": "7ea78d829384b95ec971742fb5b444fcf01482d0049de7527976b2451dfa2876"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000023.npy",
+      "bytes": 6291584,
+      "sha256": "19cb431d97ce7fcc63b714688d175ab24836d54c69d7fc88ebf6715dc4292c04"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000023.npy",
+      "bytes": 32896,
+      "sha256": "e50978f7c19a11cd1dc46dd60b895ef27d9de9a01a998890d2264cf97136874e"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000024.npy",
+      "bytes": 6291584,
+      "sha256": "ca195b21ec0a64eb1caf13b03796bf5f31d6c8ec5d990b08be8bcdf873d0ca14"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000024.npy",
+      "bytes": 32896,
+      "sha256": "2da457ef054fe67a500c7775d36724a2982e5f3cca7d4791c8a7dd47f4bb4cd1"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000025.npy",
+      "bytes": 6291584,
+      "sha256": "a04bbc2d223cd2f9be511983b48c1fa849657f03ea37c41e482a34b4066b6de2"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000025.npy",
+      "bytes": 32896,
+      "sha256": "d55f13f5dd39fa854e50508204b6a39ebf976c58fb54661fa9a5b75baaa54a75"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000026.npy",
+      "bytes": 6291584,
+      "sha256": "b61379509e5e1224da13b9fc27e8fd4daae60bff7c7e4b96a9cb5ad0bf4e601e"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000026.npy",
+      "bytes": 32896,
+      "sha256": "09212cb4d0adcf7b8a5d6213eb75ab0617d43e614015944bdbf8dd1d0076e0bf"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000027.npy",
+      "bytes": 6291584,
+      "sha256": "58085175859de23df87c51dfcc141ce1f88154d4059d436c5a727c8deb5c5f07"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000027.npy",
+      "bytes": 32896,
+      "sha256": "a6a1d34b9851372c204bdb8999d8d9eb5916eed0ca12c293306d862354320f39"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000028.npy",
+      "bytes": 6291584,
+      "sha256": "c6d4006aed78074916ca7b138895c10f8a89f1e2d46e3131e26111c69320f682"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000028.npy",
+      "bytes": 32896,
+      "sha256": "93377eac4fc987b9469e1d13fa441ad7e83bc7fb63dcdc1a28b75be18642349c"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000029.npy",
+      "bytes": 6291584,
+      "sha256": "b7f6920e05117ca7ca92f76cf9dece67d413a158c74e41d2af399e1cf53faab7"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000029.npy",
+      "bytes": 32896,
+      "sha256": "c7ca3d96b343687ee8cb81e03b95d60935df6ecb11fb59d18c3aaac5d87e40ca"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000030.npy",
+      "bytes": 6291584,
+      "sha256": "80e8c9802c8a2f353ee28a5e604748659218c56f49dad27b413c1d5f7498f0a5"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000030.npy",
+      "bytes": 32896,
+      "sha256": "7ae83710745f51495dd1d0390654df8f1ff62e58712f399adaeabc48e88ee7b7"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000031.npy",
+      "bytes": 6291584,
+      "sha256": "7dc0d154c9fe8fc361ba7bd9db3ae8ef0ddac47cf8611d9155091205f5790963"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000031.npy",
+      "bytes": 32896,
+      "sha256": "a4f1787ad2ad27653d134155f69beeb0019cbad22257a0bf49bae89fa210dcbd"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000032.npy",
+      "bytes": 6291584,
+      "sha256": "ed27354b5cb0e1869505a418d22faaf560ce1d6c9238305b0e90c63a5fef55b3"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000032.npy",
+      "bytes": 32896,
+      "sha256": "9a35c8ce50f6fdb473e618ca15e3edbb2549d527553fafcbfeba1a2339b84d3f"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000033.npy",
+      "bytes": 6291584,
+      "sha256": "c99d19cec68e94147d6ade6a9006ecfcbd025bf6837f92851a5ee315f19f9878"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000033.npy",
+      "bytes": 32896,
+      "sha256": "24df18fa912504e8ae3c7dc587a23d285684e198717877e464bbc61afe68ab6b"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000034.npy",
+      "bytes": 6291584,
+      "sha256": "603c1105f0d340764464edc5c230231e07902eb5798733640256c5662487c862"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000034.npy",
+      "bytes": 32896,
+      "sha256": "3b46ec6a05aea90492be8b6c2c4bd747530fdea6a8c365b7f5ddb4e0534010e1"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000035.npy",
+      "bytes": 6291584,
+      "sha256": "04963786f08941fcfc012132413192fc72e1fcb6c6baba6d9eb8d92605ff5af1"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000035.npy",
+      "bytes": 32896,
+      "sha256": "65efb4edadc8935afd0d7ced7ebdc52f88d7cea9b20d734d1fc3647defaa1132"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000036.npy",
+      "bytes": 6291584,
+      "sha256": "526f61f2384dd3702d14f35b03ac4c55077a8a7b90f97e111238e5bef48d7b54"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000036.npy",
+      "bytes": 32896,
+      "sha256": "6b48a9e356f20dd6ef59de083917c2c58b3178af8754f4fe922611364e5eef1f"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000037.npy",
+      "bytes": 6291584,
+      "sha256": "cd0b5f3e2872b5bce43aa45619d7aec14e8e5ca360ec6f84d7aad5fe0799d29f"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000037.npy",
+      "bytes": 32896,
+      "sha256": "17e278640d524480d1ebf67a849a43e19d3ad8933323b0cac00e51fffa8c1e64"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000038.npy",
+      "bytes": 6291584,
+      "sha256": "d694b2eb6470f7541524dd8ddfb3f98e343b5d6f56be0ad28e057b18ded5286e"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000038.npy",
+      "bytes": 32896,
+      "sha256": "c75bb6a439704ed6470cfa7e9ef31bbb1edbcbe653937f71d7493ed4a0d5d053"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000039.npy",
+      "bytes": 6291584,
+      "sha256": "360c0561341724eada2ad3645b76201f3990d3128182fe480f9f4ea8d29b0fd2"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000039.npy",
+      "bytes": 32896,
+      "sha256": "2448ca5fb212a24cf440eb6b6734f61fb9f794ec947d341dadcc4ae179cfc923"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000040.npy",
+      "bytes": 6291584,
+      "sha256": "1c46f58fb8878b13299e3c8e859187b382d394ea68b7faff142bf05f00833855"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000040.npy",
+      "bytes": 32896,
+      "sha256": "71367d7acbd050070c60bea653f7f7fd21fddef7ebc062d6ebe1bf4d59d4adb4"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000041.npy",
+      "bytes": 6291584,
+      "sha256": "7898fa3602b6c5ad4fb1529a0a9be6e43df7c956d0b3903c52930799893a5a81"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000041.npy",
+      "bytes": 32896,
+      "sha256": "a46d1880970ae8b145ebb9a28b14c98720dae79c69df07f5844588f7974977dd"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000042.npy",
+      "bytes": 6291584,
+      "sha256": "3c1cab2575afab9ab834b7b2f842a8acb693822f316a934d40183feab288c30c"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000042.npy",
+      "bytes": 32896,
+      "sha256": "d694b71a1a540b931fd44dba92e7391f059252df1305db093c2d975480436a00"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000043.npy",
+      "bytes": 6291584,
+      "sha256": "63cbbbda631d202bf9c022c968986652a57c2d98ac33a77a7ae2ed3456e0a553"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000043.npy",
+      "bytes": 32896,
+      "sha256": "6663a073cf6c8734ad1b9238a3f577b82350f1af33532510e2e93fdab8844b70"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000044.npy",
+      "bytes": 6291584,
+      "sha256": "e3acfae58f4bd10daeda31aba022f3ba68ab2dd4557dadb56843d9a4ee13b791"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000044.npy",
+      "bytes": 32896,
+      "sha256": "f5ce5a86528e8dff9bce34359cb90a65a8771b685bf548c08f5502348fce1233"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000045.npy",
+      "bytes": 6291584,
+      "sha256": "51b6dea8b9c92aeb08a453407a5b7676234a602df0c00ffbe43a8f3808dd4fe2"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000045.npy",
+      "bytes": 32896,
+      "sha256": "f5625b09dcc2ed218afbc4c2492a525d2410d210d9d7d361a513a3f54ce56b80"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000046.npy",
+      "bytes": 6291584,
+      "sha256": "c447605af7725fa49f481fd06c7c6b74b4d3192f65f17a5ef9920617ec5df941"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000046.npy",
+      "bytes": 32896,
+      "sha256": "3503befceeab178f8e6144e9a9fa135eb0269ba08428bc0921a95ac7b1908658"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000047.npy",
+      "bytes": 6291584,
+      "sha256": "b22aa7e74659d166098d098c1d46f633233f37f3ddddfc7df5dc0c7d6e3953bd"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000047.npy",
+      "bytes": 32896,
+      "sha256": "7269509a337c73fc9c1ba824c7d9ef531c415b8671395681e2a8d769ef32a0be"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000048.npy",
+      "bytes": 6291584,
+      "sha256": "784a9a4769e06b9641183b2797619642237e9ff6b2e97411a5b34df39f47e0ca"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000048.npy",
+      "bytes": 32896,
+      "sha256": "c585ed44b37e7546b6eeaded50ac9bf2047a6a93ba915c46daf6d7ae242a8565"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000049.npy",
+      "bytes": 6291584,
+      "sha256": "ca87bd850dc4f8dc56143c324c710138d71763f24077fc78be802cf57892971f"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000049.npy",
+      "bytes": 32896,
+      "sha256": "0fc2d9950811ce38d4e959c0f2e8f7b0a09c625497a14bc959607095c4ad711d"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000050.npy",
+      "bytes": 6291584,
+      "sha256": "512dc2917ac6ec30049d16c558b49b0199ac375cd42cc1a7ebbb3606ecf0f6ee"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000050.npy",
+      "bytes": 32896,
+      "sha256": "9307968bf8b1f0f84071ca50c25be8754da87ad60b8b2eb29b337995b21f4ca3"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000051.npy",
+      "bytes": 6291584,
+      "sha256": "3364bbbe00c8322467991b1096ab0e919062fa29253890b2b63c9c876383f31f"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000051.npy",
+      "bytes": 32896,
+      "sha256": "de7aa7150f751a4475553fd9d643051d438b9118c2b696aa0b49f9b047a6c802"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000052.npy",
+      "bytes": 6291584,
+      "sha256": "1830f57ebb6bce8108cb1049e19850d711dfd6f1f3a61ad1d126fad8b6f6a048"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000052.npy",
+      "bytes": 32896,
+      "sha256": "eaee9daba4b21d7aa2e8667d2e2a4c1648476c8ca94a0f12649c1e392ffde0d5"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000053.npy",
+      "bytes": 6291584,
+      "sha256": "72b9c24001edd524af82d3ed4c16638630462a1ed30226427d2d8a172d6c8286"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000053.npy",
+      "bytes": 32896,
+      "sha256": "0755cf55ebefa45a7653cc20a4cfad19d90363362bd2a2617bcc3fb1a56bc03a"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000054.npy",
+      "bytes": 6291584,
+      "sha256": "b30521a2e92dbc0254c80a9f90a7ab4ed118a16e32522f553fa335892d1c2845"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000054.npy",
+      "bytes": 32896,
+      "sha256": "a18030b6bafca779b7a98e61c402990039700e69e9aa05d0d1f53ba742d4f237"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000055.npy",
+      "bytes": 6291584,
+      "sha256": "7ab56ec0543dfc39f25122f13c45c9d1a76cefd9870a5a55ce495ab487b150a2"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000055.npy",
+      "bytes": 32896,
+      "sha256": "1ac93f58eb0c97cc8e86e96b72dc822bd8f3b7f131e557f168187e0309dd00fd"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000056.npy",
+      "bytes": 6291584,
+      "sha256": "e4d33f26cfd97ba129507ca6ebf728fd2bdc7bd728caa50abde04f1f810e02f1"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000056.npy",
+      "bytes": 32896,
+      "sha256": "609bf95f2479a2919660afc27805343246eb1db53186d59af3b92e65c276df9e"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000057.npy",
+      "bytes": 6291584,
+      "sha256": "8f0be3494867cdbaba65cded238eb344535d935d01661bf434d8051a532a0861"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000057.npy",
+      "bytes": 32896,
+      "sha256": "eb46b10b3ce18bf18e87f104d0348c0ae0620d01c48086cde7e2a9462bded2e2"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000058.npy",
+      "bytes": 6291584,
+      "sha256": "7580bd5c69be292a072cc3e29eab648508dd25efee503adb99b4ea3dcc29a156"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000058.npy",
+      "bytes": 32896,
+      "sha256": "7db5abaed92c55b466682a26cf9101760a1f2abf53b8071218a440b6cf9d64c9"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000059.npy",
+      "bytes": 6291584,
+      "sha256": "a9ccb4cc47845dd38fe5d4374c3d0a985b3e0d930e0248f1fdb3de17a6ea7816"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000059.npy",
+      "bytes": 32896,
+      "sha256": "9cd3b5bfa1385c2e2574a2210c6bfe86de5f7e5475f5fc51a5a327a17674eed0"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000060.npy",
+      "bytes": 6291584,
+      "sha256": "e859fed38921ad6858e1eb986c8bc48ea9bc8f93c3a1005e6c64c2a9cde97b5c"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000060.npy",
+      "bytes": 32896,
+      "sha256": "11dc8e719e4f0aa480ab1d56bea3052d0af56d3b7f8a5b28415c837d1e7bd29c"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000061.npy",
+      "bytes": 6291584,
+      "sha256": "6932eb5e3d2f8b5ca0638079f60b8fcae693fcd6ee795edfe8b0de333649d820"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000061.npy",
+      "bytes": 32896,
+      "sha256": "e7f29cbbd3c8f71fbe3151e0ec67b3f22b43dbcc4674b25ebad98fb383899012"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000062.npy",
+      "bytes": 6291584,
+      "sha256": "f44b3d4ceb7de7ec120e3386f588ab23e121563ce05fc8e7f41ce9fce8ee1e6b"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000062.npy",
+      "bytes": 32896,
+      "sha256": "8d3613c74e16f8b73f2085ef727ecd6ea1b3388877609603e82ddfcce7a84240"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000063.npy",
+      "bytes": 6291584,
+      "sha256": "aba3726f552f4fbcd85913b24ef97f3bfb4eaaed97af49e4449b07911bf3ce40"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000063.npy",
+      "bytes": 32896,
+      "sha256": "e2ac80c6bc78972769a0927ed5ffdc7ef183227543a2d3a6e5c0522d51c495fb"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000064.npy",
+      "bytes": 6291584,
+      "sha256": "291449966376832196ffd56ba906dd7507e42de2f906e21079336f305bd02715"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000064.npy",
+      "bytes": 32896,
+      "sha256": "959b4bfff31f61df3f0ed93f8eff1b5f75dc00035dd6afa740b80ef2d3e8e023"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000065.npy",
+      "bytes": 6291584,
+      "sha256": "0aacd2169c732550d45b8939deb82b330f1ae93194f9441ec4fe068ae15a9eb5"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000065.npy",
+      "bytes": 32896,
+      "sha256": "b9a243ad2c3d00bc3ed6d538e9eeb36a2e4acaf96fffa5f7b68ae6bd213527a1"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000066.npy",
+      "bytes": 6291584,
+      "sha256": "107946d895d0b6b6ced8738be5626c2dd295690da5e5f0fb0ea745624c72d085"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000066.npy",
+      "bytes": 32896,
+      "sha256": "a302c3fda88aa2383b347f29a4c8d4e8d703f541a34fa3d75a1d8c6b248f86ab"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000067.npy",
+      "bytes": 6291584,
+      "sha256": "501ed260eb853d4db939716ec04f73fdd4fb0437efcd24d563012a9591e96dbd"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000067.npy",
+      "bytes": 32896,
+      "sha256": "d4f41ec270fba92362798687692fc6a063ec25e77d5568f5176c82ef002c2f95"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000068.npy",
+      "bytes": 6291584,
+      "sha256": "b509c7024233a0fc862768ce9754c5a439c6448b06f673917cfd4a6f7e5cf487"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000068.npy",
+      "bytes": 32896,
+      "sha256": "83d7ecdf1a3100d44e683730b8726503c98ae632d150a03eb85455ca872a7287"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000069.npy",
+      "bytes": 6291584,
+      "sha256": "0c5cd0121e6d0ded27f97fbb2c57c3e7f2e5e54f350fff63ede6d37d67ede3b3"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000069.npy",
+      "bytes": 32896,
+      "sha256": "fba3e81dc2b60209e3e0ef9d98c06b84b000ceaf6a0e7de14ba6ee1f149fb29c"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000070.npy",
+      "bytes": 6291584,
+      "sha256": "73a548012cf835c539433b6f90027c7c45563f7ac0f094c41e38341d594e0a15"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000070.npy",
+      "bytes": 32896,
+      "sha256": "9b4ca38d07403466dde3d563b9710cd92bf5bbfa9490553266d442cc406260a3"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000071.npy",
+      "bytes": 6291584,
+      "sha256": "9a6f6f735b31d1560801c25c77e6cc8a680d14d0bfd036a7b0b2ebd91e0cc482"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000071.npy",
+      "bytes": 32896,
+      "sha256": "4570ce44b175adfac8d3cd0fbf950a557ab7cb0953a9f00e2d03da2a16783f8f"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000072.npy",
+      "bytes": 6291584,
+      "sha256": "d2a8b147a5c11379632327e7296669299bf9c40e2ea8f097f28b505655f16806"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000072.npy",
+      "bytes": 32896,
+      "sha256": "6c2900c061c886c937036404d6f62ce85a4a887ffa5894696c676859893689de"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000073.npy",
+      "bytes": 6291584,
+      "sha256": "75807507eaa2911df3cb05d269ffc10d47e0b2e3157cdf782861876f53a2241c"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000073.npy",
+      "bytes": 32896,
+      "sha256": "1b93c1b205403d437aceab68db80066a6eb74b78afd7245725c13c704af76876"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000074.npy",
+      "bytes": 6291584,
+      "sha256": "eb6abcdfc8f9710dac8378dff05c323bca778c4afeca211f0e2297828c67713e"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000074.npy",
+      "bytes": 32896,
+      "sha256": "df59853bd3966327c616cde65b238ae24fc23ad7dc3ee8da171ca2dbd84ab168"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000075.npy",
+      "bytes": 6291584,
+      "sha256": "819c2fa6818b731b437ecc8e3f85fc12afb98d69a2a2adc2a824f148ef2ce83e"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000075.npy",
+      "bytes": 32896,
+      "sha256": "bc3e6d4df021a52c3ce215540551243ed964c5387596c52e18be9eb8a8242961"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000076.npy",
+      "bytes": 6291584,
+      "sha256": "659f972fd79fa0d1c543336a326d0555ce9185dd9aacc1e62406ece5a978a63c"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000076.npy",
+      "bytes": 32896,
+      "sha256": "ff22c4164845f9069a3834942c7bfc011430a03b564c65ce8395829bd46a8636"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000077.npy",
+      "bytes": 6291584,
+      "sha256": "173da664c82cc724b46af00aa76548dc0b6869b6d040042c522eff98f683893d"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000077.npy",
+      "bytes": 32896,
+      "sha256": "552ac9329d7bd723e2897702974dbd767f9978332fe82b0e2d6756176ecd8929"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000078.npy",
+      "bytes": 6291584,
+      "sha256": "ab0aeca4b7023984af2ecada101adcd7472304ff17a33aab5228470c6570fbe0"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000078.npy",
+      "bytes": 32896,
+      "sha256": "68f0dbbea9acb6ad17cc429e9ebcce2a1a8ef91e338de05b8f60ae516713f4ca"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000079.npy",
+      "bytes": 6291584,
+      "sha256": "ab82b8c729225a627aac514f293d765b05104265461333a6f54d0965963633f5"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000079.npy",
+      "bytes": 32896,
+      "sha256": "b7571cc820a55206976003fe5e59c68e437f109d933d582aa47b942b9f8a464b"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000080.npy",
+      "bytes": 6291584,
+      "sha256": "7370da7a8c8ec6caadc7cd29d286991c8e6a20b0c1203e739b570e99221f5d01"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000080.npy",
+      "bytes": 32896,
+      "sha256": "aecb1834917adc1badba3d3c27ebefc47e49bb25c19c292eb8045d3258546468"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000081.npy",
+      "bytes": 6291584,
+      "sha256": "42cc42effd10e844e66ee845cb4dcf52ca599a77b64795320a1b7973723f925d"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000081.npy",
+      "bytes": 32896,
+      "sha256": "2315b84bc8d4c83ba5e9b606360ed499a8edb1e11a9ed14a3986961404c4f6c5"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000082.npy",
+      "bytes": 6291584,
+      "sha256": "13d7066531be31e277303b88f15a6cc91ed61ea0d4313f4469de55d680ea5915"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000082.npy",
+      "bytes": 32896,
+      "sha256": "13407fa78d203abf510032a6fb19547854ff5a70028fe4001b2b047bd6560bf2"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000083.npy",
+      "bytes": 6291584,
+      "sha256": "a36bed44dc48fd472f04d14663e4ae76371e65d16f6663a151ec1ef7c7b2d61d"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000083.npy",
+      "bytes": 32896,
+      "sha256": "773ace978e2c1f419c7f695ff4e294b35af56c86a87cecd47def9a07c59cd1f9"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000084.npy",
+      "bytes": 6291584,
+      "sha256": "3848554bc21026adb7b2368f960d8923fa7670e95fd0e12cae943c5d72790977"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000084.npy",
+      "bytes": 32896,
+      "sha256": "01207bcf09164cdc7edcda456a75b66e0067c1a093bc3b509140d138b404bc77"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000085.npy",
+      "bytes": 6291584,
+      "sha256": "3beb39987955e310b883cc627622fe34e6afca97236ca920b7fe89f796eb379f"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000085.npy",
+      "bytes": 32896,
+      "sha256": "3d77e659b8bb0277bb2bf24815910ab19280eaf3cd990048836bff3c1d576430"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000086.npy",
+      "bytes": 6291584,
+      "sha256": "923ffd4aaa215caa41c83ad0ae2fb77628af88823fad20789622b600a6bf1d4b"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000086.npy",
+      "bytes": 32896,
+      "sha256": "55ac34d58ac99473292058abe3ca9446be0e556bd9e1a22af0eea155733a0128"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000087.npy",
+      "bytes": 6291584,
+      "sha256": "6935ac56e132e47561bd556b3eecc12d5f0308c672eee830847b402b16114423"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000087.npy",
+      "bytes": 32896,
+      "sha256": "8f46b008ec3d62b2887b487d5b3bf7e208bea42f38efcd59cf2856ee15362519"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000088.npy",
+      "bytes": 6291584,
+      "sha256": "21df8877b3e0f83dce79960ce5ec39694cc98a8c584b3e5b2df68f50d95d68f3"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000088.npy",
+      "bytes": 32896,
+      "sha256": "e211d60f18e01b1317d68e40a8f64a982e40bfd5fb4618170868e29db68b616d"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000089.npy",
+      "bytes": 6291584,
+      "sha256": "6e3e667130e77537df2712617bdcb991027f3f8bc5dcbbb9c63d5d7ef3436e12"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000089.npy",
+      "bytes": 32896,
+      "sha256": "0748c1e9fd4b2f0588cb5d3e58b2477afd34bbe398537dc698756a9caed99cff"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000090.npy",
+      "bytes": 6291584,
+      "sha256": "ec611f63d6a3143b90b67617d966bb7aa206966b5b4a256ae27a14f10ec712e0"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000090.npy",
+      "bytes": 32896,
+      "sha256": "38e8327d30aa1e093e42bc5adad6017e22275f071154c97343bdc6fd78d0546f"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000091.npy",
+      "bytes": 6291584,
+      "sha256": "bbbd2a34fbf5fc7ed80e70c4256eb679ef48a330cfde8a43d1476820800076ed"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000091.npy",
+      "bytes": 32896,
+      "sha256": "c5b56c627b49601d4cdc17726b5b7e850d1b913703ae77c580c03ce2cd9e4f14"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000092.npy",
+      "bytes": 6291584,
+      "sha256": "6972151514bc96d29291ed52dc2192cc1ba1864359f6cba35ea8f710b527ba7e"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000092.npy",
+      "bytes": 32896,
+      "sha256": "80d13d8848b8cc153c607b865192f433449098cdf002223922f6f6438354270f"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000093.npy",
+      "bytes": 6291584,
+      "sha256": "9b0909178ca41a6577c13a08f8fb6735539b2fbcdb476cc0f300b4ff7e963850"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000093.npy",
+      "bytes": 32896,
+      "sha256": "5e683914dae47c04fec8777f7c91acd07677463faefc3a0191a6fdcb8d14b266"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000094.npy",
+      "bytes": 6291584,
+      "sha256": "be89684a6b3fd8a7aa45779277f740e483a9a9ef3489a81177c987949022d697"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000094.npy",
+      "bytes": 32896,
+      "sha256": "ef4a2ae15fec47f4c61a2ae005d94732aa5dbc7ee05a500d3368d370906064a8"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000095.npy",
+      "bytes": 6291584,
+      "sha256": "f3a85454b4d5e50431e05f2efde6c16e522cc7f2ab5ab6bdc26e75f0d156fecd"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000095.npy",
+      "bytes": 32896,
+      "sha256": "50599d2dca3accc73cb33a0a9740f0c6f4de05e8550bf47c901464dbf20e3fe8"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000096.npy",
+      "bytes": 6291584,
+      "sha256": "7b934d4ca0b83840fe98806b9ff80839c8f16d5955d7390200be1d7b3943f935"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000096.npy",
+      "bytes": 32896,
+      "sha256": "e1b161c61610750076d1a5f89246d46e5626665d801d6b6095e06e99c4883484"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000097.npy",
+      "bytes": 6291584,
+      "sha256": "bb704a7f7b296fea813a7bfc57d977f82eb9372d1f76d200d4c35c250b3550d8"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000097.npy",
+      "bytes": 32896,
+      "sha256": "b8c5d4db195c291c16d1602aff9d52c5bb6690a03fe262481c10e7b2ae824e02"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000098.npy",
+      "bytes": 6291584,
+      "sha256": "43bf62985d3568c40431dd504a50b36f8293930e61dc048c0f0f2564a049a41d"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000098.npy",
+      "bytes": 32896,
+      "sha256": "48d93eafb80e3becd844ddaf8313660618e3d828d4a8e591af09fd8d44ea482f"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000099.npy",
+      "bytes": 6291584,
+      "sha256": "356182a2fc4879470e1aac3febc3015187fe93f7064a6a26796d48aa16036d84"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000099.npy",
+      "bytes": 32896,
+      "sha256": "ee55b196ebe57714446ee8954261f0fb0e6014fd719f02e6e75d94843e3fe438"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000100.npy",
+      "bytes": 6291584,
+      "sha256": "8bb763936612aa6ba87a5c0116b47c7e6446839293321dc03afe12026d9b4967"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000100.npy",
+      "bytes": 32896,
+      "sha256": "4b30c5399074ad4287436c5f9e5006c189a23fee0c94ffc47687a260cc738959"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000101.npy",
+      "bytes": 6291584,
+      "sha256": "a181715fc959755bc67e549e1e1aef5e7de9b17e0f85e55574df04b052f7a814"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000101.npy",
+      "bytes": 32896,
+      "sha256": "e9e62b004c2fd15fc13fdcd131089f61da9620299f606757b2f6619c1b538cf8"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000102.npy",
+      "bytes": 6291584,
+      "sha256": "e6ba51f602296c043beaac3414d5e86c10602208e401a8a028242ca20503d410"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000102.npy",
+      "bytes": 32896,
+      "sha256": "1451cd3c82658aa90d17fd6ddad76c4c765e8e17259feedf7ac36907038efd38"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000103.npy",
+      "bytes": 6291584,
+      "sha256": "4f6d1a02fa60f120d161fe4034245d137fab8459f88c5d971acc747dbe3c74f0"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000103.npy",
+      "bytes": 32896,
+      "sha256": "73edcb395f0469f7443f62241bf5d218afb794499ad3c1c005f34b96dee87d24"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000104.npy",
+      "bytes": 6291584,
+      "sha256": "ad944624b3782655446745fa6dc4f5b8951e750ca13e920fc91990334a4af052"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000104.npy",
+      "bytes": 32896,
+      "sha256": "d2346b592ca64d607b5605fff6723442f307725a6b5937353ac01955cfe97368"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000105.npy",
+      "bytes": 6291584,
+      "sha256": "2e905bce1268d43060db4a6b01f9351576e691fa4bb1531188f65a818a2e1cf4"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000105.npy",
+      "bytes": 32896,
+      "sha256": "735187dab92afc388477c44125a610b0ac2ce6cce7f5efd68f0262afb4380ea3"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000106.npy",
+      "bytes": 6291584,
+      "sha256": "f98f658f0f22b71d6499aefb0ea33dc55e4756c7b24cbd80e68925864432a45a"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000106.npy",
+      "bytes": 32896,
+      "sha256": "b56625a410ce2f8b9891e2de6bbf3146189b216414affd142f24562e74785a78"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000107.npy",
+      "bytes": 6291584,
+      "sha256": "686f6a0258ec8e4077421d777ec98112339c55127100b70df3fb10f2dda0c502"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000107.npy",
+      "bytes": 32896,
+      "sha256": "9d51019794514f26e8fd6d110bd58a0863f2d1f7942990c0631bf60db398252f"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000108.npy",
+      "bytes": 6291584,
+      "sha256": "ccfacd351e914c8fbc43b6df16b4d377d36c82c4ed094c275e1594337b456b2d"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000108.npy",
+      "bytes": 32896,
+      "sha256": "d4c0a0329a3219019f7274720bb061cac76779d364935fe9f63e8d7ce5032c31"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000109.npy",
+      "bytes": 6291584,
+      "sha256": "894feb61ed3d085783c2ea8fb1f77b612c7cf5366438130cb1b6d4ce273ce9ef"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000109.npy",
+      "bytes": 32896,
+      "sha256": "e0202f5d42fd2f202bc385b9aaa892810e0a2feb9d10a83f02959078f6b72069"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000110.npy",
+      "bytes": 6291584,
+      "sha256": "33d9d12b4a83141e931294a17fc5943b038be412fe63c90227d4d9c11f03fa76"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000110.npy",
+      "bytes": 32896,
+      "sha256": "1d3b76ec09416aaba60293340197777c2f5720a1e263cb044f90aa3d112f5b6b"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000111.npy",
+      "bytes": 6291584,
+      "sha256": "5521585d1184d024521916350b15094d9cfba02def7e26c2de77d95dcd6cc5cd"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000111.npy",
+      "bytes": 32896,
+      "sha256": "4e54ba303c0edc2e3b6ef5cd9852b1beb74f1ece5af0183886521cc5713b438a"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000112.npy",
+      "bytes": 6291584,
+      "sha256": "23552fad1f2a3f7dd726550567c12579ae459e8b1bd8253e09a6446be2eab2b9"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000112.npy",
+      "bytes": 32896,
+      "sha256": "7bcc15b570eb0e779d082bedd7d4050546a62911638b9129cbf7838dad2fcd81"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000113.npy",
+      "bytes": 6291584,
+      "sha256": "e88c4576cd2676b60f3c6182946f3b919ca276ee06d37e79716bb7823c2a2d28"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000113.npy",
+      "bytes": 32896,
+      "sha256": "48a1c9800e984d0857a24e2e9d5aca6ff584f0eb92a7538a7db420315ac10038"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000114.npy",
+      "bytes": 6291584,
+      "sha256": "a9505a5513207719e22b1f68d6f091e4c4dee7163c3e218705e06c8070fccb6b"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000114.npy",
+      "bytes": 32896,
+      "sha256": "f9ced09c99d3c0adb249741527fbf0e841dec7afd556071ae746bdc199177914"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000115.npy",
+      "bytes": 6291584,
+      "sha256": "48354ff6e7ce79685c33fa4be8ad06379756a7bc4ad1f0632bd3334d80c70c51"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000115.npy",
+      "bytes": 32896,
+      "sha256": "8cee8dbcf09db866815cbfa48ad27fe59af89e4ac7417b2235bd69faeaa0af79"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000116.npy",
+      "bytes": 6291584,
+      "sha256": "50ef95b2039d3470985399140258f205c09c4ab7b8516512f743c7cbf934f8f6"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000116.npy",
+      "bytes": 32896,
+      "sha256": "1f845ab5a8b35fce0d109c7c2feafd79627061334984084cb247ae4a8546b9c9"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000117.npy",
+      "bytes": 6291584,
+      "sha256": "e3545ccaa9af603c1ac7ec8dd4fdff79bf5037ee657949726de34bdd42213728"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000117.npy",
+      "bytes": 32896,
+      "sha256": "a6c38164b8c3aaad24a11f9659f55ede4819969f3b2b60b6205a1f6e65bbebda"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000118.npy",
+      "bytes": 6291584,
+      "sha256": "d55c084c7e707547c78a078e130cdae09eb4d404a9634472fd12e6ae791297c5"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000118.npy",
+      "bytes": 32896,
+      "sha256": "10295b045d8e65a050b6aef64cb6a550e46ad0337937f53ffd67e6e055642343"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000119.npy",
+      "bytes": 6291584,
+      "sha256": "29faf3d788d64928eec0aeae1a85abd2c4038d482a50c7ace4ed1c7fb5ed13cd"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000119.npy",
+      "bytes": 32896,
+      "sha256": "0b7d2c7e99033bdb436062d56ae6e22a5a4c0ae693f4b4223f17e45b668c7777"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000120.npy",
+      "bytes": 6291584,
+      "sha256": "b07c24f8759ee8ca002462a2fe3f40cedbdc03b486e4ad7aefd2b317f7971469"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000120.npy",
+      "bytes": 32896,
+      "sha256": "09bc720823b79547b929f90f6f5dd913a4f175bd24f85968d7e381918bcef476"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000121.npy",
+      "bytes": 6291584,
+      "sha256": "416a2e84d788481f64dc2c9ead476916387717f90fff97331139f9048fe3a8dc"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000121.npy",
+      "bytes": 32896,
+      "sha256": "2619ee2e0e869ab218f2505acffdd04aece8e8fc42fc7a6c1921d75d62d61719"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000122.npy",
+      "bytes": 6291584,
+      "sha256": "dbbc502c6ae7d8d1353f52ce960d452c68c43e0344d2fcae8ddc64bcfde68a44"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000122.npy",
+      "bytes": 32896,
+      "sha256": "e8e3a0fc7de756e8341143011df68efa0eb72df8f881432cd1aaeec81362b9cf"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000123.npy",
+      "bytes": 6291584,
+      "sha256": "61d92964919efd6b2628a343c8f57aee3928fbfe646db5495502f98352732b1a"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000123.npy",
+      "bytes": 32896,
+      "sha256": "4a1b63a17a3a19d1d994b99c4476ac8b0bddf2fa262c81f0151fc2ce68554c27"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000124.npy",
+      "bytes": 6291584,
+      "sha256": "fce1c15136c7a0ad4ac78e040cf199c7cb791d5b3235db56e02f4e285e7b25a6"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000124.npy",
+      "bytes": 32896,
+      "sha256": "3ff211764b29e998c1add7b3569bd8feed1a618faef2ff6380f0b03f3844eb95"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000125.npy",
+      "bytes": 6291584,
+      "sha256": "f21d274dab7cfea6d4b5d2b2906cb07aa89234db0c90832ad81097f803fe3cd5"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000125.npy",
+      "bytes": 32896,
+      "sha256": "f37c5108bd46a396435a90cc5dd42ffed15a8889ffb30682134278e17f79755e"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000126.npy",
+      "bytes": 6291584,
+      "sha256": "39d0dd516ba18ba8cb1e4a205b51800aa7bc6eeaf1f6f9c3e74fc1e12e825459"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000126.npy",
+      "bytes": 32896,
+      "sha256": "80e25835147bb3b18b1d8e52134fcf7efa7f6722463c77eb1a24eec6449863f4"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000127.npy",
+      "bytes": 6291584,
+      "sha256": "e41882c94b230131479af932a902371647c98332b796a46e7b908b25255d4152"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000127.npy",
+      "bytes": 32896,
+      "sha256": "876bd81d9c031c71c1e0dde73af2910a5144f4c023f1f6c7b6bf1ae6fbe8f537"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000128.npy",
+      "bytes": 6291584,
+      "sha256": "ff7c00c4437f8736ead968dcb3e4ef460409e0586d1a5990224070324524fd4f"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000128.npy",
+      "bytes": 32896,
+      "sha256": "eb2af587b73b890089f144fd14813e04e1c396f6aee89c8085922ee7c713857d"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000129.npy",
+      "bytes": 6291584,
+      "sha256": "4b6de117a0e2337e981be6d29cb861c6a158e90c68e6cdc0fc01fe52579af211"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000129.npy",
+      "bytes": 32896,
+      "sha256": "6b3ec078373f4c7a3a78a6435ca9be4de85827479038e3a1159a7b44bf3bede6"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000130.npy",
+      "bytes": 6291584,
+      "sha256": "5e6dbf05fccef9736d53ec98e855dfe1556ef06aa56c8a0e269d51da95584cf3"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000130.npy",
+      "bytes": 32896,
+      "sha256": "2bfa6e26ccfc517a34cd397d90aafdb7cb9c1c66521c8e4bf591571ac24af924"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000131.npy",
+      "bytes": 6291584,
+      "sha256": "d13b3b865061a4270c31c400f06f5598810a2c37411f560cacea06812f7000ad"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000131.npy",
+      "bytes": 32896,
+      "sha256": "40ed1c6a999ecd01643bd4532079bc79838cb1225fe58c854d2ce35e51cc45d6"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000132.npy",
+      "bytes": 6291584,
+      "sha256": "b0c08f7852121184143dd3e35fbcf93b48691265b15d43df44192fff9c7df88e"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000132.npy",
+      "bytes": 32896,
+      "sha256": "4945a21167340049ca4464decaa9d4002669e1eed6603063bce87087985d5302"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000133.npy",
+      "bytes": 6291584,
+      "sha256": "5278f411574bee82ef6181a1e2b55c16d56aba3dc8c2bcef1e2267478fe59c7e"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000133.npy",
+      "bytes": 32896,
+      "sha256": "9b652aa6fdeba8c6629b6420f18923d8e66bfdcb4c6747572c05bace2b727249"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000134.npy",
+      "bytes": 6291584,
+      "sha256": "8be0fe94b9701cd64f72d9cb87fc8870087ba78b1d48ee4db46f4737eef34bed"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000134.npy",
+      "bytes": 32896,
+      "sha256": "b0c70ac09f5b2f22f06f30946f213fccdd43e5c55433a518faae1a5dddf58e9a"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000135.npy",
+      "bytes": 6291584,
+      "sha256": "a920fe59fed9e348d028750929366ff3e720da92102da6a188eaeb3facc33351"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000135.npy",
+      "bytes": 32896,
+      "sha256": "c5cd88ff6beeb116e008c6c64ff9e89ea6d24c5134ec190eee64f96463267b58"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000136.npy",
+      "bytes": 6291584,
+      "sha256": "34e52b2bbbd7dc44f785276a571b1c64fdc1e830a1b63a92cb4d946b4fbc7e8f"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000136.npy",
+      "bytes": 32896,
+      "sha256": "6858dc729f32089de2f55f63591d4a0d680bb5152f72f78565a9975c90bc6b7b"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000137.npy",
+      "bytes": 6291584,
+      "sha256": "21b9781657de41e4a084e0ff4c3f70a656e7d9e3f870d88dae447578f563f958"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000137.npy",
+      "bytes": 32896,
+      "sha256": "f22ec03c79ae48c0696f77f4912e24add07f93346788b4fa88f74712e8ca036d"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000138.npy",
+      "bytes": 6291584,
+      "sha256": "381e03f153899176fb0bd3be3957d79f4160b3ee51680da39ca7a71342a345ef"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000138.npy",
+      "bytes": 32896,
+      "sha256": "f9352e671170a3ae77326ae0ace70aa06e71d3ca70dd0711e5580eca9239dc9a"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000139.npy",
+      "bytes": 6291584,
+      "sha256": "ad4f30d8d7c7e7cf05ec8e63349fde99a062df035d2bdd9f4d137e45f804af22"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000139.npy",
+      "bytes": 32896,
+      "sha256": "7c13053c8ed077d2261bbec5039839a19a0446251a265851d22eaafedf9a49f4"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000140.npy",
+      "bytes": 6291584,
+      "sha256": "be591067c1c16577a5d2e47ad1424e8e666b57f3cbdf8c2bb965760af243b989"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000140.npy",
+      "bytes": 32896,
+      "sha256": "17334f7d108c177f3344c93010bef23bc1fcd65932d23a46c0238c34e13b464b"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000141.npy",
+      "bytes": 6291584,
+      "sha256": "4c647f80ffc800a31d828db7489d195a4d88d499ccce8233857a9a94d476f32a"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000141.npy",
+      "bytes": 32896,
+      "sha256": "9cfa5e48aa32cfb3f907fb400f8d58456b005be9b8f432c05238e1774112f467"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000142.npy",
+      "bytes": 6291584,
+      "sha256": "b122868c9e6bd0f61b64e8839a5a8d5688d42a53ab6c983283571e76879b6a80"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000142.npy",
+      "bytes": 32896,
+      "sha256": "558e4cd73c44ef3bff5f0a86adfd3ef1200023bb598774e59f7a776f3373c68b"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000143.npy",
+      "bytes": 6291584,
+      "sha256": "50070ba8563bad9f8cb6fbfebf5ca882baceb1277d1312eab71a18b3a79d08fa"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000143.npy",
+      "bytes": 32896,
+      "sha256": "6001b0ebf8650530b0350171d41578c44130d06a1d06d24a48b3907b1d4d5ea1"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000144.npy",
+      "bytes": 6291584,
+      "sha256": "f05fea7f144ef3c223de8aaf1b33b1f9d188d450c651d56f891c73f29248e5f1"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000144.npy",
+      "bytes": 32896,
+      "sha256": "7032cdbe11023e18095f661dd18dc23cf89ed933c8f82bf33040de697a69c2e1"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000145.npy",
+      "bytes": 6291584,
+      "sha256": "9dc10b2590a432357afb3b4490fe684a8144c04e62598aca9a78349f8b4536a5"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000145.npy",
+      "bytes": 32896,
+      "sha256": "05da5648e066eab5d281066bbf97b050d5fee7085dbb0c1a45f508eb77b0b1ca"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000146.npy",
+      "bytes": 6291584,
+      "sha256": "53f70786d783d5f01145ad1c58bad6ca712b335a7f350768c2b59ce8cf317353"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000146.npy",
+      "bytes": 32896,
+      "sha256": "0db9200f65c4cf9ffb3fb400531ae72568300cb0b57becf73b7f1f0ecd063acb"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000147.npy",
+      "bytes": 6291584,
+      "sha256": "2174e54fa817cf943e69af58c30270e39efc0dc07b6387feccd744f4b7212ffa"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000147.npy",
+      "bytes": 32896,
+      "sha256": "a6857b9f12f5c14813ceee7ddc94dcbc64f41e61e133b60c2263d92ac6f783be"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000148.npy",
+      "bytes": 6291584,
+      "sha256": "a75a880913176d28b84439670229d4fa39ec72a80220d8f3f5df7a0af4d23c3a"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000148.npy",
+      "bytes": 32896,
+      "sha256": "4c2d222aa18e14170bd00fe67b46aed44a3699aa24c7389e6478bfe51a9b0e34"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000149.npy",
+      "bytes": 6291584,
+      "sha256": "59230d8f3561e9c39d106b9417d3ed41f4da51a38416900e8e47100e00f6785f"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000149.npy",
+      "bytes": 32896,
+      "sha256": "97075b67b836ff14ffb78a23262a147b3823c6218cbf5ec5ff0e2709e8493655"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000150.npy",
+      "bytes": 6291584,
+      "sha256": "de789323f621860cd5216fab3e1bab3c0b50157aa5f93e0bac583ee77d495c52"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000150.npy",
+      "bytes": 32896,
+      "sha256": "d1d5f677faf63ecc6d5c7e4a3e7eb69ab254c09c0092389f030e72fafb64c2e8"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000151.npy",
+      "bytes": 6291584,
+      "sha256": "15ce3022527c4dcdb822b7e5c4360ade6b354e4a173ee5796a1bb3ea9bf5b806"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000151.npy",
+      "bytes": 32896,
+      "sha256": "8ba6c1eeb554966f426c5889c89275a26581f0d809583481b17ef577dd1656ef"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000152.npy",
+      "bytes": 6291584,
+      "sha256": "b8a8afe134d60de5a8862262f5267d687d0a3b516ee7d44cc96267a96a2e2452"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000152.npy",
+      "bytes": 32896,
+      "sha256": "bcd6a0b0c757b0f8274320d4c0503a2ceefac70e6199d19a3e10e9daaddf0df2"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000153.npy",
+      "bytes": 6291584,
+      "sha256": "20d4c61bdd73bedc65217f1e5ddcb06b42b21da8ca91a44dda3e2a179493cfec"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000153.npy",
+      "bytes": 32896,
+      "sha256": "6f24baae07ab8cf6604bbf20d4856c9451193d7e569d761e8aabb6d670f1080e"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000154.npy",
+      "bytes": 6291584,
+      "sha256": "0c091d034412fbd9a134b2c2ac3a7ca9f28284ea3b3074314a1167067c02bed8"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000154.npy",
+      "bytes": 32896,
+      "sha256": "241abb89ef0e8ac7e8d6ecac13afa21cff0fadf1338ef36a632cfb1bdc4e838f"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000155.npy",
+      "bytes": 6291584,
+      "sha256": "bff45f189405432096ae9ac341177129c422d8f5880c41e2e86d73d237699599"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000155.npy",
+      "bytes": 32896,
+      "sha256": "2a235e2d807ec37ce2490ee9d12dc779050a0c869f11e67e150e1ceeaa95c2f4"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000156.npy",
+      "bytes": 6291584,
+      "sha256": "e1dd4c7e2e267ecd872b42b9b5248217592d7545791bf13791909f3683748fad"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000156.npy",
+      "bytes": 32896,
+      "sha256": "b2bbad65b37a594e765fa65030b833b168eb44e9dfeb3215d7baf2e7202e7f27"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000157.npy",
+      "bytes": 6291584,
+      "sha256": "3974196c03f3c88b55b683200defb883f61a32ac4beb479baf82729de9882c3e"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000157.npy",
+      "bytes": 32896,
+      "sha256": "16e33cb5203c11a117a77bc9240513b1f5e3febe2b3d599b29f5c0e98a38feca"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000158.npy",
+      "bytes": 6291584,
+      "sha256": "5316ae1f0fec18793177cb88bff426dd5e901aeb7ba2e988d6717910bf1e68a9"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000158.npy",
+      "bytes": 32896,
+      "sha256": "1122cccbc503b0d86cf6c0cd3543ba26f4df5fe47840c12e5beecd2df47eab6e"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000159.npy",
+      "bytes": 6291584,
+      "sha256": "572c6166c7310b2a4947aeb54aef73bfa6ea628e34fe1d23df6a686cddcfbd97"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000159.npy",
+      "bytes": 32896,
+      "sha256": "d39b984cb8f583344e73c8f2435d2ae4c758401ba7e4d7aa4a0d1ee43a4729a6"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000160.npy",
+      "bytes": 6291584,
+      "sha256": "4bff8a7e11f6ddf2e83ac6905b6b4345ac556a64c3b482f149c9fa318e538395"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000160.npy",
+      "bytes": 32896,
+      "sha256": "26c4a6ceb39e51e67a84024c09fb0e98cc9df9f7bce4707d5b71f1585e6e8a77"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000161.npy",
+      "bytes": 6291584,
+      "sha256": "be18f6526bc95bdbaa8ee4bef168bbb715e54c2fd0292c5128046f1a9cc23564"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000161.npy",
+      "bytes": 32896,
+      "sha256": "5cbe9d9cfe63f0e75a0b778b56d24763e19e62c159dc5f93dd4861547215f9a5"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000162.npy",
+      "bytes": 6291584,
+      "sha256": "3c629698375df99c335b53e60d8c14ac96047a0453c6934a104720ed302f981d"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000162.npy",
+      "bytes": 32896,
+      "sha256": "dfeb9c5146306a9200cc68c4d8c398933e4ac2f3656b4f05fe2ff71e15c9a3f5"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000163.npy",
+      "bytes": 6291584,
+      "sha256": "2be2da8375a48f932e5e365af9e90f8de91783e837f4a6debdb6eaa7c8762d0d"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000163.npy",
+      "bytes": 32896,
+      "sha256": "7bb4aab043911dea27bdafee5a356922cd4d998afd9756c814ae47c5b22f3d38"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000164.npy",
+      "bytes": 6291584,
+      "sha256": "2707bc73c9a89e206c4b4bcd660e51976a9972f2d3159b5f9d309bfa24f5e28f"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000164.npy",
+      "bytes": 32896,
+      "sha256": "dfa57e0430b159e90f2b376bdec6bd34e355e2bbb76a274f4efa9f49afddd014"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000165.npy",
+      "bytes": 6291584,
+      "sha256": "ea73c2db843275d6c2e8049d7e1d965e2522b22d667f08785f0195568393cc01"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000165.npy",
+      "bytes": 32896,
+      "sha256": "0d99d9d1178f42b58955dffebc6b0d1d456639f45664c513fe11e016e9e7b0dd"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000166.npy",
+      "bytes": 6291584,
+      "sha256": "e9fccb91e37c0cd9d01e5bf0c6a02193fc4729e19f9abe15ed6a8976d95d05c0"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000166.npy",
+      "bytes": 32896,
+      "sha256": "95f5d26e6bce21a6344c38d1a1f4b730052429b0fc33df67f7cb438513f74a56"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000167.npy",
+      "bytes": 6291584,
+      "sha256": "5eaedcec5412edc4345cbbde27268021b48faff904822b870c4d7b644da4ba43"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000167.npy",
+      "bytes": 32896,
+      "sha256": "f0d6db89f7c254601a7380213d8e1aaa58a8ed38c764f8c4710d2eef614577f7"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000168.npy",
+      "bytes": 6291584,
+      "sha256": "21346fdc97eb205b1fd6922dfd35affeb5e7f06f96d00bf0a8f0c55a61731722"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000168.npy",
+      "bytes": 32896,
+      "sha256": "dcf0671ed0b96a08c9ad3720e535514d952a7a7d362985d6a9ece4dc39d79d4d"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000169.npy",
+      "bytes": 6291584,
+      "sha256": "29afd44fdb4fa57a217e1606fecc92524bfbba4951e91745feb462e6ba1a30ef"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000169.npy",
+      "bytes": 32896,
+      "sha256": "11f3d0fac592e916cec0bd52a709857f98809dec2466f9ed02218dcebccf3bf2"
+    },
+    {
+      "path": "text/faiss/embeddings/vectors-000170.npy",
+      "bytes": 6027392,
+      "sha256": "32be03d24a1539108bed8d06387c0b2b9324b8634b02fd507fa992348fb379d0"
+    },
+    {
+      "path": "text/faiss/embeddings/ids-000170.npy",
+      "bytes": 31520,
+      "sha256": "623e391cce803946401d442304efd5f65adcb5754bebbf546d33bb226e953ce7"
+    },
+    {
+      "path": "text/faiss/model.onnx",
+      "bytes": 90377115,
+      "sha256": "a3e61cb10576c4437a7a1a4d13458677a933dc7575ee1de342ca3e231f32ec00"
+    },
+    {
+      "path": "text/faiss/encoder.json",
+      "bytes": 681,
+      "sha256": "68e4cdc1e6f35eda1ad6331169f232e4f650b0c10a7e9bd67b48c19e63bbf5b7"
+    },
+    {
+      "path": "text/faiss/index.faiss",
+      "bytes": 1075574829,
+      "sha256": "5ead2d1423ae380895a830f7ded901ed69eb898de5b7bf255270c7b723c31859"
+    },
+    {
+      "path": "text/faiss/row_to_paper_id.npy",
+      "bytes": 5602080,
+      "sha256": "43b17702164f3cffea719b602a12d17a2b39fe7b33012fdc94bc6c86edf410b8"
+    }
+  ],
+  "output_bytes": 4117405659,
+  "build_stages": {
+    "nodes": {
+      "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+      "files": [
+        {
+          "path": "canonical/canonical_entities.parquet",
+          "bytes": 61890397,
+          "sha256": "1e1ee6acf967bffbbe1c38dfe90add7551ce262998d309f87e689fad2829c1e1"
+        },
+        {
+          "path": "canonical/alias_registry.parquet",
+          "bytes": 45743542,
+          "sha256": "6dbf42fb37b2682ed8f40331439dee4fc9e94a79b65df60ec27a53d4a0b4629c"
+        },
+        {
+          "path": "graph/nodes.parquet",
+          "bytes": 89737909,
+          "sha256": "a582e98563f278a706edc7961a0d58519c2bc7ab7161fa78095a2bb688535b51"
+        },
+        {
+          "path": "text/text_documents.parquet",
+          "bytes": 609298612,
+          "sha256": "8794cdfb80580a45a8140b527647841556d602fcdc7193a1357774b149db71e8"
+        },
+        {
+          "path": "graph/identity_mapping.json",
+          "bytes": 143,
+          "sha256": "5abf130e3a7d142f092636267cdc7098635f79d4c4e4fb9d48b57fcc1c39db27"
+        }
+      ],
+      "elapsed_seconds": 90.0918899999997,
+      "resources": {
+        "peak_working_set_bytes": 485982208,
+        "current_working_set_bytes": 306515968
+      },
+      "nodes": 1872968,
+      "counts": {
+        "canonical": 1872968,
+        "aliases": 1714702,
+        "nodes": 1872968,
+        "text": 700244
+      }
+    },
+    "structured": {
+      "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+      "files": [
+        {
+          "path": "structured/stark_mag.duckdb",
+          "bytes": 97005568,
+          "sha256": "b3322ffc703c7419180ee08a49b38b4911266aa0f36ba5921461706910a866eb"
+        }
+      ],
+      "elapsed_seconds": 1.5279940000000352,
+      "resources": {
+        "peak_working_set_bytes": 387006464,
+        "current_working_set_bytes": 73191424
+      },
+      "papers": 700244
+    },
+    "edges": {
+      "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+      "files": [
+        {
+          "path": "graph/edges.parquet",
+          "bytes": 388218335,
+          "sha256": "e79f4a0ec5b60ba73936217ce5480113615991e8e5e838cde0859000dd9bb191"
+        }
+      ],
+      "elapsed_seconds": 34.20759570000064,
+      "resources": {
+        "peak_working_set_bytes": 230461440,
+        "current_working_set_bytes": 176324608
+      },
+      "source_edges": 19919698,
+      "derived_edges": 19919698,
+      "relation_map": {
+        "0": "author___affiliated_with___institution",
+        "1": "paper___cites___paper",
+        "2": "paper___has_topic___field_of_study",
+        "3": "author___writes___paper"
+      }
+    },
+    "csr": {
+      "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+      "files": [
+        {
+          "path": "graph/adjacency/derived_inverse.npy",
+          "bytes": 39839524,
+          "sha256": "4b3419fe18c2e0ad510eb3e083928986c785082f5a0e56f6b14d91baf3b7fb9e"
+        },
+        {
+          "path": "graph/adjacency/edge_ids.npy",
+          "bytes": 318715296,
+          "sha256": "7750f6e2b839154b409b84e629d268408f2b12f8632929aa066a7c5b0e3d6a21"
+        },
+        {
+          "path": "graph/adjacency/indptr.npy",
+          "bytes": 14983880,
+          "sha256": "6fcff79882d4939d80315110aa462b04d701dc4f56b17dc920345172c5e74c82"
+        },
+        {
+          "path": "graph/adjacency/neighbors.npy",
+          "bytes": 159357712,
+          "sha256": "246a56c79677cc9f44148c75bf93ff9cd206695b47dc8d149665f172c050761d"
+        },
+        {
+          "path": "graph/adjacency/relation_ids.npy",
+          "bytes": 39839524,
+          "sha256": "e5d0e06d658f0d08f0880b756975d791e0eeb72b57455188a38a5b3869a30261"
+        }
+      ],
+      "elapsed_seconds": 12.262042999999721,
+      "resources": {
+        "peak_working_set_bytes": 1239781376,
+        "current_working_set_bytes": 138268672
+      },
+      "nodes": 1872968,
+      "traversal_edges": 39839396,
+      "order": "source_id, derived_inverse, target_id, edge_id"
+    },
+    "embeddings": {
+      "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+      "files": [
+        {
+          "path": "text/faiss/embeddings/vectors-000000.npy",
+          "bytes": 6291584,
+          "sha256": "df3e8f53eee9789effd90349054e029d0a48d73b6018e91ed220757bbbe2d360"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000000.npy",
+          "bytes": 32896,
+          "sha256": "7663b0a2a0b645af09a39b5149fd24f56984b3a052a1e348ee4db8f7c56f656b"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000001.npy",
+          "bytes": 6291584,
+          "sha256": "8231f4bf8ffdf6875db9ec5b9d70c296b060e8391303b643847a3e5d49c3537f"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000001.npy",
+          "bytes": 32896,
+          "sha256": "4254bf20383323b531275ebbe1740aa872ae7a586637f32a6d6a4f55b906ddcc"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000002.npy",
+          "bytes": 6291584,
+          "sha256": "8d2120bae16066d69b076a3f36342f8af174afc0fb9784d14e8dc78cf242fce8"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000002.npy",
+          "bytes": 32896,
+          "sha256": "1167d5e2212fc5db371514df35d0f0f794b7d114d73c0e82614ae41256dff32c"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000003.npy",
+          "bytes": 6291584,
+          "sha256": "ec84d7a298727b34d16c474e50f91386e5b2c71e7399317d21293c11df77a20c"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000003.npy",
+          "bytes": 32896,
+          "sha256": "aa5fa9b9391c6699807d8b6f0c5477de911aaf621e58bc3432a55594d245c381"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000004.npy",
+          "bytes": 6291584,
+          "sha256": "294bb36ff53b678281e0adc2f57d4ba5cb29f7220d0429eb2c1eec5b4f9d9ca3"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000004.npy",
+          "bytes": 32896,
+          "sha256": "41c815fcac8f7854c31b6f91345be21a1f03da9bd903389b6ab6eb8ec9e02f60"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000005.npy",
+          "bytes": 6291584,
+          "sha256": "1e501143a9d279e08d07b3c79f6e779526f6c9b6d596afbcdfa576316a086686"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000005.npy",
+          "bytes": 32896,
+          "sha256": "650fc36a0768a7a907bbec8105b2ad30a3a794917783c144a9aea94f7b8c3ce4"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000006.npy",
+          "bytes": 6291584,
+          "sha256": "a8adf6248c71a28175a0a4628d0b8282ddefa7300602f45b42ea6daef009004a"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000006.npy",
+          "bytes": 32896,
+          "sha256": "06ad5ac7270a7c7999d34cba250b1043ab37461608b46634713561dda7f700e7"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000007.npy",
+          "bytes": 6291584,
+          "sha256": "cbc3244c8f4ab8627d35498c007d189d8ce1466b73eb99dbe644e5859d776f58"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000007.npy",
+          "bytes": 32896,
+          "sha256": "c6754e122d0584b3c054f6a545729a76ea13e1197ce0a5b5b48eacc757c4ea97"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000008.npy",
+          "bytes": 6291584,
+          "sha256": "c3eae601d2652ef8267ebcf501624cc59dd04cd21c9df0efc2c3e26d5133537b"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000008.npy",
+          "bytes": 32896,
+          "sha256": "358abb2b60e3c6793cc4d6a1992d673c62851abb9912d7f6ef6eb8555376d4eb"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000009.npy",
+          "bytes": 6291584,
+          "sha256": "34cceb551160a8a8954196331a325feda34f74e5af4dbf16fb6a993f144e7fc6"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000009.npy",
+          "bytes": 32896,
+          "sha256": "251414faf82675f083d6d9b3a268fa965aa5e490637424dcdcb1d4e074a31b2b"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000010.npy",
+          "bytes": 6291584,
+          "sha256": "17a190d136a8a8ef8ed8d613896756416c598dba823e6e00823867a24c16de65"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000010.npy",
+          "bytes": 32896,
+          "sha256": "f16fb324da8c972a2112892ba6b8199ee51c3b5684439a194e183b811daabb0c"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000011.npy",
+          "bytes": 6291584,
+          "sha256": "a0d67cd59a027d816650fbd91e9c593b1b4ad43a32222688acc17d2cdb877840"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000011.npy",
+          "bytes": 32896,
+          "sha256": "e4764e0f855603e64882bbb237266def2459798fc05e1960d1b449c2819558d5"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000012.npy",
+          "bytes": 6291584,
+          "sha256": "7952e16dc64a7ae6ad5cfd7789489f60dfb019268aacee3b6bb98637037a1e6d"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000012.npy",
+          "bytes": 32896,
+          "sha256": "74d08589b783dc0aa26dc7346b5b4dabef747d10b0967fe5b56dd690f12b3cc5"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000013.npy",
+          "bytes": 6291584,
+          "sha256": "34ebb283ac8a722c60be9a02b1dbaf4066f2e84bcffd90e48e96dc3c3f154859"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000013.npy",
+          "bytes": 32896,
+          "sha256": "6c4a9bccc4afdc0d47d37295bba11c21747bd94e19041021ed67e3811fc40d9c"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000014.npy",
+          "bytes": 6291584,
+          "sha256": "188afaf8b41f95f1abc5c67d2accbb5be2283ff6f6a6d6294f8dfe5ec704885c"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000014.npy",
+          "bytes": 32896,
+          "sha256": "07ed04461db251faf2a2fe83e55478b016d4c9dce79b110204dc3d11b6b1fdec"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000015.npy",
+          "bytes": 6291584,
+          "sha256": "9ffeec42f87f49d256865163714f588217c007837e5cb8bdaa61a5e2fdc1554d"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000015.npy",
+          "bytes": 32896,
+          "sha256": "a963f2d0d43b77f6dd511a174cbc8b943c9207c1dcda522f96f691fda45f47a1"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000016.npy",
+          "bytes": 6291584,
+          "sha256": "ea75b6fc29f81f30c124d7045d1933fb1a0aa4e2bb5ad898db57a5c853a739b3"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000016.npy",
+          "bytes": 32896,
+          "sha256": "870b5e85d4b04144a5b8306a153c37591c7ce396c81df6f09b299bfbd0b3c974"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000017.npy",
+          "bytes": 6291584,
+          "sha256": "2df489e4995db11855a3e3f52ef4c72dc60f9b418364d4401414cab3b38db50d"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000017.npy",
+          "bytes": 32896,
+          "sha256": "45902ae46926cccc049e015dda221cb50b5a5432de244a3bd9a4d9151fcf68e3"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000018.npy",
+          "bytes": 6291584,
+          "sha256": "f61a2135b7ba8dd3701c795da644567efbf0229590d50820f557911aa5c96b9c"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000018.npy",
+          "bytes": 32896,
+          "sha256": "57b1e15a1363aff57d3a7243c591e0e27ee98f6f505703fb30da763aeb3276a7"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000019.npy",
+          "bytes": 6291584,
+          "sha256": "a85a38386f93d769ff07479fa1743392ddd0af37fc91632ea58e328026c13253"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000019.npy",
+          "bytes": 32896,
+          "sha256": "1f5c52d7d241e54e932be8e0dbaf51869d2ef82726ad85b93e065dbec69cb6ed"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000020.npy",
+          "bytes": 6291584,
+          "sha256": "8a8aab84574f05aa546a325c04a17cb6b36b0e371093632d9c3def86d9555533"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000020.npy",
+          "bytes": 32896,
+          "sha256": "ac6941d51d91ecd3bfcf34f44180b0e343fd16d6b5a68e45b46340bcbac61095"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000021.npy",
+          "bytes": 6291584,
+          "sha256": "0309266dbe6d745f0c372620e143ad97b488e9a2bed118e21ff7a43b6c247b25"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000021.npy",
+          "bytes": 32896,
+          "sha256": "8501f2e3fb1805837af7ed63ac1e2f47bd5909f65ecc33774273ecc9755b2da2"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000022.npy",
+          "bytes": 6291584,
+          "sha256": "98990f4d82aad30e0554c818ec83a73baba97985834fbbe97b4a4a330861005b"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000022.npy",
+          "bytes": 32896,
+          "sha256": "7ea78d829384b95ec971742fb5b444fcf01482d0049de7527976b2451dfa2876"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000023.npy",
+          "bytes": 6291584,
+          "sha256": "19cb431d97ce7fcc63b714688d175ab24836d54c69d7fc88ebf6715dc4292c04"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000023.npy",
+          "bytes": 32896,
+          "sha256": "e50978f7c19a11cd1dc46dd60b895ef27d9de9a01a998890d2264cf97136874e"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000024.npy",
+          "bytes": 6291584,
+          "sha256": "ca195b21ec0a64eb1caf13b03796bf5f31d6c8ec5d990b08be8bcdf873d0ca14"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000024.npy",
+          "bytes": 32896,
+          "sha256": "2da457ef054fe67a500c7775d36724a2982e5f3cca7d4791c8a7dd47f4bb4cd1"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000025.npy",
+          "bytes": 6291584,
+          "sha256": "a04bbc2d223cd2f9be511983b48c1fa849657f03ea37c41e482a34b4066b6de2"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000025.npy",
+          "bytes": 32896,
+          "sha256": "d55f13f5dd39fa854e50508204b6a39ebf976c58fb54661fa9a5b75baaa54a75"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000026.npy",
+          "bytes": 6291584,
+          "sha256": "b61379509e5e1224da13b9fc27e8fd4daae60bff7c7e4b96a9cb5ad0bf4e601e"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000026.npy",
+          "bytes": 32896,
+          "sha256": "09212cb4d0adcf7b8a5d6213eb75ab0617d43e614015944bdbf8dd1d0076e0bf"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000027.npy",
+          "bytes": 6291584,
+          "sha256": "58085175859de23df87c51dfcc141ce1f88154d4059d436c5a727c8deb5c5f07"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000027.npy",
+          "bytes": 32896,
+          "sha256": "a6a1d34b9851372c204bdb8999d8d9eb5916eed0ca12c293306d862354320f39"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000028.npy",
+          "bytes": 6291584,
+          "sha256": "c6d4006aed78074916ca7b138895c10f8a89f1e2d46e3131e26111c69320f682"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000028.npy",
+          "bytes": 32896,
+          "sha256": "93377eac4fc987b9469e1d13fa441ad7e83bc7fb63dcdc1a28b75be18642349c"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000029.npy",
+          "bytes": 6291584,
+          "sha256": "b7f6920e05117ca7ca92f76cf9dece67d413a158c74e41d2af399e1cf53faab7"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000029.npy",
+          "bytes": 32896,
+          "sha256": "c7ca3d96b343687ee8cb81e03b95d60935df6ecb11fb59d18c3aaac5d87e40ca"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000030.npy",
+          "bytes": 6291584,
+          "sha256": "80e8c9802c8a2f353ee28a5e604748659218c56f49dad27b413c1d5f7498f0a5"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000030.npy",
+          "bytes": 32896,
+          "sha256": "7ae83710745f51495dd1d0390654df8f1ff62e58712f399adaeabc48e88ee7b7"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000031.npy",
+          "bytes": 6291584,
+          "sha256": "7dc0d154c9fe8fc361ba7bd9db3ae8ef0ddac47cf8611d9155091205f5790963"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000031.npy",
+          "bytes": 32896,
+          "sha256": "a4f1787ad2ad27653d134155f69beeb0019cbad22257a0bf49bae89fa210dcbd"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000032.npy",
+          "bytes": 6291584,
+          "sha256": "ed27354b5cb0e1869505a418d22faaf560ce1d6c9238305b0e90c63a5fef55b3"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000032.npy",
+          "bytes": 32896,
+          "sha256": "9a35c8ce50f6fdb473e618ca15e3edbb2549d527553fafcbfeba1a2339b84d3f"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000033.npy",
+          "bytes": 6291584,
+          "sha256": "c99d19cec68e94147d6ade6a9006ecfcbd025bf6837f92851a5ee315f19f9878"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000033.npy",
+          "bytes": 32896,
+          "sha256": "24df18fa912504e8ae3c7dc587a23d285684e198717877e464bbc61afe68ab6b"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000034.npy",
+          "bytes": 6291584,
+          "sha256": "603c1105f0d340764464edc5c230231e07902eb5798733640256c5662487c862"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000034.npy",
+          "bytes": 32896,
+          "sha256": "3b46ec6a05aea90492be8b6c2c4bd747530fdea6a8c365b7f5ddb4e0534010e1"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000035.npy",
+          "bytes": 6291584,
+          "sha256": "04963786f08941fcfc012132413192fc72e1fcb6c6baba6d9eb8d92605ff5af1"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000035.npy",
+          "bytes": 32896,
+          "sha256": "65efb4edadc8935afd0d7ced7ebdc52f88d7cea9b20d734d1fc3647defaa1132"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000036.npy",
+          "bytes": 6291584,
+          "sha256": "526f61f2384dd3702d14f35b03ac4c55077a8a7b90f97e111238e5bef48d7b54"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000036.npy",
+          "bytes": 32896,
+          "sha256": "6b48a9e356f20dd6ef59de083917c2c58b3178af8754f4fe922611364e5eef1f"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000037.npy",
+          "bytes": 6291584,
+          "sha256": "cd0b5f3e2872b5bce43aa45619d7aec14e8e5ca360ec6f84d7aad5fe0799d29f"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000037.npy",
+          "bytes": 32896,
+          "sha256": "17e278640d524480d1ebf67a849a43e19d3ad8933323b0cac00e51fffa8c1e64"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000038.npy",
+          "bytes": 6291584,
+          "sha256": "d694b2eb6470f7541524dd8ddfb3f98e343b5d6f56be0ad28e057b18ded5286e"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000038.npy",
+          "bytes": 32896,
+          "sha256": "c75bb6a439704ed6470cfa7e9ef31bbb1edbcbe653937f71d7493ed4a0d5d053"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000039.npy",
+          "bytes": 6291584,
+          "sha256": "360c0561341724eada2ad3645b76201f3990d3128182fe480f9f4ea8d29b0fd2"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000039.npy",
+          "bytes": 32896,
+          "sha256": "2448ca5fb212a24cf440eb6b6734f61fb9f794ec947d341dadcc4ae179cfc923"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000040.npy",
+          "bytes": 6291584,
+          "sha256": "1c46f58fb8878b13299e3c8e859187b382d394ea68b7faff142bf05f00833855"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000040.npy",
+          "bytes": 32896,
+          "sha256": "71367d7acbd050070c60bea653f7f7fd21fddef7ebc062d6ebe1bf4d59d4adb4"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000041.npy",
+          "bytes": 6291584,
+          "sha256": "7898fa3602b6c5ad4fb1529a0a9be6e43df7c956d0b3903c52930799893a5a81"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000041.npy",
+          "bytes": 32896,
+          "sha256": "a46d1880970ae8b145ebb9a28b14c98720dae79c69df07f5844588f7974977dd"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000042.npy",
+          "bytes": 6291584,
+          "sha256": "3c1cab2575afab9ab834b7b2f842a8acb693822f316a934d40183feab288c30c"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000042.npy",
+          "bytes": 32896,
+          "sha256": "d694b71a1a540b931fd44dba92e7391f059252df1305db093c2d975480436a00"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000043.npy",
+          "bytes": 6291584,
+          "sha256": "63cbbbda631d202bf9c022c968986652a57c2d98ac33a77a7ae2ed3456e0a553"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000043.npy",
+          "bytes": 32896,
+          "sha256": "6663a073cf6c8734ad1b9238a3f577b82350f1af33532510e2e93fdab8844b70"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000044.npy",
+          "bytes": 6291584,
+          "sha256": "e3acfae58f4bd10daeda31aba022f3ba68ab2dd4557dadb56843d9a4ee13b791"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000044.npy",
+          "bytes": 32896,
+          "sha256": "f5ce5a86528e8dff9bce34359cb90a65a8771b685bf548c08f5502348fce1233"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000045.npy",
+          "bytes": 6291584,
+          "sha256": "51b6dea8b9c92aeb08a453407a5b7676234a602df0c00ffbe43a8f3808dd4fe2"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000045.npy",
+          "bytes": 32896,
+          "sha256": "f5625b09dcc2ed218afbc4c2492a525d2410d210d9d7d361a513a3f54ce56b80"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000046.npy",
+          "bytes": 6291584,
+          "sha256": "c447605af7725fa49f481fd06c7c6b74b4d3192f65f17a5ef9920617ec5df941"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000046.npy",
+          "bytes": 32896,
+          "sha256": "3503befceeab178f8e6144e9a9fa135eb0269ba08428bc0921a95ac7b1908658"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000047.npy",
+          "bytes": 6291584,
+          "sha256": "b22aa7e74659d166098d098c1d46f633233f37f3ddddfc7df5dc0c7d6e3953bd"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000047.npy",
+          "bytes": 32896,
+          "sha256": "7269509a337c73fc9c1ba824c7d9ef531c415b8671395681e2a8d769ef32a0be"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000048.npy",
+          "bytes": 6291584,
+          "sha256": "784a9a4769e06b9641183b2797619642237e9ff6b2e97411a5b34df39f47e0ca"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000048.npy",
+          "bytes": 32896,
+          "sha256": "c585ed44b37e7546b6eeaded50ac9bf2047a6a93ba915c46daf6d7ae242a8565"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000049.npy",
+          "bytes": 6291584,
+          "sha256": "ca87bd850dc4f8dc56143c324c710138d71763f24077fc78be802cf57892971f"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000049.npy",
+          "bytes": 32896,
+          "sha256": "0fc2d9950811ce38d4e959c0f2e8f7b0a09c625497a14bc959607095c4ad711d"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000050.npy",
+          "bytes": 6291584,
+          "sha256": "512dc2917ac6ec30049d16c558b49b0199ac375cd42cc1a7ebbb3606ecf0f6ee"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000050.npy",
+          "bytes": 32896,
+          "sha256": "9307968bf8b1f0f84071ca50c25be8754da87ad60b8b2eb29b337995b21f4ca3"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000051.npy",
+          "bytes": 6291584,
+          "sha256": "3364bbbe00c8322467991b1096ab0e919062fa29253890b2b63c9c876383f31f"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000051.npy",
+          "bytes": 32896,
+          "sha256": "de7aa7150f751a4475553fd9d643051d438b9118c2b696aa0b49f9b047a6c802"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000052.npy",
+          "bytes": 6291584,
+          "sha256": "1830f57ebb6bce8108cb1049e19850d711dfd6f1f3a61ad1d126fad8b6f6a048"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000052.npy",
+          "bytes": 32896,
+          "sha256": "eaee9daba4b21d7aa2e8667d2e2a4c1648476c8ca94a0f12649c1e392ffde0d5"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000053.npy",
+          "bytes": 6291584,
+          "sha256": "72b9c24001edd524af82d3ed4c16638630462a1ed30226427d2d8a172d6c8286"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000053.npy",
+          "bytes": 32896,
+          "sha256": "0755cf55ebefa45a7653cc20a4cfad19d90363362bd2a2617bcc3fb1a56bc03a"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000054.npy",
+          "bytes": 6291584,
+          "sha256": "b30521a2e92dbc0254c80a9f90a7ab4ed118a16e32522f553fa335892d1c2845"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000054.npy",
+          "bytes": 32896,
+          "sha256": "a18030b6bafca779b7a98e61c402990039700e69e9aa05d0d1f53ba742d4f237"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000055.npy",
+          "bytes": 6291584,
+          "sha256": "7ab56ec0543dfc39f25122f13c45c9d1a76cefd9870a5a55ce495ab487b150a2"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000055.npy",
+          "bytes": 32896,
+          "sha256": "1ac93f58eb0c97cc8e86e96b72dc822bd8f3b7f131e557f168187e0309dd00fd"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000056.npy",
+          "bytes": 6291584,
+          "sha256": "e4d33f26cfd97ba129507ca6ebf728fd2bdc7bd728caa50abde04f1f810e02f1"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000056.npy",
+          "bytes": 32896,
+          "sha256": "609bf95f2479a2919660afc27805343246eb1db53186d59af3b92e65c276df9e"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000057.npy",
+          "bytes": 6291584,
+          "sha256": "8f0be3494867cdbaba65cded238eb344535d935d01661bf434d8051a532a0861"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000057.npy",
+          "bytes": 32896,
+          "sha256": "eb46b10b3ce18bf18e87f104d0348c0ae0620d01c48086cde7e2a9462bded2e2"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000058.npy",
+          "bytes": 6291584,
+          "sha256": "7580bd5c69be292a072cc3e29eab648508dd25efee503adb99b4ea3dcc29a156"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000058.npy",
+          "bytes": 32896,
+          "sha256": "7db5abaed92c55b466682a26cf9101760a1f2abf53b8071218a440b6cf9d64c9"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000059.npy",
+          "bytes": 6291584,
+          "sha256": "a9ccb4cc47845dd38fe5d4374c3d0a985b3e0d930e0248f1fdb3de17a6ea7816"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000059.npy",
+          "bytes": 32896,
+          "sha256": "9cd3b5bfa1385c2e2574a2210c6bfe86de5f7e5475f5fc51a5a327a17674eed0"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000060.npy",
+          "bytes": 6291584,
+          "sha256": "e859fed38921ad6858e1eb986c8bc48ea9bc8f93c3a1005e6c64c2a9cde97b5c"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000060.npy",
+          "bytes": 32896,
+          "sha256": "11dc8e719e4f0aa480ab1d56bea3052d0af56d3b7f8a5b28415c837d1e7bd29c"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000061.npy",
+          "bytes": 6291584,
+          "sha256": "6932eb5e3d2f8b5ca0638079f60b8fcae693fcd6ee795edfe8b0de333649d820"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000061.npy",
+          "bytes": 32896,
+          "sha256": "e7f29cbbd3c8f71fbe3151e0ec67b3f22b43dbcc4674b25ebad98fb383899012"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000062.npy",
+          "bytes": 6291584,
+          "sha256": "f44b3d4ceb7de7ec120e3386f588ab23e121563ce05fc8e7f41ce9fce8ee1e6b"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000062.npy",
+          "bytes": 32896,
+          "sha256": "8d3613c74e16f8b73f2085ef727ecd6ea1b3388877609603e82ddfcce7a84240"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000063.npy",
+          "bytes": 6291584,
+          "sha256": "aba3726f552f4fbcd85913b24ef97f3bfb4eaaed97af49e4449b07911bf3ce40"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000063.npy",
+          "bytes": 32896,
+          "sha256": "e2ac80c6bc78972769a0927ed5ffdc7ef183227543a2d3a6e5c0522d51c495fb"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000064.npy",
+          "bytes": 6291584,
+          "sha256": "291449966376832196ffd56ba906dd7507e42de2f906e21079336f305bd02715"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000064.npy",
+          "bytes": 32896,
+          "sha256": "959b4bfff31f61df3f0ed93f8eff1b5f75dc00035dd6afa740b80ef2d3e8e023"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000065.npy",
+          "bytes": 6291584,
+          "sha256": "0aacd2169c732550d45b8939deb82b330f1ae93194f9441ec4fe068ae15a9eb5"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000065.npy",
+          "bytes": 32896,
+          "sha256": "b9a243ad2c3d00bc3ed6d538e9eeb36a2e4acaf96fffa5f7b68ae6bd213527a1"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000066.npy",
+          "bytes": 6291584,
+          "sha256": "107946d895d0b6b6ced8738be5626c2dd295690da5e5f0fb0ea745624c72d085"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000066.npy",
+          "bytes": 32896,
+          "sha256": "a302c3fda88aa2383b347f29a4c8d4e8d703f541a34fa3d75a1d8c6b248f86ab"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000067.npy",
+          "bytes": 6291584,
+          "sha256": "501ed260eb853d4db939716ec04f73fdd4fb0437efcd24d563012a9591e96dbd"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000067.npy",
+          "bytes": 32896,
+          "sha256": "d4f41ec270fba92362798687692fc6a063ec25e77d5568f5176c82ef002c2f95"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000068.npy",
+          "bytes": 6291584,
+          "sha256": "b509c7024233a0fc862768ce9754c5a439c6448b06f673917cfd4a6f7e5cf487"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000068.npy",
+          "bytes": 32896,
+          "sha256": "83d7ecdf1a3100d44e683730b8726503c98ae632d150a03eb85455ca872a7287"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000069.npy",
+          "bytes": 6291584,
+          "sha256": "0c5cd0121e6d0ded27f97fbb2c57c3e7f2e5e54f350fff63ede6d37d67ede3b3"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000069.npy",
+          "bytes": 32896,
+          "sha256": "fba3e81dc2b60209e3e0ef9d98c06b84b000ceaf6a0e7de14ba6ee1f149fb29c"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000070.npy",
+          "bytes": 6291584,
+          "sha256": "73a548012cf835c539433b6f90027c7c45563f7ac0f094c41e38341d594e0a15"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000070.npy",
+          "bytes": 32896,
+          "sha256": "9b4ca38d07403466dde3d563b9710cd92bf5bbfa9490553266d442cc406260a3"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000071.npy",
+          "bytes": 6291584,
+          "sha256": "9a6f6f735b31d1560801c25c77e6cc8a680d14d0bfd036a7b0b2ebd91e0cc482"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000071.npy",
+          "bytes": 32896,
+          "sha256": "4570ce44b175adfac8d3cd0fbf950a557ab7cb0953a9f00e2d03da2a16783f8f"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000072.npy",
+          "bytes": 6291584,
+          "sha256": "d2a8b147a5c11379632327e7296669299bf9c40e2ea8f097f28b505655f16806"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000072.npy",
+          "bytes": 32896,
+          "sha256": "6c2900c061c886c937036404d6f62ce85a4a887ffa5894696c676859893689de"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000073.npy",
+          "bytes": 6291584,
+          "sha256": "75807507eaa2911df3cb05d269ffc10d47e0b2e3157cdf782861876f53a2241c"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000073.npy",
+          "bytes": 32896,
+          "sha256": "1b93c1b205403d437aceab68db80066a6eb74b78afd7245725c13c704af76876"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000074.npy",
+          "bytes": 6291584,
+          "sha256": "eb6abcdfc8f9710dac8378dff05c323bca778c4afeca211f0e2297828c67713e"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000074.npy",
+          "bytes": 32896,
+          "sha256": "df59853bd3966327c616cde65b238ae24fc23ad7dc3ee8da171ca2dbd84ab168"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000075.npy",
+          "bytes": 6291584,
+          "sha256": "819c2fa6818b731b437ecc8e3f85fc12afb98d69a2a2adc2a824f148ef2ce83e"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000075.npy",
+          "bytes": 32896,
+          "sha256": "bc3e6d4df021a52c3ce215540551243ed964c5387596c52e18be9eb8a8242961"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000076.npy",
+          "bytes": 6291584,
+          "sha256": "659f972fd79fa0d1c543336a326d0555ce9185dd9aacc1e62406ece5a978a63c"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000076.npy",
+          "bytes": 32896,
+          "sha256": "ff22c4164845f9069a3834942c7bfc011430a03b564c65ce8395829bd46a8636"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000077.npy",
+          "bytes": 6291584,
+          "sha256": "173da664c82cc724b46af00aa76548dc0b6869b6d040042c522eff98f683893d"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000077.npy",
+          "bytes": 32896,
+          "sha256": "552ac9329d7bd723e2897702974dbd767f9978332fe82b0e2d6756176ecd8929"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000078.npy",
+          "bytes": 6291584,
+          "sha256": "ab0aeca4b7023984af2ecada101adcd7472304ff17a33aab5228470c6570fbe0"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000078.npy",
+          "bytes": 32896,
+          "sha256": "68f0dbbea9acb6ad17cc429e9ebcce2a1a8ef91e338de05b8f60ae516713f4ca"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000079.npy",
+          "bytes": 6291584,
+          "sha256": "ab82b8c729225a627aac514f293d765b05104265461333a6f54d0965963633f5"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000079.npy",
+          "bytes": 32896,
+          "sha256": "b7571cc820a55206976003fe5e59c68e437f109d933d582aa47b942b9f8a464b"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000080.npy",
+          "bytes": 6291584,
+          "sha256": "7370da7a8c8ec6caadc7cd29d286991c8e6a20b0c1203e739b570e99221f5d01"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000080.npy",
+          "bytes": 32896,
+          "sha256": "aecb1834917adc1badba3d3c27ebefc47e49bb25c19c292eb8045d3258546468"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000081.npy",
+          "bytes": 6291584,
+          "sha256": "42cc42effd10e844e66ee845cb4dcf52ca599a77b64795320a1b7973723f925d"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000081.npy",
+          "bytes": 32896,
+          "sha256": "2315b84bc8d4c83ba5e9b606360ed499a8edb1e11a9ed14a3986961404c4f6c5"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000082.npy",
+          "bytes": 6291584,
+          "sha256": "13d7066531be31e277303b88f15a6cc91ed61ea0d4313f4469de55d680ea5915"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000082.npy",
+          "bytes": 32896,
+          "sha256": "13407fa78d203abf510032a6fb19547854ff5a70028fe4001b2b047bd6560bf2"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000083.npy",
+          "bytes": 6291584,
+          "sha256": "a36bed44dc48fd472f04d14663e4ae76371e65d16f6663a151ec1ef7c7b2d61d"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000083.npy",
+          "bytes": 32896,
+          "sha256": "773ace978e2c1f419c7f695ff4e294b35af56c86a87cecd47def9a07c59cd1f9"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000084.npy",
+          "bytes": 6291584,
+          "sha256": "3848554bc21026adb7b2368f960d8923fa7670e95fd0e12cae943c5d72790977"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000084.npy",
+          "bytes": 32896,
+          "sha256": "01207bcf09164cdc7edcda456a75b66e0067c1a093bc3b509140d138b404bc77"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000085.npy",
+          "bytes": 6291584,
+          "sha256": "3beb39987955e310b883cc627622fe34e6afca97236ca920b7fe89f796eb379f"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000085.npy",
+          "bytes": 32896,
+          "sha256": "3d77e659b8bb0277bb2bf24815910ab19280eaf3cd990048836bff3c1d576430"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000086.npy",
+          "bytes": 6291584,
+          "sha256": "923ffd4aaa215caa41c83ad0ae2fb77628af88823fad20789622b600a6bf1d4b"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000086.npy",
+          "bytes": 32896,
+          "sha256": "55ac34d58ac99473292058abe3ca9446be0e556bd9e1a22af0eea155733a0128"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000087.npy",
+          "bytes": 6291584,
+          "sha256": "6935ac56e132e47561bd556b3eecc12d5f0308c672eee830847b402b16114423"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000087.npy",
+          "bytes": 32896,
+          "sha256": "8f46b008ec3d62b2887b487d5b3bf7e208bea42f38efcd59cf2856ee15362519"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000088.npy",
+          "bytes": 6291584,
+          "sha256": "21df8877b3e0f83dce79960ce5ec39694cc98a8c584b3e5b2df68f50d95d68f3"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000088.npy",
+          "bytes": 32896,
+          "sha256": "e211d60f18e01b1317d68e40a8f64a982e40bfd5fb4618170868e29db68b616d"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000089.npy",
+          "bytes": 6291584,
+          "sha256": "6e3e667130e77537df2712617bdcb991027f3f8bc5dcbbb9c63d5d7ef3436e12"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000089.npy",
+          "bytes": 32896,
+          "sha256": "0748c1e9fd4b2f0588cb5d3e58b2477afd34bbe398537dc698756a9caed99cff"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000090.npy",
+          "bytes": 6291584,
+          "sha256": "ec611f63d6a3143b90b67617d966bb7aa206966b5b4a256ae27a14f10ec712e0"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000090.npy",
+          "bytes": 32896,
+          "sha256": "38e8327d30aa1e093e42bc5adad6017e22275f071154c97343bdc6fd78d0546f"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000091.npy",
+          "bytes": 6291584,
+          "sha256": "bbbd2a34fbf5fc7ed80e70c4256eb679ef48a330cfde8a43d1476820800076ed"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000091.npy",
+          "bytes": 32896,
+          "sha256": "c5b56c627b49601d4cdc17726b5b7e850d1b913703ae77c580c03ce2cd9e4f14"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000092.npy",
+          "bytes": 6291584,
+          "sha256": "6972151514bc96d29291ed52dc2192cc1ba1864359f6cba35ea8f710b527ba7e"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000092.npy",
+          "bytes": 32896,
+          "sha256": "80d13d8848b8cc153c607b865192f433449098cdf002223922f6f6438354270f"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000093.npy",
+          "bytes": 6291584,
+          "sha256": "9b0909178ca41a6577c13a08f8fb6735539b2fbcdb476cc0f300b4ff7e963850"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000093.npy",
+          "bytes": 32896,
+          "sha256": "5e683914dae47c04fec8777f7c91acd07677463faefc3a0191a6fdcb8d14b266"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000094.npy",
+          "bytes": 6291584,
+          "sha256": "be89684a6b3fd8a7aa45779277f740e483a9a9ef3489a81177c987949022d697"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000094.npy",
+          "bytes": 32896,
+          "sha256": "ef4a2ae15fec47f4c61a2ae005d94732aa5dbc7ee05a500d3368d370906064a8"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000095.npy",
+          "bytes": 6291584,
+          "sha256": "f3a85454b4d5e50431e05f2efde6c16e522cc7f2ab5ab6bdc26e75f0d156fecd"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000095.npy",
+          "bytes": 32896,
+          "sha256": "50599d2dca3accc73cb33a0a9740f0c6f4de05e8550bf47c901464dbf20e3fe8"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000096.npy",
+          "bytes": 6291584,
+          "sha256": "7b934d4ca0b83840fe98806b9ff80839c8f16d5955d7390200be1d7b3943f935"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000096.npy",
+          "bytes": 32896,
+          "sha256": "e1b161c61610750076d1a5f89246d46e5626665d801d6b6095e06e99c4883484"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000097.npy",
+          "bytes": 6291584,
+          "sha256": "bb704a7f7b296fea813a7bfc57d977f82eb9372d1f76d200d4c35c250b3550d8"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000097.npy",
+          "bytes": 32896,
+          "sha256": "b8c5d4db195c291c16d1602aff9d52c5bb6690a03fe262481c10e7b2ae824e02"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000098.npy",
+          "bytes": 6291584,
+          "sha256": "43bf62985d3568c40431dd504a50b36f8293930e61dc048c0f0f2564a049a41d"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000098.npy",
+          "bytes": 32896,
+          "sha256": "48d93eafb80e3becd844ddaf8313660618e3d828d4a8e591af09fd8d44ea482f"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000099.npy",
+          "bytes": 6291584,
+          "sha256": "356182a2fc4879470e1aac3febc3015187fe93f7064a6a26796d48aa16036d84"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000099.npy",
+          "bytes": 32896,
+          "sha256": "ee55b196ebe57714446ee8954261f0fb0e6014fd719f02e6e75d94843e3fe438"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000100.npy",
+          "bytes": 6291584,
+          "sha256": "8bb763936612aa6ba87a5c0116b47c7e6446839293321dc03afe12026d9b4967"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000100.npy",
+          "bytes": 32896,
+          "sha256": "4b30c5399074ad4287436c5f9e5006c189a23fee0c94ffc47687a260cc738959"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000101.npy",
+          "bytes": 6291584,
+          "sha256": "a181715fc959755bc67e549e1e1aef5e7de9b17e0f85e55574df04b052f7a814"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000101.npy",
+          "bytes": 32896,
+          "sha256": "e9e62b004c2fd15fc13fdcd131089f61da9620299f606757b2f6619c1b538cf8"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000102.npy",
+          "bytes": 6291584,
+          "sha256": "e6ba51f602296c043beaac3414d5e86c10602208e401a8a028242ca20503d410"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000102.npy",
+          "bytes": 32896,
+          "sha256": "1451cd3c82658aa90d17fd6ddad76c4c765e8e17259feedf7ac36907038efd38"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000103.npy",
+          "bytes": 6291584,
+          "sha256": "4f6d1a02fa60f120d161fe4034245d137fab8459f88c5d971acc747dbe3c74f0"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000103.npy",
+          "bytes": 32896,
+          "sha256": "73edcb395f0469f7443f62241bf5d218afb794499ad3c1c005f34b96dee87d24"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000104.npy",
+          "bytes": 6291584,
+          "sha256": "ad944624b3782655446745fa6dc4f5b8951e750ca13e920fc91990334a4af052"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000104.npy",
+          "bytes": 32896,
+          "sha256": "d2346b592ca64d607b5605fff6723442f307725a6b5937353ac01955cfe97368"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000105.npy",
+          "bytes": 6291584,
+          "sha256": "2e905bce1268d43060db4a6b01f9351576e691fa4bb1531188f65a818a2e1cf4"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000105.npy",
+          "bytes": 32896,
+          "sha256": "735187dab92afc388477c44125a610b0ac2ce6cce7f5efd68f0262afb4380ea3"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000106.npy",
+          "bytes": 6291584,
+          "sha256": "f98f658f0f22b71d6499aefb0ea33dc55e4756c7b24cbd80e68925864432a45a"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000106.npy",
+          "bytes": 32896,
+          "sha256": "b56625a410ce2f8b9891e2de6bbf3146189b216414affd142f24562e74785a78"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000107.npy",
+          "bytes": 6291584,
+          "sha256": "686f6a0258ec8e4077421d777ec98112339c55127100b70df3fb10f2dda0c502"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000107.npy",
+          "bytes": 32896,
+          "sha256": "9d51019794514f26e8fd6d110bd58a0863f2d1f7942990c0631bf60db398252f"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000108.npy",
+          "bytes": 6291584,
+          "sha256": "ccfacd351e914c8fbc43b6df16b4d377d36c82c4ed094c275e1594337b456b2d"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000108.npy",
+          "bytes": 32896,
+          "sha256": "d4c0a0329a3219019f7274720bb061cac76779d364935fe9f63e8d7ce5032c31"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000109.npy",
+          "bytes": 6291584,
+          "sha256": "894feb61ed3d085783c2ea8fb1f77b612c7cf5366438130cb1b6d4ce273ce9ef"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000109.npy",
+          "bytes": 32896,
+          "sha256": "e0202f5d42fd2f202bc385b9aaa892810e0a2feb9d10a83f02959078f6b72069"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000110.npy",
+          "bytes": 6291584,
+          "sha256": "33d9d12b4a83141e931294a17fc5943b038be412fe63c90227d4d9c11f03fa76"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000110.npy",
+          "bytes": 32896,
+          "sha256": "1d3b76ec09416aaba60293340197777c2f5720a1e263cb044f90aa3d112f5b6b"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000111.npy",
+          "bytes": 6291584,
+          "sha256": "5521585d1184d024521916350b15094d9cfba02def7e26c2de77d95dcd6cc5cd"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000111.npy",
+          "bytes": 32896,
+          "sha256": "4e54ba303c0edc2e3b6ef5cd9852b1beb74f1ece5af0183886521cc5713b438a"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000112.npy",
+          "bytes": 6291584,
+          "sha256": "23552fad1f2a3f7dd726550567c12579ae459e8b1bd8253e09a6446be2eab2b9"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000112.npy",
+          "bytes": 32896,
+          "sha256": "7bcc15b570eb0e779d082bedd7d4050546a62911638b9129cbf7838dad2fcd81"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000113.npy",
+          "bytes": 6291584,
+          "sha256": "e88c4576cd2676b60f3c6182946f3b919ca276ee06d37e79716bb7823c2a2d28"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000113.npy",
+          "bytes": 32896,
+          "sha256": "48a1c9800e984d0857a24e2e9d5aca6ff584f0eb92a7538a7db420315ac10038"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000114.npy",
+          "bytes": 6291584,
+          "sha256": "a9505a5513207719e22b1f68d6f091e4c4dee7163c3e218705e06c8070fccb6b"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000114.npy",
+          "bytes": 32896,
+          "sha256": "f9ced09c99d3c0adb249741527fbf0e841dec7afd556071ae746bdc199177914"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000115.npy",
+          "bytes": 6291584,
+          "sha256": "48354ff6e7ce79685c33fa4be8ad06379756a7bc4ad1f0632bd3334d80c70c51"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000115.npy",
+          "bytes": 32896,
+          "sha256": "8cee8dbcf09db866815cbfa48ad27fe59af89e4ac7417b2235bd69faeaa0af79"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000116.npy",
+          "bytes": 6291584,
+          "sha256": "50ef95b2039d3470985399140258f205c09c4ab7b8516512f743c7cbf934f8f6"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000116.npy",
+          "bytes": 32896,
+          "sha256": "1f845ab5a8b35fce0d109c7c2feafd79627061334984084cb247ae4a8546b9c9"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000117.npy",
+          "bytes": 6291584,
+          "sha256": "e3545ccaa9af603c1ac7ec8dd4fdff79bf5037ee657949726de34bdd42213728"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000117.npy",
+          "bytes": 32896,
+          "sha256": "a6c38164b8c3aaad24a11f9659f55ede4819969f3b2b60b6205a1f6e65bbebda"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000118.npy",
+          "bytes": 6291584,
+          "sha256": "d55c084c7e707547c78a078e130cdae09eb4d404a9634472fd12e6ae791297c5"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000118.npy",
+          "bytes": 32896,
+          "sha256": "10295b045d8e65a050b6aef64cb6a550e46ad0337937f53ffd67e6e055642343"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000119.npy",
+          "bytes": 6291584,
+          "sha256": "29faf3d788d64928eec0aeae1a85abd2c4038d482a50c7ace4ed1c7fb5ed13cd"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000119.npy",
+          "bytes": 32896,
+          "sha256": "0b7d2c7e99033bdb436062d56ae6e22a5a4c0ae693f4b4223f17e45b668c7777"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000120.npy",
+          "bytes": 6291584,
+          "sha256": "b07c24f8759ee8ca002462a2fe3f40cedbdc03b486e4ad7aefd2b317f7971469"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000120.npy",
+          "bytes": 32896,
+          "sha256": "09bc720823b79547b929f90f6f5dd913a4f175bd24f85968d7e381918bcef476"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000121.npy",
+          "bytes": 6291584,
+          "sha256": "416a2e84d788481f64dc2c9ead476916387717f90fff97331139f9048fe3a8dc"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000121.npy",
+          "bytes": 32896,
+          "sha256": "2619ee2e0e869ab218f2505acffdd04aece8e8fc42fc7a6c1921d75d62d61719"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000122.npy",
+          "bytes": 6291584,
+          "sha256": "dbbc502c6ae7d8d1353f52ce960d452c68c43e0344d2fcae8ddc64bcfde68a44"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000122.npy",
+          "bytes": 32896,
+          "sha256": "e8e3a0fc7de756e8341143011df68efa0eb72df8f881432cd1aaeec81362b9cf"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000123.npy",
+          "bytes": 6291584,
+          "sha256": "61d92964919efd6b2628a343c8f57aee3928fbfe646db5495502f98352732b1a"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000123.npy",
+          "bytes": 32896,
+          "sha256": "4a1b63a17a3a19d1d994b99c4476ac8b0bddf2fa262c81f0151fc2ce68554c27"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000124.npy",
+          "bytes": 6291584,
+          "sha256": "fce1c15136c7a0ad4ac78e040cf199c7cb791d5b3235db56e02f4e285e7b25a6"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000124.npy",
+          "bytes": 32896,
+          "sha256": "3ff211764b29e998c1add7b3569bd8feed1a618faef2ff6380f0b03f3844eb95"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000125.npy",
+          "bytes": 6291584,
+          "sha256": "f21d274dab7cfea6d4b5d2b2906cb07aa89234db0c90832ad81097f803fe3cd5"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000125.npy",
+          "bytes": 32896,
+          "sha256": "f37c5108bd46a396435a90cc5dd42ffed15a8889ffb30682134278e17f79755e"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000126.npy",
+          "bytes": 6291584,
+          "sha256": "39d0dd516ba18ba8cb1e4a205b51800aa7bc6eeaf1f6f9c3e74fc1e12e825459"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000126.npy",
+          "bytes": 32896,
+          "sha256": "80e25835147bb3b18b1d8e52134fcf7efa7f6722463c77eb1a24eec6449863f4"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000127.npy",
+          "bytes": 6291584,
+          "sha256": "e41882c94b230131479af932a902371647c98332b796a46e7b908b25255d4152"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000127.npy",
+          "bytes": 32896,
+          "sha256": "876bd81d9c031c71c1e0dde73af2910a5144f4c023f1f6c7b6bf1ae6fbe8f537"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000128.npy",
+          "bytes": 6291584,
+          "sha256": "ff7c00c4437f8736ead968dcb3e4ef460409e0586d1a5990224070324524fd4f"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000128.npy",
+          "bytes": 32896,
+          "sha256": "eb2af587b73b890089f144fd14813e04e1c396f6aee89c8085922ee7c713857d"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000129.npy",
+          "bytes": 6291584,
+          "sha256": "4b6de117a0e2337e981be6d29cb861c6a158e90c68e6cdc0fc01fe52579af211"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000129.npy",
+          "bytes": 32896,
+          "sha256": "6b3ec078373f4c7a3a78a6435ca9be4de85827479038e3a1159a7b44bf3bede6"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000130.npy",
+          "bytes": 6291584,
+          "sha256": "5e6dbf05fccef9736d53ec98e855dfe1556ef06aa56c8a0e269d51da95584cf3"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000130.npy",
+          "bytes": 32896,
+          "sha256": "2bfa6e26ccfc517a34cd397d90aafdb7cb9c1c66521c8e4bf591571ac24af924"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000131.npy",
+          "bytes": 6291584,
+          "sha256": "d13b3b865061a4270c31c400f06f5598810a2c37411f560cacea06812f7000ad"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000131.npy",
+          "bytes": 32896,
+          "sha256": "40ed1c6a999ecd01643bd4532079bc79838cb1225fe58c854d2ce35e51cc45d6"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000132.npy",
+          "bytes": 6291584,
+          "sha256": "b0c08f7852121184143dd3e35fbcf93b48691265b15d43df44192fff9c7df88e"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000132.npy",
+          "bytes": 32896,
+          "sha256": "4945a21167340049ca4464decaa9d4002669e1eed6603063bce87087985d5302"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000133.npy",
+          "bytes": 6291584,
+          "sha256": "5278f411574bee82ef6181a1e2b55c16d56aba3dc8c2bcef1e2267478fe59c7e"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000133.npy",
+          "bytes": 32896,
+          "sha256": "9b652aa6fdeba8c6629b6420f18923d8e66bfdcb4c6747572c05bace2b727249"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000134.npy",
+          "bytes": 6291584,
+          "sha256": "8be0fe94b9701cd64f72d9cb87fc8870087ba78b1d48ee4db46f4737eef34bed"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000134.npy",
+          "bytes": 32896,
+          "sha256": "b0c70ac09f5b2f22f06f30946f213fccdd43e5c55433a518faae1a5dddf58e9a"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000135.npy",
+          "bytes": 6291584,
+          "sha256": "a920fe59fed9e348d028750929366ff3e720da92102da6a188eaeb3facc33351"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000135.npy",
+          "bytes": 32896,
+          "sha256": "c5cd88ff6beeb116e008c6c64ff9e89ea6d24c5134ec190eee64f96463267b58"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000136.npy",
+          "bytes": 6291584,
+          "sha256": "34e52b2bbbd7dc44f785276a571b1c64fdc1e830a1b63a92cb4d946b4fbc7e8f"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000136.npy",
+          "bytes": 32896,
+          "sha256": "6858dc729f32089de2f55f63591d4a0d680bb5152f72f78565a9975c90bc6b7b"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000137.npy",
+          "bytes": 6291584,
+          "sha256": "21b9781657de41e4a084e0ff4c3f70a656e7d9e3f870d88dae447578f563f958"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000137.npy",
+          "bytes": 32896,
+          "sha256": "f22ec03c79ae48c0696f77f4912e24add07f93346788b4fa88f74712e8ca036d"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000138.npy",
+          "bytes": 6291584,
+          "sha256": "381e03f153899176fb0bd3be3957d79f4160b3ee51680da39ca7a71342a345ef"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000138.npy",
+          "bytes": 32896,
+          "sha256": "f9352e671170a3ae77326ae0ace70aa06e71d3ca70dd0711e5580eca9239dc9a"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000139.npy",
+          "bytes": 6291584,
+          "sha256": "ad4f30d8d7c7e7cf05ec8e63349fde99a062df035d2bdd9f4d137e45f804af22"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000139.npy",
+          "bytes": 32896,
+          "sha256": "7c13053c8ed077d2261bbec5039839a19a0446251a265851d22eaafedf9a49f4"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000140.npy",
+          "bytes": 6291584,
+          "sha256": "be591067c1c16577a5d2e47ad1424e8e666b57f3cbdf8c2bb965760af243b989"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000140.npy",
+          "bytes": 32896,
+          "sha256": "17334f7d108c177f3344c93010bef23bc1fcd65932d23a46c0238c34e13b464b"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000141.npy",
+          "bytes": 6291584,
+          "sha256": "4c647f80ffc800a31d828db7489d195a4d88d499ccce8233857a9a94d476f32a"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000141.npy",
+          "bytes": 32896,
+          "sha256": "9cfa5e48aa32cfb3f907fb400f8d58456b005be9b8f432c05238e1774112f467"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000142.npy",
+          "bytes": 6291584,
+          "sha256": "b122868c9e6bd0f61b64e8839a5a8d5688d42a53ab6c983283571e76879b6a80"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000142.npy",
+          "bytes": 32896,
+          "sha256": "558e4cd73c44ef3bff5f0a86adfd3ef1200023bb598774e59f7a776f3373c68b"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000143.npy",
+          "bytes": 6291584,
+          "sha256": "50070ba8563bad9f8cb6fbfebf5ca882baceb1277d1312eab71a18b3a79d08fa"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000143.npy",
+          "bytes": 32896,
+          "sha256": "6001b0ebf8650530b0350171d41578c44130d06a1d06d24a48b3907b1d4d5ea1"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000144.npy",
+          "bytes": 6291584,
+          "sha256": "f05fea7f144ef3c223de8aaf1b33b1f9d188d450c651d56f891c73f29248e5f1"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000144.npy",
+          "bytes": 32896,
+          "sha256": "7032cdbe11023e18095f661dd18dc23cf89ed933c8f82bf33040de697a69c2e1"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000145.npy",
+          "bytes": 6291584,
+          "sha256": "9dc10b2590a432357afb3b4490fe684a8144c04e62598aca9a78349f8b4536a5"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000145.npy",
+          "bytes": 32896,
+          "sha256": "05da5648e066eab5d281066bbf97b050d5fee7085dbb0c1a45f508eb77b0b1ca"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000146.npy",
+          "bytes": 6291584,
+          "sha256": "53f70786d783d5f01145ad1c58bad6ca712b335a7f350768c2b59ce8cf317353"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000146.npy",
+          "bytes": 32896,
+          "sha256": "0db9200f65c4cf9ffb3fb400531ae72568300cb0b57becf73b7f1f0ecd063acb"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000147.npy",
+          "bytes": 6291584,
+          "sha256": "2174e54fa817cf943e69af58c30270e39efc0dc07b6387feccd744f4b7212ffa"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000147.npy",
+          "bytes": 32896,
+          "sha256": "a6857b9f12f5c14813ceee7ddc94dcbc64f41e61e133b60c2263d92ac6f783be"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000148.npy",
+          "bytes": 6291584,
+          "sha256": "a75a880913176d28b84439670229d4fa39ec72a80220d8f3f5df7a0af4d23c3a"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000148.npy",
+          "bytes": 32896,
+          "sha256": "4c2d222aa18e14170bd00fe67b46aed44a3699aa24c7389e6478bfe51a9b0e34"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000149.npy",
+          "bytes": 6291584,
+          "sha256": "59230d8f3561e9c39d106b9417d3ed41f4da51a38416900e8e47100e00f6785f"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000149.npy",
+          "bytes": 32896,
+          "sha256": "97075b67b836ff14ffb78a23262a147b3823c6218cbf5ec5ff0e2709e8493655"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000150.npy",
+          "bytes": 6291584,
+          "sha256": "de789323f621860cd5216fab3e1bab3c0b50157aa5f93e0bac583ee77d495c52"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000150.npy",
+          "bytes": 32896,
+          "sha256": "d1d5f677faf63ecc6d5c7e4a3e7eb69ab254c09c0092389f030e72fafb64c2e8"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000151.npy",
+          "bytes": 6291584,
+          "sha256": "15ce3022527c4dcdb822b7e5c4360ade6b354e4a173ee5796a1bb3ea9bf5b806"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000151.npy",
+          "bytes": 32896,
+          "sha256": "8ba6c1eeb554966f426c5889c89275a26581f0d809583481b17ef577dd1656ef"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000152.npy",
+          "bytes": 6291584,
+          "sha256": "b8a8afe134d60de5a8862262f5267d687d0a3b516ee7d44cc96267a96a2e2452"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000152.npy",
+          "bytes": 32896,
+          "sha256": "bcd6a0b0c757b0f8274320d4c0503a2ceefac70e6199d19a3e10e9daaddf0df2"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000153.npy",
+          "bytes": 6291584,
+          "sha256": "20d4c61bdd73bedc65217f1e5ddcb06b42b21da8ca91a44dda3e2a179493cfec"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000153.npy",
+          "bytes": 32896,
+          "sha256": "6f24baae07ab8cf6604bbf20d4856c9451193d7e569d761e8aabb6d670f1080e"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000154.npy",
+          "bytes": 6291584,
+          "sha256": "0c091d034412fbd9a134b2c2ac3a7ca9f28284ea3b3074314a1167067c02bed8"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000154.npy",
+          "bytes": 32896,
+          "sha256": "241abb89ef0e8ac7e8d6ecac13afa21cff0fadf1338ef36a632cfb1bdc4e838f"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000155.npy",
+          "bytes": 6291584,
+          "sha256": "bff45f189405432096ae9ac341177129c422d8f5880c41e2e86d73d237699599"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000155.npy",
+          "bytes": 32896,
+          "sha256": "2a235e2d807ec37ce2490ee9d12dc779050a0c869f11e67e150e1ceeaa95c2f4"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000156.npy",
+          "bytes": 6291584,
+          "sha256": "e1dd4c7e2e267ecd872b42b9b5248217592d7545791bf13791909f3683748fad"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000156.npy",
+          "bytes": 32896,
+          "sha256": "b2bbad65b37a594e765fa65030b833b168eb44e9dfeb3215d7baf2e7202e7f27"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000157.npy",
+          "bytes": 6291584,
+          "sha256": "3974196c03f3c88b55b683200defb883f61a32ac4beb479baf82729de9882c3e"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000157.npy",
+          "bytes": 32896,
+          "sha256": "16e33cb5203c11a117a77bc9240513b1f5e3febe2b3d599b29f5c0e98a38feca"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000158.npy",
+          "bytes": 6291584,
+          "sha256": "5316ae1f0fec18793177cb88bff426dd5e901aeb7ba2e988d6717910bf1e68a9"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000158.npy",
+          "bytes": 32896,
+          "sha256": "1122cccbc503b0d86cf6c0cd3543ba26f4df5fe47840c12e5beecd2df47eab6e"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000159.npy",
+          "bytes": 6291584,
+          "sha256": "572c6166c7310b2a4947aeb54aef73bfa6ea628e34fe1d23df6a686cddcfbd97"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000159.npy",
+          "bytes": 32896,
+          "sha256": "d39b984cb8f583344e73c8f2435d2ae4c758401ba7e4d7aa4a0d1ee43a4729a6"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000160.npy",
+          "bytes": 6291584,
+          "sha256": "4bff8a7e11f6ddf2e83ac6905b6b4345ac556a64c3b482f149c9fa318e538395"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000160.npy",
+          "bytes": 32896,
+          "sha256": "26c4a6ceb39e51e67a84024c09fb0e98cc9df9f7bce4707d5b71f1585e6e8a77"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000161.npy",
+          "bytes": 6291584,
+          "sha256": "be18f6526bc95bdbaa8ee4bef168bbb715e54c2fd0292c5128046f1a9cc23564"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000161.npy",
+          "bytes": 32896,
+          "sha256": "5cbe9d9cfe63f0e75a0b778b56d24763e19e62c159dc5f93dd4861547215f9a5"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000162.npy",
+          "bytes": 6291584,
+          "sha256": "3c629698375df99c335b53e60d8c14ac96047a0453c6934a104720ed302f981d"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000162.npy",
+          "bytes": 32896,
+          "sha256": "dfeb9c5146306a9200cc68c4d8c398933e4ac2f3656b4f05fe2ff71e15c9a3f5"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000163.npy",
+          "bytes": 6291584,
+          "sha256": "2be2da8375a48f932e5e365af9e90f8de91783e837f4a6debdb6eaa7c8762d0d"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000163.npy",
+          "bytes": 32896,
+          "sha256": "7bb4aab043911dea27bdafee5a356922cd4d998afd9756c814ae47c5b22f3d38"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000164.npy",
+          "bytes": 6291584,
+          "sha256": "2707bc73c9a89e206c4b4bcd660e51976a9972f2d3159b5f9d309bfa24f5e28f"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000164.npy",
+          "bytes": 32896,
+          "sha256": "dfa57e0430b159e90f2b376bdec6bd34e355e2bbb76a274f4efa9f49afddd014"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000165.npy",
+          "bytes": 6291584,
+          "sha256": "ea73c2db843275d6c2e8049d7e1d965e2522b22d667f08785f0195568393cc01"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000165.npy",
+          "bytes": 32896,
+          "sha256": "0d99d9d1178f42b58955dffebc6b0d1d456639f45664c513fe11e016e9e7b0dd"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000166.npy",
+          "bytes": 6291584,
+          "sha256": "e9fccb91e37c0cd9d01e5bf0c6a02193fc4729e19f9abe15ed6a8976d95d05c0"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000166.npy",
+          "bytes": 32896,
+          "sha256": "95f5d26e6bce21a6344c38d1a1f4b730052429b0fc33df67f7cb438513f74a56"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000167.npy",
+          "bytes": 6291584,
+          "sha256": "5eaedcec5412edc4345cbbde27268021b48faff904822b870c4d7b644da4ba43"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000167.npy",
+          "bytes": 32896,
+          "sha256": "f0d6db89f7c254601a7380213d8e1aaa58a8ed38c764f8c4710d2eef614577f7"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000168.npy",
+          "bytes": 6291584,
+          "sha256": "21346fdc97eb205b1fd6922dfd35affeb5e7f06f96d00bf0a8f0c55a61731722"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000168.npy",
+          "bytes": 32896,
+          "sha256": "dcf0671ed0b96a08c9ad3720e535514d952a7a7d362985d6a9ece4dc39d79d4d"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000169.npy",
+          "bytes": 6291584,
+          "sha256": "29afd44fdb4fa57a217e1606fecc92524bfbba4951e91745feb462e6ba1a30ef"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000169.npy",
+          "bytes": 32896,
+          "sha256": "11f3d0fac592e916cec0bd52a709857f98809dec2466f9ed02218dcebccf3bf2"
+        },
+        {
+          "path": "text/faiss/embeddings/vectors-000170.npy",
+          "bytes": 6027392,
+          "sha256": "32be03d24a1539108bed8d06387c0b2b9324b8634b02fd507fa992348fb379d0"
+        },
+        {
+          "path": "text/faiss/embeddings/ids-000170.npy",
+          "bytes": 31520,
+          "sha256": "623e391cce803946401d442304efd5f65adcb5754bebbf546d33bb226e953ce7"
+        },
+        {
+          "path": "text/faiss/model.onnx",
+          "bytes": 90377115,
+          "sha256": "a3e61cb10576c4437a7a1a4d13458677a933dc7575ee1de342ca3e231f32ec00"
+        },
+        {
+          "path": "text/faiss/encoder.json",
+          "bytes": 681,
+          "sha256": "68e4cdc1e6f35eda1ad6331169f232e4f650b0c10a7e9bd67b48c19e63bbf5b7"
+        }
+      ],
+      "elapsed_seconds": 1559.2683191999995,
+      "resources": {
+        "peak_working_set_bytes": 1541341184,
+        "current_working_set_bytes": 1518034944
+      },
+      "rows": 700244,
+      "dimension": 384,
+      "encoder": {
+        "model": "sentence-transformers/all-MiniLM-L6-v2",
+        "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "source_weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+        "onnx_sha256": "a3e61cb10576c4437a7a1a4d13458677a933dc7575ee1de342ca3e231f32ec00",
+        "precision": "float32",
+        "max_seq_length": 256,
+        "provider": "CUDAExecutionProvider",
+        "tf32": false,
+        "normalization": "attention-mask mean pooling then L2 normalization",
+        "parity_samples": 33,
+        "parity_max_abs_error": 1.8998980522155762e-07,
+        "parity_min_cosine": 0.9999999403953552,
+        "parity_tolerance": {
+          "atol": 2e-05,
+          "rtol": 0.0001
+        }
+      }
+    },
+    "faiss": {
+      "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+      "files": [
+        {
+          "path": "text/faiss/index.faiss",
+          "bytes": 1075574829,
+          "sha256": "5ead2d1423ae380895a830f7ded901ed69eb898de5b7bf255270c7b723c31859"
+        },
+        {
+          "path": "text/faiss/row_to_paper_id.npy",
+          "bytes": 5602080,
+          "sha256": "43b17702164f3cffea719b602a12d17a2b39fe7b33012fdc94bc6c86edf410b8"
+        }
+      ],
+      "elapsed_seconds": 2.4229254000001674,
+      "resources": {
+        "peak_working_set_bytes": 1160024064,
+        "current_working_set_bytes": 72171520
+      },
+      "rows": 700244,
+      "index_type": "IndexFlatIP",
+      "metric": "inner_product"
+    }
+  },
+  "audits": {
+    "nodes": {
+      "status": "pass",
+      "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+      "result": {
+        "entity_counts": {
+          "author": 1104554,
+          "institution": 8701,
+          "field_of_study": 59469,
+          "paper": 700244
+        },
+        "missing_values": {
+          "author": 140792,
+          "institution": 16,
+          "field_of_study": 17458,
+          "publication_date": 22049,
+          "publication_year": 22049,
+          "citation_count": 22049,
+          "paper_rank": 22049,
+          "document_type": 22740
+        },
+        "venue_namespaces": {
+          "journal": 677353,
+          "None": 22444,
+          "original_venue": 301,
+          "conference_series": 146
+        },
+        "samples": {
+          "missing_name": {
+            "node_id": 9899,
+            "canonical_id": "stark:9899",
+            "node_type": "author",
+            "label": null,
+            "search_text": null
+          },
+          "paper": {
+            "canonical": {
+              "canonical_id": "stark:1172724",
+              "stark_node_id": 1172724,
+              "source_id": 1,
+              "mag_id": 274683,
+              "entity_type": "paper",
+              "display_name": "The Impact of Refractory Material Properties on the Helium Cooled Divertor Design"
+            },
+            "graph": {
+              "node_id": 1172724,
+              "canonical_id": "stark:1172724",
+              "node_type": "paper",
+              "label": "The Impact of Refractory Material Properties on the Helium Cooled Divertor Design",
+              "search_text": "The Impact of Refractory Material Properties on the Helium Cooled Divertor Design"
+            },
+            "text": {
+              "paper_id": 1172724,
+              "title": "The Impact of Refractory Material Properties on the Helium Cooled Divertor Design",
+              "abstract": "Many divertor design studies for future fusion reactors rely on helium gas cooling. In these concepts, pressurized tubes or channels had to be operated at maximum temperatures between 1000 Â°C and 1300 Â°C while the lowest operating temperature is preset by the coolant inlet or by specific start-up and maintenance conditions. At such extreme temperature regimes, the only reduced activation material that would provide enough strength, paired with the necessary heat conductivity, is tungsten. Therefore, various tungsten materials and alloys are often publicized as candidate material for structural divertor applications.However, there are also clear limitations. Therefore, an intensive study on the influence of microstructure and chemical composition on the fracture behavior of industrially produced tungsten materials has been perfomed. This paper reviews the results and some other relevant properties of tungsten materials with respect to possible applications for structural divertor parts. Drawbacks and possi...",
+              "content": "The Impact of Refractory Material Properties on the Helium Cooled Divertor Design\n\nMany divertor design studies for future fusion reactors rely on helium gas cooling. In these concepts, pressurized tubes or channels had to be operated at maximum temperatures between 1000 Â°C and 1300 Â°C while the lowest operating temperature is preset by the coolant inlet or by specific start-up and maintenance conditions. At such extreme temperature regimes, the only reduced activation material that would provide enough strength, paired with the necessary heat conductivity, is tungsten. Therefore, various tungsten materials and alloys are often publicized as candidate material for structural divertor applications.However, there are also clear limitations. Therefore, an intensive study on the influence of microstructure and chemical composition on the fracture behavior of industrially produced tungsten materials has been perfomed. This paper reviews the results and some other relevant properties of tungsten materials with respect to possible applications for structural divertor parts. Drawbacks and possi..."
+            },
+            "structured": {
+              "paper_id": 1172724,
+              "publication_date": "2012-01-01",
+              "publication_year": 2012,
+              "citation_count": 8,
+              "paper_rank": 21080,
+              "document_type": "Journal",
+              "venue_namespace": "journal",
+              "venue_id": "104092111",
+              "venue_name": "Fusion Science and Technology",
+              "venue_type": "journal",
+              "raw_source_json": "{\"ConferenceInstanceId\": -1, \"ConferenceInstancesDisplayName\": \"-1\", \"ConferenceSeriesDisplayName\": \"-1\", \"ConferenceSeriesId\": -1.0, \"ConferenceSeriesId.1\": -1.0, \"Date\": \"2012-01-01\", \"DocType\": \"Journal\", \"JournalDisplayName\": \"Fusion Science and Technology\", \"JournalId\": 104092111, \"OriginalVenue\": \"Fusion Science and Technology\", \"PaperCitationCount\": 8, \"PaperRank\": 21080, \"Year\": 2012}"
+            }
+          },
+          "null_structured": {
+            "paper_id": 1172733,
+            "publication_date": null,
+            "publication_year": null,
+            "citation_count": null,
+            "paper_rank": null,
+            "document_type": null,
+            "venue_namespace": null,
+            "venue_id": null,
+            "venue_name": null,
+            "venue_type": null,
+            "raw_source_json": "{\"ConferenceInstanceId\": -1, \"ConferenceInstancesDisplayName\": \"-1\", \"ConferenceSeriesDisplayName\": \"-1\", \"ConferenceSeriesId\": -1.0, \"ConferenceSeriesId.1\": -1.0, \"Date\": \"-1\", \"DocType\": \"-1\", \"JournalDisplayName\": \"-1\", \"JournalId\": -1, \"OriginalVenue\": \"-1\", \"PaperCitationCount\": -1, \"PaperRank\": -1, \"Year\": -1}"
+          }
+        }
+      },
+      "elapsed_seconds": 60.067477900000085,
+      "resources": {
+        "peak_working_set_bytes": 1212309504,
+        "current_working_set_bytes": 1148301312
+      }
+    },
+    "sql": {
+      "status": "pass",
+      "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+      "result": {
+        "joined_papers": 700244,
+        "duckdb_exact_projection_mismatches": 0,
+        "predicates": {
+          "publication_year IS NULL": 22049,
+          "citation_count IS NULL": 22049,
+          "paper_rank IS NULL": 22049,
+          "publication_date IS NULL": 22049,
+          "publication_year >= 2000 AND citation_count >= 100": 8316,
+          "venue_namespace='journal'": 677353,
+          "venue_namespace='original_venue' AND venue_id IS NULL": 301
+        },
+        "alias_rows": 1714702,
+        "distinct_aliases": 1505293,
+        "ambiguous_aliases_preserved": 105792
+      },
+      "elapsed_seconds": 10.78887130000021,
+      "resources": {
+        "peak_working_set_bytes": 632229888,
+        "current_working_set_bytes": 78888960
+      }
+    },
+    "edges": {
+      "status": "pass",
+      "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+      "result": {
+        "official": {
+          "author___writes___paper": 6768883,
+          "author___affiliated_with___institution": 1029162,
+          "paper___has_topic___field_of_study": 7243269,
+          "paper___cites___paper": 4878384
+        },
+        "derived_inverse": {
+          "author___writes___paper": 6768883,
+          "author___affiliated_with___institution": 1029162,
+          "paper___has_topic___field_of_study": 7243269,
+          "paper___cites___paper": 4878384
+        }
+      },
+      "elapsed_seconds": 11.509417999999641,
+      "resources": {
+        "peak_working_set_bytes": 546467840,
+        "current_working_set_bytes": 516997120
+      }
+    },
+    "csr": {
+      "status": "pass",
+      "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+      "result": {
+        "rows": 1872968,
+        "traversal_edges_checked": 39839396,
+        "traversal_sample": {
+          "paper": 1172724,
+          "author": 36641,
+          "author_papers": [
+            1172724,
+            1475765
+          ],
+          "author_paper_count": 2
+        },
+        "null_label_node_traversal": {
+          "node_id": 9899,
+          "degree": 1,
+          "neighbor_sample": [
+            1451406
+          ]
+        },
+        "zero_degree_nodes": 0
+      },
+      "elapsed_seconds": 11.543028199999753,
+      "resources": {
+        "peak_working_set_bytes": 1248489472,
+        "current_working_set_bytes": 122036224
+      }
+    },
+    "faiss": {
+      "status": "pass",
+      "config_hash": "e2fcbbcb691b85f9690ead1cd52236b992dac87631caafd7faa9d42e0d290dc5",
+      "result": {
+        "rows_checked": 700244,
+        "dimension": 384,
+        "exact_vector_equality": true,
+        "search_queries": 9,
+        "sample_top5_paper_ids": [
+          1172724,
+          1591716,
+          1475765,
+          1283511,
+          1507691
+        ],
+        "sample_top5_scores": [
+          1.0000001192092896,
+          0.7878530025482178,
+          0.784203290939331,
+          0.7666087746620178,
+          0.7556906938552856
+        ]
+      },
+      "elapsed_seconds": 3.135230699999738,
+      "resources": {
+        "peak_working_set_bytes": 1165934592,
+        "current_working_set_bytes": 71073792
+      }
+    }
+  },
+  "schemas": {
+    "canonical": "canonical_id: string\nstark_node_id: int64\nsource_id: int64\nmag_id: int64\nentity_type: string\ndisplay_name: string",
+    "nodes": "node_id: int64\ncanonical_id: string\nnode_type: string\nlabel: string\nsearch_text: string",
+    "aliases": "alias: string\ncanonical_id: string\nstark_node_id: int64\nentity_type: string",
+    "text": "paper_id: int64\ntitle: string\nabstract: string\ncontent: string",
+    "structured": "paper_id: int64\npublication_date: date32[day]\npublication_year: int32\ncitation_count: int64\npaper_rank: int64\ndocument_type: string\nvenue_namespace: string\nvenue_id: string\nvenue_name: string\nvenue_type: string\nraw_source_json: string",
+    "edges": "edge_id: int64\nsource_edge_id: int64\nsource_id: int64\nrelation: string\nrelation_id: int8\ntarget_id: int64\nderived_inverse: bool"
+  },
+  "field_definition_document": {
+    "path": "documentation/phase3/Representation_Contract.md",
+    "sha256": "2e019808461a0ef8da8c588c30f84f3663bc129dc86b5a19679b00795a6d09ab"
+  },
+  "field_definitions": {
+    "paper_id/node_id/stark_node_id": "Authoritative original STaRK global node ID, integer",
+    "canonical_id": "stark: followed by the original global node ID",
+    "canonical.source_id": "Original type-local ID retained for provenance",
+    "mag_id": "Original Microsoft Academic Graph ID; not a cross-view join key",
+    "content": "Exact source title, two newline characters, exact source abstract",
+    "label/search_text": "Paper title only, or source entity DisplayName; NULL if absent",
+    "source_edge_id": "Column ordinal in the original official directed edge tensor",
+    "derived_inverse": "True only for swapped-endpoint traversal edges; never a source-edge claim",
+    "publication_date/publication_year": "Source Date/Year independently preserved, nullable",
+    "citation_count/paper_rank": "Source PaperCitationCount/PaperRank, not recomputed, nullable",
+    "document_type": "Source DocType, independent of normalized venue classification",
+    "venue_namespace/venue_id/venue_name/venue_type": "Approved journal > conference_series > conference_instance > original_venue precedence; missing components remain NULL",
+    "raw_source_json": "Original structured-only audit columns with sentinels retained",
+    "row_to_paper_id": "FAISS zero-based row ordinal to original STaRK paper node ID"
+  }
+}

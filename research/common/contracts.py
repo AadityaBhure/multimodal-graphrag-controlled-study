@@ -26,7 +26,7 @@ class CanonicalEntity(Contract):
     stark_node_id: str | int | None
     mag_id: str | int | None
     entity_type: Identifier
-    display_name: Identifier
+    display_name: Identifier | None
 
 
 class TextDocument(Contract):
@@ -42,7 +42,7 @@ class TextDocument(Contract):
         missing = not bool(self.abstract and self.abstract.strip())
         if missing != self.abstract_missing:
             raise ValueError("abstract_missing must match the actual abstract")
-        expected = self.title.strip() + ("\n\n" + self.abstract.strip() if not missing else "")
+        expected = self.title + "\n\n" + (self.abstract or "")
         if self.content != expected:
             raise ValueError("Text content must be title plus abstract separated by two newlines")
         return self
@@ -52,8 +52,8 @@ class GraphNode(Contract):
     node_id: Identifier
     canonical_id: Identifier
     node_type: Identifier
-    label: Identifier
-    search_text: Identifier
+    label: Identifier | None
+    search_text: Identifier | None
 
 
 class GraphEdge(Contract):

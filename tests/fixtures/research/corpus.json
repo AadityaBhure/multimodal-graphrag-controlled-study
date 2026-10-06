@@ -67,7 +67,7 @@
       "paper_id": "paper:fixture:3",
       "title": "Missing Abstract",
       "abstract": null,
-      "content": "Missing Abstract",
+      "content": "Missing Abstract\n\n",
       "abstract_missing": true
     }
   ],

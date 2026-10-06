@@ -155,3 +155,13 @@ No FAISS index, CSR adjacency, DuckDB database, canonical registry, research tex
 | `extracted/processed/edge_type_dict.pkl` | 152 | `26c5bbc4483e430c089ea4696fa37fa4fe1cfabd328975695d5ab18e90206a56` |
 | `extracted/processed/node_info.pkl` | 1,162,767,283 | `cc83e452eefd1b4588d48dc154d9c4a2e3efda6464b72678e4db7b410b3d8668` |
 | `extracted/processed/node_type_dict.pkl` | 72 | `4ab254b0e6f3c3a029dbd9f3d29b0f37a550f8b1743dbd78d8df828d6a379947` |
+
+## Phase 3 representation addendum
+
+The acquisition sections above describe the Phase 2 checkpoint. Phase 3 builds the approved source-linked representations under the same ignored dataset root. The immutable official source still contains **19,919,698 directed edges**; a further **19,919,698 tagged inverse edges** support traversal only.
+
+The physical schema, exact content/NULL/venue policy, field definitions, model backend, identity mapping and reproducible commands are in [the Phase 3 contract](phase3/Representation_Contract.md). The generated review copy [representation_manifest.json](phase3/representation_manifest.json) contains every output size and SHA-256, schemas, full-source audits and resource measurements. [The Phase 3 report](Phase_Reports/Phase_03_Build_MMG_STaRK_MAG.md) records acceptance results and samples.
+
+Text, graph and structured records join on the same integer global STaRK paper ID. Registry string IDs are `stark:<global_id>`; original type-local and MAG IDs remain provenance. Missing structured values/names are NULL. Text contains only title/abstract; graph semantics contain paper titles or actual entity names; structured SQL contains only structured source attributes. The audit source columns remain available separately in DuckDB.
+
+All 84 human QA records remain unchanged. The approved future Phase 4 policy is whole-query exclusion for mixed/non-paper answer queries in primary `human_test`, including known queries 30, 50 and 72. No benchmark has been constructed.

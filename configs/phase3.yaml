@@ -1,0 +1,32 @@
+schema_version: '1.0'
+seed: 42
+models:
+  embedding: sentence-transformers/all-MiniLM-L6-v2
+  generator: openai/gpt-oss-120b
+  temperature: 0
+dataset:
+  name: MMG-STaRK-MAG
+  version: MMG-STaRK-MAG-v1
+  benchmark_version: unbuilt
+paths:
+  dataset: data/MMG_STARK_MAG
+  experiments: artifacts/experiments
+logging:
+  level: INFO
+representations:
+  version: MMG-STaRK-MAG-v1
+  source_revision: 88269e23e90587f99476c5dd74e235a0877e69be
+  source_nodes: 1872968
+  source_papers: 700244
+  source_edges: 19919698
+  node_batch_size: 10000
+  edge_batch_size: 100000
+  embedding_batch_size: 64
+  embedding_shard_size: 4096
+  embedding_backend: onnx-cuda-fp32
+  embedding_dimension: 384
+  embedding_max_tokens: 256
+  derived_inverses: true
+  duckdb_memory_limit: 512MB
+  duckdb_threads: 2
+  leakage_policy_version: phase3-approved-v1
