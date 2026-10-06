@@ -1,0 +1,7 @@
+{
+  "rendered_first_question": true,
+  "rendered_counter": true,
+  "pending_progress": true,
+  "http_status": 200,
+  "isolated_headless_browser": true
+}

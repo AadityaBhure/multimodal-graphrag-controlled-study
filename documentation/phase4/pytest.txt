@@ -1,0 +1,9 @@
+........................................................................ [ 85%]
+............                                                             [100%]
+============================== warnings summary ===============================
+tests/test_phase3_representations.py::test_csr_traversal_null_node_isolation_and_restart
+  D:\codefiles\RAG_GraphRAG_Demo\research\data\build.py:244: DeprecationWarning: fetch_record_batch() is deprecated, use to_arrow_reader() instead.
+    batches = con.execute(f"SELECT source_id,target_id,edge_id,relation_id,derived_inverse FROM read_parquet('{source_path}') ORDER BY source_id,derived_inverse,target_id,edge_id").fetch_record_batch(100000)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+84 passed, 1 warning in 2.42s

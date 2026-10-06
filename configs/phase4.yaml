@@ -1,0 +1,34 @@
+schema_version: '1.0'
+benchmark_version: MMG-STaRK-MAG-benchmark-v1
+seed: 42
+base_items_per_class_split: 2
+max_generated_answers: 2000
+validation_review_fraction: 0.2
+duckdb_memory_limit: 512MB
+duckdb_threads: 2
+text_claims:
+  train:
+    - good agreement with experimental data
+    - in agreement with experimental results
+    - using molecular dynamics simulations
+    - within the framework of density functional theory
+    - in the absence of a magnetic field
+    - a second order phase transition
+  validation:
+    - we obtain an analytical expression
+    - we derive an exact expression
+    - we present an exact solution
+    - in excellent agreement with experimental
+    - in good agreement with previous
+    - we derive analytical expressions
+  test:
+    - monte carlo simulations
+    - numerical simulations
+    - experimental data
+    - phase transition
+    - magnetic field
+    - ground state
+    - we show that
+    - we find that
+    - our results show
+    - the results indicate

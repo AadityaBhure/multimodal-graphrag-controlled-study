@@ -165,3 +165,11 @@ The physical schema, exact content/NULL/venue policy, field definitions, model b
 Text, graph and structured records join on the same integer global STaRK paper ID. Registry string IDs are `stark:<global_id>`; original type-local and MAG IDs remain provenance. Missing structured values/names are NULL. Text contains only title/abstract; graph semantics contain paper titles or actual entity names; structured SQL contains only structured source attributes. The audit source columns remain available separately in DuckDB.
 
 All 84 human QA records remain unchanged. The approved future Phase 4 policy is whole-query exclusion for mixed/non-paper answer queries in primary `human_test`, including known queries 30, 50 and 72. No benchmark has been constructed.
+
+## Phase 4 benchmark addendum
+
+The preceding addenda record their phase checkpoints. Phase 4 now adds the ignored `benchmark/` layer without modifying any raw or Phase 3 representation file. The original 13,323 synthetic QA records and all 84 human records remain unchanged; primary human_test contains 81 whole paper-compatible queries, with queries 30/50/72 excluded whole and documented.
+
+The benchmark contains 13,571 records: train 8,049; validation 2,721; test 2,720; human_test 81. Composition is 13,323 official synthetic + 81 official human + 167 generated variants from 42 base constructions. Official modality/hop and semantic-gold annotations remain explicitly unverified; verified generated labels cover T/G/S/TG/TS/GS/TGS. Do not mistake supplied official answers for independently recomputed semantic gold.
+
+See [Benchmark_Protocol.md](phase4/Benchmark_Protocol.md), [benchmark_manifest.json](phase4/benchmark_manifest.json) and [Phase 4 Review Report](Phase_Reports/Phase_04_Benchmark_Construction.md) for exact predicates, candidate sets, stress provenance, counts, hashes, limitations and release controls. Test content is frozen, but paper-quality release remains blocked until manual verification. The human-audit package contains 3,390 pending items; no agent-generated pass is counted as human approval. Phase 5 has not begun.
