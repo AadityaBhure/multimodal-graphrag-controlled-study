@@ -94,3 +94,18 @@ Authorization: the user's pasted request approved Phase 3 and authorized benchma
 | P4-12 | Regenerate the complete benchmark into a separate directory and compare all bytes; preserve Phase 5 stubs. | Full regeneration/audits and baseline/environment/source/representation checks; no evaluation metrics or runner implemented. | Reproducible Phase 4 artifacts with a strict approval gate before subsequent implementation. |
 
 Execution notes: an initial Windows-default decoding failure was fixed with explicit UTF-8; no source data was changed. The integrated browser tool could not initialize its sandbox; an isolated headless browser was used for review-page rendering. The review page stores human decisions only in browser local storage/export, never in canonical source or frozen question files.
+
+## Phase 5 decisions — 2026-10-07
+
+| ID | Decision | Evidence and validation | Research impact |
+| --- | --- | --- | --- |
+| P5-01 | Checkpoint approved Phase 4 before implementation. | `262c4d1636b7b3023d7d8863eb7105a4354513a1`; clean working tree confirmed. | Frozen benchmark, representations, raw source and baseline remain unchanged. |
+| P5-02 | Score paper sets using canonical integer IDs; exact match means exact set equality. | Hand-computed set/empty/duplicate tests. | Ordering and repeated answers cannot inflate results; failure is NULL, not a valid empty answer. |
+| P5-03 | Distinguish unavailable observations from measured zero. | Strict nullable telemetry, token provenance, explicit pricing and baseline requirements. | No invented timing, token, price, evidence, faithfulness or agent/fusion measurements. |
+| P5-04 | Use frozen operational labels only for generated queries; keep official labels unverified. | Full read-only audit counts 13,404 unverified records. | Human release decisions do not silently relabel or repair benchmark records. |
+| P5-05 | Make experiment identity depend on named configuration, code/package versions, benchmark/representation hashes, selection, system fingerprint and release. | Independent-run identity and mismatch tests. | Compatible resume only; timestamps and measured timing are not identity inputs. |
+| P5-06 | Commit each query atomically under an exclusive process lock; derive JSONL/tables from raw records. | Interruptions, partial completion, completed-record recovery and mixed-version rejection tests. | No duplicate completed queries; failed queries remain explicit terminal errors; incomplete tables are marked. |
+| P5-07 | Gate test/human-test execution on a separate, hash-bound human release artifact. | Missing/incomplete/duplicate/wrong-version/revoked metadata rejected; real benchmark remains blocked. | Requires all 2,801 test and human-test passing reviews plus explicit leakage adjudication; no automatic approvals. |
+| P5-08 | Pass only question, query ID, seed and sanitized stress injections to systems. | Both overlay types tested and all actual overlays parsed read-only. | Gold, source grading criteria, annotation labels and conflict authority are excluded from system input. |
+| P5-09 | Cache optional immutable RetrievalBundle values by source/config/query/version hashes. | Cache roundtrip, collision and corruption tests. | Infrastructure for later controlled evidence reuse; no RQ algorithm implemented. |
+| P5-10 | Run only fixed synthetic systems in Phase 5. | Five tiny fixture queries, 57 real validation adapter checks, zero retrieval/LLM calls. | Infrastructure verification only; no baseline performance or scientific results claimed. |

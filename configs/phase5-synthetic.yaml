@@ -1,0 +1,11 @@
+config_id: phase5-synthetic-smoke-v1
+system_id: synthetic-fixture
+system_version: '1'
+seed: 42
+mode: development
+splits: [validation]
+query_ids: []
+ks: [1, 5, 10]
+model_ids: []
+embedding_model: null
+retrieval_parameters: {}

@@ -1,0 +1,1 @@
+{"agentic_method":null,"config_id":"phase5-scripted-example-v1","context_method":null,"embedding_model":null,"fusion_method":null,"ks":[1,3,5],"mode":"development","model_ids":[],"pricing":null,"query_ids":[],"retrieval_parameters":{},"seed":42,"splits":["validation"],"system_id":"synthetic-scripted","system_version":"1"}
