@@ -1,0 +1,4 @@
+135 passed, 1 warning in 23.52s
+Command: .\.venv\Scripts\python.exe -m pytest -q -p no:cacheprovider
+Existing warning: research/data/build.py:244 DuckDB fetch_record_batch deprecation.
+No live Groq calls were made. UI generation was exercised with deterministic mocks.

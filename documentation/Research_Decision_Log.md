@@ -124,3 +124,12 @@ Execution notes: an initial Windows-default decoding failure was fixed with expl
 | P6-08 | Reuse immutable source evidence with implementation-versioned cache keys; inject stress separately. | Cache retains retrieval diagnostics and includes source-code fingerprints; structured overlay NULLs preserved; B2 candidate restrictions enforced. | B4 API smoke can reuse B1–B3 evidence without reretrieval; cached latency is explicitly distinguished. |
 | P6-09 | Freeze controls before inspecting results and execute only bounded validation work. | Five offline queries per baseline; one shared validation query per baseline for API smoke; no test/human-test execution. | Illustrative checks only, not scientific performance estimates; no parameters tuned in response to outcomes. |
 | P6-10 | Treat external-data approval as distinct from API token availability. | Automatic review initially rejected the four Groq payloads; exact previews were prepared and the user explicitly approved them; four calls then succeeded. | No request bypass, hidden extra calls or large paid batch. |
+
+## Phase 6.5 decisions — 2026-10-08
+
+| ID | Decision | Evidence and validation | Research impact |
+| --- | --- | --- | --- |
+| P6.5-01 | Checkpoint approved Phase 6 before UI integration. | `a19bdd5e30e33caa7c82a8a0095dcdd1e610693e`; clean working tree confirmed before implementation. | Frozen baseline and approved scientific implementations preserved. |
+| P6.5-02 | Add a separate Streamlit entry point that delegates retrieval to existing BaselineSystem and approved configs. | Four real-data retrieval checks and unchanged-baseline delegation tests. | No new algorithms, tuning or scientific experiments. |
+| P6.5-03 | Generate only on an explicit button action from an existing evidence snapshot. | Mock tests cover stale-input rejection, repeated-rerun behavior, context-only IDs, shared generation settings and setup errors. | No gold-answer access, hidden generation or additional API calls during implementation. |
+| P6.5-04 | Bound explorer pages and keep interactive metrics distinct from benchmark results. | Cross-view ID check, 25-relationship cap, NULL metric tests, small Graphviz views. | No full graph rendering or fabricated accuracy/token/cost metrics. |

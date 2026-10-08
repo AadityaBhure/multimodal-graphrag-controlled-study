@@ -1,0 +1,10 @@
+{
+  "comparison_rows_verified": 2240,
+  "configs_differ_only_in_id_and_query_selection": true,
+  "empty_gold_records_with_null_retrieval_metrics": 56,
+  "intersection_rows": 4480,
+  "llm_calls": 0,
+  "raw_records_recomputed": 224,
+  "status": "pass",
+  "intersection_rows_independently_recomputed": 4480
+}
