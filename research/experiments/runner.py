@@ -153,6 +153,7 @@ def run(config, benchmark_root, output_dir, system, *, release_path=None, proven
                 try:
                     request = SystemInput(query_id=q.query_id, question=q.question, seed=query_seed, overlay=reader.overlay(q))
                     output = SystemOutput.model_validate(system.execute(request))
+                    errors = output.errors
                 except Exception as exc:
                     # Do not leak arbitrary exception messages (API keys/provider payloads) to artifacts.
                     errors = (MethodError(stage='execute', code=type(exc).__name__, message='System execution failed; inspect local system diagnostics'),)

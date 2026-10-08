@@ -34,6 +34,8 @@ class SystemInput(Contract):
 
 
 class SystemOutput(Contract):
+    errors: tuple[MethodError, ...] = ()
+    diagnostics: str | None = None
     answer: str | None = None
     answer_ids: tuple[PaperID, ...] | None = None
     ranked_paper_ids: tuple[PaperID, ...] | None = None
@@ -108,7 +110,7 @@ class RunRecord(Contract):
     def aware(self):
         if self.timestamp.tzinfo is None or self.timestamp.utcoffset() is None:
             raise ValueError('Timestamp must be timezone aware')
-        if self.errors and (self.answer_ids is not None or self.output is not None):
+        if self.errors and self.answer_ids is not None:
             raise ValueError('Failed queries cannot carry successful output')
         return self
 
