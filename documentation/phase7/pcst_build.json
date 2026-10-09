@@ -1,0 +1,35 @@
+{
+  "source": "https://pypi.org/project/pcst_fast/1.0.10/",
+  "version": "1.0.10",
+  "algorithm_source_modified": false,
+  "pybind11": "3.0.1",
+  "compiler": "g++.exe (Rev8, Built by MSYS2 project) 15.2.0",
+  "files": [
+    {
+      "path": "artifacts\\phase7\\pcst-source\\pcst_fast-1.0.10\\src\\pcst_fast.cc",
+      "bytes": 39800,
+      "sha256": "e3c0d7db0ea4941d76e4e74c6b2f00062ed82f849b7cbf4698ff67fb2fa39bae"
+    },
+    {
+      "path": "artifacts\\phase7\\pcst-source\\pcst_fast-1.0.10\\src\\pcst_fast.h",
+      "bytes": 5101,
+      "sha256": "4bff7d3a28bd771cbb9d33c9540d407a475c29506aceb1ebc5b4be73dad3ec88"
+    },
+    {
+      "path": "artifacts\\phase7\\pcst-source\\pcst_fast-1.0.10\\src\\pcst_fast_pybind.cc",
+      "bytes": 4466,
+      "sha256": "ef96bb4dba1e3160baf712f66ff09f4bfdaca4d6dfadfe82ee41de75dc680f81"
+    },
+    {
+      "path": "D:\\codefiles\\RAG_GraphRAG_Demo\\.venv\\Lib\\site-packages\\pcst_fast.pyd",
+      "bytes": 987317,
+      "sha256": "423628343bfe9555e8f8aff726c06bd5a60ba310a602c560d8c4355dd9b26cc7"
+    },
+    {
+      "path": "D:\\codefiles\\RAG_GraphRAG_Demo\\.venv\\Lib\\site-packages\\libwinpthread-1.dll",
+      "bytes": 63675,
+      "sha256": "6661cfc5ca7dd8a6ae74687e4812d324e4be0ff8e0a83f92a9bfae04e6231d32"
+    }
+  ],
+  "smoke": "two prizes [2,1], edge cost .5 => vertices [0,1], edge [0]"
+}

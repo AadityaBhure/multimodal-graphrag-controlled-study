@@ -1,0 +1,26 @@
+{
+  "status": "pass",
+  "query_executions_after_resume": {
+    "CM-01": {
+      "started": 16,
+      "completed": 16
+    },
+    "CM-02": {
+      "started": 16,
+      "completed": 16
+    },
+    "CM-03": {
+      "started": 16,
+      "completed": 16
+    },
+    "CM-B0": {
+      "started": 16,
+      "completed": 16
+    },
+    "CM-B1": {
+      "started": 16,
+      "completed": 16
+    }
+  },
+  "additional_executions": 0
+}

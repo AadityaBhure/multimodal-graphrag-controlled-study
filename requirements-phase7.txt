@@ -1,0 +1,3 @@
+# Existing base requirements remain frozen. Native PCST setup is documented separately.
+pybind11==3.0.1
+matplotlib==3.10.7

@@ -1,0 +1,4 @@
+161 passed, 1 pre-existing DuckDB deprecation warning in 10.66s.
+Command: .\.venv\Scripts\python.exe -m pytest -q -p no:cacheprovider
+New RQ1 tests: 26. No live generation calls.
+Initial broad discovery collected downloaded third-party GoogleTest files; pytest.ini now restricts collection to the existing project tests directory.

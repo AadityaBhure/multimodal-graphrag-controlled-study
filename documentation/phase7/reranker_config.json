@@ -1,0 +1,10 @@
+{
+  "model": "BAAI/bge-reranker-large",
+  "revision": "55611d7bca2a7133960a6d3b71e083071bbfc312",
+  "max_length": 512,
+  "batch_size": 1,
+  "device": "cpu",
+  "dtype": "float32",
+  "threads": 2,
+  "approved_by": "explicit user model selection 2026-10-09"
+}
