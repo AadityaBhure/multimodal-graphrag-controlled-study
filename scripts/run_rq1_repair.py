@@ -17,7 +17,7 @@ from research.baselines.generation import PROMPT
 from research.rq1.reranker import LocalReranker
 from research.repair.rq1_compliance_v1.system import RepairedContextSystem
 from research.repair.rq1_compliance_v1.cm03 import keywords,KEYWORD_PROMPT
-from research.repair.dispatch import Dispatcher,Paused,write
+from research.repair.dispatch import Dispatcher,Paused,write,pre_dispatch_tokens,OVERHEAD_RESERVE
 from scripts.prepare_rq1_repair import save
 
 D=ROOT/'documentation/rq1_repair'
@@ -49,7 +49,9 @@ def freeze():
         'queries':sorted(data),'maximum_successful_calls':192,'keyword_calls':32,'final_calls':160,
         'model':'openai/gpt-oss-120b','max_completion_tokens_per_stage':1024,'temperature':0,'reasoning_effort':'low',
         'initial_cooldown_seconds':90,'minimum_start_spacing_seconds':90,'test_human_test':False,
-        'keyword_prompt':KEYWORD_PROMPT,'final_prompt':PROMPT,'cohort_frozen_before_outcomes':True})
+        'keyword_prompt':KEYWORD_PROMPT,'final_prompt':PROMPT,'cohort_frozen_before_outcomes':True,
+        'operational_revision':2,'admission_policy':'pre-dispatch tokens = local o200k_harmony content tokens + %d overhead reserve <= 8000; completion cap 1024 is sent unchanged and is not charged at admission (groq-admission-probe-v1, HTTP 200)'%OVERHEAD_RESERVE,
+        'overhead_reserve_tokens':OVERHEAD_RESERVE,'timing_boundary':'initialise() outside per-query context timer; initialisation_ms recorded separately'})
     print('FROZEN 32 queries; 32 keyword +160 final calls; max192; 196608 completion-token allowance',flush=True)
 
 class FinalGenerator:
@@ -93,12 +95,12 @@ def execute():
         # executes the same frozen diffusion without looking at gold/outcomes.
         reader=BenchmarkReader(ROOT/'data/MMG_STARK_MAG/benchmark')
         validation={q.query_id:q for q in reader.records('validation') if q.query_id in data}
-        offline=RepairedContextSystem('CM-03',data,encoder.encode,reranker,cache)
+        offline=RepairedContextSystem('CM-03',data,encoder.encode,reranker,cache);offline.initialise()
         for q,obj in sorted(data.items()):
             seed=int(content_hash({'seed':42,'query_id':q})[:8],16)
             out=offline.execute(SystemInput(query_id=q,question=obj['question'],seed=seed,overlay=reader.overlay(validation[q])))
             user='QUESTION\n'+obj['question']+'\n\nEVIDENCE\n'+out.context
-            reserved=sum(len(dispatcher.encoder.encode(s,disallowed_special=())) for s in (PROMPT,user))+256+1024
+            reserved=pre_dispatch_tokens(sum(len(dispatcher.encoder.encode(s,disallowed_special=())) for s in (PROMPT,user)))
             if reserved>8000:raise Paused('CM-03 unchanged context exceeds observed capacity: '+q)
             write(D/'cm03_local_audit'/(content_hash(q)+'.json'),{'query_id':q,'reserved_tokens':reserved,
                 'context_sha256':content_hash(out.context),'diagnostics':json.loads(out.diagnostics)})
@@ -108,6 +110,8 @@ def execute():
             if digest(path)!=c['sha256']:raise ValueError('Frozen config mismatch')
             cfg=RunnerConfig.model_validate_json(path.read_text(encoding='utf-8'));start=time.perf_counter()
             system=RepairedContextSystem(cfg.system_id,data,encoder.encode,reranker,cache,FinalGenerator(dispatcher,cfg.system_id))
+            # Resource/model setup happens before any per-query timer; its cost is recorded separately.
+            write(D/'initialisation'/(cfg.system_id+'.json'),{'method':cfg.system_id,'initialisation_ms':system.initialise()})
             run(cfg,ROOT/'data/MMG_STARK_MAG/benchmark',D/'runs'/cfg.system_id,system,provenance=provenance)
             print('METHOD COMPLETE',cfg.system_id,'operational_seconds',time.perf_counter()-start,flush=True)
         write(D/'execution_status.json',{'status':'executed_pending_audit','phase9_started':False})

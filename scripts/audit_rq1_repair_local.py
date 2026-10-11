@@ -13,7 +13,7 @@ from research.baselines.stores import QueryEncoder
 from research.baselines.config import BaselineOptions
 from research.rq1.reranker import LocalReranker
 from research.repair.rq1_compliance_v1.system import RepairedContextSystem
-from research.repair.dispatch import write
+from research.repair.dispatch import write,pre_dispatch_tokens
 from research.common.serialization import content_hash
 
 def main(methods=('CM-B0','CM-B1','CM-01','CM-02')):
@@ -26,7 +26,7 @@ def main(methods=('CM-B0','CM-B1','CM-01','CM-02')):
     tokenizer=tiktoken.get_encoding('o200k_harmony');rows=[];started=time.perf_counter();hashes={}
     from research.baselines.generation import PROMPT
     for method in methods:
-        system=RepairedContextSystem(method,data,encoder.encode,reranker)
+        system=RepairedContextSystem(method,data,encoder.encode,reranker);system.initialise()
         for qid in sorted(data):
             q=queries[qid];start=time.perf_counter()
             out=system.execute(SystemInput(query_id=qid,question=q.question,seed=42,overlay=reader.overlay(q)))
@@ -35,13 +35,13 @@ def main(methods=('CM-B0','CM-B1','CM-01','CM-02')):
             if qid in hashes:assert hashes[qid]==(key,d['pass_through_hashes'])
             else:hashes[qid]=(key,d['pass_through_hashes'])
             user='QUESTION\n'+q.question+'\n\nEVIDENCE\n'+out.context
-            reserved=sum(len(tokenizer.encode(s,disallowed_special=())) for s in (PROMPT,user))+256+1024
+            reserved=pre_dispatch_tokens(sum(len(tokenizer.encode(s,disallowed_special=())) for s in (PROMPT,user)))
             row={'method':method,'query_id':qid,'context_chars':len(out.context),'reserved_tokens':reserved,
                 'seconds':time.perf_counter()-start,'evidence_hash':key,'pass_through_hashes':d['pass_through_hashes'],
                 'memory':process_memory(),'fallback':d.get('fallback')}
             if reserved>8000:
                 write(D/'capacity_blocker.json',{'status':'BLOCKED_PROVIDER_CAPACITY','row':row,
-                    'content_tokens':reserved-256-1024,'completion_cap':1024,'chat_envelope_reserve':256,
+                    'content_tokens':reserved-128,'completion_cap':1024,'overhead_reserve':128,
                     'observed_tpm':8000,'context_sha256':content_hash(out.context),'query_sha256':content_hash(q.question),
                     'tokenizer':'tiktoken-0.12.0:o200k_harmony','scientific_payload_changed':False,
                     'request_sent':False,'wait_can_resolve':False,'diagnostics':d})

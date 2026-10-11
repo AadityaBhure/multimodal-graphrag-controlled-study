@@ -14,11 +14,31 @@ class RepairedContextSystem:
     def __init__(self,method,inputs,encode,reranker=None,keyword_cache=None,generator=None):
         self.system_id=method;self.inputs=inputs;self.encode=encode;self.reranker=reranker
         self.keyword_cache=keyword_cache;self.generator=generator
+        self._initialised=False;self.initialisation_ms=None
         self.fingerprint=content_hash({'method':method,'inputs':inputs,'version':self.version,'prompt':PROMPT,
             'generation':getattr(generator,'version','offline'),'keyword_cache':keyword_cache if method=='CM-03' else None,
             'reranker':getattr(reranker,'fingerprint',None) if method=='CM-01' else None})
 
+    def initialise(self):
+        """Load frozen models/resources BEFORE per-query timing; results of the warm-up calls are discarded.
+
+        Operational timing boundary only: same weights, inputs and ordering. Setup cost is
+        recorded separately as initialisation_ms and never inside context_ms.
+        """
+        if self._initialised:return self.initialisation_ms
+        started=time.perf_counter();method=self.system_id
+        if method in ('CM-01','CM-03') and self.encode is not None:self.encode(['initialisation warm-up'])
+        if method=='CM-01' and self.reranker is not None:
+            load=getattr(self.reranker,'load',None)
+            if load:load()
+            self.reranker('initialisation warm-up query',['initialisation warm-up text'])
+        if method=='CM-02':import pcst_fast  # noqa: F401 (solver import outside the query timer)
+        self.initialisation_ms=(time.perf_counter()-started)*1000;self._initialised=True
+        return self.initialisation_ms
+
     def execute(self,request):
+        lazy=not self._initialised
+        if lazy:self.initialise()  # outside the context timer; flagged so a runner that forgot to initialise is visible
         data=self.inputs[request.query_id]
         if request.question!=data['question']:raise ValueError('Question differs from frozen input')
         pool=Pool.model_validate(data['pool']);before=pool.fingerprint();budget=data['source_budget']-len('[GRAPH]\n')
@@ -87,7 +107,7 @@ class RepairedContextSystem:
                 usage[name]=a+b if a is not None and b is not None else None
             usage['token_measurement_source']='groq.response.usage' if usage.get('input_tokens') is not None else None
         assert pool.fingerprint()==before
-        d.update(context_ms=context_ms,pass_through_hashes={s:v['sha256'] for s,v in data['pass_through'].items()},
+        d.update(initialisation_ms=self.initialisation_ms,initialised_lazily_inside_execute=lazy,context_ms=context_ms,pass_through_hashes={s:v['sha256'] for s,v in data['pass_through'].items()},
             candidate_hash=before,selected_paper_ids=paper_ids,graph_budget=budget,
             selected_node_count=len(selected_nodes),selected_edge_count=len(d['selected_edges']),
             graph_conflict_overlay_ids=[e.evidence_id for e in overlays],context_characters=len(context))

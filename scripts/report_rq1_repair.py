@@ -72,7 +72,8 @@ def main():
     running=0.
     for i,row in enumerate(valid):
         running=max(running,min(1.,(len(valid)-i)*row['p_cluster_sign_permutation']));row['p_holm']=running
-    write(D/'analysis.json',{'record_fingerprints':hashes,'tables':tables,'paired_f1':comparisons,
+    init={m:json.loads((D/'initialisation'/(m+'.json')).read_text(encoding='utf-8'))['initialisation_ms'] for m in METHODS if (D/'initialisation'/(m+'.json')).exists()}
+    write(D/'analysis.json',{'initialisation_ms_per_method':init,'record_fingerprints':hashes,'tables':tables,'paired_f1':comparisons,
         'statistical_unit':'base query family; stress variants remain paired within family',
         'bootstrap_seed':42,'bootstrap_replicates':10000,'limitations':'Only 8 base query families; exploratory validation, not benchmark-wide inference. NULL values excluded and counted. No automatic winner.'})
     print('Recomputed',len(tables),'summaries and',len(comparisons),'paired comparisons')

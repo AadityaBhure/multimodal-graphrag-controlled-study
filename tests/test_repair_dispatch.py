@@ -47,3 +47,17 @@ def test_429_preserves_headers_and_stops(tmp_path,monkeypatch):
     row=json.loads(next((tmp_path/'stages').glob('*.json')).read_text())
     assert row['status']=='rate_limited' and row['headers']['retry-after']=='90'
     assert 'fixture-secret' not in row['error']
+
+
+def test_completion_cap_not_charged_at_admission_but_overhead_reserve_is(tmp_path,monkeypatch):
+    # groq-admission-probe-v1: pre-dispatch = content tokens + 128 <= 8000; the 1024 cap is still sent.
+    d,calls,_=dispatcher(tmp_path,monkeypatch)
+    d.call('fits','s','x'*7871,42,1024)           # 7872 content + 128 == 8000 -> admitted although +1024 would not fit
+    assert len(calls)==1 and calls[0][1]['max_completion_tokens']==1024
+    row=json.loads(next((tmp_path/'stages').glob('*.json')).read_text())
+    assert row['reserved_tokens']==8000 and row['completion_cap']==1024 and 'bucket_debit_observed' in row
+    with pytest.raises(dispatch.Paused,match='cannot repair by waiting'):d.call('too-large','s','x'*7872,42,1024)  # 8001
+    assert len(calls)==1
+
+def test_pre_dispatch_rule_constants():
+    assert dispatch.OVERHEAD_RESERVE==128 and dispatch.pre_dispatch_tokens(7028)==7156
