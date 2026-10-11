@@ -30,10 +30,12 @@ def tasks(source):
     return sorted(result, key=lambda t: content_hash(t[0]))
 
 
-def main(source, shard, n):
+def main(source, shard, n, reverse=False):
     options = BaselineOptions()
     store = Stores(ROOT / 'data/MMG_STARK_MAG', ROOT / 'artifacts/phase9/work' / f'{source}-{shard}', options, modalities=(source,))
     mine = [t for i, t in enumerate(tasks(source)) if i % n == shard]
+    if reverse:                      # extra worker: start from the tail; existing durable results are skipped
+        mine = mine[::-1]
     (OUT / source).mkdir(parents=True, exist_ok=True); done = 0
     for qid, question, dev in mine:
         path = OUT / source / (content_hash(qid) + '.json')
@@ -55,4 +57,4 @@ def main(source, shard, n):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
+    main(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), len(sys.argv) > 4 and sys.argv[4] == 'reverse')

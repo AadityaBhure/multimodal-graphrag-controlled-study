@@ -1,0 +1,30 @@
+# RQ3 fixed downstream stack (Phase 1D §6 "RQ3 fixed downstream pipeline"). Identical for AR-B0, AR-B1, AR-01, AR-02, AR-03.
+# Only the retrieval-control policy varies. Nothing here may be tuned after Phase 9 outcomes exist.
+version: phase9-fixed-downstream-v1
+retrievers:                     # the UNCHANGED frozen B1 / B2 / B3 retrieval functions (research/baselines/retrieval.py)
+  text: {function: text_retrieve, source: B1, top_k: 5}
+  graph: {function: graph_retrieve, source: B2, seeds: 3, seed_pool: 64, depth: 2, max_nodes: 2000, max_edges: 20000, per_node_edges: 128, top_k: 5}
+  structured: {function: structured_retrieve, source: B3, parser: deterministic supported-language, result_limit: 5}
+tools:
+  retrieve_text: raw or controller-written subquery string
+  retrieve_graph: query string (+ controller entities appended to the query string; relations are logged only)
+  query_structured: structured intent string parsed by the frozen deterministic B3 parser (read-only, parameterized)
+evidence_memory: cumulative, de-duplicated by evidence_id, acquisition order
+fusion: source-separated concatenation, fixed order Text -> Graph -> Structured, only for sources actually queried
+context_policy:
+  per_source_budget_characters: 8000          # = B4's 24,000 / 3; identical serialization of a source whatever else was queried
+  total_maximum_characters: 24000
+  truncation: B4 build_context rule (line-level, [TRUNCATED] marker)
+  stress_overlays: injected by the frozen Phase 6 apply_overlay for the sources that were queried
+generator:
+  model: openai/gpt-oss-120b
+  temperature: 0
+  reasoning_effort: low
+  prompt: research.baselines.generation.PROMPT   # unchanged final-answer prompt
+  completion_cap: 1024
+  parser: research.baselines.generation.parse_answer (answer_ids must be paper IDs present in the retained context)
+  seed: per-query seed from the Phase 5 runner (identical across policies)
+controller_models: {model: openai/gpt-oss-120b, temperature: 0, reasoning_effort: low}
+admission: local o200k_harmony content tokens + 128 <= 8000 TPM; completion cap sent unchanged (groq-admission-probe-v1: cap not charged at admission)
+llm_stage_reuse: byte-identical payloads reuse the recorded response; every logical call is still counted with its original usage and latency
+not_used: [CM-01, CM-02, CM-03, CF-02, CF-03, any RQ1/RQ2 repair output, retriever strengthening]
