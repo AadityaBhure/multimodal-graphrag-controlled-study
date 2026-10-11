@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "pre_repair_checkpoint": "34c8503",
+  "protected_files_unchanged": 1013,
+  "historical_review_manifests_verified": {
+    "documentation/phase7/review_manifest.json": 338,
+    "documentation/phase8_generation_v2/review_manifest.json": 113
+  },
+  "original_phase8_files_verified": 550,
+  "repair_instruction_sha256": "f11121e6a783c9056c6db9b2ad0739d8ab11e288fce05a31a3f1ef1b9aea5a43",
+  "scientific_implementation_changes": 0,
+  "api_calls": 0,
+  "repair_test_human_test_execution": false,
+  "phase9_started": false
+}

@@ -1,0 +1,6 @@
+{
+  "file": "CM01_Frozen_Provenance_Adaptation.txt",
+  "sha256": "e5d2f9d5ad671a2ab6def74311ae7499dd674544b4491a5e844a6103809577d1",
+  "frozen_before_repaired_results": true,
+  "purpose": "preserve modality isolation, not optimize outcomes"
+}

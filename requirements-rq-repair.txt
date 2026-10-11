@@ -1,0 +1,2 @@
+# Additive dependency; existing project environment and models remain pinned.
+tiktoken==0.12.0

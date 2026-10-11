@@ -1,0 +1,70 @@
+{
+ "audit_name": "pre-repair-checkpoint-preservation",
+ "baseline_tag_commit": "4592d102b363c7d55d3c85ee67efe89409ae96b5",
+ "clean_after_checkpoint_confirmed": true,
+ "current_head": "34c85038636b1223d1664042e0ce0f0640403dd0",
+ "elapsed_seconds": 12.968030300000464,
+ "free_disk_bytes": 323678212096,
+ "groups": {
+  "benchmark": {
+   "bytes": 427331862,
+   "files": 322,
+   "manifest_sha256": "e07f131468e0d38e9a4a5577411ffcfaac984418b3297bf28463e8e67ececf40"
+  },
+  "raw": {
+   "bytes": 2620778656,
+   "files": 15,
+   "manifest_sha256": "4c1936495d3744ece9869995993b7b64e055634eb9f2cb3673fce83b0505c107"
+  },
+  "representations": {
+   "bytes": 4117405659,
+   "files": 358,
+   "manifest_sha256": "dd8b516d6a50bb17de70e6e14c7eded7be0192a16be4c7687d534d3388c053b8"
+  }
+ },
+ "original_storage_files": 4,
+ "phase4_checkpoint": "34c85038636b1223d1664042e0ce0f0640403dd0",
+ "phase7_historical_files": 312,
+ "phase8_historical_files": 641,
+ "phase9_implementation_present": false,
+ "protected_baseline_files": 54,
+ "protected_historical_code_config_files_hash_checked": 2874,
+ "release_gate": "correctly_blocked_pending_review",
+ "repair_requests_sent": 0,
+ "repair_run_dirs_present": false,
+ "research_agentic_line_counts": {
+  "research/agentic/__init__.py": 1,
+  "research/agentic/adaptive_rag.py": 1,
+  "research/agentic/agent_g.py": 1,
+  "research/agentic/crag.py": 1,
+  "research/agentic/rule_router.py": 1
+ },
+ "resources": {
+  "current_working_set_bytes": 52305920,
+  "peak_working_set_bytes": 54460416
+ },
+ "sources": {
+  "generated": 167,
+  "official_human": 81,
+  "official_synthetic": 13323
+ },
+ "split_counts": {
+  "human_test": 81,
+  "test": 2720,
+  "train": 8049,
+  "validation": 2721
+ },
+ "status": "pass",
+ "stress": {
+  "conflict": 42,
+  "noisy": 41,
+  "normal": 13446,
+  "unanswerable": 42
+ },
+ "test_human_test_run": false,
+ "timestamp": "2026-10-11T06:49:48.701941+00:00",
+ "timestamp_utc": "2026-10-11T06:54:01.133181+00:00",
+ "tracked_files_modified": 0,
+ "tracked_files_total": 2930,
+ "unverified_labels": 13404
+}

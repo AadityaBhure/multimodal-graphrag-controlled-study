@@ -1,0 +1,577 @@
+0: Phase 1DExact Implementation Specifications
+1: Nine Retained Literature-Derived Methods
+2: RQ1 Context Management | RQ2 Cross-Modal Fusion | RQ3 Agentic Retrieval
+3: Status: implementation contract to freeze before Phase 2 dataset/evaluation design
+4: 
+5: 1. Purpose and Freeze Boundary
+6: This specification converts the nine retained literature methods into concrete, reproducible project implementations. It explicitly separates (a) what the source paper actually contributes from (b) the adaptation that will be implemented in this project. The purpose is controlled experimentation, not full end-to-end reproduction of every paper.
+7: Scientific control rule
+8: For RQ1, only context-selection/organization may change. For RQ2, the retrieved evidence pool must be cached and identical across fusion variants. For RQ3, the retriever implementations, context policy, fusion policy, final generator, and answer prompt must remain fixed; only the retrieval-control policy may change.
+9: 
+10: 2. What Is Frozen Now vs. Deferred to Phase 2
+11: Status
+12: Meaning
+13: Frozen now
+14: Method algorithms, method boundaries, class interfaces, method-specific hyperparameters/defaults, tuning policy, logging fields, fallbacks, and acceptance tests.
+15: Deferred to Phase 2
+16: Final dataset(s), train/dev/test split, corpus construction, gold evidence, final generator model, final embedding model if changed globally, final token budgets, exact question counts, and metric thresholds.
+17: Not allowed later
+18: A method cannot secretly change the generator, use a stronger retriever, add query rewriting/reranking not specified here, or use external web search unless the experiment explicitly names that as a separate variant.
+19: 3. Common Experimental Architecture
+20: Query  |  +--> Shared Text Retriever --------+  |                                  |  +--> Shared Graph Store/Retriever -+--> Evidence / Graph Objects  |                                  |  +--> Shared Structured/SQL Tool ---+                                      |                 RQ1 / RQ2 / RQ3 variant                                      |                              ContextPackage                                      |                           Shared Final Generator                                      |                                  Answer
+21: 3.1 Common data contracts
+22: All nine methods must consume and emit shared data structures. Method-specific code may not bypass these structures.
+23: EvidenceItem- evidence_id: str- source_type: "text" | "graph" | "structured"- content: str- relevance_score: float | None- token_count: int- provenance: {document_id, chunk_id, graph_ids, table, row_ids, ...}- canonical_entity_ids: list[str]- metadata: dictGraphNode- node_id: str- label: str- description: str- embedding: vector | referenceGraphEdge- edge_id: str- source_node_id: str- relation: str- target_node_id: str- description: str- source_evidence_ids: list[str]RetrievalBundle- text_items: list[EvidenceItem]- graph_items / graph_subgraph- structured_items: list[EvidenceItem]- retrieval_diagnostics: dictContextPackage- selected_items: list[EvidenceItem]- serialized_context: str- token_count: int- provenance_index: dict- method_diagnostics: dictMethodResult- method_id: str- context_package: ContextPackage | None- answer: str | None- status: "ok" | "insufficient_evidence" | "error"- trace: list[dict]- timings: dict- counters: {llm_calls, retrieval_calls, sql_calls, graph_expansions}
+24: 3.2 Shared runtime rules
+25: Generation temperature is fixed globally (target: 0 / deterministic decoding where supported).
+26: A single final-answer prompt template is used across all variants in the same research question.
+27: A single final generator model is used across all variants in the same experiment.
+28: A single embedding model is used globally for query/node/chunk similarity unless a method requires a different representation; any exception must be named as an ablation.
+29: Random seed is fixed (default seed = 42) for local algorithms and sampling.
+30: Every context-producing method must satisfy MAX_CONTEXT_TOKENS. If the native method exceeds the budget, evidence is removed using that method's own ranking/order; no extra hidden reranker is allowed.
+31: External internet retrieval is disabled in the main controlled experiments. CRAG's web-search branch is adapted to retrieval from an unqueried project source; a separate web-enabled ablation may be added later.
+32: If evidence is insufficient, the final generator must be allowed to return INSUFFICIENT_EVIDENCE rather than invent an answer.
+33: All intermediate LLM/tool calls count toward latency and cost metrics.
+34: 3.3 Shared code layout
+35: research/  methods/    common/      schemas.py      token_budget.py      serialization.py      logging.py      interfaces.py    context/      kg2rag_context.py      gretriever_pcst.py      qafd.py    fusion/      kag_alignment.py      sag_contextual.py      megarag_late.py    agentic/      adaptive_rag_router.py      crag_corrector.py      agent_g.py  retrievers/    text_retriever.py    graph_retriever.py    structured_retriever.py  evaluation/    runner.py    metrics.py    traces.py  configs/    common.yaml    cm_01_kg2rag.yaml    cm_02_pcst.yaml    cm_03_qafd.yaml    cf_01_kag.yaml    cf_02_sag.yaml    cf_03_megarag.yaml    ar_01_adaptive.yaml    ar_02_crag.yaml    ar_03_agent_g.yaml
+36: 
+37: 4. RQ1 - Context Management Implementations
+38: RQ1 compares how graph-backed evidence is bounded and organized before generation. All RQ1 methods receive the same query, the same indexed graph, the same chunk-to-graph provenance, the same embedding model, and the same final context-token budget.
+39: RQ1 scope
+40: Text-only and structured-only evidence is not modified by CM-01/02/03. Primary RQ1 analysis should focus on graph-dependent and multi-hop query strata. If text/SQL evidence is present in a mixed query, it is passed through a fixed baseline policy while only graph evidence changes.
+41: 
+42: 4.1 CM-01 - KG2RAG-Inspired Context Organization
+43: Source mechanism: Semantic Top-k seed chunks -> m-hop KG expansion -> weighted connected components -> maximum spanning tree (MST) filtering -> DFS paragraph construction -> cross-encoder ranking -> retain evidence until chunk/token budget.
+44: Paper-faithful basis: KG2RAG uses semantic seed retrieval, graph-guided expansion, and KG-based organization. The paper uses k=10 in the main setup, m=1 in the main expansion setup, constructs an MST per connected component, DFS-orders chunk text, and ranks MSTs using a cross-encoder over triplet representations.
+45: Project implementation status: Adaptation: we reproduce the organization logic, not the paper's entire end-to-end RAG stack.
+46: Input
+47: run_kg2rag_context(    query: str,    chunks: ChunkStore,    graph: KnowledgeGraph,    chunk_graph_links: Mapping[chunk_id, list[triple]],    max_context_tokens: int,    config: KG2RAGConfig) -> ContextPackage
+48: Frozen algorithm
+49: 1. Embed query q using GLOBAL_EMBEDDER.2. Compute cosine similarity s(q, chunk) for all retrievable chunks.3. Select seed chunks Dq = TopK(k_seed=10).4. Get all graph triples whose source chunk is in Dq.5. Expand the graph m_hops=1 from those seed-linked entities.6. For every expanded triple (h,r,t,c):      edge_weight = s(q, source_chunk=c)      create undirected weighted edge h <-> t      preserve relation r and source chunk c as metadata.7. Split expanded graph into connected components B1..Bp.8. For each component Bi:      Ti = maximum_spanning_tree(Bi)      choose the highest-weight edge as the traversal root      DFS over Ti      append each source chunk once, in first-encounter order      build:        a) text_representation(Ti)        b) triplet_representation(Ti)9. Score every Ti with GLOBAL_RERANKER(query, triplet_representation(Ti)).10. Sort trees by reranker score descending.11. Add tree text representations in that order, deduplicating chunk IDs,    until max_context_tokens is reached.12. Return ContextPackage + diagnostics.
+50: Configuration
+51: Parameter
+52: Frozen default
+53: Rule
+54: k_seed
+55: 10
+56: Source paper main setting; validation sweep permitted: {5,10,15}.
+57: m_hops
+58: 1
+59: Source paper main setting; keep fixed in primary run.
+60: similarity
+61: cosine
+62: Global embedder.
+63: tree
+64: maximum spanning tree
+65: One per connected component.
+66: tree ordering
+67: DFS from highest-weight edge
+68: Source-derived organization rule.
+69: reranker
+70: GLOBAL_RERANKER
+71: Same configured reranker whenever a method needs reranking.
+72: deduplicate chunks
+73: true
+74: A chunk may appear at most once in final context.
+75: budget stop
+76: token budget
+77: Hard MAX_CONTEXT_TOKENS.
+78: Diagnostics to log
+79: seed_chunk_ids and scores; expanded node/edge counts; number of connected components; MST node/edge counts; pre/post dedup chunk counts; selected tree scores; final tokens; evidence coverage; latency by stage.
+80: Failure / fallback
+81: If no graph-linked seed chunks exist, return the semantic seed chunks unchanged under the token budget and set diagnostics.fallback='semantic_only'. Do not invoke another context method.
+82: Acceptance tests
+83: Output never exceeds MAX_CONTEXT_TOKENS.
+84: Every output chunk is traceable to an original chunk ID.
+85: No duplicate chunk IDs appear.
+86: With m_hops=0, behavior collapses to organization of seed-linked graph evidence only.
+87: MST for each connected component contains no cycles.
+88: Same inputs/config/seed produce identical ordering.
+89: 4.2 CM-02 - G-Retriever-Inspired PCST Selection
+90: Source mechanism: Query-node/edge similarity -> rank-based prizes -> Prize-Collecting Steiner Tree objective -> compact connected subgraph.
+91: Paper-faithful basis: G-Retriever assigns descending prizes k..1 to the most query-relevant nodes/edges, zero to the rest, and maximizes node prizes + edge prizes - edge cost. The paper makes edge cost Ce adjustable; reported settings include Ce=1 for SceneGraphs and Ce=0.5 for WebQSP.
+92: Project implementation status: Adaptation: only the PCST retrieval/subgraph selection is implemented. The paper's GNN, projection layer, graph soft prompt, and LLM fine-tuning are deliberately excluded from RQ1.
+93: Input
+94: run_pcst_context(    query: str,    graph: KnowledgeGraph,    max_context_tokens: int,    config: PCSTConfig) -> ContextPackage
+95: Frozen algorithm
+96: 1. Embed query q, every graph node text, and every edge text with GLOBAL_EMBEDDER.2. Compute cosine similarities:      sim_node(v) = cos(q, node_text(v))      sim_edge(e) = cos(q, edge_text(e))3. Select:      top k_node nodes      top k_edge edges4. Assign rank prizes:      highest ranked item -> k      ...      kth item -> 1      all unselected items -> 05. Define PCST objective:      maximize Σ node_prize + Σ edge_prize - |E_selected| * C_e      subject to selected subgraph being connected.6. Convert positive edge prizes to the virtual-node construction used by G-Retriever   when required by the PCST solver.7. Solve PCST with pcst_fast (or another fixed solver producing equivalent objective).8. Convert selected subgraph to deterministic text:      sort connected evidence by BFS from highest-prize node,      tie-break by node_id / edge_id.9. If textualization exceeds MAX_CONTEXT_TOKENS:      remove the lowest net-contribution leaf branch iteratively      (prize contribution - C_e), recomputing tokens after each removal.10. Return final connected subgraph + provenance + diagnostics.
+97: Configuration
+98: Parameter
+99: Frozen default
+100: Rule
+101: k_node
+102: 3
+103: Paper-derived starting point; dev grid {3,5,10,20}.
+104: k_edge
+105: 5
+106: Paper-derived WebQSP starting point; dev grid {3,5,10,20}.
+107: C_e
+108: 0.5
+109: Paper-derived WebQSP starting point; dev grid {0.5,1.0,2.0}.
+110: similarity
+111: cosine
+112: Source paper choice.
+113: prizes
+114: rank based k..1
+115: Do not substitute raw similarity in primary run.
+116: solver
+117: pcst_fast
+118: Version pinned in requirements.
+119: serialization
+120: deterministic BFS
+121: Project-only serialization; generator kept fixed.
+122: Diagnostics to log
+123: top node/edge IDs and cosine scores; assigned prizes; Ce; PCST objective; selected node/edge counts; bridge nodes/edges with zero direct prize; token count; pruning after serialization; solver time.
+124: Failure / fallback
+125: If PCST returns an empty graph, return the single highest-relevance node plus its text provenance. Mark fallback='highest_node'.
+126: Acceptance tests
+127: Returned graph is connected unless only one node exists.
+128: Prize assignment exactly follows rank order.
+129: Increasing Ce on a fixed input must not systematically increase selected edge count; regression test on fixtures.
+130: Virtual-node edge-prize transformation preserves selected original edges when mapped back.
+131: No GNN/soft-prompt code is invoked by CM-02.
+132: 4.3 CM-03 - QAFD-RAG Query-Aware Flow Diffusion
+133: Source mechanism: Query keyword extraction -> semantic seed nodes -> query-aware edge reweighting -> push/relabel-style flow diffusion -> support nodes define the retrieved subgraph.
+134: Paper-faithful basis: QAFD-RAG is training-free. It computes node seeds from query semantics, dynamically reweights edges, injects mass into seeds, and discovers relevant graph support locally. The source reports task-dependent settings; its narrative QA experiments use alpha=10, a 40-node source budget and minimum flow 0.01, while sensitivity sections also study seed counts including 20 and alpha values including 10.
+135: Project implementation status: Adaptation: preserve QAFD mechanics but freeze a resource-conscious source budget suitable for the project's local environment.
+136: Input
+137: run_qafd_context(    query: str,    graph: KnowledgeGraph,    max_context_tokens: int,    config: QAFDConfig) -> ContextPackage
+138: Frozen algorithm
+139: 1. Extract query keywords/concepts Kq using KEYWORD_EXTRACTOR.   Primary implementation: deterministic LLM JSON prompt; cache result by query_id.2. Embed every keyword and graph node with GLOBAL_EMBEDDER.3. score(v,q) = max cosine(keyword_i, node_v).4. Select N_seed=20 top nodes as seeds.5. For every edge reached during diffusion, compute the project's hybrid query-aware   edge weight implementation from the QAFD paper formulation.6. Set sink capacity T_v = 1 for all explored nodes.7. Inject source mass using alpha=10.8. Run push/relabel-style diffusion:      while excess_mass > convergence_epsilon and iter < N_max:          choose an active node deterministically from priority queue          compute query-aware outgoing weights          absorb capacity and distribute excess9. Keep nodes with x_v > support_threshold=0.01.10. Build the induced subgraph over retained nodes plus traversed retained edges.11. Rank retained nodes by x_v descending.12. Serialize evidence by descending x_v while preserving connecting edges.13. Enforce MAX_CONTEXT_TOKENS by dropping lowest-x leaf/peripheral evidence first.14. Return ContextPackage + flow diagnostics.
+140: Configuration
+141: Parameter
+142: Frozen default
+143: Rule
+144: N_seed
+145: 20
+146: Project default; dev grid {10,20,40}.
+147: alpha
+148: 10
+149: Paper-supported setting.
+150: sink_capacity
+151: 1
+152: Paper setting in reported Text-to-SQL configuration.
+153: support_threshold
+154: 0.01
+155: Paper-reported minimum flow/support threshold in narrative experiments.
+156: convergence_epsilon
+157: 0.05
+158: Paper-reported convergence threshold.
+159: N_max
+160: 1,000,000
+161: Paper safeguard; production runner may stop earlier on wall-time timeout and mark it.
+162: edge_weight
+163: hybrid query-aware
+164: Use one exact implementation; other QAFD formulas are ablations only.
+165: keyword cache
+166: enabled
+167: Avoid stochastic repeated extraction.
+168: Diagnostics to log
+169: keywords; seed node IDs/scores; explored nodes/edges; iteration count; total injected mass; per-node x values for retained support; support size; convergence status; timeout status; final tokens; diffusion time.
+170: Failure / fallback
+171: If no keyword/seed can be linked, fall back to top-N node semantic retrieval under the same token budget and mark fallback='semantic_nodes'. If diffusion reaches N_max or timeout, return the current support and mark convergence=false.
+172: Acceptance tests
+173: With all query-aware edge weights forced equal, the implementation behaves like a static diffusion ablation.
+174: All retained nodes have x_v > support_threshold unless needed solely as a connector and explicitly tagged connector=true.
+175: No graph node is fetched before it becomes reachable/explored in the lazy traversal fixture.
+176: Same cached keywords and graph produce deterministic support.
+177: Output respects token budget.
+178: 
+179: 5. RQ2 - Cross-Modal / Heterogeneous Fusion Implementations
+180: RQ2 must isolate fusion. Therefore retrieval is run once per query with the fixed baseline retrievers, the resulting RetrievalBundle is cached, and all CF variants receive the exact same evidence IDs and raw evidence content. No fusion method is allowed to retrieve additional evidence.
+181: Fusion invariant
+182: CF-01, CF-02 and CF-03 may reorganize, select, summarize, or synthesize the cached evidence, but they may not issue new Text, Graph, or SQL retrieval calls.
+183: 
+184: 5.1 CF-01 - KAG-Inspired Entity-Aligned Fusion
+185: Source mechanism: KAG's broader framework includes mutual indexing between knowledge structures and original chunks, plus knowledge alignment and logical-form-guided reasoning.
+186: Project implementation status: Adaptation: implement only the mutual-indexing/alignment principle as an early-fusion representation. Do not reproduce KAG-Solver or KAG-Model in RQ2.
+187: Input
+188: run_kag_alignment(    query: str,    bundle: RetrievalBundle,    max_context_tokens: int,    entity_resolver: CanonicalEntityResolver,    config: KAGFusionConfig) -> ContextPackage
+189: Frozen algorithm
+190: 1. Take the cached Text, Graph, and Structured evidence items.2. Resolve/attach canonical_entity_ids to each item.   Resolution order:      a) explicit dataset/entity ID if available      b) exact normalized alias table      c) GLOBAL_ENTITY_RESOLVER   No free-form LLM entity invention is allowed in the primary run.3. Build entity groups:      entity_id -> {text items, graph items, structured items}4. Evidence with no resolved entity enters an UNALIGNED group keyed by evidence_id.5. For every entity group, compute:      group_score = max(member.relevance_score; missing score treated as 0)      source_coverage = number of distinct source types   Primary ordering:      group_score descending,      then source_coverage descending,      then canonical_entity_id.6. Serialize each group:      [ENTITY id | display_name]      [TEXT] ...      [GRAPH] ...      [STRUCTURED] ...      [PROVENANCE] ...7. Within a group, preserve the source retriever's ranking.8. Add complete groups until the token budget is reached.9. If the next full group does not fit, add its highest-ranked individual evidence items   only if they fit; mark group_truncated=true.10. Return aligned context + provenance map.
+191: Configuration
+192: Parameter
+193: Frozen default
+194: Rule
+195: alignment
+196: ID -> alias -> resolver
+197: Order frozen.
+198: group score
+199: max member relevance
+200: Simple; avoids adding arbitrary learned weights.
+201: tie break
+202: source coverage, entity ID
+203: Deterministic.
+204: source order
+205: Text -> Graph -> Structured
+206: Presentation-only; fixed across all runs.
+207: unaligned evidence
+208: allowed
+209: Serialized separately; never silently dropped.
+210: new retrieval
+211: forbidden
+212: Critical RQ2 control.
+213: Diagnostics to log
+214: resolved/unresolved evidence counts; entity groups; group source coverage; conflicts detected; final group order; truncated groups; provenance completeness; tokens.
+215: Failure / fallback
+216: If no entities resolve, output source-separated cached evidence (CF-B1 representation) and mark fallback='source_separated'.
+217: Acceptance tests
+218: Every cached evidence item is either in one entity group or an explicit UNALIGNED group.
+219: No evidence ID is duplicated across groups.
+220: No retrieval calls occur inside CF-01.
+221: All output claims preserve provenance references to original evidence items.
+222: 5.2 CF-02 - SAG-Inspired Dual-Path Contextual Fusion
+223: Source mechanism: SAG combines a structural event/entity path with a direct semantic path. Its default final output is Kout=10, with an LLM selecting up to Kevent=5 structural events and the semantic path filling the remaining slots.
+224: Project implementation status: Adaptation: the cached Graph + Structured evidence constitutes the structural path; cached Text evidence constitutes the semantic path. We do not rebuild SAG's event/entity retrieval index inside the RQ2 fusion experiment.
+225: Input
+226: run_sag_fusion(    query: str,    bundle: RetrievalBundle,    max_context_tokens: int,    selector_llm: LLM,    config: SAGFusionConfig) -> ContextPackage
+227: Frozen algorithm
+228: 1. structural_candidates = graph evidence + structured evidence.2. semantic_candidates = text evidence.3. Deduplicate by evidence_id/provenance overlap before selection.4. Build a compact candidate manifest:      ID, source_type, one-line content, provenance, relevance score.5. Call SELECTOR_LLM once with all structural candidates that fit SELECTOR_INPUT_BUDGET.   Ask it to return JSON:      {"selected_ids":[...], "reason":"..."}   Constraints:      - select <= K_structural=5      - select complementary evidence jointly      - select only IDs that exist6. Validate JSON. Remove invalid/duplicate IDs.7. selected = structural selected items.8. remaining_slots = K_out(10) - len(selected).9. Fill remaining slots from semantic_candidates in original retriever rank order,   skipping duplicates.10. If fewer than 10 total evidence items exist, keep all available items.11. Serialize source-labelled evidence; no intermediate answer generation.12. Enforce MAX_CONTEXT_TOKENS:      first remove lowest-ranked semantic fill items,      then lowest-priority structural item from selector order,      until budget fits.13. Return ContextPackage + selector trace.
+229: Configuration
+230: Parameter
+231: Frozen default
+232: Rule
+233: K_out
+234: 10
+235: Source-derived SAG default.
+236: K_structural
+237: 5
+238: Source-derived SAG default structural cap.
+239: selector calls
+240: 1
+241: One joint contextual selection call.
+242: selector output
+243: strict JSON IDs
+244: No free-text evidence generation.
+245: semantic fill
+246: retriever order
+247: No pointwise reranker.
+248: new retrieval
+249: forbidden
+250: RQ2 invariant.
+251: Diagnostics to log
+252: structural/semantic candidate counts; selector prompt token count; selected IDs/order; invalid-ID corrections; fill IDs; final source mix; LLM selector call latency/tokens; final context tokens.
+253: Failure / fallback
+254: If selector call fails or JSON cannot be repaired once, select structural candidates by existing relevance score up to five, mark selector_fallback='relevance', then semantic-fill to ten.
+255: Acceptance tests
+256: At most five structural items are selected before semantic fill.
+257: Final item count is at most ten before token-budget trimming.
+258: Selector can only return candidate IDs; generated prose cannot become evidence.
+259: No retrieval call occurs inside CF-02.
+260: Same cached bundle and deterministic selector settings produce reproducible selection.
+261: 5.3 CF-03 - MegaRAG-Inspired Late Fusion
+262: Source mechanism: MegaRAG separately reasons over graph and page/visual evidence, then uses a second-stage fusion prompt. Its ablation reports consistent regressions when the two-stage generation is replaced by single-pass generation.
+263: Project implementation status: Adaptation: perform source-specific reasoning over Text, Graph, and Structured evidence, then fuse the three intermediate outputs.
+264: Input
+265: run_megarag_late_fusion(    query: str,    bundle: RetrievalBundle,    reasoning_llm: LLM,    final_llm: LLM,    config: MegaFusionConfig) -> MethodResult
+266: Frozen algorithm
+267: 1. Do not merge evidence before reasoning.2. For each source in [text, graph, structured]:      if source has evidence:          call the same REASONING_LLM with:             query + only that source's cached evidence          require JSON:             {               "candidate_answer": "...",               "supporting_evidence_ids": [...],               "confidence": "low|medium|high"             }          max intermediate output = 220 tokens.      else:          create static NO_EVIDENCE object; no LLM call.3. Validate every supporting_evidence_id.4. Build final fusion input from the three source-specific objects.5. Call FINAL_LLM once with a fusion prompt:      - answer only from the source-specific grounded outputs      - preserve evidence IDs/provenance      - explicitly handle contradictions      - return INSUFFICIENT_EVIDENCE if sources do not support an answer6. Final answer generation uses the same answer-format constraints as other methods.7. Store the three intermediate outputs and final fusion trace.
+268: Configuration
+269: Parameter
+270: Frozen default
+271: Rule
+272: source-specific calls
+273: 0-3
+274: One per non-empty source.
+275: fusion calls
+276: 1
+277: Always one if at least one source is non-empty.
+278: intermediate max tokens
+279: 220
+280: Project cap to control cost.
+281: temperature
+282: global deterministic
+283: No source gets a stronger model/temperature.
+284: source order
+285: Text, Graph, Structured
+286: Fixed prompt order.
+287: new retrieval
+288: forbidden
+289: RQ2 invariant.
+290: Diagnostics to log
+291: per-source evidence IDs/tokens; intermediate candidate answers; intermediate supporting IDs; per-call latency/tokens; detected conflicts; fusion prompt tokens; final provenance coverage; total LLM calls.
+292: Failure / fallback
+293: If one source-specific call fails, replace only that source with ERROR_NO_EVIDENCE and continue. If final fusion fails, retry once with the exact same evidence and deterministic prompt. On second failure, status='error'.
+294: Acceptance tests
+295: An intermediate answer can cite only evidence from its own source.
+296: Final answer can cite only IDs present in intermediate grounded objects.
+297: No retrieval is performed inside CF-03.
+298: Removing one source from the cached bundle cannot cause the method to hallucinate a replacement source.
+299: 
+300: 6. RQ3 - Agentic Retrieval Implementations
+301: RQ3 compares control policies. The underlying Text, Graph, and Structured/SQL tools are identical for all AR variants. The context policy is fixed to a deterministic budgeted baseline and the fusion policy is fixed to source-separated concatenation for primary RQ3 experiments.
+302: RQ3 fixed downstream pipeline
+303: Tool outputs -> fixed per-source budget -> source-separated context -> shared final generator. AR variants may decide whether/when/which tool to call, but may not replace a retriever or use a stronger fusion method.
+304: 
+305: 6.1 Shared retrieval tool interface
+306: retrieve_text(query, top_k) -> list[EvidenceItem]retrieve_graph(    query,    entities=None,    relations=None,    max_hops=FIXED_GRAPH_HOPS) -> GraphEvidencequery_structured(    natural_language_intent,    read_only=True) -> list[EvidenceItem]All tools:- deterministic for fixed input/config- project/corpus scoped- provenance preserving- no unrestricted writes- same implementation across AR-B0, AR-B1, AR-01, AR-02, AR-03
+307: 6.2 AR-01 - Adaptive-RAG-Inspired Complexity Routing
+308: Source mechanism: Adaptive-RAG trains a smaller LM to classify questions into No Retrieval, Single-step Retrieval, or Multi-step Retrieval, then executes the corresponding strategy.
+309: Project implementation status: Adaptation with a resource-conscious classifier. The three-class routing principle is preserved; the exact T5-Large training stack is not required for the primary project implementation.
+310: Training / router specification
+311: Router labels:A = NO_RETRIEVALB = SINGLE_STEPC = MULTI_STEPPrimary classifier:- t5-base (project-feasible compromise; fixed version in requirements)- input: raw question- output token: A | B | C- optimizer: AdamW- seed: 42Training labels are generated ONLY from train/dev questions:1. Run the three fixed strategies A/B/C on each training query.2. Evaluate against available gold answer/evidence.3. Assign the cheapest strategy that satisfies the pre-registered success criterion.4. If none succeed, label C.5. No test query participates in label generation or training.
+312: Inference algorithm
+313: 1. route = classifier(query)2. if route == A:      no retrieval call      final generator receives query only3. if route == B:      use fixed base source router to choose ONE source      call it once      generate final answer4. if route == C:      run iterative retrieval up to MAX_MULTI_STEPS=3:         a) generate/revise next subquery from current evidence         b) base source router chooses next source         c) retrieve and append non-duplicate evidence         d) stop early if evidence-sufficiency check passes      generate final answer5. Log route and actual steps.
+314: Configuration
+315: Parameter
+316: Frozen default
+317: Rule
+318: router model
+319: t5-base
+320: Project adaptation; paper's primary classifier is T5-Large.
+321: labels
+322: A/B/C
+323: No / One / Multi.
+324: max multi steps
+325: 3
+326: Project fixed budget.
+327: labeling rule
+328: cheapest successful strategy
+329: Mirrors paper's outcome-based philosophy.
+330: base source router
+331: shared rule router
+332: Same in AR-B1 and used only to choose source inside B/C.
+333: test leakage
+334: forbidden
+335: No test outcomes used for router labels.
+336: Diagnostics to log
+337: predicted route; router confidence/logprob if available; true/oracle route on evaluation set; retrieval steps; sources used; early-stop step; answer quality; route confusion matrix; latency; LLM/tool call count.
+338: Failure / fallback
+339: If classifier output is invalid, route to B (single-step) and mark fallback='single_step'. If a multi-step subquery generator fails, stop retrieval and generate from accumulated evidence.
+340: Acceptance tests
+341: A makes zero retrieval calls.
+342: B makes exactly one retrieval call.
+343: C makes at most three retrieval calls unless a later separately named ablation changes the budget.
+344: Router training data excludes test questions.
+345: All three branches use the same final generator and answer prompt.
+346: 6.3 AR-02 - CRAG-Inspired Corrective Retrieval
+347: Source mechanism: CRAG scores retrieved documents and triggers Correct, Incorrect, or Ambiguous actions. Original CRAG fine-tunes T5-Large, uses dataset-specific thresholds, refines document strips, and can invoke web search.
+348: Project implementation status: Adaptation: keep the three-way correction policy, replace web search with project-source correction, and keep context refinement fixed so this remains an RQ3 control-policy experiment.
+349: Evaluator specification
+350: Primary evidence evaluator:- cross-encoder/ms-marco-MiniLM-L-6-v2 (local)- score each (query, evidence_item)- convert raw score to calibrated probability using validation-set Platt scaling- aggregate:    if max(score) >= UPPER -> GOOD    elif max(score) <= LOWER and all(score <= LOWER) -> BAD    else -> AMBIGUOUSThreshold calibration:- choose LOWER and UPPER on validation split only- grid:    LOWER in {0.20,0.25,0.30,0.35,0.40}    UPPER in {0.60,0.65,0.70,0.75,0.80}- objective: macro-F1 on GOOD/AMBIGUOUS/BAD retrieval-quality labels- require LOWER < UPPER- freeze chosen values before test evaluation.
+351: Inference algorithm
+352: 1. Use the shared rule router to choose the initial source.2. Retrieve from that source once.3. Evaluate evidence quality -> GOOD / AMBIGUOUS / BAD.4. GOOD:      stop retrieval and pass evidence to fixed downstream pipeline.5. AMBIGUOUS:      query the single highest-priority unqueried source from the shared rule router;      merge evidence; re-evaluate once.6. BAD:      query all remaining unqueried project sources in parallel;      merge evidence; re-evaluate once.7. Maximum correction rounds = 2 total evaluations after the first retrieval.8. If still BAD after all sources are exhausted:      return status='insufficient_evidence'.9. Final answer uses fixed context/fusion/generator.
+353: Configuration
+354: Parameter
+355: Frozen default
+356: Rule
+357: evaluator
+358: MiniLM cross-encoder + calibration
+359: Deliberate no-training adaptation.
+360: decision states
+361: GOOD / AMBIGUOUS / BAD
+362: Maps to CRAG Correct/Ambiguous/Incorrect.
+363: thresholds
+364: validation calibrated
+365: Never tuned on test.
+366: max correction rounds
+367: 2
+368: Controls cost.
+369: external web search
+370: disabled
+371: Replaced by unqueried project sources.
+372: strip-level refinement
+373: disabled in primary RQ3
+374: Would confound RQ1; may be separate ablation.
+375: Diagnostics to log
+376: initial source; per-evidence evaluator scores; calibrated probabilities; thresholds; decision per round; added sources; evidence count; stop reason; final status; correction latency; retrieval/tool calls.
+377: Failure / fallback
+378: If the evaluator fails, classify as AMBIGUOUS to allow one conservative correction step. If no unqueried source remains, return the accumulated evidence with status based on the last evaluation.
+379: Acceptance tests
+380: GOOD never triggers another retrieval.
+381: BAD queries all remaining unqueried project sources, never the public web in the primary experiment.
+382: No context-strip refinement code is executed in the primary RQ3 run.
+383: Thresholds are loaded from a frozen validation artifact, not computed during test.
+384: Same initial retrieval evidence yields same evaluator decision.
+385: 6.4 AR-03 - AGENT-G-Inspired Multi-Source Agent + Critic
+386: Source mechanism: AGENT-G uses an agent, retriever bank, generator, validator, and commentor. Its action includes domain, topic entities, useful relations, and retriever selection. Rejected answers receive corrective feedback and the agent retries.
+387: Project implementation status: Adaptation: extend the retriever bank from Text + Graph to Text + Graph + Structured/SQL while preserving the select-retrieve-generate-validate-comment loop.
+388: Agent action schema
+389: AgentAction = {  "iteration": int,  "source": "text" | "graph" | "structured" | "stop",  "retrieval_query": str,  "domain": str | null,  "entities": list[str],  "relations": list[str],  "structured_intent": str | null,  "reason_code": "textual" | "relational" | "numeric" | "hybrid" | "correction",  "stop_reason": str | null}
+390: Frozen algorithm
+391: Inputs:  query q  retriever bank {Text, Graph, Structured}  max iterations T=4  evidence_memory = []for t in 1..4:  1. Agent(q, previous_feedback, evidence_memory) -> AgentAction.  2. If action.source == stop:        break and generate from evidence_memory.  3. Execute exactly one retrieval tool for the selected source.  4. Add new non-duplicate evidence to evidence_memory.  5. Generator produces candidate_answer using:        q + fixed source-separated evidence_memory.  6. Validator receives:        q + candidate_answer + evidence_memory     and returns strict JSON:        {          "accept": true|false,          "error_type": "none|wrong_source|wrong_entity|wrong_relation|                        insufficient_evidence|unsupported_answer|structured_query_error",          "unsupported_claims": [...]        }  7. If accept=true:        return candidate_answer.  8. Commentor receives:        q + AgentAction + validator result     and returns concise corrective feedback for next iteration.  9. Prevent loops:        if the same normalized action is repeated twice with no new evidence:             feedback = "Previous action produced no new evidence. Choose a different source/action."             if repeated again -> stop with insufficient_evidence.After iteration 4:  - if last candidate is validator-accepted, return it  - else return INSUFFICIENT_EVIDENCE / best supported partial answer,    depending on evaluation protocol.
+392: Retriever-bank rules
+393: Source
+394: Tool
+395: Rule
+396: Text
+397: retrieve_text
+398: Use raw/re-written retrieval_query; top-k fixed globally.
+399: Graph
+400: retrieve_graph
+401: Use entities + relations + fixed max_hops; verbalize paths with provenance.
+402: Structured
+403: query_structured
+404: Read-only structured intent; tool validates/executes through shared SQL adapter.
+405: One tool per iteration
+406: true
+407: Preserves interpretable order and allows order/stopping analysis.
+408: Evidence memory
+409: cumulative
+410: Hybrid questions can combine evidence retrieved over multiple iterations.
+411: Critic configuration
+412: Component
+413: Frozen default
+414: Rule
+415: Validator
+416: same fixed LLM family
+417: Binary accept + structured error category.
+418: Commentor
+419: same fixed LLM family
+420: No model fine-tuning; prompt/ICL only.
+421: validator context
+422: query + answer + retrieved evidence
+423: Matches AGENT-G principle of validation context.
+424: max iterations
+425: 4
+426: Paper implementation uses four iterations in benchmark appendix.
+427: temperature
+428: 0
+429: Deterministic tool-control target.
+430: Diagnostics to log
+431: every AgentAction JSON; source order; tool arguments; retrieved evidence IDs; evidence-memory size; candidate answer; validator output; commentor feedback; repeated-action detection; stop reason; accepted iteration; total LLM calls; per-tool latency.
+432: Failure / fallback
+433: Malformed agent/critic JSON is repaired once using a deterministic schema-repair prompt. If repair fails, the iteration is counted and the shared rule router supplies the next source. Structured tool errors become validator error_type='structured_query_error' and may be corrected in the next iteration.
+434: Acceptance tests
+435: No more than four retrieval iterations occur.
+436: Exactly one source tool is invoked per iteration.
+437: Every final cited evidence ID exists in evidence_memory.
+438: Validator cannot access gold answers during inference.
+439: Commentor feedback cannot directly inject new factual evidence; it may only guide the next action.
+440: Repeated-action loop guard terminates pathological cycles.
+441: 
+442: 7. Hyperparameter Tuning Policy
+443: The method definitions above are fixed. Some numerical operating points may be calibrated on a validation split. To prevent post-hoc tuning, only the following pre-registered search spaces are allowed in the first experimental cycle.
+444: Method
+445: Allowed tuning
+446: Constraint
+447: CM-01 KG2RAG
+448: k_seed {5,10,15}
+449: Primary: 10. m_hops stays 1.
+450: CM-02 PCST
+451: k_node {3,5,10,20}; k_edge {3,5,10,20}; Ce {0.5,1,2}
+452: Choose one configuration on dev, then freeze.
+453: CM-03 QAFD
+454: N_seed {10,20,40}
+455: alpha=10, support=0.01, epsilon=0.05 remain fixed initially.
+456: CF-01 KAG
+457: No learned weight tuning
+458: Ordering rule fixed.
+459: CF-02 SAG
+460: No primary tuning
+461: Kout=10, Kstruct=5 fixed.
+462: CF-03 MegaRAG
+463: No primary tuning
+464: Intermediate max 220 tokens fixed.
+465: AR-01 Adaptive
+466: Classifier model fixed; training epochs by dev loss
+467: No test-driven route tuning.
+468: AR-02 CRAG
+469: LOWER/UPPER threshold grids only
+470: Calibrate on retrieval-quality labels.
+471: AR-03 AGENT-G
+472: No primary tuning
+473: T=4 fixed.
+474: 8. Unified Experiment Log Schema
+475: experiment_idtimestampgit_commitmethod_idmethod_versiondatasetsplitquery_idquery_typerandom_seedglobal:  generator_model  embedding_model  reranker_model  temperature  max_context_tokensmethod_config: {...}retrieval:  sources_called  source_call_order  retrieval_call_count  evidence_ids  retrieval_scoresgraph:  seed_nodes  selected_nodes  selected_edges  explored_nodes  explored_edgescontext:  pre_tokens  post_tokens  reduction_pct  selected_evidence_ids  redundancy_countagent:  actions  decisions  retries  stop_reason  source_selection_correct   # when gold source labels existgeneration:  answer  cited_evidence_ids  llm_call_count  input_tokens  output_tokenstiming:  embedding_ms  retrieval_ms  method_ms  generation_ms  total_msmetrics:  answer_metrics  retrieval_metrics  context_metrics  groundedness  evidence_coveragestatuserror_message
+476: 9. What Must Stay Constant Within Each Research Question
+477: Experiment
+478: Fixed
+479: Variable
+480: RQ1
+481: Dataset/query, graph/chunk provenance, embedder, final generator, prompt, output budget
+482: Graph evidence selection/organization policy
+483: RQ2
+484: Cached evidence bundle, query, generator family, final answer format, no new retrieval
+485: How cached evidence is aligned/selected/reasoned/fused
+486: RQ3
+487: Retriever implementations, fixed context policy, fixed source-separated fusion, generator, answer prompt
+488: When/which source is called, retries, correction, stopping
+489: 10. Implementation Order
+490: Order
+491: Module
+492: Reason
+493: 1
+494: Common schemas + deterministic serialization + logger
+495: Everything depends on this.
+496: 2
+497: CM-01 KG2RAG
+498: Simplest graph-context candidate; validates graph/chunk provenance.
+499: 3
+500: CM-02 PCST
+501: Adds graph optimization.
+502: 4
+503: CM-03 QAFD
+504: Most algorithmically complex RQ1 method.
+505: 5
+506: CF-01 KAG
+507: No extra LLM selector required if entity IDs are available.
+508: 6
+509: CF-02 SAG
+510: Adds one joint selector call.
+511: 7
+512: CF-03 MegaRAG
+513: Adds source-specific reasoning + final fusion.
+514: 8
+515: AR-B1 shared rule router + tools
+516: Required base control for AR methods.
+517: 9
+518: AR-01 Adaptive
+519: Adds learned complexity routing.
+520: 10
+521: AR-02 CRAG
+522: Adds evidence-quality correction.
+523: 11
+524: AR-03 AGENT-G
+525: Most complex orchestration and critic loop.
+526: 11. Exit Criteria for Phase 1D
+527: All nine modules have config files matching this specification.
+528: All modules pass their unit/acceptance tests on synthetic fixtures.
+529: No module contains a hidden fallback to another retained method.
+530: All methods emit the unified MethodResult and experiment log.
+531: Paper-faithful details and project adaptations are documented in module docstrings/README.
+532: The only remaining experimental decisions are Phase 2 dataset, gold evidence, global models/budgets, and metric thresholds.
+533: Phase 1D conclusion
+534: Once this specification is accepted, the research should move to Phase 2: dataset and experimental framework design. The implementation code should not be written against an ad-hoc corpus before the dataset representation and gold-evidence protocol are frozen.
+535: 
+536: 12. Paper Basis for the Frozen Methods
+537: ID
+538: Method
+539: Paper
+540: Supplied source
+541: CM-01
+542: KG2RAG
+543: Knowledge Graph-Guided Retrieval Augmented Generation
+544: arxiv.org_2502.06864.pdf
+545: CM-02
+546: G-Retriever
+547: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering
+548: arxiv.org_2402.07630.pdf
+549: CM-03
+550: QAFD-RAG
+551: Query-Aware Flow Diffusion for Graph-Based RAG with Retrieval Guarantees
+552: ICLR 2026 supplied PDF
+553: CF-01
+554: KAG
+555: Boosting LLMs in Professional Domains via Knowledge Augmented Generation
+556: arxiv.org_2409.13731.pdf
+557: CF-02
+558: SAG
+559: SQL-Retrieval Augmented Generation with Query-Time Dynamic Hyperedges
+560: arxiv.org_2606.15971.pdf
+561: CF-03
+562: MegaRAG
+563: Multimodal Knowledge Graph-Based Retrieval Augmented Generation
+564: arxiv.org_2512.20626.pdf
+565: AR-01
+566: Adaptive-RAG
+567: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity
+568: arxiv.org_2403.14403.pdf
+569: AR-02
+570: CRAG
+571: Corrective Retrieval Augmented Generation
+572: arxiv.org_2401.15884.pdf
+573: AR-03
+574: AGENT-G
+575: An Agentic Framework for Graph Retrieval Augmented Generation
+576: openreview.net_id_g2C947jjjQ.pdf

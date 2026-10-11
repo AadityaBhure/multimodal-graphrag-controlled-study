@@ -1,0 +1,29 @@
+{
+  "CM-B0": {
+    "records": 16,
+    "answer_null": 16,
+    "fallbacks": {}
+  },
+  "CM-B1": {
+    "records": 16,
+    "answer_null": 16,
+    "fallbacks": {}
+  },
+  "CM-01": {
+    "records": 16,
+    "answer_null": 16,
+    "fallbacks": {}
+  },
+  "CM-02": {
+    "records": 16,
+    "answer_null": 16,
+    "fallbacks": {}
+  },
+  "CM-03": {
+    "records": 16,
+    "answer_null": 16,
+    "fallbacks": {
+      "component_mass_exceeds_sink_capacity": 12
+    }
+  }
+}

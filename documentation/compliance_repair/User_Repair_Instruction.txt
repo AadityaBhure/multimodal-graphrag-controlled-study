@@ -1,0 +1,1424 @@
+# RQ1 + RQ2 SCIENTIFIC COMPLIANCE REPAIR
+# BLOCK PHASE 9 UNTIL BOTH RESEARCH QUESTIONS PASS
+
+You are not starting a new research phase.
+
+Your task is to perform a controlled forensic audit, repair, re-execution, and scientific closeout of:
+
+RQ1 — Context Management
+RQ2 — Cross-Modal Fusion
+
+Phase 9 / RQ3 remains BLOCKED.
+
+The objective is NOT to make results look better.
+The objective is to make the implementation and experiments conform exactly to the research design that was frozen before implementation, and to produce scientifically defensible results even if the advanced methods perform poorly.
+
+Do not delete, rewrite, hide, or overwrite any previous Phase 7 or Phase 8 result.
+
+Previous results must remain preserved as historical experiments.
+
+The repaired experiments must use NEW experiment identities and NEW output directories.
+
+Only after both RQ1 and RQ2 pass the scientific completion gates in this instruction may the project be considered ready to return to Phase 9.
+
+DO NOT BEGIN PHASE 9.
+
+======================================================================
+0. AUTHORITY ORDER — THIS IS NON-NEGOTIABLE
+======================================================================
+
+Before modifying code, read the following completely.
+
+Primary scientific authority:
+
+documentation/specifications/phase9/
+Phase1D_Exact_Implementation_Specifications_9_Methods.docx
+
+Despite its current directory location, this document is the original Phase 1D scientific specification for RQ1, RQ2 and RQ3.
+
+Authority precedence is:
+
+1. Phase1D_Exact_Implementation_Specifications_9_Methods.docx
+2. Globally frozen dataset/model/budget decisions made later where Phase 1D explicitly deferred them
+3. Codex_Full_Project_Implementation_Roadmap.docx
+4. Approved global Phase 0–6 baseline/data contracts
+5. This repair instruction, but ONLY where it clarifies experiment execution and does not contradict Phase 1D
+6. Later Phase 7/8 reports are evidence of what actually happened, NOT authority to redefine the methods
+
+If a later implementation/report/config conflicts with Phase 1D:
+
+PHASE 1D WINS.
+
+Do not silently choose the later behavior.
+
+If this repair instruction itself appears to contradict an explicit Phase 1D scientific method rule, stop and report the contradiction rather than changing the original contract.
+
+The Phase 9 addendum is irrelevant to RQ1/RQ2 and must not be used to redefine them.
+
+======================================================================
+1. PRESERVE CURRENT PROJECT STATE
+======================================================================
+
+Before repair work:
+
+1. Confirm that no Phase 9 controller implementation has begun.
+2. Confirm that Phase 7 and Phase 8 historical artifacts exist.
+3. Confirm benchmark/data/representation hashes.
+4. Confirm the original MVP tag.
+5. Confirm B1/B2/B3/B4 baseline code/configuration hashes.
+6. Confirm the latest approved Phase 8 state.
+7. Confirm that test/human-test has not been used for this repair.
+
+If there are uncommitted documentation-only files related to the Phase 9 pre-implementation review, preserve them in a clean checkpoint before repair.
+
+Create a checkpoint representing:
+
+PRE_RQ1_RQ2_COMPLIANCE_REPAIR
+
+Do not modify historical Phase 7/8 result files.
+
+Create new repair namespaces, for example:
+
+research/repair/rq1_compliance_v1/
+research/repair/rq2_compliance_v1/
+
+documentation/rq1_repair/
+documentation/rq2_repair/
+documentation/rq2_fusion_isolation/
+
+Exact repository organization may follow existing conventions, but old experiment records must remain immutable.
+
+======================================================================
+2. FIRST TASK: FORENSIC COMPLIANCE MATRIX
+======================================================================
+
+Do NOT immediately rewrite implementations.
+
+First compare:
+
+Phase 1D specification
+vs
+actual source code
+vs
+actual configs
+vs
+Phase 7/8 execution traces
+vs
+reported results
+
+Produce:
+
+documentation/RQ1_RQ2_Compliance_Matrix.md
+
+For every method, classify every frozen requirement as:
+
+PASS
+EQUIVALENT_IMPLEMENTATION
+DEVIATION
+MISSING
+UNVERIFIED
+
+Methods to audit:
+
+RQ1:
+CM-B0
+CM-B1
+CM-01
+CM-02
+CM-03
+
+RQ2:
+CF-B0
+CF-B1
+CF-01
+CF-02
+CF-03
+
+For each deviation include:
+
+- exact Phase 1D requirement;
+- actual implementation behavior;
+- whether the difference changes scientific meaning;
+- affected historical experiments;
+- required repair;
+- whether rerunning is necessary.
+
+Do not assume the already-known problems are exhaustive.
+
+Audit every algorithm step.
+
+======================================================================
+3. KNOWN RQ1 ITEMS THAT MUST BE EXPLICITLY CHECKED
+======================================================================
+
+Phase 1D states that RQ1 changes Graph context management only.
+
+Text-only and Structured-only evidence is not modified by CM-01/02/03.
+
+For mixed queries:
+
+Text and Structured evidence must pass through a FIXED BASELINE POLICY
+while only Graph evidence changes.
+
+The previous Phase 7 report described a graph-only comparison.
+
+Therefore explicitly audit and repair this boundary.
+
+Also audit the following.
+
+----------------------------------------------------------------------
+3.1 CM-01 KG²RAG-inspired
+----------------------------------------------------------------------
+
+Phase 1D requires:
+
+semantic Top-K seeds
+k_seed = 10 primary
+m_hops = 1
+query-to-source-chunk cosine similarity
+graph expansion
+connected components
+maximum spanning tree per component
+root from highest-weight edge
+deterministic DFS
+each source chunk appended once
+triplet representation for reranker
+GLOBAL_RERANKER
+tree ranking
+deduplication
+budget enforcement
+semantic-only fallback only when no graph-linked seed exists
+
+The user separately approved:
+
+BAAI/bge-reranker-large
+
+with the revision already pinned during Phase 7.
+
+Audit the current implementation against EVERY one of those steps.
+
+The Phase 7 implementation reportedly used a minimum spanning forest with
+cost = 1 - cosine.
+
+If and only if this produces exactly the same tree as maximizing cosine weight under the implemented conditions, formally document and test that mathematical equivalence.
+
+Otherwise replace it with the literal Phase 1D maximum-spanning-tree formulation.
+
+Do not change the reranker because Phase 7 performance was poor.
+
+----------------------------------------------------------------------
+3.2 CM-02 G-Retriever / PCST-inspired
+----------------------------------------------------------------------
+
+Verify exact compliance with:
+
+query-node cosine
+query-edge cosine
+top k_node = 3
+top k_edge = 5
+rank prizes k...1
+unselected prize = 0
+C_e = 0.5
+virtual-node transformation where required
+pcst_fast
+connected selected subgraph
+deterministic BFS serialization from highest-prize node
+lowest-net-contribution leaf pruning if budget exceeded
+fallback = single highest relevance node only if PCST returns empty
+
+Check specifically whether the implementation's
+"distinct edge-prize levels"
+matches the Phase 1D requirement of the top k_edge EDGES.
+
+If it does not, repair it.
+
+Do not modify prizes or C_e based on observed Phase 7 results.
+
+----------------------------------------------------------------------
+3.3 CM-03 QAFD-RAG-inspired
+----------------------------------------------------------------------
+
+This requires especially careful forensic review.
+
+Phase 1D requires:
+
+1. deterministic query keyword/concept extraction;
+2. cached keyword result by query_id;
+3. keyword-to-node cosine;
+4. node score = maximum keyword cosine;
+5. N_seed = 20;
+6. query-aware edge weighting using ONE exact frozen hybrid implementation;
+7. sink capacity = 1;
+8. alpha = 10;
+9. push/relabel-style diffusion;
+10. support threshold = 0.01;
+11. epsilon = 0.05;
+12. N_max = 1,000,000;
+13. retained support + induced graph;
+14. x_v-descending ranking;
+15. connector preservation;
+16. budget pruning from lowest-x peripheral evidence.
+
+Phase 1D fallback semantics are:
+
+- if no keyword/seed can be linked:
+  fallback='semantic_nodes';
+
+- if N_max or timeout is reached:
+  return CURRENT SUPPORT,
+  mark convergence=false.
+
+Audit the Phase 7 behavior that used
+`component_mass_exceeds_sink_capacity`
+and apparently fell back to semantic evidence on 12/16 records.
+
+If that fallback is not explicitly permitted by Phase 1D, remove it from the canonical repaired implementation.
+
+A pre-run mathematical infeasibility diagnostic may remain as diagnostics,
+but it must NOT silently replace the Phase 1D algorithm/fallback.
+
+If the frozen parameters produce poor or non-convergent results:
+
+RECORD THE POOR RESULT.
+
+Do not redesign QAFD to make it succeed.
+
+======================================================================
+4. REPAIR RQ1 IMPLEMENTATIONS
+======================================================================
+
+After the compliance matrix is complete:
+
+repair ONLY actual deviations.
+
+Do not rewrite already compliant components.
+
+The repaired canonical RQ1 systems are:
+
+CM-B0
+CM-B1
+CM-01
+CM-02
+CM-03
+
+Freeze configs before executing validation.
+
+Create new config/version identities such as:
+
+rq1-compliance-v1-CM-B0
+rq1-compliance-v1-CM-B1
+rq1-compliance-v1-CM-01
+rq1-compliance-v1-CM-02
+rq1-compliance-v1-CM-03
+
+Never overwrite old Phase 7 configs/results.
+
+======================================================================
+5. RQ1 EXPERIMENT BOUNDARY
+======================================================================
+
+Use ONLY verified generated validation records.
+
+Do not use:
+
+test
+human_test
+official records whose modality/hop labels remain unverified
+
+Determine the eligible RQ1 cohort deterministically BEFORE seeing repaired outcomes.
+
+Primary RQ1 cohort:
+
+ALL verified generated validation records whose verified required modality includes Graph:
+
+G
+TG
+GS
+TGS
+
+Do not choose a subset because it performs better.
+
+Report the exact resulting N and cohort distribution before execution.
+
+Retain verified stress/reasoning labels where available.
+
+For every query:
+
+Text retrieval, if required, is performed through the unchanged approved Text baseline retriever.
+
+Structured retrieval, if required, is performed through the unchanged approved Structured baseline retriever.
+
+These pass-through outputs must be byte/identity equivalent across all five CM methods.
+
+Only the Graph context-management component may change.
+
+Use the already approved baseline source-separated downstream serialization and the already frozen Phase 6 global/per-source context-budget policy.
+
+Do NOT introduce a new budget during repair.
+
+For graph-only queries, only graph evidence is present.
+
+For mixed queries:
+
+TEXT
++
+METHOD-SPECIFIC GRAPH CONTEXT
++
+STRUCTURED
+
+with Text and Structured held constant between CM methods.
+
+Audit this invariant per query using hashes.
+
+======================================================================
+6. RQ1 ANSWER-QUALITY EVALUATION
+======================================================================
+
+The repaired RQ1 validation must measure BOTH:
+
+A. context/retrieval behavior;
+B. effect on final generated answer.
+
+Use the same final generator for every method:
+
+openai/gpt-oss-120b
+
+with the already frozen deterministic generation settings.
+
+Do not alter prompts between CM methods.
+
+Use rate-aware durable dispatch, as already established in Phase 8 v2.
+
+Do not change scientific inputs because of provider rate limits.
+
+If the provider imposes temporary limits:
+
+wait / safely resume unfinished calls under the SAME experiment identity.
+
+Do not rerun successful stages.
+
+Before dispatch, output an execution budget:
+
+number of eligible queries
+× 5 methods
+= maximum final-answer calls
+
+plus estimated token volume.
+
+If execution would require new paid spend beyond currently available allowance, stop only for that real blocker.
+
+Otherwise proceed.
+
+RQ1 metrics must include where defined:
+
+Set Accuracy
+Exact Match
+Precision
+Recall
+F1
+Answerability correctness
+
+Recall@K
+Precision@K
+MRR
+nDCG
+gold-paper coverage
+
+context characters
+context tokens where measurable
+evidence retained
+context reduction
+redundancy
+selected graph nodes
+selected graph edges
+
+context-management latency
+generation latency
+intrinsic total latency
+LLM calls
+provider input/output tokens
+
+fallback frequency
+convergence rate
+optimization diagnostics
+
+Do not fill unavailable values with zero.
+
+======================================================================
+7. RQ1 STATISTICAL ANALYSIS
+======================================================================
+
+Because the same queries are run through every CM method, use paired analysis.
+
+Report:
+
+mean
+median
+per-query delta
+distribution
+95% bootstrap CI with fixed seed 42
+
+For major pairwise answer-quality comparisons, use a justified paired permutation or paired non-parametric test when mathematically applicable.
+
+Use Holm correction for multiple method comparisons.
+
+Do not claim statistical significance on cohorts too small to support it.
+
+Produce Pareto analyses for:
+
+answer F1 vs context size
+answer F1 vs intrinsic latency
+gold coverage vs context size
+context reduction vs answer F1
+
+Do not automatically pick a winner.
+
+Identify Pareto-strong candidate(s).
+
+======================================================================
+8. RQ1 REPAIR REPORT AND INTERNAL CHECKPOINT
+======================================================================
+
+Produce:
+
+documentation/rq1_repair/
+RQ1_Scientific_Repair_Report.md
+
+Include:
+
+- compliance deviations found;
+- code/config repairs;
+- exact eligible cohort;
+- invariants;
+- tests;
+- retrieval/context results;
+- answer-quality results;
+- statistical analysis;
+- success/failure cases;
+- negative findings;
+- resource/API usage;
+- limitations;
+- comparison with historical Phase 7;
+- which historical Phase 7 conclusions remain valid;
+- which are superseded.
+
+End with:
+
+RQ1_IMPLEMENTATION_COMPLIANCE = PASS/FAIL
+RQ1_EXPERIMENTAL_COMPLIANCE = PASS/FAIL
+RQ1_SCIENTIFIC_STATUS = COMPLETE/INCOMPLETE
+
+RQ1 can proceed to the next repair stage only if all three PASS/COMPLETE.
+
+Checkpoint the repaired RQ1 state.
+
+DO NOT START PHASE 9.
+
+Proceed directly to RQ2 repair unless a true blocker exists.
+
+======================================================================
+9. RQ2 FORENSIC AUDIT
+======================================================================
+
+RQ2's core invariant is:
+
+RETRIEVAL IS EXECUTED ONCE.
+THE EVIDENCE BUNDLE IS FROZEN.
+EVERY FUSION METHOD RECEIVES THE IDENTICAL RAW BUNDLE.
+NO FUSION METHOD MAY RETRIEVE NEW EVIDENCE.
+
+Verify that this invariant remains intact.
+
+Audit CF-B0/B1/01/02/03 line-by-line against Phase 1D.
+
+Known concerns below are mandatory to inspect but are not exhaustive.
+
+======================================================================
+10. CF-B0 / CF-B1
+======================================================================
+
+Audit only.
+
+Do not change them unless actual noncompliance is found.
+
+CF-B0:
+raw concatenation baseline.
+
+CF-B1:
+source-separated Text / Graph / Structured baseline.
+
+These are control conditions.
+
+Preserve source rankings and deterministic serialization.
+
+======================================================================
+11. CF-01 KAG-INSPIRED REPAIR AUDIT
+======================================================================
+
+Verify exact Phase 1D behavior:
+
+resolution order:
+
+1. explicit canonical/dataset ID
+2. exact normalized alias
+3. GLOBAL_ENTITY_RESOLVER
+
+No free-form LLM entity invention.
+
+Build:
+
+entity_id ->
+{
+ text items,
+ graph items,
+ structured items
+}
+
+Unresolved evidence must remain in explicit UNALIGNED groups.
+
+Group score:
+
+max member relevance score
+missing score = 0
+
+Ordering:
+
+group score descending
+then source coverage descending
+then canonical_entity_id deterministically
+
+Serialization:
+
+ENTITY
+TEXT
+GRAPH
+STRUCTURED
+PROVENANCE
+
+Within groups preserve retriever ranking.
+
+Complete groups added first.
+
+If next group does not fit:
+add highest-ranked individual evidence items only if they fit;
+mark group_truncated=true.
+
+If no entities resolve:
+fall back to CF-B1/source-separated representation
+and mark the fallback.
+
+Audit whether the current implementation skipped the configured GLOBAL_ENTITY_RESOLVER.
+
+If an existing project-wide CanonicalEntityResolver exists, use it.
+
+If Phase 3 already provides authoritative canonical-ID/alias resolution, use that as the project-global resolver.
+
+Do not introduce a free-form generative resolver.
+
+Document real-data resolver usage counts.
+
+======================================================================
+12. CF-02 SAG-INSPIRED MUST BE CORRECTED
+======================================================================
+
+The previous Phase 8 implementation used deterministic lexical/query-token overlap.
+
+That implementation must remain preserved as a HISTORICAL ABLATION.
+
+It is NOT the canonical Phase 1D CF-02 method.
+
+Do not delete it.
+
+Rename/label it appropriately, e.g.:
+
+CF-02-LEXICAL-HISTORICAL
+
+The canonical repaired CF-02 must implement Phase 1D:
+
+structural_candidates =
+Graph evidence + Structured evidence
+
+semantic_candidates =
+Text evidence
+
+Deduplicate by evidence_id/provenance overlap.
+
+Build compact structural candidate manifest containing:
+
+ID
+source_type
+one-line content
+provenance
+relevance score
+
+Call SELECTOR_LLM exactly ONCE.
+
+Use:
+
+model = openai/gpt-oss-120b
+temperature = 0
+reasoning effort = low
+
+The selector MUST NOT answer the user question.
+
+Selector instruction:
+
+"You are selecting complementary structural evidence for a downstream
+question-answering model. From the supplied Graph and Structured candidate
+manifest, select at most five evidence IDs that jointly provide the strongest
+support for answering the query. Prefer complementary items over duplicates.
+Use only supplied IDs. Do not generate new evidence or answer the query.
+Return strict JSON only."
+
+Schema:
+
+{
+  "selected_ids": ["..."],
+  "reason": "..."
+}
+
+Constraints:
+
+K_structural = 5
+K_out = 10
+
+Validate all IDs.
+
+Remove invalid/duplicate IDs.
+
+Then:
+
+selected = structural selected items
+
+remaining_slots =
+10 - number of valid structural selections
+
+Fill remaining positions with Text evidence in ORIGINAL text-retriever order.
+
+Skip duplicates.
+
+If fewer than ten total items exist:
+retain all available.
+
+Serialize source-labelled evidence.
+
+Budget pruning order:
+
+1. remove lowest-ranked semantic fill evidence;
+2. then lowest-priority structural item in selector order;
+3. continue until global budget fits.
+
+Failure policy:
+
+if selector fails OR JSON cannot be repaired once:
+
+select structural candidates by existing relevance score up to five;
+mark:
+
+selector_fallback = relevance
+
+then perform normal semantic fill.
+
+No lexical overlap selector may be used in canonical CF-02.
+
+SELECTOR_INPUT_BUDGET must use the existing current frozen global context/input budget mechanism.
+
+Do not invent a larger scientific input budget simply to improve CF-02.
+
+Record:
+
+selector request
+selected IDs
+reason
+usage
+latency
+invalid IDs
+repair/fallback
+final source mix.
+
+======================================================================
+13. CF-03 MEGARAG-INSPIRED MUST BE CORRECTED
+======================================================================
+
+The previous implementation used intermediate objects based on:
+
+answer_ids
+explanation
+
+and restricted final IDs to their union.
+
+That is not the Phase 1D intermediate contract.
+
+Preserve those old experiments historically.
+
+Canonical repaired CF-03 must implement:
+
+for source in:
+
+Text
+Graph
+Structured
+
+if source has evidence:
+
+call the SAME reasoning model using:
+
+query
++
+ONLY that source's cached evidence
+
+Return STRICT JSON:
+
+{
+  "candidate_answer": "...",
+  "supporting_evidence_ids": ["..."],
+  "confidence": "low|medium|high"
+}
+
+Intermediate completion cap:
+
+220 tokens
+
+temperature:
+same global deterministic setting
+
+Every supporting_evidence_id MUST be validated against that source's supplied evidence.
+
+Invalid IDs are removed and logged.
+
+The intermediate candidate is NOT required to independently solve the complete multimodal conjunction.
+
+It must report what that modality supports.
+
+The intermediate prompt should explicitly say:
+
+"Reason only over this source. State the candidate conclusion or partial
+constraint supported by this source. Do not claim facts unavailable in this
+source. supporting_evidence_ids must contain only supplied evidence IDs.
+If this source alone is insufficient for the full query, preserve useful
+partial evidence rather than fabricating the missing modalities."
+
+Then construct the final fusion input from the three grounded modality objects.
+
+The final fusion model receives:
+
+query
++
+Text intermediate object
++
+Graph intermediate object
++
+Structured intermediate object
+
+The final fusion prompt must:
+
+- combine complementary supported facts across modalities;
+- preserve provenance;
+- explicitly adjudicate contradictions where possible;
+- use only information represented in the grounded intermediate objects;
+- return INSUFFICIENT_EVIDENCE when the combined evidence cannot support the answer;
+- follow the same final benchmark answer-format/parser contract as all other methods.
+
+IMPORTANT:
+
+Do NOT restrict the final answer solely to a union of intermediate final-answer IDs if doing so prevents complementary cross-modal reasoning.
+
+Final candidate IDs must still be grounded in evidence IDs represented by the intermediate objects/provenance.
+
+Follow the Phase 1D provenance rule rather than the historical union-of-answer_ids shortcut.
+
+Failure policy MUST match Phase 1D:
+
+If one source-specific call fails:
+
+replace ONLY that modality object with:
+
+ERROR_NO_EVIDENCE
+
+and continue with remaining sources.
+
+Do not abort the whole CF-03 chain because one source call fails.
+
+If final fusion call fails:
+
+retry ONCE with the exact same grounded intermediate evidence and deterministic prompt.
+
+If second final-fusion attempt fails:
+
+status = error.
+
+All calls and failures must be logged.
+
+======================================================================
+14. RQ2 PRIMARY REPAIRED EXPERIMENT
+======================================================================
+
+Use the SAME 24 frozen verified multimodal Phase 8 validation bundles:
+
+TG = 6
+TS = 6
+GS = 6
+TGS = 6
+
+Do not replace them.
+
+Do not alter their retrieval evidence.
+
+Do not repair missing upstream evidence in this primary experiment.
+
+The purpose of this primary experiment is:
+
+"How do the correctly implemented fusion methods perform on the actual frozen
+retrieval evidence produced by the upstream system?"
+
+Run canonical:
+
+CF-B0
+CF-B1
+CF-01
+CF-02 corrected
+CF-03 corrected
+
+All five receive byte-identical incoming evidence per query.
+
+Hash and verify this invariant.
+
+Run final generation for all methods.
+
+CF-02 includes its approved selector call.
+
+CF-03 includes its approved source-specific calls + final fusion.
+
+Before API execution:
+
+calculate exact maximum request count,
+static request count where knowable,
+estimated input volume,
+completion-token allowance,
+and expected pacing duration.
+
+Use the durable rate-aware dispatcher proven in Phase 8 v2.
+
+Current observed Groq operational constraint was approximately:
+
+8,000 TPM
+1,000 RPD
+
+These are operational limits only.
+
+Do not change scientific payloads to fit them.
+
+Wait as necessary.
+
+If quota resets require continuing later, resume the SAME experiment identity.
+
+======================================================================
+15. RQ2 SUPPORTABILITY AUDIT
+======================================================================
+
+Before looking at repaired generated answers, independently classify each frozen primary bundle as:
+
+FULLY_SUPPORTABLE
+PARTIALLY_SUPPORTABLE
+UNSUPPORTABLE
+
+This classification must be computed from:
+
+query requirements
+benchmark construction provenance
+actual frozen evidence contents
+
+NOT from LLM outcomes.
+
+For each query, determine whether the frozen evidence contains the required support atoms from its declared modalities.
+
+Store exact reasons.
+
+Do not change the bundle based on this classification.
+
+Report RQ2 primary results for:
+
+all 24 queries
+
+and separately:
+
+FULLY_SUPPORTABLE
+PARTIALLY_SUPPORTABLE
+UNSUPPORTABLE
+
+This prevents missing retrieval evidence from being incorrectly attributed to fusion.
+
+======================================================================
+16. RQ2 FUSION-ISOLATION EXPERIMENT
+======================================================================
+
+The primary frozen-bundle experiment alone cannot answer the pure fusion question if upstream retrieval did not supply the necessary evidence.
+
+Therefore run a SEPARATE supplementary experiment:
+
+rq2-fusion-isolation-v1
+
+This does NOT replace the primary experiment.
+
+This is explicitly an oracle-evidence / fusion-isolation experiment.
+
+Its research question is:
+
+"Given sufficient multimodal evidence, how does the fusion strategy itself
+affect downstream reasoning?"
+
+Use VERIFIED GENERATED VALIDATION DATA ONLY.
+
+Never use test/human-test.
+
+Construct a deterministic balanced cohort BEFORE running any generation.
+
+Target:
+
+minimum 12 evidence-complete queries
+
+with representation from:
+
+TG
+TS
+GS
+TGS
+
+Prefer 3 per modality class if at least 3 qualifying queries exist.
+
+If fewer qualifying queries exist in a class:
+
+include every qualifying query and report the imbalance.
+
+Selection:
+
+1. identify every verified generated validation query for which authoritative
+   supporting evidence can be reconstructed for ALL required modalities;
+2. sort candidates by stable query_id;
+3. take the first required N per modality class;
+4. freeze selected IDs and selection manifest BEFORE any LLM call.
+
+No manual "easy question" selection.
+
+======================================================================
+17. CONSTRUCTING EVIDENCE-COMPLETE BUNDLES
+======================================================================
+
+Use authoritative MMG-STaRK-MAG representations only.
+
+Do not write synthetic factual evidence.
+
+For each selected query construct a bundle containing the actual evidence necessary to support the benchmark conjunction.
+
+Text support:
+authoritative paper text/abstract/title record required by the query.
+
+Graph support:
+authoritative graph nodes/edges/path(s) required to establish the relational constraint.
+
+Structured support:
+authoritative DuckDB row/value(s) required to establish numerical/date/venue/document constraints.
+
+Every evidence item must preserve real provenance.
+
+No evidence item may contain a label such as:
+
+GOLD
+CORRECT ANSWER
+TARGET PAPER
+
+The fusion model sees ordinary evidence only.
+
+The bundle may naturally contain the paper/entity IDs already present in the system's normal evidence format.
+
+Add distractors deterministically.
+
+Distractors must come from the same representations and must not satisfy the complete gold conjunction.
+
+Use one frozen distractor policy for every fusion method.
+
+Prefer reusing non-gold evidence already present in the original frozen bundle.
+
+If additional distractors are required to create a realistic bundle, select them deterministically using stable source rank / stable ID order.
+
+Document exactly how many support and distractor items are included per modality.
+
+After construction:
+
+freeze each bundle
+checksum each bundle
+verify every fusion method receives byte-identical input.
+
+This experiment must be labelled:
+
+FUSION ISOLATION / ORACLE-EVIDENCE CONDITION
+
+Never report it as retrieval performance.
+
+======================================================================
+18. RQ2 METRICS
+======================================================================
+
+For BOTH:
+
+A. repaired 24-query frozen-bundle study
+B. evidence-complete fusion-isolation study
+
+measure where applicable:
+
+Set Accuracy
+Exact Match
+Precision
+Recall
+F1
+Answerability correctness
+
+source evidence coverage
+retained-paper coverage
+context size
+source counts
+entity group statistics
+unaligned evidence counts
+alignment fallback
+selector decisions
+selector fallback
+intermediate answer behavior
+provenance validity
+conflict recognition
+conflict adjudication
+final-answer correctness
+
+fusion latency
+generation latency
+intrinsic total latency
+LLM calls
+input tokens
+output tokens
+parser failures
+repair calls
+provider failures
+
+Do not include deliberate rate-limit waiting time as intrinsic model/method latency.
+
+Record pacing separately as operational runtime.
+
+======================================================================
+19. RQ2 CONFLICT ANALYSIS
+======================================================================
+
+For conflict records, distinguish:
+
+CONFLICT RECOGNITION
+CONFLICT ADJUDICATION
+FINAL ANSWER CORRECTNESS
+
+These are different concepts.
+
+Abstaining is NOT automatically correct conflict handling.
+
+Dropping conflicting evidence is NOT automatically correct handling.
+
+Do not score conflict behavior without an explicit evaluable ground truth.
+
+If no independent conflict-action gold annotation exists:
+
+conflict-handling accuracy remains NULL.
+
+Still report qualitative and trace-based behavior.
+
+======================================================================
+20. RQ2 STATISTICAL ANALYSIS
+======================================================================
+
+Use paired comparisons because all methods receive the same query/bundle within each experiment.
+
+For primary and isolation experiments separately report:
+
+mean
+median
+per-query differences
+bootstrap 95% confidence intervals, seed 42
+
+Use paired significance tests only where sample size and metric properties justify them.
+
+Apply Holm correction across multiple pairwise comparisons.
+
+Clearly label low-N modality/stress analyses.
+
+Do not merge the primary frozen-bundle and fusion-isolation results into one aggregate number.
+
+They answer different questions.
+
+Primary:
+
+real upstream retrieval condition.
+
+Isolation:
+
+fusion under sufficient evidence.
+
+======================================================================
+21. RQ2 REPAIR REPORT
+======================================================================
+
+Produce:
+
+documentation/rq2_repair/
+RQ2_Scientific_Repair_Report.md
+
+It must clearly state:
+
+1. every compliance deviation discovered;
+2. CF-02 historical lexical implementation versus corrected canonical CF-02;
+3. CF-03 historical intermediate contract versus corrected canonical CF-03;
+4. CF-01 audit outcome;
+5. repaired implementation tests;
+6. primary 24-query results;
+7. supportability-stratified primary results;
+8. fusion-isolation construction protocol;
+9. fusion-isolation results;
+10. statistical findings;
+11. API/token/resource usage;
+12. negative results;
+13. failure cases;
+14. limitations;
+15. which historical Phase 8 findings remain usable;
+16. which historical findings are superseded;
+17. Pareto-strong RQ2 candidates.
+
+End with:
+
+RQ2_IMPLEMENTATION_COMPLIANCE = PASS/FAIL
+RQ2_PRIMARY_EXPERIMENT_STATUS = COMPLETE/INCOMPLETE
+RQ2_FUSION_ISOLATION_STATUS = COMPLETE/INCOMPLETE
+RQ2_SCIENTIFIC_STATUS = COMPLETE/INCOMPLETE
+
+======================================================================
+22. TEST REQUIREMENTS
+======================================================================
+
+Add tests required by the repaired implementations.
+
+RQ1 tests must include at minimum:
+
+- identical Text pass-through across CM methods;
+- identical Structured pass-through across CM methods;
+- only Graph policy changes;
+- candidate-pool equality;
+- CM-01 spanning-tree equivalence/correctness;
+- CM-01 reranker input/order;
+- CM-02 exact top-k prize assignment;
+- CM-02 PCST connectivity;
+- CM-02 budget leaf pruning;
+- CM-03 keyword cache;
+- CM-03 semantic seed scoring;
+- CM-03 diffusion determinism;
+- CM-03 convergence behavior;
+- CM-03 N_max behavior;
+- Phase 1D-compliant fallback behavior;
+- no retrieval leakage;
+- global budget;
+- provenance preservation.
+
+RQ2 tests must include at minimum:
+
+- exact evidence-bundle equality;
+- no retrieval inside fusion;
+- CF-01 entity-resolution precedence;
+- CF-01 unaligned preservation;
+- CF-01 deterministic group order;
+- CF-02 exactly one selector call;
+- CF-02 <=5 structural selections;
+- CF-02 Text fill to <=10;
+- CF-02 invalid-ID removal;
+- CF-02 selector fallback;
+- no lexical selector in canonical CF-02;
+- CF-03 modality isolation;
+- CF-03 exact intermediate schema;
+- CF-03 supporting-ID validation;
+- CF-03 complementary multimodal fusion;
+- CF-03 source failure -> ERROR_NO_EVIDENCE and continue;
+- CF-03 final failure exact-one retry;
+- final provenance restriction;
+- evidence-complete bundle equality;
+- no gold flag leakage into evidence.
+
+All previous protected tests must continue passing.
+
+======================================================================
+23. PRESERVATION / NO LEAKAGE
+======================================================================
+
+Throughout the repair:
+
+DO NOT modify:
+
+raw STaRK-MAG
+MMG-STaRK-MAG representations
+benchmark query content
+benchmark split membership
+test records
+human-test records
+B1/B2/B3/B4 baseline algorithms
+Phase 5 evaluation metric definitions
+historical Phase 7 results
+historical Phase 8 results
+original Phase 8 failed Groq run
+Phase 8 v2 results
+
+The repair is additive.
+
+Gold may be used:
+
+- by evaluation;
+- to determine validation-only evidence supportability;
+- to construct the explicitly labelled validation-only fusion-isolation oracle bundle.
+
+Gold must NEVER be exposed to the model/controller as a gold label or answer annotation.
+
+======================================================================
+24. HISTORICAL RESULT POLICY
+======================================================================
+
+Never delete incorrect/noncompliant historical runs.
+
+Create a supersession table.
+
+Example:
+
+Historical Phase 7 graph-only result:
+PRESERVED
+status = limited/historical
+reason = mixed-modality pass-through absent
+
+Historical CF-02 lexical:
+PRESERVED
+status = ablation/historical
+reason = does not implement canonical Phase 1D SAG selector
+
+Historical CF-03:
+PRESERVED
+status = historical
+reason = intermediate/final fusion contract differed from Phase 1D
+
+New repaired experiments become the CANONICAL scientific results for final RQ1/RQ2 conclusions.
+
+======================================================================
+25. FINAL CROSS-RQ SCIENTIFIC AUDIT
+======================================================================
+
+After RQ1 and RQ2 repair completes, run one final independent audit.
+
+Produce:
+
+documentation/
+RQ1_RQ2_Final_Scientific_Compliance_Audit.md
+
+This audit must answer:
+
+For RQ1:
+
+Did every canonical method match Phase 1D?
+Did mixed-modality pass-through remain fixed?
+Was only Graph context management varied?
+Were answer-quality and context metrics measured?
+Was validation free of test/human-test leakage?
+Were negative results preserved?
+
+For RQ2:
+
+Did all methods receive identical evidence?
+Did any fusion method retrieve additional evidence?
+Does CF-01 match its alignment contract?
+Does canonical CF-02 use the required LLM selector?
+Does canonical CF-03 use the required source-specific grounded intermediate objects?
+Does its fusion stage actually permit complementary evidence reasoning?
+Were real upstream and evidence-complete isolation conditions reported separately?
+Was test/human-test untouched?
+
+Recompute configuration/code/data fingerprints.
+
+Run preservation audit.
+
+Run complete test suite.
+
+======================================================================
+26. FINAL DECISION GATE
+======================================================================
+
+Create:
+
+documentation/
+RQ1_RQ2_Scientific_Closeout.md
+
+Summarize chronologically:
+
+ORIGINAL DESIGN
+WHAT WAS IMPLEMENTED HISTORICALLY
+DEVIATIONS DISCOVERED
+REPAIRS
+REPAIRED EXPERIMENTS
+RESULTS
+STATISTICS
+NEGATIVE RESULTS
+LIMITATIONS
+CANONICAL RQ1 CONCLUSION
+CANONICAL RQ2 CONCLUSION
+CANDIDATES FOR PHASE 10
+REPRODUCIBILITY STATUS
+
+Finish with exactly:
+
+RQ1_IMPLEMENTATION_COMPLIANCE =
+RQ1_EXPERIMENTAL_COMPLIANCE =
+RQ1_SCIENTIFIC_STATUS =
+
+RQ2_IMPLEMENTATION_COMPLIANCE =
+RQ2_PRIMARY_EXPERIMENT_STATUS =
+RQ2_FUSION_ISOLATION_STATUS =
+RQ2_SCIENTIFIC_STATUS =
+
+TEST_HUMAN_TEST_UNTOUCHED =
+PRESERVATION_AUDIT =
+FULL_TEST_SUITE =
+PHASE_9_UNBLOCKED =
+
+PHASE_9_UNBLOCKED may be YES only if:
+
+RQ1_IMPLEMENTATION_COMPLIANCE = PASS
+RQ1_EXPERIMENTAL_COMPLIANCE = PASS
+RQ1_SCIENTIFIC_STATUS = COMPLETE
+
+RQ2_IMPLEMENTATION_COMPLIANCE = PASS
+RQ2_PRIMARY_EXPERIMENT_STATUS = COMPLETE
+RQ2_FUSION_ISOLATION_STATUS = COMPLETE
+RQ2_SCIENTIFIC_STATUS = COMPLETE
+
+TEST_HUMAN_TEST_UNTOUCHED = YES
+PRESERVATION_AUDIT = PASS
+FULL_TEST_SUITE = PASS
+
+======================================================================
+27. STOP CONDITION
+======================================================================
+
+Even if every condition passes:
+
+DO NOT BEGIN PHASE 9 AUTOMATICALLY.
+
+Stop for human review.
+
+The user will explicitly authorize Phase 9 after reviewing:
+
+RQ1_Scientific_Repair_Report.md
+RQ2_Scientific_Repair_Report.md
+RQ1_RQ2_Final_Scientific_Compliance_Audit.md
+RQ1_RQ2_Scientific_Closeout.md
+
+No further algorithm tuning is allowed after seeing these repair results.
+
+A poor result is acceptable.
+An inconclusive result is acceptable if scientifically justified.
+A noncompliant implementation is not acceptable.
+
+The objective is fidelity, reproducibility and valid scientific inference — not making the advanced methods win.

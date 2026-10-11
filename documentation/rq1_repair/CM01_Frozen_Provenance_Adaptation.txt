@@ -1,0 +1,359 @@
+CM-01 PROVENANCE ADAPTATION — FROZEN REPAIR DECISION
+The missing STaRK source-chunk provenance is acknowledged.
+Do not invent a mapping from STaRK graph relations to paper abstract/text chunks.
+STaRK provides authoritative graph edges but does not identify a textual chunk from which each edge was extracted. Mapping relations to arbitrary paper abstracts would create unsupported provenance and would also violate the MMG-STaRK-MAG Graph/Text modality boundary.
+Therefore freeze the following dataset-specific CM-01 adaptation and continue the RQ1/RQ2 scientific repair from checkpoint 34c8503.
+1. Scientific status of this decision
+Phase 1D specifies KG²RAG-style:
+semantic source chunks
+→ chunk-linked triples
+→ graph expansion
+→ weighted components
+→ maximum spanning trees
+→ DFS context
+→ reranking
+
+MMG-STaRK-MAG does not contain the paper-to-triple extraction provenance needed for literal chunk_graph_links.
+Therefore CM-01 remains explicitly:
+KG²RAG-inspired graph-context organization adapted to a native knowledge graph without source-text extraction provenance.
+It must never be described as an exact reproduction of KG²RAG.
+The adaptation must preserve:
+- semantic seeding;
+- graph expansion;
+- query-conditioned edge weights;
+- connected components;
+- maximum spanning tree organization;
+- deterministic DFS;
+- cross-encoder component ranking;
+- evidence deduplication;
+- context-budget enforcement.
+The only substituted concept is:
+original source text chunk
+
+becomes:
+canonical graph provenance unit
+
+2. Define Canonical Graph Provenance Unit
+For CM-01 only, define a deterministic object:
+GraphProvenanceUnit
+
+with at least:
+unit_id
+canonical_edge_id
+relation_type
+source_node_id
+target_node_id
+source_node_type
+target_node_type
+source_label
+target_label
+serialization
+derived_inverse
+canonical_official_edge_id
+provenance
+
+A provenance unit corresponds to one authoritative graph relation, not to a Text-view document.
+It is not a fabricated fact.
+It is a deterministic serialization of an existing STaRK relation.
+3. Canonical relation serialization
+Use only Graph-view information.
+Never include:
+- paper abstract;
+- paper full text;
+- structured publication year;
+- citation-count attribute;
+- rank;
+- venue metadata;
+- document type;
+- any SQL-derived value.
+Paper title is allowed, because MMG-STaRK-MAG already froze paper title as the Graph-view semantic label.
+Missing labels must remain missing semantically.
+If a label is NULL, serialize the stable entity ID/type rather than inventing a name.
+Freeze relation templates as follows.
+WRITES
+For:
+AUTHOR --WRITES--> PAPER
+
+serialize:
+Author <author_label_or_id> writes Paper <paper_title_or_id>.
+
+AFFILIATED_WITH
+For:
+AUTHOR --AFFILIATED_WITH--> INSTITUTION
+
+serialize:
+Author <author_label_or_id> is affiliated with Institution <institution_label_or_id>.
+
+CITES
+For:
+PAPER_A --CITES--> PAPER_B
+
+serialize:
+Paper <paper_A_title_or_id> cites Paper <paper_B_title_or_id>.
+
+HAS_TOPIC
+For:
+PAPER --HAS_TOPIC--> FIELD_OF_STUDY
+
+serialize:
+Paper <paper_title_or_id> has topic <field_label_or_id>.
+
+No additional natural-language inference is permitted.
+4. Critical citation mapping decision
+A citation edge:
+PAPER_A --CITES--> PAPER_B
+
+maps to its own graph provenance unit.
+It does NOT map to:
+- PAPER_A's abstract;
+- PAPER_B's abstract;
+- an arbitrary text chunk from either paper.
+Its source representation is only:
+Paper A title/ID + CITES + Paper B title/ID
+
+together with authoritative edge provenance.
+This prevents Text leakage.
+5. Critical author-affiliation mapping decision
+An affiliation edge:
+AUTHOR --AFFILIATED_WITH--> INSTITUTION
+
+also maps to its own graph provenance unit.
+It must NOT be assigned to every paper written by the author as a fake source chunk.
+In particular, do NOT construct:
+paper abstract
+→ author affiliation edge
+
+provenance.
+The paper relationship is recovered naturally through graph topology:
+PAPER
+← WRITES —
+AUTHOR
+— AFFILIATED_WITH →
+INSTITUTION
+
+Thus:
+- WRITES has its own provenance unit;
+- AFFILIATED_WITH has its own provenance unit;
+- the graph structure connects them;
+- no unsupported paper-text provenance is fabricated.
+6. Derived inverse traversal edges
+MMG-STaRK-MAG contains official directed edges plus derived inverse traversal entries.
+A derived inverse edge must not create a second semantic provenance unit.
+For example:
+AUTHOR --WRITES--> PAPER
+
+and its derived traversal:
+PAPER --WRITTEN_BY--> AUTHOR
+
+refer to the same authoritative relation.
+Therefore:
+derived inverse traversal
+→ canonical official edge
+→ same GraphProvenanceUnit
+
+Preserve:
+derived_inverse = true
+
+in traversal diagnostics.
+Deduplication operates on the canonical official relation/provenance-unit ID.
+Do not count official + inverse traversal as two independent evidence facts.
+7. Canonical IDs
+Prefer the existing immutable graph edge_id / canonical relation identifier already present in the Phase 3 graph representation.
+If the physical representation does not expose a stable edge identifier, derive a deterministic technical identifier from the authoritative stored edge identity.
+Such an identifier is only an internal ID; it must not create new semantic provenance.
+Document exactly how it is constructed.
+Do not use a random UUID.
+8. Candidate boundary remains frozen
+CM-01 must NOT start scanning or embedding all ~19.9 million graph relations as a new retrieval system.
+Preserve the repaired RQ1 scientific invariant:
+all context-management methods receive the same frozen upstream Graph candidate boundary for a query.
+CM-01 operates only inside that shared candidate graph.
+It may not:
+- retrieve additional Text evidence;
+- query DuckDB;
+- run global FAISS retrieval;
+- expand outside the shared candidate graph;
+- access benchmark gold;
+- access modality labels during execution.
+This keeps RQ1 a context-management comparison rather than a retriever comparison.
+9. CM-01 semantic seeds under this adaptation
+Within the shared candidate graph:
+1. construct the canonical GraphProvenanceUnit for every canonical candidate relation;
+2. embed its frozen graph-only serialization using the unchanged global MiniLM embedder;
+3. embed the query using the same global embedder;
+4. compute cosine similarity;
+5. select:
+k_seed = 10
+
+highest-scoring provenance units.
+These are the adapted equivalents of KG²RAG's semantic seed chunks.
+Tie-break deterministically by canonical provenance-unit ID.
+Do not use abstracts.
+10. One-hop expansion
+From entities touched by the ten seed provenance units:
+perform:
+m_hops = 1
+
+expansion inside the already frozen candidate graph only.
+Every expanded relation must resolve to its canonical GraphProvenanceUnit.
+No external graph fetch is allowed.
+11. Query-conditioned edge weight
+For every expanded canonical relation e:
+weight(e) =
+cosine(
+    query_embedding,
+    embedding(GraphProvenanceUnit.serialization)
+)
+
+This replaces Phase 1D's unavailable:
+similarity(query, original source text chunk)
+
+and is the one frozen dataset adaptation.
+Do not substitute another scoring function.
+12. Component and tree construction
+Continue literal Phase 1D organization after the provenance substitution:
+expanded relations
+↓
+undirected organization graph
+↓
+connected components
+↓
+MAXIMUM SPANNING TREE for each component
+
+Weight is the cosine score defined above.
+If the current code uses:
+minimum spanning tree on cost = 1 - cosine
+
+Codex must first prove with a deterministic fixture that this yields exactly the same selected tree as maximizing cosine weight.
+If exact equivalence holds, it may remain as an implementation-equivalent formulation and must be documented.
+If equivalence does not hold under the actual library behavior/tie handling, implement the literal maximum spanning tree.
+Freeze deterministic tie-breaking.
+13. DFS organization
+For each component tree:
+- choose the highest-weight tree edge as the traversal root;
+- deterministically resolve ties;
+- DFS the tree;
+- when a canonical relation is first encountered, append its GraphProvenanceUnit serialization once;
+- never duplicate the same canonical provenance unit.
+This is the adapted text_representation(T_i).
+It remains graph evidence because it consists exclusively of graph-native relation serializations.
+14. Reranker representation
+Build the component triplet representation only from:
+source graph label/ID
+relation
+target graph label/ID
+
+Use the already approved and pinned:
+BAAI/bge-reranker-large
+revision:
+55611d7bca2a7133960a6d3b71e083071bbfc312
+
+Use the previously frozen local deterministic settings unless the compliance audit identifies a direct conflict with the original contract.
+No paper abstracts may enter the reranker representation.
+15. Final CM-01 Graph context
+Rank component trees by reranker score descending.
+Add their DFS provenance-unit serializations under the frozen Graph context budget.
+Deduplicate by canonical provenance-unit ID.
+All final evidence must preserve:
+relation
+source/target entity IDs
+canonical edge ID
+official/inverse provenance
+
+16. Fallback
+The original Phase 1D fallback refers to semantic seed chunks when no graph-linked seeds exist.
+Under this graph-native adaptation:
+if the frozen candidate graph has canonical relation units but expansion produces no usable connected relation structure:
+return the highest-ranked semantic GraphProvenanceUnits under the same Graph budget and mark:
+fallback = graph_semantic_units
+
+If the candidate graph contains no canonical relation evidence at all:
+return empty Graph context and mark:
+fallback = no_graph_relation_evidence
+
+Do NOT fall back to Text evidence.
+Do NOT query another source.
+This fallback exists only because the dataset lacks original chunk-to-triple provenance.
+17. RQ1 mixed-modality boundary
+This decision applies only to the Graph portion of CM-01.
+In repaired mixed-modality RQ1 queries:
+Text evidence
+
+remains the unchanged fixed Text pass-through.
+Structured evidence
+
+remains the unchanged fixed Structured pass-through.
+Graph evidence
+
+is the only component affected by CM-01.
+Hash the Text and Structured pass-throughs across CM-B0/B1/01/02/03 and require equality.
+18. Required tests before continuing experiments
+Add tests proving:
+1. citation relations never expose abstracts;
+2. affiliation relations never get artificially attached to paper text;
+3. WRITES/AFFILIATED_WITH paths connect structurally rather than through invented chunk provenance;
+4. HAS_TOPIC uses Graph labels only;
+5. canonical official edge and derived inverse traversal deduplicate to one provenance fact;
+6. missing labels remain ID-based and are not fabricated;
+7. no Structured attributes enter provenance-unit serialization;
+8. no Text-view abstract enters CM-01 seed/reranker/final Graph context;
+9. seed selection is deterministic;
+10. k_seed=10;
+11. m_hops=1;
+12. expansion never leaves the frozen candidate boundary;
+13. tree implementation matches the frozen maximum-weight formulation;
+14. DFS ordering is deterministic;
+15. provenance-unit deduplication works;
+16. BGE reranking operates only on graph-native triplet representations;
+17. final Graph budget is respected;
+18. Text/Structured mixed-query pass-through remains byte/identity equivalent across CM variants.
+19. Documentation requirement
+Update:
+documentation/RQ1_RQ2_Compliance_Matrix.md
+
+Record the original mismatch as:
+Phase1D assumption:
+textual source-chunk ↔ graph-triple provenance exists
+
+STaRK reality:
+no such provenance is supplied
+
+resolution:
+graph-native canonical relation provenance unit
+
+scientific classification:
+explicit dataset-specific adaptation
+
+State clearly that this adaptation was frozen before repaired RQ1 results were executed.
+Also document that it was selected to preserve modality isolation rather than to optimize observed performance.
+20. Historical Phase 7 handling
+Do not modify the old Phase 7 records.
+If their CM-01 behavior differs from this repaired canonical specification, mark the historical result:
+PRESERVED
+NON-CANONICAL / SUPERSEDED FOR FINAL RQ1 INFERENCE
+
+Do not delete it.
+The repaired experiment receives a new experiment identity.
+21. Continue the existing repair protocol
+After implementing this adaptation:
+1. rerun the full compliance check for CM-01;
+2. continue auditing CM-02 and CM-03 against Phase 1D;
+3. repair any proven deviations;
+4. complete repaired RQ1 experiments;
+5. complete the previously instructed RQ2 forensic audit/repair;
+6. complete the primary RQ2 experiment;
+7. complete the separately labelled fusion-isolation experiment;
+8. produce the final RQ1/RQ2 compliance reports and preservation audits.
+Do not skip directly to experiments before implementation compliance passes.
+22. Stop conditions
+Stop and request human review only if:
+- another direct contradiction with Phase 1D cannot be resolved through the already established authority order;
+- required authoritative data is genuinely unavailable and no modality-preserving deterministic adaptation is specified;
+- destructive action is required;
+- meaningful new monetary spend is required;
+- a hardware/resource limit makes the frozen experiment infeasible.
+Do not stop for ordinary implementation decisions already frozen by the specification.
+PHASE 9 REMAINS BLOCKED.
+Do not implement RQ3.
+Do not begin Phase 10.
+Continue until the RQ1/RQ2 repair protocol reaches its previously defined final human-review gate.
