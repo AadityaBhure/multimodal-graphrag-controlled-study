@@ -1,0 +1,323 @@
+{
+ "benchmark_content_sent": false,
+ "calls": {
+  "A": {
+   "bucket_consumed_by_header_8000_minus_remaining": 82,
+   "bucket_consumed_minus_provider_total": 0,
+   "cached_tokens": null,
+   "finish_reason": "length",
+   "headers": {
+    "date": "Sun, 11 Oct 2026 06:58:47 GMT",
+    "x-ratelimit-limit-requests": "1000",
+    "x-ratelimit-limit-tokens": "8000",
+    "x-ratelimit-remaining-requests": "999",
+    "x-ratelimit-remaining-tokens": "7918",
+    "x-ratelimit-reset-requests": "1m26.4s",
+    "x-ratelimit-reset-tokens": "615ms"
+   },
+   "local_content_tokens": 7,
+   "local_message_tokens": [
+    6,
+    1
+   ],
+   "max_completion_tokens": 1,
+   "prompt_tokens_details_present": false,
+   "provider_completion_tokens": 1,
+   "provider_minus_local_prompt": 74,
+   "provider_prompt_time_s": 0.003209536,
+   "provider_prompt_tokens": 81,
+   "provider_queue_time_s": 0.381123451,
+   "provider_total_tokens": 82,
+   "reasoning_tokens": null,
+   "request_sha256": "7c523bbe4d8ee50257b41d0f96b645781fea576e3bb563c159e1fb179c883ad4",
+   "sequence": 1,
+   "timestamp": "2026-10-11T06:58:45.864299+00:00"
+  },
+  "B_C1_prime": {
+   "bucket_consumed_by_header_8000_minus_remaining": 1544,
+   "bucket_consumed_minus_provider_total": -24,
+   "cached_tokens": null,
+   "finish_reason": "stop",
+   "headers": {
+    "date": "Sun, 11 Oct 2026 07:00:17 GMT",
+    "x-ratelimit-limit-requests": "1000",
+    "x-ratelimit-limit-tokens": "8000",
+    "x-ratelimit-remaining-requests": "999",
+    "x-ratelimit-remaining-tokens": "6456",
+    "x-ratelimit-reset-requests": "1m26.4s",
+    "x-ratelimit-reset-tokens": "11.58s"
+   },
+   "local_content_tokens": 1441,
+   "local_message_tokens": [
+    1437,
+    4
+   ],
+   "max_completion_tokens": 48,
+   "prompt_tokens_details_present": false,
+   "provider_completion_tokens": 25,
+   "provider_minus_local_prompt": 102,
+   "provider_prompt_time_s": 0.207572894,
+   "provider_prompt_tokens": 1543,
+   "provider_queue_time_s": 0.392673782,
+   "provider_total_tokens": 1568,
+   "reasoning_tokens": 11,
+   "request_sha256": "698a4c3b6e95f7c8b039bb7076b644e13699d2868b08fa3f2cd4fd5cc4ecba4e",
+   "sequence": 2,
+   "timestamp": "2026-10-11T07:00:15.865766+00:00"
+  },
+  "C2_repeat": {
+   "bucket_consumed_by_header_8000_minus_remaining": 1568,
+   "bucket_consumed_minus_provider_total": -17,
+   "cached_tokens": null,
+   "finish_reason": "stop",
+   "headers": {
+    "date": "Sun, 11 Oct 2026 07:01:47 GMT",
+    "x-ratelimit-limit-requests": "1000",
+    "x-ratelimit-limit-tokens": "8000",
+    "x-ratelimit-remaining-requests": "999",
+    "x-ratelimit-remaining-tokens": "6432",
+    "x-ratelimit-reset-requests": "1m26.4s",
+    "x-ratelimit-reset-tokens": "11.76s"
+   },
+   "local_content_tokens": 1441,
+   "local_message_tokens": [
+    1437,
+    4
+   ],
+   "max_completion_tokens": 48,
+   "prompt_tokens_details_present": false,
+   "provider_completion_tokens": 42,
+   "provider_minus_local_prompt": 102,
+   "provider_prompt_time_s": 0.071603494,
+   "provider_prompt_tokens": 1543,
+   "provider_queue_time_s": 0.212541344,
+   "provider_total_tokens": 1585,
+   "reasoning_tokens": 28,
+   "request_sha256": "17f3ea77679fbdc80dcfda4c13548d36cb57e1ad1a670a87e014ef363a345f3a",
+   "sequence": 3,
+   "timestamp": "2026-10-11T07:01:45.866421+00:00"
+  }
+ },
+ "classification": {
+  "cache": "CACHE_NOT_CONFIRMED",
+  "cache_note": "No prompt_tokens_details.cached_tokens in B or C2 (identical 1,441-token prefix); historical responses that did report cached_tokens=256 still show full-total bucket consumption",
+  "completion_cap_admission_semantics": "NOT_MEASURED (all authorized calls used tiny caps)",
+  "overall": "PROVIDER_ACCOUNTING_INCONCLUSIVE_FOR_ADMISSION__OVERHEAD_CONSTANT_102_ESTABLISHED"
+ },
+ "code_commit": "9e112a9b74c5bbef5fdfee09a6951c4f983f609d",
+ "common_prefix_B_vs_C2": {
+  "local_tokens": 1441,
+  "note": "B served as the cache prime (C1); a separate C1 call was not spent",
+  "prefix_sha256": "6828b01811953ddde210b77d17c087745eed4e8620b33961d979232aa1031e7d"
+ },
+ "derived": {
+  "c2_bucket_consumption_not_discounted": 24,
+  "c2_prompt_time_vs_b": [
+   0.071603494,
+   0.207572894
+  ],
+  "cached_tokens_reported_in_this_diagnostic": false,
+  "historical_bucket_consumed_minus_total_cached": [
+   49,
+   326,
+   65,
+   76,
+   13
+  ],
+  "historical_bucket_consumed_minus_total_uncached": [
+   319,
+   241,
+   55,
+   -6,
+   -4
+  ],
+  "historical_cached_tokens_256_in_requests": [
+   5,
+   7,
+   8,
+   12,
+   16
+  ],
+  "historical_local_content_token_range": [
+   1072,
+   5175
+  ],
+  "historical_matched_requests": 10,
+  "historical_phase8_v2_overhead_values": [
+   102
+  ],
+  "max_observed_positive_undercount_research_shaped": 102,
+  "overhead_is": "constant (not proportional to size) for research-shaped requests; ~28 tokens lower without response_format",
+  "provider_overhead_two_messages_json_object": [
+   102
+  ],
+  "provider_overhead_two_messages_without_response_format": 74
+ },
+ "diagnostic_id": "groq-accounting-diagnostic-v1",
+ "historical_phase8_v2_reconciliation": [
+  {
+   "cached": 0,
+   "chars": 21767,
+   "completion": 100,
+   "consumed_by_header": 5584,
+   "consumed_minus_total": 319,
+   "diff": 102,
+   "local": 5063,
+   "provider_prompt": 5165,
+   "remaining": 2416,
+   "reset": "41.879s",
+   "seq": 1,
+   "system": "CF-B0",
+   "total": 5265
+  },
+  {
+   "cached": 0,
+   "chars": 21261,
+   "completion": 142,
+   "consumed_by_header": 5388,
+   "consumed_minus_total": 241,
+   "diff": 102,
+   "local": 4903,
+   "provider_prompt": 5005,
+   "remaining": 2612,
+   "reset": "40.41s",
+   "seq": 2,
+   "system": "CF-B0",
+   "total": 5147
+  },
+  {
+   "cached": 0,
+   "chars": 14500,
+   "completion": 87,
+   "consumed_by_header": 3826,
+   "consumed_minus_total": 55,
+   "diff": 102,
+   "local": 3582,
+   "provider_prompt": 3684,
+   "remaining": 4174,
+   "reset": "28.695s",
+   "seq": 3,
+   "system": "CF-B1",
+   "total": 3771
+  },
+  {
+   "cached": 0,
+   "chars": 13994,
+   "completion": 106,
+   "consumed_by_header": 3624,
+   "consumed_minus_total": -6,
+   "diff": 102,
+   "local": 3422,
+   "provider_prompt": 3524,
+   "remaining": 4376,
+   "reset": "27.18s",
+   "seq": 4,
+   "system": "CF-B1",
+   "total": 3630
+  },
+  {
+   "cached": 256,
+   "chars": 22103,
+   "completion": 93,
+   "consumed_by_header": 5419,
+   "consumed_minus_total": 49,
+   "diff": 102,
+   "local": 5175,
+   "provider_prompt": 5277,
+   "remaining": 2581,
+   "reset": "40.642s",
+   "seq": 5,
+   "system": "CF-01",
+   "total": 5370
+  },
+  {
+   "cached": 0,
+   "chars": 21576,
+   "completion": 110,
+   "consumed_by_header": 5216,
+   "consumed_minus_total": -4,
+   "diff": 102,
+   "local": 5008,
+   "provider_prompt": 5110,
+   "remaining": 2784,
+   "reset": "39.12s",
+   "seq": 6,
+   "system": "CF-01",
+   "total": 5220
+  },
+  {
+   "cached": 256,
+   "chars": 18638,
+   "completion": 63,
+   "consumed_by_header": 4672,
+   "consumed_minus_total": 326,
+   "diff": 102,
+   "local": 4181,
+   "provider_prompt": 4283,
+   "remaining": 3328,
+   "reset": "35.04s",
+   "seq": 7,
+   "system": "CF-02",
+   "total": 4346
+  },
+  {
+   "cached": 256,
+   "chars": 18638,
+   "completion": 77,
+   "consumed_by_header": 4425,
+   "consumed_minus_total": 65,
+   "diff": 102,
+   "local": 4181,
+   "provider_prompt": 4283,
+   "remaining": 3575,
+   "reset": "33.187s",
+   "seq": 8,
+   "system": "CF-02",
+   "total": 4360
+  },
+  {
+   "cached": 256,
+   "chars": 4377,
+   "completion": 66,
+   "consumed_by_header": 1378,
+   "consumed_minus_total": 76,
+   "diff": 102,
+   "local": 1134,
+   "provider_prompt": 1236,
+   "remaining": 6622,
+   "reset": "10.335s",
+   "seq": 12,
+   "system": "CF-03",
+   "total": 1302
+  },
+  {
+   "cached": 256,
+   "chars": 4148,
+   "completion": 51,
+   "consumed_by_header": 1238,
+   "consumed_minus_total": 13,
+   "diff": 102,
+   "local": 1072,
+   "provider_prompt": 1174,
+   "remaining": 6762,
+   "reset": "9.285s",
+   "seq": 16,
+   "system": "CF-03",
+   "total": 1225
+  }
+ ],
+ "model": "openai/gpt-oss-120b",
+ "provider": "groq",
+ "provider_auth": "PASS",
+ "provider_diagnostic_calls": 3,
+ "request_shape": {
+  "A": "system+user, no response_format, max_completion_tokens=1, reasoning_effort=low",
+  "B_C2": "system(static synthetic ~1,437 tokens)+user(tiny suffix), response_format=json_object, max_completion_tokens=48, reasoning_effort=low (research-shaped)"
+ },
+ "retries": 0,
+ "script": "scripts/diagnose_groq_accounting.py",
+ "script_sha256": "b164b8edfc0c4f9818225cbc78f542428f1b16d3360a5c8e244e4e7c665c4c35",
+ "timestamp_first_call": "2026-10-11T06:58:45.864299+00:00",
+ "timestamp_last_call": "2026-10-11T07:01:45.866421+00:00",
+ "tokenizer": "tiktoken-0.12.0:o200k_harmony"
+}

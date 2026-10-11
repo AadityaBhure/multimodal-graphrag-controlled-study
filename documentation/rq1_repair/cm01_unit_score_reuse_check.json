@@ -1,0 +1,233 @@
+{
+ "all_bit_identical": true,
+ "check": "staged input unit_scores vs recomputed cm01.cosine_scores (same encoder, same code path)",
+ "purpose": "evidence for the optimisation \"reuse frozen unit_scores inside CM-01\"; analysis only, nothing changed",
+ "queries": 32,
+ "rows": [
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:5692e57aa6e252201105:conflict",
+   "same_keys": true,
+   "units": 342
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:5692e57aa6e252201105:noisy",
+   "same_keys": true,
+   "units": 343
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:5692e57aa6e252201105:normal",
+   "same_keys": true,
+   "units": 342
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:5692e57aa6e252201105:unanswerable",
+   "same_keys": true,
+   "units": 319
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:69a22c3b4989b07ed6c3:conflict",
+   "same_keys": true,
+   "units": 375
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:69a22c3b4989b07ed6c3:noisy",
+   "same_keys": true,
+   "units": 376
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:69a22c3b4989b07ed6c3:normal",
+   "same_keys": true,
+   "units": 375
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:69a22c3b4989b07ed6c3:unanswerable",
+   "same_keys": true,
+   "units": 375
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:6f03efc321dca0622d99:conflict",
+   "same_keys": true,
+   "units": 311
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:6f03efc321dca0622d99:noisy",
+   "same_keys": true,
+   "units": 313
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:6f03efc321dca0622d99:normal",
+   "same_keys": true,
+   "units": 311
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:6f03efc321dca0622d99:unanswerable",
+   "same_keys": true,
+   "units": 419
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:824083f22c1dad1b1c02:conflict",
+   "same_keys": true,
+   "units": 292
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:824083f22c1dad1b1c02:noisy",
+   "same_keys": true,
+   "units": 293
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:824083f22c1dad1b1c02:normal",
+   "same_keys": true,
+   "units": 292
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:824083f22c1dad1b1c02:unanswerable",
+   "same_keys": true,
+   "units": 363
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:92af2a9e24dd0b4edcdc:conflict",
+   "same_keys": true,
+   "units": 354
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:92af2a9e24dd0b4edcdc:noisy",
+   "same_keys": true,
+   "units": 356
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:92af2a9e24dd0b4edcdc:normal",
+   "same_keys": true,
+   "units": 354
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:92af2a9e24dd0b4edcdc:unanswerable",
+   "same_keys": true,
+   "units": 354
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:a028a557e6c2ebe60db7:conflict",
+   "same_keys": true,
+   "units": 846
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:a028a557e6c2ebe60db7:noisy",
+   "same_keys": true,
+   "units": 847
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:a028a557e6c2ebe60db7:normal",
+   "same_keys": true,
+   "units": 846
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:a028a557e6c2ebe60db7:unanswerable",
+   "same_keys": true,
+   "units": 293
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:df88082452faec95fe6f:conflict",
+   "same_keys": true,
+   "units": 337
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:df88082452faec95fe6f:noisy",
+   "same_keys": true,
+   "units": 338
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:df88082452faec95fe6f:normal",
+   "same_keys": true,
+   "units": 337
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:df88082452faec95fe6f:unanswerable",
+   "same_keys": true,
+   "units": 337
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:ea8d078933fce4b7a26b:conflict",
+   "same_keys": true,
+   "units": 346
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:ea8d078933fce4b7a26b:noisy",
+   "same_keys": true,
+   "units": 347
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:ea8d078933fce4b7a26b:normal",
+   "same_keys": true,
+   "units": 346
+  },
+  {
+   "bit_identical": true,
+   "max_abs_diff": 0.0,
+   "query_id": "generated:ea8d078933fce4b7a26b:unanswerable",
+   "same_keys": true,
+   "units": 314
+  }
+ ],
+ "seconds": 78.3302973000009
+}
