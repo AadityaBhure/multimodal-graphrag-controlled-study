@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-10-10T12:14:38.240809+05:30",
+  "model_id": "openai/gpt-oss-120b",
+  "request": "models.list",
+  "http_status": 200,
+  "exception_class": null,
+  "error": null,
+  "headers": {
+    "date": "Sat, 10 Oct 2026 06:44:39 GMT"
+  },
+  "target_model_listed": true,
+  "retry_after": null,
+  "finished_at": "2026-10-10T12:14:39.101027+05:30"
+}

@@ -1,0 +1,11 @@
+method,condition,query_id,attempted_requests,completed_responses,provider_errors,answer_ids,error_codes,set_accuracy,exact_match,precision,recall,f1,answerability_correctness,known_input_tokens,known_output_tokens,usage_incomplete,generation_ms,known_completed_generation_ms,total_ms,final_context_characters,conflict_handling_correctness
+CF-B0,conflict,generated:69a22c3b4989b07ed6c3:conflict,1,1,0,[],,0.0,0.0,0.0,0.0,0.0,0.0,5165,100,False,1411.039300000084,1411.039300000084,1420.27969999981,20550.0,NULL
+CF-B0,normal,generated:69a22c3b4989b07ed6c3:normal,1,0,1,NULL,RateLimitError,NULL,NULL,NULL,NULL,NULL,NULL,0,0,True,NULL,0,70.53110000015295,20044.0,NULL
+CF-B1,conflict,generated:69a22c3b4989b07ed6c3:conflict,1,0,1,NULL,RateLimitError,NULL,NULL,NULL,NULL,NULL,NULL,0,0,True,NULL,0,70.95810000009806,13283.0,NULL
+CF-B1,normal,generated:69a22c3b4989b07ed6c3:normal,1,0,1,NULL,RateLimitError,NULL,NULL,NULL,NULL,NULL,NULL,0,0,True,NULL,0,79.38329999979032,12777.0,NULL
+CF-01,conflict,generated:69a22c3b4989b07ed6c3:conflict,1,0,1,NULL,RateLimitError,NULL,NULL,NULL,NULL,NULL,NULL,0,0,True,NULL,0,84.36999999958061,20886.0,NULL
+CF-01,normal,generated:69a22c3b4989b07ed6c3:normal,1,0,1,NULL,RateLimitError,NULL,NULL,NULL,NULL,NULL,NULL,0,0,True,NULL,0,79.85550000012154,20359.0,NULL
+CF-02,conflict,generated:69a22c3b4989b07ed6c3:conflict,1,0,1,NULL,RateLimitError,NULL,NULL,NULL,NULL,NULL,NULL,0,0,True,NULL,0,65.49600000016653,17421.0,NULL
+CF-02,normal,generated:69a22c3b4989b07ed6c3:normal,1,0,1,NULL,RateLimitError,NULL,NULL,NULL,NULL,NULL,NULL,0,0,True,NULL,0,67.06979999944451,17421.0,NULL
+CF-03,conflict,generated:69a22c3b4989b07ed6c3:conflict,2,1,1,NULL,RateLimitError,NULL,NULL,NULL,NULL,NULL,NULL,1805,54,True,NULL,662.6461000005293,738.0232999994405,NULL,NULL
+CF-03,normal,generated:69a22c3b4989b07ed6c3:normal,1,0,1,NULL,RateLimitError,NULL,NULL,NULL,NULL,NULL,NULL,0,0,True,NULL,0,68.62899999941874,NULL,NULL

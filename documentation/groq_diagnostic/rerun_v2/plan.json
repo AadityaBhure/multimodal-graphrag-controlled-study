@@ -1,0 +1,195 @@
+{
+  "experiment_version": "phase8-generation-v2-paced",
+  "status": "PREPARED_NOT_EXECUTED",
+  "model": "openai/gpt-oss-120b",
+  "query_ids": [
+    "generated:69a22c3b4989b07ed6c3:normal",
+    "generated:69a22c3b4989b07ed6c3:conflict"
+  ],
+  "maximum_requests": 16,
+  "completion_token_cap_total": 11560,
+  "static_input_characters": 185835,
+  "estimated_static_input_tokens_chars_div_4": 46465,
+  "input_estimate_is_not_tokenizer_measurement": true,
+  "dynamic_final_inputs": 2,
+  "dynamic_final_context_character_cap": 24000,
+  "maximum_dynamic_input_estimate_note": "At most 2*(24000 context characters + frozen question/prompt overhead)/4 tokens as a rough sizing heuristic; not a guaranteed tokenizer bound.",
+  "configs": [
+    {
+      "method": "CF-B0",
+      "config_path": "documentation/groq_diagnostic/rerun_v2/CF-B0.json",
+      "config_sha256": "027aaa7fb0070397fb822cea7072e2be860b518d674d2a623898a2224588cfdb",
+      "run_directory": "documentation/phase8_generation_v2/CF-B0",
+      "old_config_sha256": "66bf6c25818d8fddb0f92684266258f865ded108bc2291612d66091d4843f885"
+    },
+    {
+      "method": "CF-B1",
+      "config_path": "documentation/groq_diagnostic/rerun_v2/CF-B1.json",
+      "config_sha256": "b6fa84e914607032879f17ad7f94981bb06a514911f331be18758d8908dee871",
+      "run_directory": "documentation/phase8_generation_v2/CF-B1",
+      "old_config_sha256": "d16a1402a0f1fa5cec48be19e1dc1fc5248c70761969ea94da27cbb80e7d3191"
+    },
+    {
+      "method": "CF-01",
+      "config_path": "documentation/groq_diagnostic/rerun_v2/CF-01.json",
+      "config_sha256": "372f28bb5ca22c8e834745dc39796d3f916097bf374ca20d8810c5016e3abccf",
+      "run_directory": "documentation/phase8_generation_v2/CF-01",
+      "old_config_sha256": "842b8d869298eab35e45c87ae1a6e4ea268c36f785420086868144d202ca415b"
+    },
+    {
+      "method": "CF-02",
+      "config_path": "documentation/groq_diagnostic/rerun_v2/CF-02.json",
+      "config_sha256": "631f272f4a856f7c5e4604808ec31b1ec3cf345ac2dbf0d7264b4b0725c16232",
+      "run_directory": "documentation/phase8_generation_v2/CF-02",
+      "old_config_sha256": "be81ee8be345286063982bf577c9f0c910b78fa70e6e6e8f5882891a320572b0"
+    },
+    {
+      "method": "CF-03",
+      "config_path": "documentation/groq_diagnostic/rerun_v2/CF-03.json",
+      "config_sha256": "51ba6e71f962ecb1815a2aa430a39189ef7faf4fa6cf80b77d506f99f56e564f",
+      "run_directory": "documentation/phase8_generation_v2/CF-03",
+      "old_config_sha256": "87832577d5f64378f1f642d7d9053e1ecb7465c43fbde5ed6a7ff30ea6136491"
+    }
+  ],
+  "static_request_estimates": [
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:normal",
+      "method": "CF-B0",
+      "stage": "final",
+      "input_characters": 21261,
+      "estimated_input_tokens_chars_div_4": 5316,
+      "completion_cap": 1024
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:normal",
+      "method": "CF-B1",
+      "stage": "final",
+      "input_characters": 13994,
+      "estimated_input_tokens_chars_div_4": 3499,
+      "completion_cap": 1024
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:normal",
+      "method": "CF-01",
+      "stage": "final",
+      "input_characters": 21576,
+      "estimated_input_tokens_chars_div_4": 5394,
+      "completion_cap": 1024
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:normal",
+      "method": "CF-02",
+      "stage": "final",
+      "input_characters": 18638,
+      "estimated_input_tokens_chars_div_4": 4660,
+      "completion_cap": 1024
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:normal",
+      "method": "CF-03",
+      "stage": "text",
+      "input_characters": 7706,
+      "estimated_input_tokens_chars_div_4": 1927,
+      "completion_cap": 220
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:normal",
+      "method": "CF-03",
+      "stage": "graph",
+      "input_characters": 4861,
+      "estimated_input_tokens_chars_div_4": 1216,
+      "completion_cap": 220
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:normal",
+      "method": "CF-03",
+      "stage": "structured",
+      "input_characters": 3859,
+      "estimated_input_tokens_chars_div_4": 965,
+      "completion_cap": 220
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:conflict",
+      "method": "CF-B0",
+      "stage": "final",
+      "input_characters": 21767,
+      "estimated_input_tokens_chars_div_4": 5442,
+      "completion_cap": 1024
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:conflict",
+      "method": "CF-B1",
+      "stage": "final",
+      "input_characters": 14500,
+      "estimated_input_tokens_chars_div_4": 3625,
+      "completion_cap": 1024
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:conflict",
+      "method": "CF-01",
+      "stage": "final",
+      "input_characters": 22103,
+      "estimated_input_tokens_chars_div_4": 5526,
+      "completion_cap": 1024
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:conflict",
+      "method": "CF-02",
+      "stage": "final",
+      "input_characters": 18638,
+      "estimated_input_tokens_chars_div_4": 4660,
+      "completion_cap": 1024
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:conflict",
+      "method": "CF-03",
+      "stage": "text",
+      "input_characters": 7706,
+      "estimated_input_tokens_chars_div_4": 1927,
+      "completion_cap": 220
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:conflict",
+      "method": "CF-03",
+      "stage": "graph",
+      "input_characters": 4861,
+      "estimated_input_tokens_chars_div_4": 1216,
+      "completion_cap": 220
+    },
+    {
+      "query_id": "generated:69a22c3b4989b07ed6c3:conflict",
+      "method": "CF-03",
+      "stage": "structured",
+      "input_characters": 4365,
+      "estimated_input_tokens_chars_div_4": 1092,
+      "completion_cap": 220
+    }
+  ],
+  "original_plan_sha256": "3713f160108422bf964db4a224843985a814612b19865a0a4a325d3a74f95c0a",
+  "static_payloads_path": "documentation/phase8/generation_payload_previews.json",
+  "static_payloads_sha256": "09b99de9cc31ec220aefe02df10d23435e57c84c0a0071695106dcc1a5f1e209",
+  "bundle_manifest_sha256": "b5f394a7ddb30b551e6f803d193288d027906d5453a263c18035ee16f8fe84f1",
+  "implementations_sha256": {
+    "research/rq2/contracts.py": "350b3b3f32c8dd35e7a2c3f831fe3b5f15f94e100f14b7a8ac44784b0c5bbea8",
+    "research/rq2/fusion.py": "87673668f710049956ebc607ec0de2efdfa30dbd64d889ac501ceb556e3bf19f",
+    "research/rq2/generation.py": "6171e0bc4f06bf6fa69c493f60dfc1ab242c6bce22168b6aa335eff855ec94e9",
+    "research/rq2/system.py": "93d28bf86a9fb6eaa45466d2ac0e8bee0283cf4953f8516ece40b80a0993d777",
+    "research/rq2/__init__.py": "ed2d2240f26e731880be76da3c7934502023a53be65bd4119e4dabd7ff391b06"
+  },
+  "journal_directory": "documentation/phase8_generation_v2/stage_journal",
+  "cadence": {
+    "minimum_seconds_between_request_starts": 90,
+    "max_in_flight": 1,
+    "initial_wait_seconds": 90,
+    "extra_wait_if_header_reset_longer": true,
+    "require_token_headroom_for_next_request": true,
+    "budget_safety_factor": 1.25,
+    "retry_after_rule": "If any 429 occurs, persist sanitized headers/body and stop the entire batch immediately. Do not resume before retry-after/reset; do not retry its dispatched stage automatically.",
+    "unknown_or_insufficient_quota_rule": "Pause before dispatch; do not use a probe to fill missing quota information.",
+    "single_request_over_tpm_rule": "Stop for review; waiting cannot fix a payload that exceeds per-request available capacity. Do not reduce evidence, token caps or change scientific settings."
+  },
+  "estimated_minimum_duration_minutes": 24,
+  "experiment_identity_note": "New named configs, distinct run directories and distinct journal guarantee no continuation/overwrite of old run. The unchanged Phase 5 runner derives new content-addressed experiment IDs on execution; no executed ID is claimed yet.",
+  "execution_authorization": "Not executed; diagnostic review required before any rerun.",
+  "prepared_plan_id": "rq2-v2-87a1a5033f01e7744cb3f8fd7dd60408813193a392c648c1b6a0bec4230914be"
+}

@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-10-10T12:14:39.101027+05:30",
+  "model_id": "openai/gpt-oss-120b",
+  "request": "chat.completions",
+  "http_status": 200,
+  "exception_class": null,
+  "error": null,
+  "headers": {
+    "date": "Sat, 10 Oct 2026 06:44:39 GMT",
+    "x-ratelimit-limit-requests": "1000",
+    "x-ratelimit-limit-tokens": "8000",
+    "x-ratelimit-remaining-requests": "999",
+    "x-ratelimit-remaining-tokens": "7927",
+    "x-ratelimit-reset-requests": "1m26.4s",
+    "x-ratelimit-reset-tokens": "547ms"
+  },
+  "usage": {
+    "completion_tokens": 1,
+    "prompt_tokens": 72,
+    "total_tokens": 73,
+    "completion_time": 0.00209663,
+    "completion_tokens_details": null,
+    "prompt_time": 0.002792734,
+    "prompt_tokens_details": null,
+    "queue_time": 0.343515169,
+    "total_time": 0.004889364
+  },
+  "finish_reasons": [
+    "length"
+  ],
+  "returned_model_id": "openai/gpt-oss-120b",
+  "retry_after": null,
+  "finished_at": "2026-10-10T12:14:39.536752+05:30"
+}
