@@ -1,0 +1,17 @@
+{
+  "policy": "Immutable byte-identical planning specifications; revisions require separately versioned files.",
+  "files": [
+    {
+      "file": "Phase1D_Exact_Implementation_Specifications_9_Methods.docx",
+      "source": "documentation/Phase1D_Exact_Implementation_Specifications_9_Methods.docx",
+      "bytes": 59088,
+      "sha256": "55d8990659d6ef56759a51ad5bbe90cf431b20034ee0b57184fbcaaad664c816"
+    },
+    {
+      "file": "Phase9_Frozen_Settings_Addendum.md",
+      "source": "documentation/Phase9_Frozen_Settings_Addendum.md",
+      "bytes": 13166,
+      "sha256": "b94fbd14c1bc2e4568eb1f84a500b30e63090fe5a0b3b7daa2ae2eb475474122"
+    }
+  ]
+}

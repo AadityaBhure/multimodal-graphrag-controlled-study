@@ -1,0 +1,9 @@
+{
+  "revision": 2,
+  "supersedes": "../Phase9_Frozen_Settings_Addendum.md",
+  "authority": "User-approved AR-01 failure fallback correction only",
+  "file": "Phase9_Frozen_Settings_Addendum.md",
+  "sha256": "14b40e909556d48748aa209818c4a8696521a91137c3486e0c708d470f252b21",
+  "previous_sha256": "b94fbd14c1bc2e4568eb1f84a500b30e63090fe5a0b3b7daa2ae2eb475474122",
+  "bytes": 13368
+}
