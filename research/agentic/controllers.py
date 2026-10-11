@@ -69,14 +69,14 @@ def structured_call(llm, kind, system, user, seed):
     """One controller call plus at most one deterministic repair. Returns (object|None, events, results)."""
     cap = CAPS[kind]; events, results = [], []
     first = llm.chat(kind, system, user, cap, seed); results.append(first)
-    ev = {'kind': kind, 'stage': first.stage_id, 'finish_reason': first.finish_reason, 'raw': first.raw, 'reused': first.reused}
+    ev = {'kind': 'llm_output', 'role': kind, 'stage': first.stage_id, 'finish_reason': first.finish_reason, 'raw': first.raw, 'reused': first.reused}
     try:
         obj = VALIDATORS[kind](_json(first.raw)); ev['valid'] = True; events.append(ev)
         return obj, events, results
     except (ValueError, TypeError, json.JSONDecodeError) as exc:
         ev.update(valid=False, error=type(exc).__name__ + ':' + str(exc)[:80]); events.append(ev)
     rep = llm.chat('repair', REPAIR_SYSTEM, repair_user(kind, first.raw or ''), CAPS['repair'], seed); results.append(rep)
-    rev = {'kind': kind + '_repair', 'stage': rep.stage_id, 'finish_reason': rep.finish_reason, 'raw': rep.raw, 'reused': rep.reused}
+    rev = {'kind': 'llm_output', 'role': kind + '_repair', 'stage': rep.stage_id, 'finish_reason': rep.finish_reason, 'raw': rep.raw, 'reused': rep.reused}
     try:
         obj = VALIDATORS[kind](_json(rep.raw)); rev['valid'] = True; events.append(rev)
         return obj, events, results

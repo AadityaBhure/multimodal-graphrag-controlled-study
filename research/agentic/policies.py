@@ -91,7 +91,7 @@ class Policy:
         llm = trace.llm_calls
         usage_in = [c['usage']['prompt_tokens'] for c in llm if c['usage']]
         usage_out = [c['usage']['completion_tokens'] for c in llm if c['usage']]
-        complete = all(c['usage'] for c in llm)
+        complete = bool(llm) and all(c['usage'] for c in llm)
         diagnostics = {'method': self.system_id, 'version': self.version, 'config_hash': self.config_hash,
                        'sources_called': list(trace.queried), 'retrieval_steps': len(trace.tool_calls), 'stop_reason': trace.stop_reason,
                        'status': trace.status, 'fallbacks': trace.fallbacks, 'tool_calls': trace.tool_calls, 'llm_calls': llm,
