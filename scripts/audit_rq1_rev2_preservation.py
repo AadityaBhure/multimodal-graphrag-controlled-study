@@ -19,7 +19,7 @@ ALLOWED = {
     'scripts/report_rq1_repair.py', 'scripts/run_rq1_repair.py', 'scripts/validate_timing_boundary_equivalence.py',
     'tests/test_repair_dispatch.py', 'tests/test_repair_timing_boundary.py', 'scripts/audit_rq1_rev2_preservation.py',
     # plan / decision log (decision log is append-only and excluded from the baseline audit)
-    'documentation/PROJECT_COMPLETION_PLAN.md', 'documentation/Research_Decision_Log.md',
+    'documentation/PROJECT_COMPLETION_PLAN.md', 'documentation/Research_Decision_Log.md', '.gitattributes',
 }
 ALLOWED_PREFIXES = ('documentation/rq1_repair/timing_equivalence/',)
 ALLOWED_NEW_OUTPUTS = {'documentation/rq1_repair/timing_boundary_equivalence.json', 'documentation/rq1_repair/rev2_preservation.json',
