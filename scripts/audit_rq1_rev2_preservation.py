@@ -20,6 +20,7 @@ ALLOWED = {
     'tests/test_repair_dispatch.py', 'tests/test_repair_timing_boundary.py', 'scripts/audit_rq1_rev2_preservation.py',
     # plan / decision log (decision log is append-only and excluded from the baseline audit)
     'documentation/PROJECT_COMPLETION_PLAN.md', 'documentation/Research_Decision_Log.md', '.gitattributes',
+    'research/repair/schedule.py', 'tests/test_repair_schedule.py', 'scripts/verify_rq1_interleaving_offline.py',
 }
 ALLOWED_PREFIXES = ('documentation/rq1_repair/timing_equivalence/',)
 ALLOWED_NEW_OUTPUTS = {'documentation/rq1_repair/timing_boundary_equivalence.json', 'documentation/rq1_repair/rev2_preservation.json',
@@ -27,7 +28,9 @@ ALLOWED_NEW_OUTPUTS = {'documentation/rq1_repair/timing_boundary_equivalence.jso
                        'documentation/rq1_repair/execution_plan.json', 'documentation/rq1_repair/RQ1_OPERATIONAL_REVISION_2_VALIDATION.md',
                        'documentation/rq1_repair/execution_plan_v2.json', 'documentation/rq1_repair/local_audit.json',
                        'documentation/rq1_repair/local_audit_progress_rev2.json', 'documentation/rq1_repair/RQ1_OPERATIONAL_REVISION_3.md',
-                       'documentation/rq1_repair/rev3_full_tests.xml'}
+                       'documentation/rq1_repair/rev3_full_tests.xml',
+                       'documentation/rq1_repair/execution_plan_v3.json', 'documentation/rq1_repair/interleaving_offline_check.json',
+                       'documentation/rq1_repair/RQ1_OPERATIONAL_REVISION_4.md', 'documentation/rq1_repair/rev4_full_tests.xml'}
 PROTECTED_TREES = ('documentation/phase7', 'documentation/phase8', 'documentation/phase8_generation_v2', 'documentation/compliance_repair',
                    'research/rq1', 'research/rq2', 'research/baselines', 'research/evaluation', 'research/experiments', 'src', 'configs')
 

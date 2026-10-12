@@ -1,0 +1,16 @@
+{
+ "check": "rq1 operational revision 4 offline interleave+replay",
+ "queries": [
+  "generated:5692e57aa6e252201105:conflict",
+  "generated:5692e57aa6e252201105:noisy",
+  "generated:5692e57aa6e252201105:normal"
+ ],
+ "pairs": 15,
+ "stage_a_provider_calls": 15,
+ "stage_b_extra_provider_calls": 0,
+ "runner_records": 15,
+ "stage_a_query_major_order_verified": true,
+ "replay_only_payload_mismatches": 0,
+ "plan_sha256": "d9bb66e466038a4232eec56347daab0bfd391c14e0581371c26b293928f0d138",
+ "pass": true
+}

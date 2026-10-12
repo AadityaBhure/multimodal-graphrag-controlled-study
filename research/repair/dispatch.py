@@ -14,6 +14,10 @@ later as the byte-identical payload, within a separate allowance of rate-limited
 200k tokens/day limit is not exposed in response headers, so a local rolling 24-hour ledger pauses the
 run cleanly before a request could cross the daily budget; the run resumes the next day. Neither change
 alters any payload; failed or ambiguous dispatches still stop for human review and are never retried.
+
+Operational revision 4: replay_only mode. After the query-major prefetch (research/repair/schedule.py),
+the runner replays stored responses; in replay_only mode a payload without a completed stored response
+stops the run instead of being sent, which proves the replayed payloads are the ones sent.
 """
 from pathlib import Path
 from datetime import datetime,timezone
@@ -41,7 +45,7 @@ def write(path,row):
     durable_write(path,canonical_json(row)+'\n')
 
 class Dispatcher:
-    daily_budget=DAILY_TOKEN_BUDGET;max_rate_limited=MAX_RATE_LIMITED_ATTEMPTS
+    daily_budget=DAILY_TOKEN_BUDGET;max_rate_limited=MAX_RATE_LIMITED_ATTEMPTS;replay_only=False
 
     def __init__(self,root,initial_headers,max_requests):
         self.root=Path(root);self.root.mkdir(parents=True,exist_ok=True)
@@ -68,6 +72,7 @@ class Dispatcher:
                 old=json.loads(path.read_text(encoding='utf-8'))
                 if old['status']=='complete':return old['raw'],old['usage'],True
                 if old['status']!='rate_limited':raise Paused('Ambiguous or failed dispatch requires review: '+identity)
+            if self.replay_only:raise Paused('Replay found no completed provider response for this exact payload: '+identity)
             state_path=self.root/'state.json'
             state=json.loads(state_path.read_text()) if state_path.exists() else {'headers':self.initial,'observed':0.,'last_start':0.,'requests':0}
             headers=state['headers'];limit=min(8000,int(headers.get('x-ratelimit-limit-tokens','8000')))

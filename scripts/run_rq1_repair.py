@@ -17,6 +17,8 @@ from research.baselines.generation import PROMPT
 from research.rq1.reranker import LocalReranker
 from research.repair.rq1_compliance_v1.system import RepairedContextSystem
 from research.repair.rq1_compliance_v1.cm03 import keywords,KEYWORD_PROMPT
+from research.common.reproducibility import seed_everything
+from research.repair.schedule import interleaved,prefetch
 from research.repair.dispatch import Dispatcher,Paused,write,pre_dispatch_tokens,OVERHEAD_RESERVE,DAILY_TOKEN_BUDGET,MAX_RATE_LIMITED_ATTEMPTS
 from scripts.prepare_rq1_repair import save
 
@@ -47,22 +49,24 @@ def freeze():
     implementation['scripts/prepare_rq1_repair.py']=digest(ROOT/'scripts/prepare_rq1_repair.py')
     # Operational plan revisions: each superseded plan is archived byte-for-byte as execution_plan_v<N>.json
     # before re-freezing; the current plan may only be replaced if its bytes equal that archive.
-    revision=3;previous=D/f'execution_plan_v{revision-1}.json';current=D/'execution_plan.json'
+    revision=4;previous=D/f'execution_plan_v{revision-1}.json';current=D/'execution_plan.json'
     if not previous.exists():raise SystemExit(f'Archive the current plan as {previous.name} before re-freezing')
     if current.exists() and current.read_bytes()==previous.read_bytes():current.unlink()
     chain=[{'path':f'execution_plan_v{r}.json','sha256':digest(D/f'execution_plan_v{r}.json')} for r in range(1,revision)]
     save(current,{'version':'rq1-compliance-v1','plan_revision':revision,
         'supersedes':{**chain[-1],'reason':'operational revision only; scientific payloads, configs, cohort and prompts unchanged'},
         'superseded_plans':chain,
+        'operational_revision_4':'provider calls made in query-major order (all five methods per query) by the unchanged systems; the unchanged runner then replays stored responses with the dispatcher in replay_only mode',
         'operational_revision_3':'approved maximum counts successful calls only (rate-limited attempts: separate allowance of %d, byte-identical resend); rolling 24 h local token ledger pauses before %d tokens/day'%(MAX_RATE_LIMITED_ATTEMPTS,DAILY_TOKEN_BUDGET),
         'timing_boundary_equivalence_sha256':digest(D/'timing_boundary_equivalence.json'),
         'local_audit_sha256':digest(D/'local_audit.json'),
+        'interleaving_offline_check_sha256':digest(D/'interleaving_offline_check.json'),
         'configs':paths,'implementation_sha256':implementation,
         'queries':sorted(data),'maximum_successful_calls':192,'keyword_calls':32,'final_calls':160,
         'model':'openai/gpt-oss-120b','max_completion_tokens_per_stage':1024,'temperature':0,'reasoning_effort':'low',
         'initial_cooldown_seconds':90,'minimum_start_spacing_seconds':90,'test_human_test':False,
         'keyword_prompt':KEYWORD_PROMPT,'final_prompt':PROMPT,'cohort_frozen_before_outcomes':True,
-        'operational_revision':3,'admission_policy':'pre-dispatch tokens = local o200k_harmony content tokens + %d overhead reserve <= 8000; completion cap 1024 is sent unchanged and is not charged at admission (groq-admission-probe-v1, HTTP 200)'%OVERHEAD_RESERVE,
+        'operational_revision':4,'admission_policy':'pre-dispatch tokens = local o200k_harmony content tokens + %d overhead reserve <= 8000; completion cap 1024 is sent unchanged and is not charged at admission (groq-admission-probe-v1, HTTP 200)'%OVERHEAD_RESERVE,
         'overhead_reserve_tokens':OVERHEAD_RESERVE,'timing_boundary':'initialise() outside per-query context timer; initialisation_ms recorded separately'})
     print('FROZEN 32 queries; 32 keyword +160 final calls; max192; 196608 completion-token allowance',flush=True)
 
@@ -117,10 +121,25 @@ def execute():
             write(D/'cm03_local_audit'/(content_hash(q)+'.json'),{'query_id':q,'reserved_tokens':reserved,
                 'context_sha256':content_hash(out.context),'diagnostics':json.loads(out.diagnostics)})
             print('CM-03 LOCAL PASS',q,flush=True)
+        configs=[]
         for c in plan['configs']:
             path=D/c['path']
             if digest(path)!=c['sha256']:raise ValueError('Frozen config mismatch')
-            cfg=RunnerConfig.model_validate_json(path.read_text(encoding='utf-8'));start=time.perf_counter()
+            configs.append(RunnerConfig.model_validate_json(path.read_text(encoding='utf-8')))
+        # Operational revision 4, stage A: provider calls in query-major order (all five methods per query)
+        # through the unchanged systems, with the runner's own seed and overlay; responses are stored durably.
+        ahead={cfg.system_id:RepairedContextSystem(cfg.system_id,data,encoder.encode,reranker,cache,FinalGenerator(dispatcher,cfg.system_id)) for cfg in configs}
+        for system in ahead.values():system.initialise()
+        seeds={cfg.system_id:cfg.seed for cfg in configs}
+        def prefetch_one(q,method):
+            query_seed=int(content_hash({'seed':seeds[method],'query_id':q})[:8],16);seed_everything(query_seed)
+            ahead[method].execute(SystemInput(query_id=q,question=validation[q].question,seed=query_seed,overlay=reader.overlay(validation[q])))
+        prefetch(interleaved(data,[cfg.system_id for cfg in configs]),prefetch_one,D/'prefetch')
+        # Stage B: the unchanged Phase 5 runner per method replays the stored responses. replay_only stops the
+        # run (no new call) if any payload differs from the one sent in stage A.
+        dispatcher.replay_only=True
+        for cfg in configs:
+            start=time.perf_counter()
             system=RepairedContextSystem(cfg.system_id,data,encoder.encode,reranker,cache,FinalGenerator(dispatcher,cfg.system_id))
             # Resource/model setup happens before any per-query timer; its cost is recorded separately.
             write(D/'initialisation'/(cfg.system_id+'.json'),{'method':cfg.system_id,'initialisation_ms':system.initialise()})
