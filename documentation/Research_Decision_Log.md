@@ -133,3 +133,12 @@ Execution notes: an initial Windows-default decoding failure was fixed with expl
 | P6.5-02 | Add a separate Streamlit entry point that delegates retrieval to existing BaselineSystem and approved configs. | Four real-data retrieval checks and unchanged-baseline delegation tests. | No new algorithms, tuning or scientific experiments. |
 | P6.5-03 | Generate only on an explicit button action from an existing evidence snapshot. | Mock tests cover stale-input rejection, repeated-rerun behavior, context-only IDs, shared generation settings and setup errors. | No gold-answer access, hidden generation or additional API calls during implementation. |
 | P6.5-04 | Bound explorer pages and keep interactive metrics distinct from benchmark results. | Cross-view ID check, 25-relationship cap, NULL metric tests, small Graphviz views. | No full graph rendering or fabricated accuracy/token/cost metrics. |
+
+## Program re-sequencing — 2026-10-12
+
+| ID | Decision | Evidence and validation | Research impact |
+| --- | --- | --- | --- |
+| PR-01 | Phase 9 / RQ3 implementation was started before RQ1/RQ2 completion by explicit user decision (2026-10-11, "Demo first, evaluation continues"); no RQ3 scientific run, training or calibration for the study was executed. | Branch `research/phase9-rq3` (`0c1af0c`); only demo-labelled lite assets exist under ignored `artifacts/phase9/lite`. | RQ3 code is paused; it does not use any RQ1/RQ2 repair output. |
+| PR-02 | Approved completion order: RQ1 → RQ2 → RQ1/RQ2 closeout → RQ3 resume → RQ4 → locked final test → paper, with a review stop after every stage. | `documentation/PROJECT_COMPLETION_PLAN.md`. | Restores the handoff order for the remaining work. |
+| PR-03 | Superseded status records are not edited; their current status is recorded in the completion plan. | `rq1_repair/execution_status.json` and `Phase_Reports/Phase_09_Agentic_Retrieval_Review.md` remain byte-unchanged. | Preserves historical records. |
+| PR-04 | The professor demo (branch `demo/professor-integrated-product-2026-10-12`) is never merged into research branches and must not read study artifacts that later research stages write. | Demo isolation change on the demo branch. | Research runs cannot change demo behaviour and vice versa. |
