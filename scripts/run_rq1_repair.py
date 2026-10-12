@@ -17,7 +17,7 @@ from research.baselines.generation import PROMPT
 from research.rq1.reranker import LocalReranker
 from research.repair.rq1_compliance_v1.system import RepairedContextSystem
 from research.repair.rq1_compliance_v1.cm03 import keywords,KEYWORD_PROMPT
-from research.repair.dispatch import Dispatcher,Paused,write,pre_dispatch_tokens,OVERHEAD_RESERVE
+from research.repair.dispatch import Dispatcher,Paused,write,pre_dispatch_tokens,OVERHEAD_RESERVE,DAILY_TOKEN_BUDGET,MAX_RATE_LIMITED_ATTEMPTS
 from scripts.prepare_rq1_repair import save
 
 D=ROOT/'documentation/rq1_repair'
@@ -45,20 +45,24 @@ def freeze():
     implementation={p.relative_to(ROOT).as_posix():digest(p) for p in (ROOT/'research/repair').rglob('*.py')}
     implementation['scripts/run_rq1_repair.py']=digest(__file__)
     implementation['scripts/prepare_rq1_repair.py']=digest(ROOT/'scripts/prepare_rq1_repair.py')
-    # Plan revision 2 (operational only): the v1 plan is archived byte-for-byte as execution_plan_v1.json.
-    v1=D/'execution_plan_v1.json'
-    if not v1.exists():raise SystemExit('Archive the v1 plan as execution_plan_v1.json before re-freezing')
-    current=D/'execution_plan.json'
-    if current.exists() and current.read_bytes()==v1.read_bytes():current.unlink()  # explicit supersession of the archived v1 plan only
-    save(current,{'version':'rq1-compliance-v1','plan_revision':2,
-        'supersedes':{'path':'execution_plan_v1.json','sha256':digest(v1),'reason':'operational revision 2 only (admission rule, timing boundary); scientific payloads, configs, cohort and prompts unchanged'},
+    # Operational plan revisions: each superseded plan is archived byte-for-byte as execution_plan_v<N>.json
+    # before re-freezing; the current plan may only be replaced if its bytes equal that archive.
+    revision=3;previous=D/f'execution_plan_v{revision-1}.json';current=D/'execution_plan.json'
+    if not previous.exists():raise SystemExit(f'Archive the current plan as {previous.name} before re-freezing')
+    if current.exists() and current.read_bytes()==previous.read_bytes():current.unlink()
+    chain=[{'path':f'execution_plan_v{r}.json','sha256':digest(D/f'execution_plan_v{r}.json')} for r in range(1,revision)]
+    save(current,{'version':'rq1-compliance-v1','plan_revision':revision,
+        'supersedes':{**chain[-1],'reason':'operational revision only; scientific payloads, configs, cohort and prompts unchanged'},
+        'superseded_plans':chain,
+        'operational_revision_3':'approved maximum counts successful calls only (rate-limited attempts: separate allowance of %d, byte-identical resend); rolling 24 h local token ledger pauses before %d tokens/day'%(MAX_RATE_LIMITED_ATTEMPTS,DAILY_TOKEN_BUDGET),
         'timing_boundary_equivalence_sha256':digest(D/'timing_boundary_equivalence.json'),
+        'local_audit_sha256':digest(D/'local_audit.json'),
         'configs':paths,'implementation_sha256':implementation,
         'queries':sorted(data),'maximum_successful_calls':192,'keyword_calls':32,'final_calls':160,
         'model':'openai/gpt-oss-120b','max_completion_tokens_per_stage':1024,'temperature':0,'reasoning_effort':'low',
         'initial_cooldown_seconds':90,'minimum_start_spacing_seconds':90,'test_human_test':False,
         'keyword_prompt':KEYWORD_PROMPT,'final_prompt':PROMPT,'cohort_frozen_before_outcomes':True,
-        'operational_revision':2,'admission_policy':'pre-dispatch tokens = local o200k_harmony content tokens + %d overhead reserve <= 8000; completion cap 1024 is sent unchanged and is not charged at admission (groq-admission-probe-v1, HTTP 200)'%OVERHEAD_RESERVE,
+        'operational_revision':3,'admission_policy':'pre-dispatch tokens = local o200k_harmony content tokens + %d overhead reserve <= 8000; completion cap 1024 is sent unchanged and is not charged at admission (groq-admission-probe-v1, HTTP 200)'%OVERHEAD_RESERVE,
         'overhead_reserve_tokens':OVERHEAD_RESERVE,'timing_boundary':'initialise() outside per-query context timer; initialisation_ms recorded separately'})
     print('FROZEN 32 queries; 32 keyword +160 final calls; max192; 196608 completion-token allowance',flush=True)
 

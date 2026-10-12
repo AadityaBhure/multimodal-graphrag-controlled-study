@@ -7,6 +7,13 @@ provider-overhead reserve (102 measured in 12/12 research-shaped requests + 26 s
 allowance). The scientific 1,024 completion cap is unchanged and is still sent; its actual
 use is debited from the minute bucket by the provider and observed in the response headers.
 This never changes scientific payloads.
+
+Operational revision 3: (a) the approved maximum counts SUCCESSFUL calls only, as the frozen plan
+states (maximum_successful_calls); a rate-limited attempt produced no model output and is retried
+later as the byte-identical payload, within a separate allowance of rate-limited attempts. (b) Groq's
+200k tokens/day limit is not exposed in response headers, so a local rolling 24-hour ledger pauses the
+run cleanly before a request could cross the daily budget; the run resumes the next day. Neither change
+alters any payload; failed or ambiguous dispatches still stop for human review and are never retried.
 """
 from pathlib import Path
 from datetime import datetime,timezone
@@ -25,11 +32,17 @@ OVERHEAD_RESERVE=128  # 102 measured provider-minus-local tokens (12/12) + 26 ex
 def pre_dispatch_tokens(content_tokens):
     return content_tokens+OVERHEAD_RESERVE
 
+DAILY_TOKEN_BUDGET=190_000  # of Groq's 200,000 tokens/day; 10k margin for usage this ledger cannot see
+MAX_RATE_LIMITED_ATTEMPTS=20
+WINDOW_SECONDS=86_400
+
 def write(path,row):
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
     durable_write(path,canonical_json(row)+'\n')
 
 class Dispatcher:
+    daily_budget=DAILY_TOKEN_BUDGET;max_rate_limited=MAX_RATE_LIMITED_ATTEMPTS
+
     def __init__(self,root,initial_headers,max_requests):
         self.root=Path(root);self.root.mkdir(parents=True,exist_ok=True)
         self.maximum=max_requests;self.initial=initial_headers
@@ -61,7 +74,14 @@ class Dispatcher:
             tokens=sum(len(self.encoder.encode(m['content'],disallowed_special=())) for m in payload['messages'])
             reserved=pre_dispatch_tokens(tokens)
             if reserved>limit:raise Paused(f'Unchanged request requires {reserved} pre-dispatch tokens ({tokens} content + {OVERHEAD_RESERVE} overhead reserve); capacity {limit}; cannot repair by waiting')
-            if state['requests']>=self.maximum:raise Paused('Approved request maximum reached')
+            successes=state.get('successes',0);limited=state.get('rate_limited',0)
+            if successes>=self.maximum:raise Paused('Approved successful-call maximum reached')
+            if limited>=self.max_rate_limited:raise Paused('Rate-limited attempt allowance exhausted; review required')
+            now=time.time();window=[e for e in state.get('ledger',[]) if e[0]>now-WINDOW_SECONDS]
+            used=sum(e[1] for e in window);need=reserved+cap  # conservative: full completion cap
+            if used+need>self.daily_budget:
+                resume=datetime.fromtimestamp(min(e[0] for e in window)+WINDOW_SECONDS,timezone.utc).isoformat() if window else 'now'
+                raise Paused(f'Daily token budget: {used} provider tokens in the last 24 h + {need} needed > {self.daily_budget}; resume after {resume}')
             target=max(self.ready,state['last_start']+90)
             for kind,need in [('tokens',reserved),('requests',1)]:
                 remaining=headers.get('x-ratelimit-remaining-'+kind)
@@ -78,7 +98,7 @@ class Dispatcher:
             started=time.time();state['requests']+=1;state['last_start']=started
             row={'stage':stage,'identity':identity,'status':'dispatched','payload':payload,
                 'timestamp':datetime.now(timezone.utc).isoformat(),'reserved_tokens':reserved,
-                'measured_content_tokens':tokens,'completion_cap':cap,'admission_policy':'content+128; completion cap not charged at admission (groq-admission-probe-v1)','pacing_seconds':started-wait,'sequence':state['requests']}
+                'measured_content_tokens':tokens,'completion_cap':cap,'daily_window_tokens_before':used,'admission_policy':'content+128; completion cap not charged at admission (groq-admission-probe-v1)','pacing_seconds':started-wait,'sequence':state['requests']}
             write(path,row);write(state_path,state)
             try:
                 response=self.client.chat.completions.with_raw_response.create(**payload)
@@ -97,6 +117,15 @@ class Dispatcher:
             try:row['bucket_debit_observed']=limit-int(observed['x-ratelimit-remaining-tokens'])
             except (KeyError,ValueError):row['bucket_debit_observed']=None
             state.update(headers=observed or headers,observed=time.time())
+            if row['status']=='complete':
+                state['successes']=successes+1
+                usage=row['usage'];total=(usage['input_tokens'] or 0)+(usage['output_tokens'] or 0) if usage['input_tokens'] is not None else reserved+cap
+                charged=max(total,row['bucket_debit_observed'] or 0)  # bucket debit includes the provider's unexplained extra
+            else:
+                charged=0
+                if row['status']=='rate_limited':state['rate_limited']=limited+1
+            row['daily_ledger_tokens']=charged
+            state['ledger']=[e for e in state.get('ledger',[]) if e[0]>time.time()-WINDOW_SECONDS]+[[started,charged]]
             write(self.root/'attempts'/f"{state['requests']:05d}.json",row);write(path,row);write(state_path,state)
             print('GROQ',stage,row['status'],row.get('http_status'),flush=True)
             if row['status']!='complete':raise Paused('Stage paused; durable record preserved: '+identity)

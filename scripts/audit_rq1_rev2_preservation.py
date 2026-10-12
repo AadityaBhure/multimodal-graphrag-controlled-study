@@ -24,7 +24,10 @@ ALLOWED = {
 ALLOWED_PREFIXES = ('documentation/rq1_repair/timing_equivalence/',)
 ALLOWED_NEW_OUTPUTS = {'documentation/rq1_repair/timing_boundary_equivalence.json', 'documentation/rq1_repair/rev2_preservation.json',
                        'documentation/rq1_repair/rev2_full_tests.xml', 'documentation/rq1_repair/execution_plan_v1.json',
-                       'documentation/rq1_repair/execution_plan.json', 'documentation/rq1_repair/RQ1_OPERATIONAL_REVISION_2_VALIDATION.md'}
+                       'documentation/rq1_repair/execution_plan.json', 'documentation/rq1_repair/RQ1_OPERATIONAL_REVISION_2_VALIDATION.md',
+                       'documentation/rq1_repair/execution_plan_v2.json', 'documentation/rq1_repair/local_audit.json',
+                       'documentation/rq1_repair/local_audit_progress_rev2.json', 'documentation/rq1_repair/RQ1_OPERATIONAL_REVISION_3.md',
+                       'documentation/rq1_repair/rev3_full_tests.xml'}
 PROTECTED_TREES = ('documentation/phase7', 'documentation/phase8', 'documentation/phase8_generation_v2', 'documentation/compliance_repair',
                    'research/rq1', 'research/rq2', 'research/baselines', 'research/evaluation', 'research/experiments', 'src', 'configs')
 
