@@ -14,7 +14,7 @@ Date: 2026-10-12. Approved by the user after the Stage 2 audit. No Groq call mad
 ## Scientific impact: none
 Plan revision 3 vs revision 2 (`execution_plan_v2.json`): identical cohort (32 queries), configs (byte-identical hashes), prompts, model, temperature, reasoning effort, seed policy, completion cap, admission rule, timing boundary and equivalence report. Only the implementation hashes of `research/repair/dispatch.py` and `scripts/run_rq1_repair.py` changed. Tests prove the sent payload and its stage identity are byte-for-byte the revision-2 ones.
 
-Known limitation (unchanged by this revision): the run spans about 3 days; the provider does not guarantee identical outputs across days even at temperature 0 with a fixed seed. Every call's timestamp is recorded and the five methods are interleaved per query, so any drift is shared and visible.
+Known limitation (unchanged by this revision): the run spans about 3 days; the provider does not guarantee identical outputs across days even at temperature 0 with a fixed seed. Every call's timestamp is recorded. Correction (2026-10-12): the frozen runner executes methods one after another (CM-03 keywords, then CM-B0, CM-B1, CM-01, CM-02, CM-03 for all 32 queries each), not interleaved per query, so different methods may run on different days; any provider drift would then be confounded with method and must be reported as a limitation.
 
 ## Validation
 * Tests: 226 passed (6 new: byte-identical payload/identity, 429 does not consume a successful call and is resent identically, bounded 429 allowance, daily pause and resume after the window, ledger uses the larger observed debit, constants). `rev3_full_tests.xml`.
