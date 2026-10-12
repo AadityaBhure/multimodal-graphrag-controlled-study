@@ -45,7 +45,15 @@ def freeze():
     implementation={p.relative_to(ROOT).as_posix():digest(p) for p in (ROOT/'research/repair').rglob('*.py')}
     implementation['scripts/run_rq1_repair.py']=digest(__file__)
     implementation['scripts/prepare_rq1_repair.py']=digest(ROOT/'scripts/prepare_rq1_repair.py')
-    save(D/'execution_plan.json',{'version':'rq1-compliance-v1','configs':paths,'implementation_sha256':implementation,
+    # Plan revision 2 (operational only): the v1 plan is archived byte-for-byte as execution_plan_v1.json.
+    v1=D/'execution_plan_v1.json'
+    if not v1.exists():raise SystemExit('Archive the v1 plan as execution_plan_v1.json before re-freezing')
+    current=D/'execution_plan.json'
+    if current.exists() and current.read_bytes()==v1.read_bytes():current.unlink()  # explicit supersession of the archived v1 plan only
+    save(current,{'version':'rq1-compliance-v1','plan_revision':2,
+        'supersedes':{'path':'execution_plan_v1.json','sha256':digest(v1),'reason':'operational revision 2 only (admission rule, timing boundary); scientific payloads, configs, cohort and prompts unchanged'},
+        'timing_boundary_equivalence_sha256':digest(D/'timing_boundary_equivalence.json'),
+        'configs':paths,'implementation_sha256':implementation,
         'queries':sorted(data),'maximum_successful_calls':192,'keyword_calls':32,'final_calls':160,
         'model':'openai/gpt-oss-120b','max_completion_tokens_per_stage':1024,'temperature':0,'reasoning_effort':'low',
         'initial_cooldown_seconds':90,'minimum_start_spacing_seconds':90,'test_human_test':False,

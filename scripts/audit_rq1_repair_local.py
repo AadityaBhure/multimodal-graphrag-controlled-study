@@ -2,6 +2,9 @@
 
 CM-03 requires its frozen LLM keyword cache and is covered by fixtures until
 that cache exists. No generation, retrieval, or query outcomes are used here.
+
+Operational revision 2 writes its progress to local_audit_progress_rev2.json and any blocker to
+capacity_blocker_rev2.json; the v1 records (local_audit_progress.json, capacity_blocker.json) stay unchanged.
 """
 from pathlib import Path
 import json,sys,time
@@ -40,14 +43,14 @@ def main(methods=('CM-B0','CM-B1','CM-01','CM-02')):
                 'seconds':time.perf_counter()-start,'evidence_hash':key,'pass_through_hashes':d['pass_through_hashes'],
                 'memory':process_memory(),'fallback':d.get('fallback')}
             if reserved>8000:
-                write(D/'capacity_blocker.json',{'status':'BLOCKED_PROVIDER_CAPACITY','row':row,
+                write(D/'capacity_blocker_rev2.json',{'status':'BLOCKED_PROVIDER_CAPACITY','row':row,
                     'content_tokens':reserved-128,'completion_cap':1024,'overhead_reserve':128,
                     'observed_tpm':8000,'context_sha256':content_hash(out.context),'query_sha256':content_hash(q.question),
                     'tokenizer':'tiktoken-0.12.0:o200k_harmony','scientific_payload_changed':False,
                     'request_sent':False,'wait_can_resolve':False,'diagnostics':d})
                 print('BLOCKED_PROVIDER_CAPACITY',method,qid,reserved,flush=True)
                 return
-            rows.append(row);write(D/'local_audit_progress.json',{'rows':rows,'complete':False})
+            rows.append(row);write(D/'local_audit_progress_rev2.json',{'rows':rows,'complete':False})
             print(method,qid,'PASS',reserved,flush=True)
     write(D/'local_audit.json',{'status':'PASS','records':len(rows),'rows':rows,'elapsed_seconds':time.perf_counter()-started,
         'cm03':'Fixture tested; real keyword cache not yet dispatched','api_calls':0,'new_retrieval_calls':0})
