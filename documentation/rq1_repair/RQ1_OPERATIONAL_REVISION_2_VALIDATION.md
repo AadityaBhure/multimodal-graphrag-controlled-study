@@ -33,6 +33,7 @@ Full suite: 220 passed (215 previous + 5 revision-2 tests), one existing DuckDB 
 * `execution_plan.json` is now plan revision 2: same version `rq1-compliance-v1`, same 32 queries, 192 maximum calls, prompts, model and cap; adds the admission policy, overhead reserve, timing boundary, the superseded-plan hash and the equivalence-report hash; implementation hashes recomputed (10 files).
 * `configs/CM-*.json`: re-saved byte-identical (write-once guard passed), so experiment identity is unchanged.
 * The re-freeze only replaces a plan whose bytes equal the archived v1 copy.
+* Line endings: frozen hashes are raw-byte SHA-256 and this checkout uses `core.autocrlf=true`. As in v1, all 10 frozen implementation files are hashed in their repository (LF) form; three files that branch switches had rewritten with CRLF were normalised back to LF (no content change) before the final freeze, and every frozen hash was verified equal to `git show HEAD:<path>`. If a later checkout rewrites one of these files with CRLF, the runner refuses to start ("Frozen repair code changed"); normalise CRLF→LF and re-check — never re-freeze to accept different content.
 
 ## 5. Other operational change
 `scripts/audit_rq1_repair_local.py` now writes `local_audit_progress_rev2.json` / `capacity_blocker_rev2.json`, so the v1 records (`local_audit_progress.json`: 64 rows under the old rule; `capacity_blocker.json`) stay unchanged.
