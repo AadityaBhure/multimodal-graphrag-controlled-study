@@ -201,13 +201,13 @@ def pareto(method_means, higher, lower):
         for k in higher:
             x, y = method_means[a].get(k), method_means[b].get(k)
             if x is None or y is None:
-                continue
+                return False            # an unmeasured axis makes the pair incomparable: no domination claim
             if x < y - 1e-12: return False
             better |= x > y + 1e-12
         for k in lower:
             x, y = method_means[a].get(k), method_means[b].get(k)
             if x is None or y is None:
-                continue
+                return False
             if x > y + 1e-12: return False
             better |= x < y - 1e-12
         return better

@@ -13,6 +13,7 @@ from research.evaluation.benchmark import BenchmarkReader
 from research.agentic.rule_router import first_source, route
 
 POOL = ROOT / 'artifacts/phase9/pool'
+LITE = '--lite' in sys.argv      # demo-only: label whatever the (incomplete) pool already holds; never used by the scientific run
 
 
 def load(source, qid):
@@ -40,14 +41,15 @@ def main():
                 label = 'B' if cov == 1.0 else 'C'
             labels[qid] = {'split': split, 'label': label, 'first_source': src, 'coverage': cov, 'retrieval_status': rec['status'],
                            'router': route(q.question)['sources']}
-    if missing:
+    if missing and not LITE:
         raise SystemExit('pool retrieval incomplete: %d missing (first: %s)' % (len(missing), missing[:3]))
     counts = {s: {c: sum(1 for v in labels.values() if v['split'] == s and v['label'] == c) for c in 'ABC'} for s in ('train', 'dev')}
     out = {'version': 'phase9-ar01-labels-v1', 'partition_sha256': part['partition_sha256'], 'class_counts': counts, 'retrieval_errors': errors,
            'by_first_source': {s: {c: sum(1 for v in labels.values() if v['first_source'] == s and v['label'] == c) for c in 'ABC'} for s in ('text', 'graph', 'structured')},
            'labels': labels}
     out['labels_sha256'] = content_hash(labels)
-    path = ROOT / 'documentation/phase9/ar01/labels.json'
+    path = (ROOT / 'artifacts/phase9/lite/labels.json') if LITE else (ROOT / 'documentation/phase9/ar01/labels.json')
+    out['lite'] = LITE; out['unlabelled_missing_pool_records'] = len(missing)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(canonical_json(out) + '\n', encoding='utf-8', newline='\n')
     print(json.dumps({k: out[k] for k in ('class_counts', 'retrieval_errors', 'by_first_source', 'labels_sha256')}, indent=1))

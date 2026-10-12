@@ -29,7 +29,7 @@ def _batches(pairs, tokenizer, batch_size, shuffle, seed):
         yield enc, lab
 
 
-def train(model_dir, train_pairs, dev_pairs, out_dir, threads=10, log=print):
+def train(model_dir, train_pairs, dev_pairs, out_dir, threads=10, log=print, max_epochs=None):
     """train_pairs/dev_pairs: [(question, 'A'|'B'|'C')]. Returns the training report (also written to out_dir)."""
     import torch
     from transformers import T5ForConditionalGeneration, AutoTokenizer
@@ -42,7 +42,9 @@ def train(model_dir, train_pairs, dev_pairs, out_dir, threads=10, log=print):
     dcounts = {c: sum(1 for _, l in dev_pairs if l == c) for c in LABELS}
     report = {'hyper': HYPER, 'train_counts': counts, 'dev_counts': dcounts, 'epochs': [], 'best_epoch': None, 'stopped': None}
     best, bad = float('inf'), 0
-    for epoch in range(1, HYPER['max_epochs'] + 1):
+    limit = max_epochs or HYPER['max_epochs']
+    report['max_epochs_used'] = limit
+    for epoch in range(1, limit + 1):
         model.train(); tl, n = 0., 0
         for enc, lab in _batches(train_pairs, tok, HYPER['batch_size'], True, HYPER['seed'] + epoch):
             loss = model(**enc, labels=lab).loss

@@ -9,13 +9,15 @@ from research.agentic.crag import CrossEncoderEvaluator, Platt, classify, fit_th
 
 POOL = ROOT / 'artifacts/phase9/pool'
 CE_REVISION = '233902d25c440f23af6f7d6e94d2946bac0bee0a'
+LITE = '--lite' in sys.argv      # demo-only: calibrate on the dev queries whose three source records already exist
 
 
 def main():
     part = json.loads((ROOT / 'documentation/phase9/partition/ar01_partition.json').read_text(encoding='utf-8'))
     recs = {q.query_id: q for q in BenchmarkReader(ROOT / 'data/MMG_STARK_MAG/benchmark').records('train')}
     ev = CrossEncoderEvaluator(ROOT / 'artifacts/phase9/models/ms-marco-MiniLM-L-6-v2'); ev.load()
-    scores_path = ROOT / 'artifacts/phase9/ar02_raw_scores.json'
+    scores_path = ROOT / ('artifacts/phase9/lite/ar02_raw_scores.json' if LITE else 'artifacts/phase9/ar02_raw_scores.json')
+    scores_path.parent.mkdir(parents=True, exist_ok=True)
     cache = json.loads(scores_path.read_text(encoding='utf-8')) if scores_path.exists() else {}
     per_query, raws, labs, fingerprint = {}, [], [], []
     started = time.perf_counter()
@@ -27,11 +29,15 @@ def main():
         for s in SOURCE_ORDER:
             p = POOL / s / (content_hash(qid) + '.json')
             if not p.exists():
+                if LITE:
+                    by_source = None; break
                 raise SystemExit('dev pool incomplete: %s %s' % (s, qid))
             rec = json.loads(p.read_text(encoding='utf-8')); fingerprint.append(content_hash(rec))
             if rec['status'] != 'ok':
                 rec['evidence'] = []
             by_source[s] = rec['evidence']
+        if by_source is None:
+            continue
         per_query[qid] = by_source
         for s in SOURCE_ORDER:
             for e in by_source[s]:
@@ -65,7 +71,8 @@ def main():
            'threshold_samples': len(samples), 'threshold_truth_counts': truths, 'thresholds': {'lower': best['lower'], 'upper': best['upper']},
            'selected': best, 'grid': rows, 'grids': {'lower': LOWER_GRID, 'upper': UPPER_GRID},
            'data_fingerprint': content_hash(sorted(fingerprint)), 'used_splits': ['train (dev partition only)'], 'validation_test_human_test_used': False}
-    path = ROOT / 'documentation/phase9/calibration/ar02_calibration.json'
+    path = (ROOT / 'artifacts/phase9/lite/ar02_calibration.json') if LITE else (ROOT / 'documentation/phase9/calibration/ar02_calibration.json')
+    out['lite'] = LITE
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(out, indent=1, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
     print(json.dumps({k: out[k] for k in ('platt', 'thresholds', 'threshold_truth_counts')}, indent=1), flush=True)
