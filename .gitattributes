@@ -16,3 +16,4 @@ documentation/rq1_repair/timing_boundary_equivalence.json text eol=lf
 documentation/rq1_repair/CM01_Frozen_Provenance_Adaptation.txt text eol=lf
 # recorded as decisions_sha256 in configs/CM-*.json over its CRLF form
 documentation/rq1_repair/Implementation_Decisions.md text eol=crlf
+documentation/SCOPE_REVISION_2026-10-15.json text eol=lf

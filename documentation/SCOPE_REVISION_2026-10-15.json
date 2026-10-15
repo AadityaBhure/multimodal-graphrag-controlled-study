@@ -1,0 +1,69 @@
+{
+ "scope_revision": "two-week-scope-v1",
+ "frozen_utc": "2026-10-15T10:30:12.896682+00:00",
+ "decided_before_outcomes": {
+  "rq2": "no RQ2 canonical run, code or result exists",
+  "rq3": "no RQ3 study run, training or calibration exists (lite demo assets are not study artifacts)",
+  "rq4": "not started"
+ },
+ "order": [
+  "RQ1 (finish run + analysis)",
+  "RQ3",
+  "RQ2 main study",
+  "RQ4",
+  "results package"
+ ],
+ "rq3_cohort": {
+  "rule": "all 14 independent base families of the 56 verified generated validation queries; stress variants normal and noisy only (conflict and unanswerable dropped); no outcome-based selection",
+  "count": 28,
+  "families": 14,
+  "modality_families": {
+   "S": 2,
+   "T": 2,
+   "G": 2,
+   "TGS": 2,
+   "GS": 2,
+   "TG": 2,
+   "TS": 2
+  },
+  "benchmark_manifest_sha256": "e07f131468e0d38e9a4a5577411ffcfaac984418b3297bf28463e8e67ececf40",
+  "query_ids": [
+   "generated:2505e1a85cb296afd54b:noisy",
+   "generated:2505e1a85cb296afd54b:normal",
+   "generated:4ec4236ca0cb3915f052:noisy",
+   "generated:4ec4236ca0cb3915f052:normal",
+   "generated:519deedd6d3cbb9409d7:noisy",
+   "generated:519deedd6d3cbb9409d7:normal",
+   "generated:5692e57aa6e252201105:noisy",
+   "generated:5692e57aa6e252201105:normal",
+   "generated:69a22c3b4989b07ed6c3:noisy",
+   "generated:69a22c3b4989b07ed6c3:normal",
+   "generated:6f03efc321dca0622d99:noisy",
+   "generated:6f03efc321dca0622d99:normal",
+   "generated:824083f22c1dad1b1c02:noisy",
+   "generated:824083f22c1dad1b1c02:normal",
+   "generated:92af2a9e24dd0b4edcdc:noisy",
+   "generated:92af2a9e24dd0b4edcdc:normal",
+   "generated:9d1d94702b033bcaa666:noisy",
+   "generated:9d1d94702b033bcaa666:normal",
+   "generated:a028a557e6c2ebe60db7:noisy",
+   "generated:a028a557e6c2ebe60db7:normal",
+   "generated:ad032865504b8de6643b:noisy",
+   "generated:ad032865504b8de6643b:normal",
+   "generated:d025b1efdeac54a2fdfc:noisy",
+   "generated:d025b1efdeac54a2fdfc:normal",
+   "generated:df88082452faec95fe6f:noisy",
+   "generated:df88082452faec95fe6f:normal",
+   "generated:ea8d078933fce4b7a26b:noisy",
+   "generated:ea8d078933fce4b7a26b:normal"
+  ]
+ },
+ "rq2": {
+  "primary": "unchanged: the 24 frozen multimodal validation bundles x 5 methods (canonical CF-02 / CF-03 as specified)",
+  "fusion_isolation_study": "dropped (future work)"
+ },
+ "rq4": "integrated system vs B4 and the best single-gap variants on the same 28-query cohort as RQ3; validation only",
+ "phase11_locked_test": "out of scope for this window (free-tier quota); all reported results are validation results; locked test and 2,801 human reviews are future work",
+ "groq_budget": "~14 days x 190,000 tokens/day; 3 days reserve",
+ "unchanged": "test/human_test never touched; no post-hoc tuning; frozen methods, prompts, models and caps per RQ"
+}

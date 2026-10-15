@@ -27,3 +27,16 @@ These files are covered by preservation records and are not edited. Their curren
 * `documentation/rq1_repair/execution_status.json` (`blocked_before_dispatch`, 8,308 reserved tokens): superseded by `documentation/rq1_repair/GROQ_ADMISSION_SEMANTICS_DECISION.md` — the completion cap is not charged at admission; all 160 static requests fit under `content + 128 ≤ 8,000`. RQ1 is incomplete, not blocked; it resumes at Stage 1.
 * `documentation/Phase_Reports/Phase_09_Agentic_Retrieval_Review.md` (`NOT_STARTED_MISSING_PHASE1D_SPECIFICATION`): superseded by `documentation/phase9/PHASE9_SPEC_CONSISTENCY_AUDIT.md` and `PHASE9_METHOD_IMPLEMENTATION_REPORT.md` on branch `research/phase9-rq3` — implementation complete, no scientific run, no frozen plan. Paused until Stage 8.
 * `CLAUDE_MASTER_HANDOFF_MULTIMODAL_GRAPHRAG.md` §22 ("Phase 9 NOT STARTED") — untracked handoff note, superseded as above.
+
+## Scope revision 2026-10-15 — two-week window (frozen before any RQ2/RQ3/RQ4 outcome)
+Approved by the user: at most two weeks remain, bounded by the free Groq quota (~190k tokens/day, ~2.7M in total). Frozen details: `documentation/SCOPE_REVISION_2026-10-15.json`.
+
+| Days | Groq | Offline in parallel |
+|---|---|---|
+| 0 | RQ1 last 8 calls + replay | RQ1 analysis (Stage 4) |
+| 1–4 | RQ3 study on 28 queries | RQ3 prep (graph pool, AR-01 training, AR-02 calibration, freeze) first; then build/freeze canonical CF-02/CF-03 |
+| 5–9 | RQ2 main study (24 bundles × 5 methods) | RQ3 analysis/report |
+| 10–11 | RQ4: integrated vs B4 vs best single-gap variants, 28 queries | RQ2 analysis/report |
+| 12–14 | reserve | RQ4 analysis, results package |
+
+Changes: RQ3 runs before RQ2 (independent of RQ1/RQ2 outcomes); RQ3 cohort 56 → 28 (all 14 families, normal + noisy); RQ2 fusion-isolation study dropped; Phase 11 locked test out of scope — all results are validation results. Unchanged: methods, prompts, models, caps, the RQ2 24-bundle primary study, no test/human_test, no post-hoc tuning.
