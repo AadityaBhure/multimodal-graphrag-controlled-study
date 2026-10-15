@@ -9,7 +9,13 @@
   admission (groq-admission-probe-v1). Pacing waits on response headers; waiting is recorded separately
   as `wait_ms` and is never part of intrinsic latency.
 * A 429/other provider failure is persisted and raises `ProviderPause` (BaseException) so the runner stops
-  cleanly and resumes later; nothing is silently retried and no output is fabricated.
+  cleanly and resumes later; nothing is silently retried and no output is fabricated. A rate-limited stage
+  produced no model output and is resent later as the byte-identical payload.
+* Daily quota (operational): Groq does not expose its 200k tokens/day limit in headers, so a local ROLLING
+  24-hour ledger pauses before a request (content + reserve + full cap) could cross the daily budget. Each
+  completed call is charged max(provider total_tokens, observed minute-bucket debit) (same rule as RQ1 rev. 3).
+* replay_only: after the query-major prefetch, the runner replays stored responses; a payload without a
+  completed stored response raises ProviderPause instead of being sent (proves replayed payloads were sent).
 """
 from datetime import datetime, timezone
 from pathlib import Path
@@ -22,7 +28,8 @@ from research.experiments.config import durable_write
 MODEL = 'openai/gpt-oss-120b'
 OVERHEAD_RESERVE = 128
 TPM_LIMIT = 8000
-TPD_SAFETY = 195_000          # stop before the 200,000 tokens/day organisation limit
+TPD_SAFETY = 190_000          # rolling 24 h; stop before the 200,000 tokens/day organisation limit
+WINDOW_S = 86_400
 ENC = tiktoken.get_encoding('o200k_harmony')
 
 
@@ -69,6 +76,7 @@ class DurableLLM:
         self.transport = transport or self._groq_transport()
         self.initial_headers = initial_headers or {}
         self.daily_budget = daily_budget
+        self.replay_only = False
         self.key = None
 
     # ------------------------------------------------------------------ transport
@@ -100,7 +108,7 @@ class DurableLLM:
     def _state(self):
         if self.state_path.exists():
             return json.loads(self.state_path.read_text(encoding='utf-8'))
-        return {'headers': self.initial_headers, 'observed': 0., 'last_start': 0., 'requests': 0, 'day': None, 'day_tokens': 0}
+        return {'headers': self.initial_headers, 'observed': 0., 'last_start': 0., 'requests': 0, 'ledger': []}
 
     def _save(self, state):
         durable_write(self.state_path, canonical_json(state) + '\n')
@@ -125,16 +133,18 @@ class DurableLLM:
                                      wait_ms=0., reused=True, stage_id=identity, role=role)
                 if old['status'] != 'rate_limited':
                     raise ProviderPause('Ambiguous or failed stage requires review (no silent retry): ' + identity)
+            if self.replay_only:
+                raise ProviderPause('Replay found no completed provider response for this exact payload: ' + identity)
             state = self._state(); headers = state['headers']
             limit = min(TPM_LIMIT, int(headers.get('x-ratelimit-limit-tokens', TPM_LIMIT)))
             tokens = sum(count_tokens(m['content']) for m in payload['messages']); need = tokens + OVERHEAD_RESERVE
             if need > limit:
                 raise ProviderPause(f'Unchanged request needs {need} pre-dispatch tokens > {limit}; cannot be repaired by waiting')
-            today = datetime.fromtimestamp(self.clock(), timezone.utc).strftime('%Y-%m-%d')
-            if state['day'] != today:
-                state['day'], state['day_tokens'] = today, 0
-            if state['day_tokens'] + need + cap > self.daily_budget:
-                raise ProviderPause(f"Local daily token ledger {state['day_tokens']} + request would exceed {self.daily_budget}; resume after the daily reset")
+            now = self.clock(); window = [e for e in state.get('ledger', []) if e[0] > now - WINDOW_S]
+            used = sum(e[1] for e in window)
+            if used + need + cap > self.daily_budget:
+                resume = datetime.fromtimestamp(min(e[0] for e in window) + WINDOW_S, timezone.utc).isoformat() if window else 'now'
+                raise ProviderPause(f'Daily token budget: {used} tokens in the last 24 h + {need + cap} needed > {self.daily_budget}; resume after {resume}')
             target = state['last_start'] + self.min_spacing
             remaining = headers.get('x-ratelimit-remaining-tokens')
             if remaining is not None and int(remaining) < need:
@@ -152,14 +162,17 @@ class DurableLLM:
                 waited = target - now; self.sleep(waited)
             started = self.clock(); state['requests'] += 1; state['last_start'] = started
             row = {'role': role, 'identity': identity, 'status': 'dispatched', 'payload': payload, 'content_tokens': tokens,
-                   'pre_dispatch_tokens': need, 'timestamp': datetime.now(timezone.utc).isoformat(), 'wait_ms': waited * 1000}
+                   'pre_dispatch_tokens': need, 'timestamp': datetime.now(timezone.utc).isoformat(), 'wait_ms': waited * 1000,
+                   'daily_window_tokens_before': used}
             durable_write(path, canonical_json(row) + '\n'); self._save(state)
             t0 = time.perf_counter()
             try:
                 raw, usage, finish, resp_headers = self.transport(payload)
                 latency = (time.perf_counter() - t0) * 1000
                 row.update(status='complete', raw=raw, usage=usage, finish_reason=finish, latency_ms=latency, headers=resp_headers)
-                state['day_tokens'] += (usage or {}).get('total_tokens', need + cap)
+                try: debit = limit - int(resp_headers.get('x-ratelimit-remaining-tokens'))
+                except (TypeError, ValueError): debit = 0
+                row['daily_ledger_tokens'] = max((usage or {}).get('total_tokens') or need + cap, debit)
             except Exception as exc:
                 latency = (time.perf_counter() - t0) * 1000
                 code = getattr(exc, 'status_code', None)
@@ -168,6 +181,7 @@ class DurableLLM:
                 row.update(status='rate_limited' if code == 429 else 'failed', http_status=code, exception_class=type(exc).__name__,
                            error=self._sanitize(getattr(exc, 'body', None) or str(exc)), latency_ms=latency, headers=resp_headers)
             state.update(headers=row.get('headers') or headers, observed=self.clock())
+            state['ledger'] = [e for e in state.get('ledger', []) if e[0] > self.clock() - WINDOW_S] + [[started, row.get('daily_ledger_tokens', 0)]]
             durable_write(path, canonical_json(row) + '\n'); self._save(state)
             (self.root / 'attempts').mkdir(exist_ok=True)
             durable_write(self.root / 'attempts' / f"{state['requests']:06d}.json", canonical_json(row) + '\n')

@@ -99,3 +99,41 @@ def test_structured_call_single_repair_and_strict_schema(tmp_path):
     assert obj is None and events[-1]['schema_repair_failed'] and tr2.log == ['ar01_controller', 'repair']      # exactly one repair
     llm3, _ = make_llm(tmp_path / 'y', {'validator': [json.dumps({'accept': True, 'error_type': 'bogus', 'unsupported_claims': []})], 'repair': ['x']})
     assert structured_call(llm3, 'validator', 'You are an evidence-grounding validator x', 'u', 42)[0] is None
+
+
+# ------------------------------------------------------- rolling daily ledger + replay_only (two-week scope operations)
+def test_rolling_daily_budget_pauses_before_sending_and_resumes_after_window(tmp_path):
+    from tests.phase9_fakes import ScriptedTransport
+    clock = [1000.0]
+    tr = ScriptedTransport({'final': [answer([1])]})
+    llm = DurableLLM(tmp_path, transport=tr, clock=lambda: clock[0], sleep=lambda s: clock.__setitem__(0, clock[0] + s), daily_budget=1250)  # need per call ~1,162 (content + 128 + 1,024 cap)
+    llm.chat('final', 'You answer a research-paper retrieval question x', 'u1', 1024, 42)       # charged 110 (usage total)
+    with pytest.raises(ProviderPause, match='Daily token budget: 110 tokens in the last 24 h'):
+        llm.chat('final', 'You answer a research-paper retrieval question x', 'u2', 1024, 42)
+    assert len(tr.log) == 1
+    clock[0] += 86_401
+    llm.chat('final', 'You answer a research-paper retrieval question x', 'u2', 1024, 42)
+    assert len(tr.log) == 2
+    rows = [json.loads(p.read_text()) for p in sorted((tmp_path / 'attempts').glob('*.json'))]
+    assert [r['daily_ledger_tokens'] for r in rows] == [110, 110] and rows[1]['daily_window_tokens_before'] == 0
+
+
+def test_ledger_charges_observed_bucket_debit_when_larger(tmp_path):
+    def transport(payload):
+        return answer([]), {'prompt_tokens': 100, 'completion_tokens': 10, 'total_tokens': 110}, 'stop', \
+            {'x-ratelimit-limit-tokens': '8000', 'x-ratelimit-remaining-tokens': '7400', 'x-ratelimit-remaining-requests': '999'}
+    llm = DurableLLM(tmp_path, transport=transport, clock=lambda: 5., sleep=lambda s: None)
+    llm.chat('final', 'You answer a research-paper retrieval question x', 'u', 1024, 42)
+    row = json.loads(next((tmp_path / 'attempts').glob('*.json')).read_text())
+    assert row['daily_ledger_tokens'] == 600
+
+
+def test_replay_only_reuses_stored_responses_and_never_sends(tmp_path):
+    llm, tr = make_llm(tmp_path, {'final': [answer([1])]})
+    first = llm.chat('final', 'You answer a research-paper retrieval question x', 'u', 1024, 42)
+    llm.replay_only = True
+    again = llm.chat('final', 'You answer a research-paper retrieval question x', 'u', 1024, 42)
+    assert again.reused and again.raw == first.raw and again.latency_ms == first.latency_ms and tr.log == ['final']
+    with pytest.raises(ProviderPause, match='Replay found no completed provider response'):
+        llm.chat('final', 'You answer a research-paper retrieval question x', 'u CHANGED', 1024, 42)
+    assert tr.log == ['final']
