@@ -56,7 +56,7 @@ def main():
         for q,r in rows.items():
             m=dict(r.metrics);d=json.loads(r.output.diagnostics) if r.output and r.output.diagnostics else {}
             m.update(context_management_ms=d.get('context_ms'),selected_graph_nodes=d.get('selected_node_count'),selected_graph_edges=d.get('selected_edge_count'),
-                fallback=float(d.get('fallback') is not None) if r.output else None,
+                fallback=float(bool(d.get('fallback'))) if r.output else None,  # fix 2026-10-15: False was counted as a fallback
                 convergence=float(d['convergence']) if d.get('convergence') is not None else None)
             m['intrinsic_total_ms']=d['context_ms']+r.observation.generation_ms if d.get('context_ms') is not None and r.observation.generation_ms is not None else None
             values[method][q]=m
