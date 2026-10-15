@@ -1,1 +1,1 @@
-{"phase9_started":false,"reason":"Unchanged CM-01 request requires 8308 reserved tokens versus observed 8000 capacity","repair_requests_sent":0,"rq1_complete":false,"rq2_complete":false,"status":"blocked_before_dispatch"}
+{"phase9_started":false,"status":"executed_pending_audit"}
