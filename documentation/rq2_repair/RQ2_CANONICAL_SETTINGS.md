@@ -1,6 +1,6 @@
-# RQ2 canonical repair — settings to freeze (PROPOSED, awaiting human approval)
+# RQ2 canonical repair — frozen settings (APPROVED 2026-10-16)
 
-Date: 2026-10-16. Authority: Phase 1D §5 (paragraphs 180–299 of `compliance_repair/phase1d_extracted.txt`) > handoff §21 > this document. Only items the specification leaves open are decided here; nothing is tuned on outcomes (no RQ2 canonical output exists).
+Date: 2026-10-16. Status: approved as proposed by the user on 2026-10-16 (scope option A: primary 24-bundle study only; fusion-isolation study dropped). Authority: Phase 1D §5 (paragraphs 180–299 of `compliance_repair/phase1d_extracted.txt`) > handoff §21 > this document. Only items the specification leaves open are decided here; nothing is tuned on outcomes (no RQ2 canonical output exists).
 
 ## Fixed by the specification (implemented as written)
 * Cached-evidence invariant: every method receives the byte-identical frozen bundle (`documentation/phase8/bundles`, 24 verified multimodal validation queries: TG/TS/GS/TGS × 2 families × normal/noisy/conflict); no retrieval inside any method.

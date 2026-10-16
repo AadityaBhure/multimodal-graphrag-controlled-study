@@ -23,3 +23,6 @@ scripts/run_phase9.py text eol=lf
 scripts/phase9_freeze.py text eol=lf
 configs/rq3/** text eol=lf
 documentation/phase9/** text eol=lf
+# Frozen RQ2 canonical inputs and code (raw-byte SHA-256 in documentation/rq2_repair/execution_plan.json)
+scripts/run_rq2_canonical.py text eol=lf
+documentation/rq2_repair/** text eol=lf
