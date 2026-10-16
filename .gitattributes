@@ -26,3 +26,6 @@ documentation/phase9/** text eol=lf
 # Frozen RQ2 canonical inputs and code (raw-byte SHA-256 in documentation/rq2_repair/execution_plan.json)
 scripts/run_rq2_canonical.py text eol=lf
 documentation/rq2_repair/** text eol=lf
+# Historical RQ2 files whose original working bytes are LF (recorded by the RQ2 freeze); keep them LF on checkout
+research/rq2/*.py text eol=lf
+scripts/prepare_phase8.py text eol=lf
