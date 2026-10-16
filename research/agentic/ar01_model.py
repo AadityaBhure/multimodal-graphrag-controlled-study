@@ -13,6 +13,8 @@ HYPER = {'lr': 3e-5, 'weight_decay': 0.01, 'seed': 42, 'max_epochs': 10, 'patien
 def _seed(seed):
     import numpy as np, torch
     random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
     torch.use_deterministic_algorithms(False)
 
 
@@ -29,30 +31,35 @@ def _batches(pairs, tokenizer, batch_size, shuffle, seed):
         yield enc, lab
 
 
-def train(model_dir, train_pairs, dev_pairs, out_dir, threads=10, log=print, max_epochs=None):
-    """train_pairs/dev_pairs: [(question, 'A'|'B'|'C')]. Returns the training report (also written to out_dir)."""
+def train(model_dir, train_pairs, dev_pairs, out_dir, threads=10, log=print, max_epochs=None, device='auto'):
+    """train_pairs/dev_pairs: [(question, 'A'|'B'|'C')]. Returns the training report (also written to out_dir).
+    device='auto' uses CUDA when available (float32, same recipe); the device is recorded in the report."""
     import torch
     from transformers import T5ForConditionalGeneration, AutoTokenizer
     torch.set_num_threads(threads); _seed(HYPER['seed'])
+    dev = torch.device('cuda' if device == 'auto' and torch.cuda.is_available() else ('cpu' if device == 'auto' else device))
     tok = AutoTokenizer.from_pretrained(model_dir, local_files_only=True)
-    model = T5ForConditionalGeneration.from_pretrained(model_dir, local_files_only=True, dtype=torch.float32)
+    model = T5ForConditionalGeneration.from_pretrained(model_dir, local_files_only=True, dtype=torch.float32).to(dev)
     opt = torch.optim.AdamW(model.parameters(), lr=HYPER['lr'], weight_decay=HYPER['weight_decay'])
     out = Path(out_dir); out.mkdir(parents=True, exist_ok=True)
     counts = {c: sum(1 for _, l in train_pairs if l == c) for c in LABELS}
     dcounts = {c: sum(1 for _, l in dev_pairs if l == c) for c in LABELS}
-    report = {'hyper': HYPER, 'train_counts': counts, 'dev_counts': dcounts, 'epochs': [], 'best_epoch': None, 'stopped': None}
+    report = {'hyper': HYPER, 'train_counts': counts, 'dev_counts': dcounts, 'epochs': [], 'best_epoch': None, 'stopped': None,
+              'device': str(dev), 'gpu': torch.cuda.get_device_name(0) if dev.type == 'cuda' else None}
     best, bad = float('inf'), 0
     limit = max_epochs or HYPER['max_epochs']
     report['max_epochs_used'] = limit
     for epoch in range(1, limit + 1):
         model.train(); tl, n = 0., 0
         for enc, lab in _batches(train_pairs, tok, HYPER['batch_size'], True, HYPER['seed'] + epoch):
+            enc, lab = enc.to(dev), lab.to(dev)
             loss = model(**enc, labels=lab).loss
             loss.backward(); opt.step(); opt.zero_grad()
             tl += float(loss) * lab.shape[0]; n += lab.shape[0]
         model.eval(); dl, dn = 0., 0
         with torch.inference_mode():
             for enc, lab in _batches(dev_pairs, tok, 32, False, 0):
+                enc, lab = enc.to(dev), lab.to(dev)
                 dl += float(model(**enc, labels=lab).loss) * lab.shape[0]; dn += lab.shape[0]
         row = {'epoch': epoch, 'train_loss': tl / n, 'dev_loss': dl / dn}
         report['epochs'].append(row); log('EPOCH', row, flush=True)

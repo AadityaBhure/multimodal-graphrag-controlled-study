@@ -17,7 +17,7 @@ def main(threads=10):
     report['t5_revision'] = 'a9723ea7f1b39c1eae772870f3b547bf6ef7e6c1'
     report['labels_sha256'] = labels['labels_sha256']; report['partition_sha256'] = labels['partition_sha256']
     import torch, transformers
-    report['environment'] = {'torch': torch.__version__, 'transformers': transformers.__version__, 'device': 'cpu', 'dtype': 'float32', 'threads': threads}
+    report['environment'] = {'torch': torch.__version__, 'transformers': transformers.__version__, 'device': report['device'], 'gpu': report['gpu'], 'dtype': 'float32', 'threads': threads}
     rp = (ROOT / 'artifacts/phase9/lite/ar01_training_report.json') if LITE else (ROOT / 'documentation/phase9/ar01/training_report.json')
     rp.parent.mkdir(parents=True, exist_ok=True)
     rp.write_text(json.dumps(report, indent=1, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
