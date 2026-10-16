@@ -153,3 +153,21 @@ def test_no_retrieval_and_input_unchanged_for_all_methods():
         out = run(m, f)                                                           # offline
         d = json.loads(out.diagnostics)
         assert d['additional_retrieval_calls'] == 0 and out.observation.retrieval_calls == 0 and len(out.context) <= 24000
+
+
+# ------------------------------------------------------------------ shared-quota dispatcher
+def test_shared_quota_counts_other_studies_ledgers(tmp_path, monkeypatch):
+    from tests.test_repair_dispatch import dispatcher
+    from research.repair.rq2_canonical import dispatch as D2
+    d, calls, clock = dispatcher(tmp_path, monkeypatch); d.maximum = 10
+    shared = object.__new__(D2.SharedQuotaDispatcher); shared.__dict__.update(d.__dict__)
+    other = tmp_path / 'other_state.json'
+    other.write_text(json.dumps({'ledger': [[clock[0] - 100, 189_000]]}))
+    shared.external_ledgers = (other,)
+    monkeypatch.setattr(D2.time, 'time', lambda: clock[0])
+    with pytest.raises(Paused, match='Daily token budget'):
+        shared.call('one', 'system', 'user', 42, 1024)          # 189k used elsewhere + ~1.2k needed > 190k
+    assert not calls and shared.daily_budget == 190_000            # budget restored after the check
+    other.write_text(json.dumps({'ledger': [[clock[0] - 90_000, 189_000]]}))   # outside the 24 h window
+    shared.call('one', 'system', 'user', 42, 1024)
+    assert len(calls) == 1
