@@ -17,3 +17,9 @@ documentation/rq1_repair/CM01_Frozen_Provenance_Adaptation.txt text eol=lf
 # recorded as decisions_sha256 in configs/CM-*.json over its CRLF form
 documentation/rq1_repair/Implementation_Decisions.md text eol=crlf
 documentation/SCOPE_REVISION_2026-10-15.json text eol=lf
+# Frozen Phase 9 / RQ3 inputs and code (raw-byte SHA-256 in documentation/phase9/execution_plan.json)
+research/agentic/** text eol=lf
+scripts/run_phase9.py text eol=lf
+scripts/phase9_freeze.py text eol=lf
+configs/rq3/** text eol=lf
+documentation/phase9/** text eol=lf
