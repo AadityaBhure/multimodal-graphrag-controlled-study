@@ -1,0 +1,243 @@
+{
+ "data_fingerprint": "321aa23f4af45dc67bdecf5703a161874a89a455526a44031421231a77b0528a",
+ "evaluator": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+ "evaluator_files_sha256": {
+  "config.json": "380e02c93f431831be65d99a4e7e5f67c133985bf2e77d9d4eba46847190bacc",
+  "model.safetensors": "821d1aa69520101d6e0737f78a042ae25b19e5cb9160701909d10434f4aeb0ae",
+  "special_tokens_map.json": "3c3507f36dff57bce437223db3b3081d1e2b52ec3e56ee55438193ecb2c94dd6",
+  "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+  "tokenizer_config.json": "a5c2e5a7b1a29a0702cd28c08a399b5ecc110c263009d17f7e3b415f25905fd8",
+  "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"
+ },
+ "evaluator_revision": "233902d25c440f23af6f7d6e94d2946bac0bee0a",
+ "grid": [
+  {
+   "errors": 1477,
+   "lower": 0.2,
+   "macro_f1": 0.299987301055687,
+   "margin": 0.4,
+   "upper": 0.6
+  },
+  {
+   "errors": 1489,
+   "lower": 0.2,
+   "macro_f1": 0.30373877643333097,
+   "margin": 0.45,
+   "upper": 0.65
+  },
+  {
+   "errors": 1479,
+   "lower": 0.2,
+   "macro_f1": 0.32041709924062867,
+   "margin": 0.5,
+   "upper": 0.7
+  },
+  {
+   "errors": 1505,
+   "lower": 0.2,
+   "macro_f1": 0.32076842553278867,
+   "margin": 0.55,
+   "upper": 0.75
+  },
+  {
+   "errors": 1547,
+   "lower": 0.2,
+   "macro_f1": 0.3112631992864278,
+   "margin": 0.6,
+   "upper": 0.8
+  },
+  {
+   "errors": 1424,
+   "lower": 0.25,
+   "macro_f1": 0.32234085117030264,
+   "margin": 0.35,
+   "upper": 0.6
+  },
+  {
+   "errors": 1436,
+   "lower": 0.25,
+   "macro_f1": 0.32636835368096034,
+   "margin": 0.4,
+   "upper": 0.65
+  },
+  {
+   "errors": 1426,
+   "lower": 0.25,
+   "macro_f1": 0.3436504811391894,
+   "margin": 0.45,
+   "upper": 0.7
+  },
+  {
+   "errors": 1452,
+   "lower": 0.25,
+   "macro_f1": 0.3439182140398292,
+   "margin": 0.5,
+   "upper": 0.75
+  },
+  {
+   "errors": 1494,
+   "lower": 0.25,
+   "macro_f1": 0.3344923631313214,
+   "margin": 0.55,
+   "upper": 0.8
+  },
+  {
+   "errors": 1377,
+   "lower": 0.3,
+   "macro_f1": 0.3397331950268772,
+   "margin": 0.3,
+   "upper": 0.6
+  },
+  {
+   "errors": 1389,
+   "lower": 0.3,
+   "macro_f1": 0.3442163484368776,
+   "margin": 0.35,
+   "upper": 0.65
+  },
+  {
+   "errors": 1379,
+   "lower": 0.3,
+   "macro_f1": 0.36238080023126756,
+   "margin": 0.4,
+   "upper": 0.7
+  },
+  {
+   "errors": 1405,
+   "lower": 0.3,
+   "macro_f1": 0.36273582384539,
+   "margin": 0.45,
+   "upper": 0.75
+  },
+  {
+   "errors": 1447,
+   "lower": 0.3,
+   "macro_f1": 0.3535611077747685,
+   "margin": 0.5,
+   "upper": 0.8
+  },
+  {
+   "errors": 1334,
+   "lower": 0.35,
+   "macro_f1": 0.35333434444224077,
+   "margin": 0.25,
+   "upper": 0.6
+  },
+  {
+   "errors": 1346,
+   "lower": 0.35,
+   "macro_f1": 0.3584561506570292,
+   "margin": 0.3,
+   "upper": 0.65
+  },
+  {
+   "errors": 1336,
+   "lower": 0.35,
+   "macro_f1": 0.3777780425346231,
+   "margin": 0.35,
+   "upper": 0.7
+  },
+  {
+   "errors": 1362,
+   "lower": 0.35,
+   "macro_f1": 0.37836407086483126,
+   "margin": 0.4,
+   "upper": 0.75
+  },
+  {
+   "errors": 1404,
+   "lower": 0.35,
+   "macro_f1": 0.36958336227769273,
+   "margin": 0.45,
+   "upper": 0.8
+  },
+  {
+   "errors": 1292,
+   "lower": 0.4,
+   "macro_f1": 0.36437720318438105,
+   "margin": 0.2,
+   "upper": 0.6
+  },
+  {
+   "errors": 1304,
+   "lower": 0.4,
+   "macro_f1": 0.37036218106556235,
+   "margin": 0.25,
+   "upper": 0.65
+  },
+  {
+   "errors": 1294,
+   "lower": 0.4,
+   "macro_f1": 0.3911895549352051,
+   "margin": 0.3,
+   "upper": 0.7
+  },
+  {
+   "errors": 1320,
+   "lower": 0.4,
+   "macro_f1": 0.39208749988817165,
+   "margin": 0.35,
+   "upper": 0.75
+  },
+  {
+   "errors": 1362,
+   "lower": 0.4,
+   "macro_f1": 0.38380448150435403,
+   "margin": 0.4,
+   "upper": 0.8
+  }
+ ],
+ "grids": {
+  "lower": [
+   0.2,
+   0.25,
+   0.3,
+   0.35,
+   0.4
+  ],
+  "upper": [
+   0.6,
+   0.65,
+   0.7,
+   0.75,
+   0.8
+  ]
+ },
+ "lite": false,
+ "partition_sha256": "8e066422729570405049817a60fb2e75ed220b4ef800cec3ea6644d697ce843d",
+ "platt": {
+  "C": 1.0,
+  "class_weight": "balanced",
+  "coef": 0.37629097293158587,
+  "intercept": 0.10231483820148625,
+  "max_iter": 1000,
+  "n_items": 7498,
+  "n_negative": 6488,
+  "n_positive": 1010,
+  "n_queries": 745,
+  "random_state": 42,
+  "solver": "lbfgs"
+ },
+ "selected": {
+  "errors": 1320,
+  "lower": 0.4,
+  "macro_f1": 0.39208749988817165,
+  "margin": 0.35,
+  "upper": 0.75
+ },
+ "threshold_samples": 2235,
+ "threshold_truth_counts": {
+  "AMBIGUOUS": 446,
+  "BAD": 1148,
+  "GOOD": 641
+ },
+ "thresholds": {
+  "lower": 0.4,
+  "upper": 0.75
+ },
+ "used_splits": [
+  "train (dev partition only)"
+ ],
+ "validation_test_human_test_used": false,
+ "version": "phase9-ar02-calibration-v1"
+}
