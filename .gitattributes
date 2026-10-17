@@ -41,3 +41,6 @@ showcase/content/** text eol=lf
 # Showcase data bundle: checksummed bytes, never converted
 showcase/bundle/** -text
 showcase/Dockerfile text eol=lf
+# Showcase bundle inputs hashed by raw bytes
+documentation/results/overall_ranking.json text eol=lf
+documentation/rq1_repair/analysis_local.json text eol=lf
