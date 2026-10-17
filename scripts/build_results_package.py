@@ -6,8 +6,8 @@ from pathlib import Path
 import csv, json, sys
 ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT))
 OUT = ROOT / 'documentation/results'
-SRC = {'RQ1': ROOT / 'documentation/rq1_repair/analysis.json', 'RQ2': ROOT / 'documentation/rq2_repair/analysis.json',
-       'RQ3': ROOT / 'documentation/phase9/analysis.json', 'RQ4': ROOT / 'documentation/rq4/analysis.json'}
+SRC = {'RQ1': ROOT / 'documentation/rq1_repair/analysis_local.json', 'RQ2': ROOT / 'documentation/rq2_repair/analysis_local.json',
+       'RQ3': ROOT / 'documentation/phase9/analysis_local.json', 'RQ4': ROOT / 'documentation/rq4/analysis_local.json'}
 METHODS = {'RQ1': ('CM-B0', 'CM-B1', 'CM-01', 'CM-02', 'CM-03'), 'RQ2': ('CF-B0', 'CF-B1', 'CF-01', 'CF-02', 'CF-03'),
            'RQ3': ('AR-B0', 'AR-B1', 'AR-01', 'AR-02', 'AR-03')}
 COLS = {'RQ1': [('f1', 'Answer F1'), ('exact_match', 'EM'), ('mrr', 'MRR'), ('gold_coverage', 'Gold coverage'), ('input_tokens', 'Input tokens'),

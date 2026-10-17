@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT))
 from research.agentic import analysis as A
 
 D = ROOT / 'documentation/rq2_repair'
+S = '_local' if '--local' in sys.argv else ''
 METHODS = ('CF-B0', 'CF-B1', 'CF-01', 'CF-02', 'CF-03')
 PAIRS = [('CF-01', 'CF-B0'), ('CF-02', 'CF-B0'), ('CF-03', 'CF-B0'), ('CF-01', 'CF-B1'), ('CF-02', 'CF-B1'), ('CF-03', 'CF-B1'), ('CF-B1', 'CF-B0')]
 PRIMARY = 'answer_f1'
@@ -36,7 +37,7 @@ def main():
     strata = json.loads((D / 'supportability.json').read_text(encoding='utf-8'))['rows']
     rows = {}
     for m in METHODS:
-        recs = [json.loads(p.read_text(encoding='utf-8')) for p in sorted((D / 'runs' / m / 'records').glob('*.json'))]
+        recs = [json.loads(p.read_text(encoding='utf-8')) for p in sorted((D / ('runs' + S) / m / 'records').glob('*.json'))]
         assert len(recs) == 24, (m, len(recs))
         rows[m] = [row(r, strata) for r in recs]
     mean = lambda rs, ks: {k: A.summarize(rs, k)['mean'] for k in ks}
@@ -65,8 +66,8 @@ def main():
            'descriptive': desc, 'strata': strat, 'paired_tests': tests, 'pareto': front,
            'method_diagnostics': {k: {kk: (dict(vv) if isinstance(vv, Counter) else vv) for kk, vv in v.items()} for k, v in method_diag.items()},
            'errors': {m: sum(x['error'] for x in r) for m, r in rows.items()}}
-    (D / 'analysis.json').write_text(json.dumps(out, indent=1, sort_keys=True, default=str) + '\n', encoding='utf-8', newline='\n')
-    print('WROTE', D / 'analysis.json', '| pareto', front, '| significant primary:', [k for k, v in tests[PRIMARY].items() if v['significant']])
+    (D / ('analysis' + S + '.json')).write_text(json.dumps(out, indent=1, sort_keys=True, default=str) + '\n', encoding='utf-8', newline='\n')
+    print('WROTE', D / ('analysis' + S + '.json'), '| pareto', front, '| significant primary:', [k for k, v in tests[PRIMARY].items() if v['significant']])
 
 
 if __name__ == '__main__':

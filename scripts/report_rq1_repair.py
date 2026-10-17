@@ -8,6 +8,8 @@ from research.common.serialization import content_hash
 from research.repair.dispatch import write
 from scripts.run_rq1_repair import D,METHODS
 
+S='_local' if '--local' in sys.argv else ''   # local-backend run outputs
+
 def cluster(qid):return qid.rsplit(':',1)[0]
 
 def summary(values):
@@ -40,7 +42,7 @@ def paired(a,b):
 def main():
     records={};hashes={}
     for method in METHODS:
-        files=sorted((D/'runs'/method/'records').glob('*.json'))
+        files=sorted((D/('runs'+S)/method/'records').glob('*.json'))
         rows=[RunRecord.model_validate_json(p.read_text(encoding='utf-8')) for p in files]
         assert len(rows)==32,method
         assert all(r.split=='validation' and r.source_type=='generated' and r.labels.status=='programmatically_verified' for r in rows)
@@ -72,8 +74,8 @@ def main():
     running=0.
     for i,row in enumerate(valid):
         running=max(running,min(1.,(len(valid)-i)*row['p_cluster_sign_permutation']));row['p_holm']=running
-    init={m:json.loads((D/'initialisation'/(m+'.json')).read_text(encoding='utf-8'))['initialisation_ms'] for m in METHODS if (D/'initialisation'/(m+'.json')).exists()}
-    write(D/'analysis.json',{'initialisation_ms_per_method':init,'record_fingerprints':hashes,'tables':tables,'paired_f1':comparisons,
+    init={m:json.loads((D/('initialisation'+S)/(m+'.json')).read_text(encoding='utf-8'))['initialisation_ms'] for m in METHODS if (D/('initialisation'+S)/(m+'.json')).exists()}
+    write(D/('analysis'+S+'.json'),{'initialisation_ms_per_method':init,'record_fingerprints':hashes,'tables':tables,'paired_f1':comparisons,
         'statistical_unit':'base query family; stress variants remain paired within family',
         'bootstrap_seed':42,'bootstrap_replicates':10000,'limitations':'Only 8 base query families; exploratory validation, not benchmark-wide inference. NULL values excluded and counted. No automatic winner.'})
     print('Recomputed',len(tables),'summaries and',len(comparisons),'paired comparisons')

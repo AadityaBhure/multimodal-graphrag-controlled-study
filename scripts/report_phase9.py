@@ -8,8 +8,9 @@ from collections import Counter
 ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT))
 from research.agentic import analysis as A
 
-RUNS = ROOT / 'documentation/phase9/runs'
-OUT = ROOT / 'documentation/phase9/analysis.json'
+LOCAL = '--local' in sys.argv
+RUNS = ROOT / ('documentation/phase9/runs' + ('_local' if LOCAL else ''))
+OUT = ROOT / ('documentation/phase9/analysis' + ('_local' if LOCAL else '') + '.json')
 POLICIES = ('AR-B0', 'AR-B1', 'AR-01', 'AR-02', 'AR-03')
 PAIRS = [('AR-01', 'AR-B0'), ('AR-02', 'AR-B0'), ('AR-03', 'AR-B0'), ('AR-01', 'AR-B1'), ('AR-02', 'AR-B1'), ('AR-03', 'AR-B1'), ('AR-B1', 'AR-B0')]
 PRIMARY = 'answer_f1'
