@@ -5,3 +5,6 @@ __pycache__/
 .pytest_cache/
 storage/text/*
 storage/graph/*
+
+# Showcase live-run cache and scratch space (never part of the bundle)
+artifacts/showcase/

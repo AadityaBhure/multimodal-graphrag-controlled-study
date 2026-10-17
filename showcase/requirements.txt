@@ -1,0 +1,7 @@
+# Showcase profile (recorded results; runs on any host). Pinned to the versions the app was built and tested with.
+streamlit==1.64.0
+altair==6.3.0
+pandas==3.0.6
+numpy==2.5.3
+pyarrow==25.0.1
+PyYAML==6.0.3

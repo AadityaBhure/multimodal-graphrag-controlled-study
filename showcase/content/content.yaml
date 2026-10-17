@@ -43,8 +43,8 @@ decomposition:
     data, retrievers, answer model, prompt and budget stay fixed. The best choices are then combined in a final study.
   pipeline:
     - {id: Q, label: Question}
-    - {id: RQ3, label: Retrieval control, note: which sources, in what order, when to stop}
-    - {id: R, label: Retrievers, note: text, graph and structured search}
+    - {id: RQ3, label: Retrieval control, note: "which sources, in what order, when to stop"}
+    - {id: R, label: Retrievers, note: "text, graph and structured search"}
     - {id: RQ1, label: Context management, note: what survives the budget}
     - {id: RQ2, label: Fusion, note: how the three sources are combined}
     - {id: A, label: Answer model, note: shared and fixed}
@@ -107,6 +107,7 @@ evaluation:
   metrics:
     answer_f1: {name: Answer F1, direction: higher, plain: "How well the returned papers match the correct papers: balances returning the right ones and not returning wrong ones.", formula: "F1 = 2 x precision x recall / (precision + recall)", why: The main measure of answer quality.}
     answer_em: {name: Exact match, direction: higher, plain: "1 if the returned set of papers is exactly the correct set, otherwise 0.", formula: "EM = 1 if returned = correct", why: The strictest measure of correctness.}
+    answerable_f1: {name: Answer F1 (answerable), direction: higher, plain: "Answer F1 over the questions that have at least one correct paper, leaving out the unanswerable variants.", formula: "mean F1 over answerable questions", why: "Shows whether a method finds real answers, not only empty ones."}
     precision: {name: Precision, direction: higher, plain: "Of the papers returned, the share that are correct.", formula: "correct returned / all returned", why: Penalises wrong papers.}
     recall: {name: Recall, direction: higher, plain: "Of the correct papers, the share that were returned.", formula: "correct returned / all correct", why: Penalises missed papers.}
     mrr: {name: MRR, direction: higher, plain: "How early the first correct paper appears in the ranked evidence (1 = first place).", formula: "MRR = mean of 1 / rank of the first correct paper", why: Rewards putting a right paper at the top.}
@@ -114,6 +115,7 @@ evaluation:
     gold_coverage: {name: Gold coverage, direction: higher, plain: "Share of the correct papers that appear anywhere in the context given to the model.", formula: "correct in context / all correct", why: A paper the model never sees cannot be answered.}
     context_tokens: {name: Context tokens, direction: lower, plain: "Size of the evidence given to the model.", formula: "tokens of the context", why: Smaller context is cheaper and less distracting.}
     input_tokens: {name: Input tokens, direction: lower, plain: "Tokens sent to the model per question, over all its calls.", formula: "sum over calls", why: Main driver of cost.}
+    output_tokens: {name: Output tokens, direction: lower, plain: "Tokens the model writes per question, over all its calls.", formula: "sum over calls", why: Longer outputs cost more time.}
     total_tokens: {name: Tokens, direction: lower, plain: "Input plus output tokens per question, over all model calls.", formula: "input + output", why: Overall cost of answering.}
     llm_calls: {name: Model calls, direction: lower, plain: "How many times the language model is called per question.", formula: "count", why: Each call adds cost and time.}
     retrieval_calls: {name: Retrieval calls, direction: lower, plain: "How many times a retriever is called per question.", formula: "count", why: Each search adds time.}
@@ -205,8 +207,8 @@ rq1:
       values: {F1: RQ1.methods.CM-01.answer_f1, MRR: RQ1.methods.CM-01.mrr, RATIO: RQ1.ratio.input_tokens.CM-01/CM-B1}
     - text: "CM-B1 kept a third of the evidence at equal or better quality and dominated the raw control: it is the efficient choice."
       values: {}
-    - text: "Fewer than {COV} of the correct papers reached the context for any method: the limit is upstream retrieval, not context management."
-      values: {COV: RQ1.max.gold_coverage}
+    - text: "For every method, at most {COV} of the correct papers reached the model's context: the limit is upstream retrieval, not context management."
+      values: {COV: RQ1.max.gold_coverage|pct}
   pareto_note: Reasonable trade-offs between answer quality and cost.
 
 rq2:

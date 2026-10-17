@@ -1,0 +1,80 @@
+{
+ "bundle_sha256": "3522d098bb5d99ddebb6855edd9878078db709a55447d28f0d01530153e14cfb",
+ "bundle_version": 1,
+ "files": {
+  "explorer_rq1.json.gz": {
+   "bytes": 329301,
+   "sha256": "c60a712f1676395b022e163ca9d229d2550c9a7ca9b5ff9a9460af492ffe1060"
+  },
+  "explorer_rq2.json.gz": {
+   "bytes": 106221,
+   "sha256": "a7448e752f4c52b0a12375df4abe41ac171861eea2482ca717e16959ba155701"
+  },
+  "explorer_rq3.json.gz": {
+   "bytes": 111775,
+   "sha256": "1579f1556abc8c723a8d9e89c592c631670ecb16ff959110e1b7394d1ce6c6cf"
+  },
+  "explorer_rq4.json.gz": {
+   "bytes": 23001,
+   "sha256": "87b12b4a743b541b172e43d62ebbdacc0078ec825c219aec5ca0c7fe9c7526fe"
+  },
+  "foundation.json": {
+   "bytes": 9976,
+   "sha256": "dd117aeeb5530a0a090fdf209f5d7542f5e608250314f97f06965de6b449facc"
+  },
+  "papers.json": {
+   "bytes": 92932,
+   "sha256": "67669a02bc7303cdfff5ed297dab1f2d6db9df68bbed484d8d6f66a433c2db91"
+  },
+  "queries.json": {
+   "bytes": 48514,
+   "sha256": "1f40e38adecfa594c4831c7f3f31c110995564046ee97efb47bb21c2014d78c3"
+  },
+  "results.json": {
+   "bytes": 55073,
+   "sha256": "9c8adb9627fc6f8a64e882279f212b3aeddfffaa05ce552a01c5904697238a2a"
+  },
+  "stats_demo.json": {
+   "bytes": 10869,
+   "sha256": "c7c8d3f28a092ae2b1ba64bd358f3efdd4ce64f4bc76aa694c9502516bf9cc05"
+  }
+ },
+ "records": {
+  "RQ1": {
+   "CM-01": 32,
+   "CM-02": 32,
+   "CM-03": 32,
+   "CM-B0": 32,
+   "CM-B1": 32
+  },
+  "RQ2": {
+   "CF-01": 24,
+   "CF-02": 24,
+   "CF-03": 24,
+   "CF-B0": 24,
+   "CF-B1": 24
+  },
+  "RQ3": {
+   "AR-01": 28,
+   "AR-02": 28,
+   "AR-03": 28,
+   "AR-B0": 28,
+   "AR-B1": 28
+  },
+  "RQ4": {
+   "INT-1": 28
+  }
+ },
+ "sources": {
+  "data/MMG_STARK_MAG/benchmark/benchmark_stats.json": "3794e327e2d2dc8d674370358ea14281608c96b555e549fff4e01d39fdc5b108",
+  "data/MMG_STARK_MAG/benchmark/validation.jsonl": "d0e1e5b864c17a234e8ec2e05f4949d922d7fb9ba8dfc9abda6513ff496b43bb",
+  "data/MMG_STARK_MAG/manifest.json": "dd8b516d6a50bb17de70e6e14c7eded7be0192a16be4c7687d534d3388c053b8",
+  "documentation/SCOPE_REVISION_2026-10-15.json": "0853e9801e88492aaf608f1aef4dd4845e04097e0c969d7e735bf2519b469c0d",
+  "documentation/phase9/analysis_local.json": "58f3b71bf1ea6a7a85a40394b5aef39a5df89540646efcdc2b01c4938ce48c8f",
+  "documentation/rq1_repair/analysis_local.json": "39dd2eb638b889748cd064ec00d5c1d924d303563b5ecfc237b257e8224385cc",
+  "documentation/rq2_repair/analysis_local.json": "ddb2cf48810fa4226690fef1781a45a5a5c7a604b80a0c0819c1cc8b9e909b91",
+  "documentation/rq2_repair/supportability.json": "1b43c55f0b4303974c42c6099747157ca5908ce31a5b99e5bbfc48166cbac473",
+  "documentation/rq4/analysis_local.json": "cb591f1a8e8548f8898f780fa8f7d1993cdffcbc51b106262102d7e49fccbffc",
+  "documentation/rq4/selection_local.json": "2e45b47d0d3e73c4f00fde8c21a2e98168cfaca088895ca34608f05c2ee06b5a"
+ }
+}

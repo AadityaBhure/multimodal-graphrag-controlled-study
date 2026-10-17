@@ -38,3 +38,5 @@ research/integration/** text eol=lf
 scripts/run_rq4.py text eol=lf
 documentation/rq4/** text eol=lf
 showcase/content/** text eol=lf
+# Showcase data bundle: checksummed bytes, never converted
+showcase/bundle/** -text
