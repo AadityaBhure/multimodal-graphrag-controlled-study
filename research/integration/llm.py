@@ -29,7 +29,7 @@ class ReusingSharedQuotaLLM(DurableLLM):
         return used
 
     def chat(self, role, system, user, cap, seed, json_mode=True):
-        payload = self.payload(role, system, user, cap, seed, json_mode)
+        payload = self.payload(role, system, user, cap, seed, json_mode, self.model)
         identity = content_hash(payload)
         if not (self.root / 'stages' / (identity + '.json')).exists():
             for root in self.reuse_roots:
