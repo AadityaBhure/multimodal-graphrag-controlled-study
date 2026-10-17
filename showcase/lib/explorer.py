@@ -13,16 +13,36 @@ SUPPORT_LABEL = {'FULLY_SUPPORTABLE': 'all correct papers are in the evidence', 
                  'UNSUPPORTABLE': 'no correct paper is in the evidence'}
 
 
-def pick_question(rq, qids, key):
+def ordered(qids):
     Q = state.bundle().queries
-    order = sorted(qids, key=lambda q: (MODALITY_ORDER.index(Q[q]['modality']), Q[q]['family'], STRESS_ORDER.index(Q[q]['stress'])))
+    return sorted(qids, key=lambda q: (MODALITY_ORDER.index(Q[q]['modality']), Q[q]['family'], STRESS_ORDER.index(Q[q]['stress'])))
+
+
+def default_question(rq, method):
+    """Open each explorer on a question where the method's answer contains correct papers (normal variant first, then the
+    highest F1); otherwise on one where a correct paper reached the model; otherwise on the running example."""
+    X, Q = state.bundle().explorer(rq), state.bundle().queries
+    order = ordered(X['queries'])
+    f1 = lambda q: X['by_query'][q][method]['metrics'].get('answer_f1') or 0.
+    hits = [q for q in order if Q[q]['gold'] and f1(q) > 0]
+    if hits:
+        return max(hits, key=lambda q: (Q[q]['stress'] == 'normal', f1(q), -order.index(q)))
+    seen = [q for q in order if Q[q]['gold'] and X['by_query'][q][method].get('gold_seen')]
+    if seen:      # the largest share of the correct answer in front of the model
+        return max(seen, key=lambda q: (X['by_query'][q][method]['gold_seen'] / len(Q[q]['gold']), Q[q]['stress'] == 'normal', -order.index(q)))
+    return EXAMPLE if EXAMPLE in order else order[0]
+
+
+def pick_question(rq, qids, key, default=None):
+    Q = state.bundle().queries
+    order = ordered(qids)
     c1, c2 = st.columns([1, 1])
     variants = [s for s in STRESS_ORDER if any(Q[q]['stress'] == s for q in order)]
     mods = [m for m in MODALITY_ORDER if any(Q[q]['modality'] == m for q in order)]
     v = c1.pills('Variant', ['all'] + variants, default='all', key=key + '_v')
     m = c2.pills('Sources the question needs', ['all'] + mods, default='all', key=key + '_m', format_func=lambda x: x if x == 'all' else MODALITY_LABEL[x])
     shown = [q for q in order if (v in (None, 'all') or Q[q]['stress'] == v) and (m in (None, 'all') or Q[q]['modality'] == m)] or order
-    current = state.param('q', set(shown), EXAMPLE if EXAMPLE in shown else shown[0])
+    current = state.param('q', set(shown), default if default in shown else (EXAMPLE if EXAMPLE in shown else shown[0]))
     q = st.selectbox('Question (%d shown)' % len(shown), shown, index=shown.index(current), key=key + '_q', format_func=lambda x: label(x, Q[x]))
     state.set_param('q', q)
     return q
@@ -78,7 +98,7 @@ def context_expander(entry, name):
 def rq1_panel(m, entry, q, names):
     n = entry['notes']
     html('<h4 style="margin:.2rem 0"><span class="swatch" style="background:%s"></span>%s · %s</h4>' % (method_color(m), e(m), e(names.get(m, ''))))
-    answer_box(entry['answer_ids'], state.bundle().queries[q]['gold'], state.title_of, entry.get('explanation'))
+    answer_box(entry['answer_ids'], state.bundle().queries[q]['gold'], state.title_of, entry.get('explanation'), entry.get('gold_seen'), entry.get('gold_retrieved'))
     metric_row(entry, ['answer_f1', 'mrr', 'gold_coverage', 'input_tokens', 'latency'],
                {'answer_f1': 'Answer F1', 'mrr': 'MRR', 'gold_coverage': 'Gold coverage', 'input_tokens': 'Input tokens', 'latency': 'Latency'})
     kept = 'Kept **%s** nodes and **%s** relations out of %s retrieved nodes and %s relations.' % (
@@ -104,7 +124,7 @@ def rq1_panel(m, entry, q, names):
 def rq1(q_key='rq1'):
     B, C = state.bundle(), state.content()
     X = B.explorer('RQ1'); names = {m: v['name'] for m, v in C['rq1']['methods'].items()}
-    q = pick_question('RQ1', X['queries'], q_key)
+    q = pick_question('RQ1', X['queries'], q_key, default_question('RQ1', 'CM-01'))
     question_panel(q)
     m, cmp = pick_methods(X['methods'], names, q_key, 'CM-01', short_names(C['rq1']))
     cols = st.columns(2, gap='large') if cmp else [st.container()]
@@ -116,7 +136,7 @@ def rq1(q_key='rq1'):
 # ---------------------------------------------------------------------------------------------- RQ2
 def rq2_panel(m, entry, q, names):
     html('<h4 style="margin:.2rem 0"><span class="swatch" style="background:%s"></span>%s · %s</h4>' % (method_color(m), e(m), e(names.get(m, ''))))
-    answer_box(entry['answer_ids'], state.bundle().queries[q]['gold'], state.title_of, entry.get('explanation'))
+    answer_box(entry['answer_ids'], state.bundle().queries[q]['gold'], state.title_of, entry.get('explanation'), entry.get('gold_seen'), entry.get('gold_retrieved'))
     metric_row(entry, ['answer_f1', 'input_tokens', 'llm_calls', 'latency'],
                {'answer_f1': 'Answer F1', 'input_tokens': 'Input tokens', 'llm_calls': 'Model calls', 'latency': 'Latency'})
     sc = entry.get('source_counts') or {}
@@ -147,7 +167,7 @@ def rq2_panel(m, entry, q, names):
 def rq2(q_key='rq2'):
     B, C = state.bundle(), state.content()
     X = B.explorer('RQ2'); names = {m: v['name'] for m, v in C['rq2']['methods'].items()}
-    q = pick_question('RQ2', X['queries'], q_key)
+    q = pick_question('RQ2', X['queries'], q_key, default_question('RQ2', 'CF-B1'))
     sup = X['support'][q]
     question_panel(q, '<span class="chip">evidence bundle: %s (%d of %d correct papers present)</span>' % (
         e(SUPPORT_LABEL.get(sup['class'], sup['class'])), sup['gold_in_bundle'], sup['gold']))
@@ -170,7 +190,7 @@ def sources_line(called, needed):
 def rq3_panel(m, entry, q, names):
     Q = state.bundle().queries[q]
     html('<h4 style="margin:.2rem 0"><span class="swatch" style="background:%s"></span>%s · %s</h4>' % (method_color(m), e(m), e(names.get(m, ''))))
-    answer_box(entry['answer_ids'], Q['gold'], state.title_of, entry.get('explanation'))
+    answer_box(entry['answer_ids'], Q['gold'], state.title_of, entry.get('explanation'), entry.get('gold_seen'), entry.get('gold_retrieved'))
     sources_line(entry['sources_called'], Q['oracle_sources'])
     metric_row(entry, ['source_f1', 'retrieval_calls', 'llm_calls', 'total_tokens', 'latency'],
                {'source_f1': 'Source F1', 'retrieval_calls': 'Searches', 'llm_calls': 'Model calls', 'total_tokens': 'Tokens', 'latency': 'Latency'})
@@ -186,7 +206,7 @@ def rq3_panel(m, entry, q, names):
 def rq3(q_key='rq3'):
     B, C = state.bundle(), state.content()
     X = B.explorer('RQ3'); names = {m: v['name'] for m, v in C['rq3']['methods'].items()}
-    q = pick_question('RQ3', X['queries'], q_key)
+    q = pick_question('RQ3', X['queries'], q_key, default_question('RQ3', 'AR-B1'))
     question_panel(q)
     m, cmp = pick_methods(X['methods'], names, q_key, 'AR-B1', short_names(C['rq3']))
     cols = st.columns(2, gap='large') if cmp else [st.container()]
@@ -197,7 +217,7 @@ def rq3(q_key='rq3'):
 
 def int1_panel(entry, q):
     Q = state.bundle().queries[q]
-    answer_box(entry['answer_ids'], Q['gold'], state.title_of, entry.get('explanation'))
+    answer_box(entry['answer_ids'], Q['gold'], state.title_of, entry.get('explanation'), entry.get('gold_seen'), entry.get('gold_retrieved'))
     sources_line(entry['sources_called'], Q['oracle_sources'])
     metric_row(entry, ['source_f1', 'retrieval_calls', 'llm_calls', 'total_tokens', 'latency'],
                {'source_f1': 'Source F1', 'retrieval_calls': 'Searches', 'llm_calls': 'Model calls', 'total_tokens': 'Tokens', 'latency': 'Latency'})
@@ -222,6 +242,6 @@ def int1_panel(entry, q):
 
 def rq4(q_key='rq4'):
     X = state.bundle().explorer('RQ4')
-    q = pick_question('RQ4', X['queries'], q_key)
+    q = pick_question('RQ4', X['queries'], q_key, default_question('RQ4', 'INT-1'))
     question_panel(q)
     int1_panel(X['by_query'][q]['INT-1'], q)

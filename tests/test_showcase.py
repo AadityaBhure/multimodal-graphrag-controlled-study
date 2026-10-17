@@ -163,3 +163,18 @@ def test_overall_winners_are_reproducible_and_consistent(bundle):
             assert s['pick'] in bundle.results[rq]['methods'] and s['pick'] != o['winner'], (rq, s['pick'])
     c = bundle.results['RQ4']['combined']
     assert c['matches_rq4'] and c['rq4_pipeline'] == [bundle.results[rq]['overall']['winner'] for rq in ('RQ3', 'RQ1', 'RQ2')]
+
+
+def test_answer_explanations_are_consistent(bundle):
+    """An empty answer is explained by where the correct papers were lost; the explanation must agree with the data."""
+    from showcase.lib.metrics import gold_in_context
+    assert gold_in_context('text:paper:1258814 {"x":1}', [1258814]) == 1 and gold_in_context('rank 12588140', [1258814]) == 0
+    Q = bundle.queries
+    for rq in ('RQ1', 'RQ2', 'RQ3', 'RQ4'):
+        X = bundle.explorer(rq)
+        for q, ms in X['by_query'].items():
+            for m, e in ms.items():
+                assert 0 <= e['gold_seen'] <= e['gold_retrieved'] <= len(Q[q]['gold']), (rq, q, m)
+                if rq == 'RQ2':     # independent check: the supportability classes were computed before any model call
+                    assert (e['gold_retrieved'] > 0) == (X['support'][q]['class'] != 'UNSUPPORTABLE'), (q, m)
+

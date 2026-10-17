@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT))
 from research.agentic import analysis as A
 from research.evaluation.benchmark import BenchmarkReader, digest
 from showcase.lib.traces import ar_steps
+from showcase.lib.metrics import gold_in_context, evidence_text
 
 OUT = ROOT / 'showcase/bundle'
 DOC = ROOT / 'documentation'
@@ -319,7 +320,9 @@ def rq1_explorer(store, titles):
                      'metrics': {'answer_f1': mt.get('f1'), 'answer_em': mt.get('exact_match'), 'mrr': mt.get('mrr'), 'gold_coverage': mt.get('gold_coverage'),
                                  'context_tokens': mt.get('context_tokens'), 'input_tokens': mt.get('input_tokens'), 'output_tokens': mt.get('output_tokens'),
                                  'llm_calls': mt.get('llm_calls'), 'latency': lat, 'cm_ms': d.get('context_ms')},
-                     'notes': notes, 'context': r['output']['context'], 'graph': graph_view(nodes, edges, labels, flags, prio)}
+                     'notes': notes, 'context': r['output']['context'], 'graph': graph_view(nodes, edges, labels, flags, prio),
+                     'gold_seen': gold_in_context(r['output']['context'], r['gold_ids']),
+                     'gold_retrieved': gold_in_context(evidence_text(r['output']['evidence']), r['gold_ids'])}
             by_q.setdefault(q, {})[m] = entry
             titles.update(r['gold_ids']); titles.update(r['answer_ids'])
     return {'methods': METHODS['RQ1'], 'queries': sorted(by_q), 'by_query': by_q}
@@ -352,7 +355,11 @@ def rq2_explorer(titles):
             entry = {'answer_ids': r['answer_ids'], 'explanation': explanation(r['answer']), 'errors': r['errors'],
                      'metrics': {k: x[k] for k in ('answer_f1', 'answer_em', 'mrr', 'recall_at_5', 'input_tokens', 'output_tokens', 'total_tokens',
                                                    'llm_calls', 'context_characters', 'coverage_text', 'coverage_graph', 'coverage_structured')} | {'latency': x['intrinsic_ms']},
-                     'source_counts': d.get('source_counts'), 'stages': stages, 'detail': detail, 'context': r['output']['context']}
+                     'source_counts': d.get('source_counts'), 'stages': stages, 'detail': detail, 'context': r['output']['context'],
+                     # CF-03 reads each source in its own call: what the model saw is the final context plus the per-source contexts
+                     'gold_seen': gold_in_context(r['output']['context'] + ''.join((d.get('source_contexts') or {}).values()) if m == 'CF-03'
+                                                  else r['output']['context'], r['gold_ids']),
+                     'gold_retrieved': gold_in_context(evidence_text(r['output']['evidence']), r['gold_ids'])}
             by_q.setdefault(q, {})[m] = entry
             titles.update(r['gold_ids']); titles.update(r['answer_ids'])
     return {'methods': METHODS['RQ2'], 'queries': sorted(by_q), 'by_query': by_q,
@@ -372,7 +379,8 @@ def rq3_explorer(titles):
             by_q.setdefault(q, {})[m] = {'answer_ids': r['answer_ids'], 'explanation': explanation(r['answer']), 'errors': r['errors'],
                                          'sources_called': pm['sources_called'], 'stop_reason': pm['stop_reason'], 'status': pm['status'],
                                          'failure_labels': A.failure_labels(adapt(r), r['gold_ids']), 'metrics': metrics, 'steps': steps, 'llm': llm,
-                                         'context': r['output']['context']}
+                                         'context': r['output']['context'], 'gold_seen': gold_in_context(r['output']['context'], r['gold_ids']),
+                                         'gold_retrieved': gold_in_context(evidence_text(r['output']['evidence']), r['gold_ids'])}
             titles.update(r['gold_ids']); titles.update(r['answer_ids'])
     return {'methods': METHODS['RQ3'], 'queries': sorted(by_q), 'by_query': by_q}
 
@@ -401,7 +409,8 @@ def rq4_explorer(titles):
                              'steps': steps, 'llm': llm, 'cm': {'graph_in': len(d['cm']['graph_in']), 'graph_kept': len(d['cm']['graph_kept']),
                                                                 'papers': d['cm']['papers']},
                              'cf': {'method': cf.get('method'), 'source_counts': cf.get('source_counts'), 'stages': stages},
-                             'context': r['output']['context']}}
+                             'context': r['output']['context'], 'gold_seen': gold_in_context(r['output']['context'], r['gold_ids']),
+                             'gold_retrieved': gold_in_context(evidence_text(r['output']['evidence']), r['gold_ids'])}}
         titles.update(r['gold_ids']); titles.update(r['answer_ids'])
     return {'methods': ['INT-1'], 'queries': sorted(by_q), 'by_query': by_q}
 

@@ -52,7 +52,7 @@ def result_panel(r, gold, oracle, title):
     if r.get('errors'):
         st.warning('The run recorded an error: ' + '; '.join(map(str, r['errors']))[:400])
     if gold is not None:
-        answer_box(r['answer_ids'], gold, title_of, r.get('explanation'))
+        answer_box(r['answer_ids'], gold, title_of, r.get('explanation'), r.get('gold_seen'), r.get('gold_retrieved'))
         explorer.sources_line(r['sources_called'], oracle)
     else:
         ids = r['answer_ids']
@@ -97,7 +97,7 @@ if mode == 'Recorded runs':
     p2 = c2.selectbox('Compare with', [None] + [p for p in RECORDED if p != p1], key='try_p2',
                       format_func=lambda p: 'nothing (single view)' if p is None else recorded_label(p))
     st.caption(T['compare_help'])
-    q = explorer.pick_question('RQ3', B.explorer('RQ3')['queries'], 'try')
+    q = explorer.pick_question('RQ3', B.explorer('RQ3')['queries'], 'try', explorer.default_question('RQ4', 'INT-1'))
     explorer.question_panel(q)
     Q = B.queries[q]
     cols = st.columns(2, gap='large') if p2 else [st.container()]
@@ -130,7 +130,7 @@ else:
         cf2 = c2.pills('Second: fusion', FUSIONS, default='CF-03', key='live_cf2', format_func=lambda m: '%s · %s' % (m, CF_NAMES[m])) or 'CF-03'
     source = st.radio('Question', ['A benchmark question (scored against its correct answer)', 'My own question (not scored)'], key='live_src', horizontal=True)
     if source.startswith('A benchmark'):
-        q = explorer.pick_question('RQ3', B.explorer('RQ3')['queries'], 'live')
+        q = explorer.pick_question('RQ3', B.explorer('RQ3')['queries'], 'live', explorer.default_question('RQ4', 'INT-1'))
         explorer.question_panel(q)
         Q = B.queries[q]; text, gold, oracle = None, Q['gold'], Q['oracle_sources']
     else:

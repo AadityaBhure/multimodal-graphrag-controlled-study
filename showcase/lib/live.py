@@ -8,7 +8,7 @@ are demonstrations, not evaluated results. Requests identical to recorded ones a
 from pathlib import Path
 import json, threading, time, urllib.request
 from showcase import config
-from showcase.lib.metrics import answer_scores
+from showcase.lib.metrics import answer_scores, gold_in_context, evidence_text
 from showcase.lib.traces import ar_steps
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -149,4 +149,6 @@ class LiveEngine:
                 'sources_called': d['sources_called'], 'stop_reason': d['stop_reason'], 'status': d['status'], 'steps': steps, 'llm': llm,
                 'cm': {'graph_in': len(d['cm']['graph_in']), 'graph_kept': len(d['cm']['graph_kept']), 'papers': d['cm']['papers']},
                 'cf': {'method': cf, 'source_counts': cfd.get('source_counts'), 'stages': stages}, 'context': out.context, 'metrics': metrics,
+                'gold_seen': gold_in_context(out.context, gold) if gold is not None else None,
+                'gold_retrieved': gold_in_context(evidence_text(list(out.evidence or ())), gold) if gold is not None else None,
                 'reused_calls': reused, 'live': True, 'oracle': oracle}

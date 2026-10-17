@@ -241,17 +241,38 @@ def tests_table(rows, metric, names=None):
          '<th title="Holm-adjusted over all pairs tested on this metric">adjusted p (Holm)</th><th>Verdict</th></tr></thead><tbody>%s</tbody></table>' % ''.join(out))
 
 
-def answer_box(answer_ids, gold, title_of, explanation=None):
+def answer_box(answer_ids, gold, title_of, explanation=None, gold_seen=None, gold_retrieved=None):
+    """What the strategy returned against the correct answer. An empty answer says where the correct papers were lost:
+    never retrieved, retrieved but left out of the model's context, or seen by the model and rejected."""
     a, g = list(answer_ids or []), set(gold or [])
+    plural = lambda n, w: '%d %s%s' % (n, w, '' if n == 1 else 's')
+    them = 'it' if len(g) == 1 else 'them'
     if not a:
-        ok = not g
-        mark = '<span class="%s">%s</span>' % ('ok' if ok else 'no', '✔ correct: no paper satisfies the question' if ok else
-                                                '✘ wrong: the correct answer has %d paper%s' % (len(g), '' if len(g) == 1 else 's'))
-        html('<div class="answer empty"><b>Returned: no paper.</b> %s</div>' % mark)
+        if not g:
+            html('<div class="answer"><b>Returned: no paper.</b> <span class="ok">✔ Correct</span> — no paper satisfies this question.</div>')
+        elif gold_retrieved == 0:
+            html('<div class="answer empty"><b>Returned: no paper.</b> The retrievers did not return the correct %s, so the model never saw %s '
+                 'and could not answer.</div>' % ('paper' if len(g) == 1 else 'papers', them))
+        elif gold_seen == 0:
+            html('<div class="answer empty"><b>Returned: no paper.</b> The retrievers found %s, but this strategy left %s out of the '
+                 'model’s context.</div>' % ('the correct paper' if len(g) == 1 else '%d of the %s' % (gold_retrieved or 0, plural(len(g), 'correct paper')), them))
+        elif gold_seen:
+            html('<div class="answer empty"><b>Returned: no paper.</b> %s reached the model, but it judged that no paper met every '
+                 'condition.</div>' % ('The correct paper' if len(g) == 1 else '%d of the %s' % (gold_seen, plural(len(g), 'correct paper'))))
+        else:
+            html('<div class="answer empty"><b>Returned: no paper.</b> The correct answer has %s.</div>' % plural(len(g), 'paper'))
     else:
+        hits = sum(i in g for i in a)
         items = ''.join('<li><span class="%s">%s</span> %s <span class="small">stark:%s</span></li>'
                         % ('ok' if i in g else 'no', '✔' if i in g else '✘', e(title_of(i) or 'title unavailable'), i) for i in a)
-        html('<div class="answer"><b>Returned %d paper%s</b> (✔ = correct)<ul>%s</ul></div>' % (len(a), '' if len(a) == 1 else 's', items))
+        wrong = len(a) - hits
+        if not g:
+            summary = 'but no paper satisfies this question'
+        elif set(a) == g:
+            summary = 'exactly the correct answer'
+        else:
+            summary = '%d correct%s%s' % (hits, ', %d wrong' % wrong if wrong else '', '; the full answer has %s' % plural(len(g), 'paper') if hits < len(g) else '')
+        html('<div class="answer%s"><b>Returned %s: %s</b> (✔ = correct)<ul>%s</ul></div>' % ('' if hits else ' empty', plural(len(a), 'paper'), summary, items))
     if explanation:
         st.caption('Model’s stated reason: ' + str(explanation))
 
