@@ -1,0 +1,174 @@
+{
+ "descriptive": {
+  "AR-B0": {
+   "answer_em": 0.14285714285714285,
+   "answer_f1": 0.153660797034291,
+   "intrinsic_ms": 10623.269632107282,
+   "llm_calls": 1.0,
+   "recall_at_5": 0.0,
+   "retrieval_calls": 3.0,
+   "source_f1": 0.7000000000000001,
+   "total_tokens": 2251.25
+  },
+  "AR-B1": {
+   "answer_em": 0.14285714285714285,
+   "answer_f1": 0.153660797034291,
+   "intrinsic_ms": 8726.17802853555,
+   "llm_calls": 1.0,
+   "recall_at_5": 0.149694826007326,
+   "retrieval_calls": 2.142857142857143,
+   "source_f1": 0.8761904761904761,
+   "total_tokens": 1622.392857142857
+  },
+  "INT-1": {
+   "answer_em": 0.14285714285714285,
+   "answer_f1": 0.153660797034291,
+   "intrinsic_ms": 9915.64101071449,
+   "llm_calls": 1.0,
+   "recall_at_5": 0.149694826007326,
+   "retrieval_calls": 2.142857142857143,
+   "source_f1": 0.8761904761904761,
+   "total_tokens": 2394.1785714285716
+  }
+ },
+ "design": "documentation/rq4/RQ4_DESIGN.md",
+ "errors": {
+  "AR-B0": 0,
+  "AR-B1": 0,
+  "INT-1": 0
+ },
+ "paired_tests": {
+  "answer_f1": {
+   "INT-1 vs AR-B0": {
+    "ci95_family_bootstrap": [
+     0.0,
+     0.0
+    ],
+    "cohens_dz_families": null,
+    "mean_delta": 0.0,
+    "n": 28,
+    "n_families": 14,
+    "p_holm": 1.0,
+    "p_sign_flip": 1.0,
+    "significant": false
+   },
+   "INT-1 vs AR-B1": {
+    "ci95_family_bootstrap": [
+     0.0,
+     0.0
+    ],
+    "cohens_dz_families": null,
+    "mean_delta": 0.0,
+    "n": 28,
+    "n_families": 14,
+    "p_holm": 1.0,
+    "p_sign_flip": 1.0,
+    "significant": false
+   }
+  },
+  "intrinsic_ms": {
+   "INT-1 vs AR-B0": {
+    "ci95_family_bootstrap": [
+     -2301.7081535358034,
+     862.4370178573126
+    ],
+    "cohens_dz_families": -0.2266092520166988,
+    "mean_delta": -707.6286213927925,
+    "n": 28,
+    "n_families": 14,
+    "p_holm": 0.462646484375,
+    "p_sign_flip": 0.4056396484375,
+    "significant": false
+   },
+   "INT-1 vs AR-B1": {
+    "ci95_family_bootstrap": [
+     -765.7168464279296,
+     2883.828253606928
+    ],
+    "cohens_dz_families": 0.330901718181933,
+    "mean_delta": 1189.4629821789385,
+    "n": 28,
+    "n_families": 14,
+    "p_holm": 0.462646484375,
+    "p_sign_flip": 0.2313232421875,
+    "significant": false
+   }
+  },
+  "source_f1": {
+   "INT-1 vs AR-B0": {
+    "ci95_family_bootstrap": [
+     0.10238095238095236,
+     0.2595238095238095
+    ],
+    "cohens_dz_families": 1.0951067345733094,
+    "mean_delta": 0.17619047619047618,
+    "n": 28,
+    "n_families": 14,
+    "p_holm": 0.00390625,
+    "p_sign_flip": 0.001953125,
+    "significant": true
+   },
+   "INT-1 vs AR-B1": {
+    "ci95_family_bootstrap": [
+     0.0,
+     0.0
+    ],
+    "cohens_dz_families": null,
+    "mean_delta": 0.0,
+    "n": 28,
+    "n_families": 14,
+    "p_holm": 1.0,
+    "p_sign_flip": 1.0,
+    "significant": false
+   }
+  },
+  "total_tokens": {
+   "INT-1 vs AR-B0": {
+    "ci95_family_bootstrap": [
+     -368.14285714285717,
+     579.3928571428571
+    ],
+    "cohens_dz_families": 0.14929448074766247,
+    "mean_delta": 142.92857142857142,
+    "n": 28,
+    "n_families": 14,
+    "p_holm": 0.582763671875,
+    "p_sign_flip": 0.582763671875,
+    "significant": false
+   },
+   "INT-1 vs AR-B1": {
+    "ci95_family_bootstrap": [
+     596.0714285714286,
+     946.4642857142857
+    ],
+    "cohens_dz_families": 2.199786941039144,
+    "mean_delta": 771.7857142857143,
+    "n": 28,
+    "n_families": 14,
+    "p_holm": 0.000244140625,
+    "p_sign_flip": 0.0001220703125,
+    "significant": true
+   }
+  }
+ },
+ "selection": {
+  "CM": "CM-B1",
+  "R-AR": "AR-B1",
+  "R-CF": "CF-B1",
+  "rq2_analysis_sha256": "ddb2cf48810fa4226690fef1781a45a5a5c7a604b80a0c0819c1cc8b9e909b91",
+  "rq3_analysis_sha256": "58f3b71bf1ea6a7a85a40394b5aef39a5df89540646efcdc2b01c4938ce48c8f",
+  "rules": "documentation/rq4/RQ4_DESIGN.md (R-AR, R-CF), applied mechanically"
+ },
+ "strata": {
+  "stress:noisy": {
+   "AR-B0": 0.153660797034291,
+   "AR-B1": 0.153660797034291,
+   "INT-1": 0.153660797034291
+  },
+  "stress:normal": {
+   "AR-B0": 0.153660797034291,
+   "AR-B1": 0.153660797034291,
+   "INT-1": 0.153660797034291
+  }
+ }
+}
