@@ -1,0 +1,395 @@
+# Showcase app — all on-screen text (single source of truth).
+#
+# Numbers are never typed here. A finding is written with short named placeholders, e.g. {F1}, and a `values` map binds
+# each placeholder to a key in the frozen data bundle (built from the studies' analysis files). Formats are applied by the
+# app: rates 3 decimals, tokens as integers with separators, latency in seconds (1 decimal), p-values 3 decimals.
+
+meta:
+  title: Multi-Modal GraphRAG
+  subtitle: Which retrieval, fusion and context strategies help an LLM answer questions over text, graph and structured data?
+  scope_note: >-
+    All results are validation results on frozen, programmatically verified benchmark questions. Every method in a study
+    used the same data, retrievers, answer model and settings; only the studied component changed.
+
+# --------------------------------------------------------------------------------------------------------------- 1
+problem:
+  page_intro: What problem this project studies, with a real example question, and what counts as doing better.
+  statement: >-
+    Questions about scientific papers often need three different kinds of knowledge at once: what a paper says (its
+    title and abstract), how papers and people are connected (authors, institutions, citations, fields), and recorded
+    facts about a paper (year, citation count, rank, venue). A retrieval-augmented language model has to find evidence
+    in all three, decide what to keep, combine it, and know when it has enough. This project measures how each of those
+    decisions should be made.
+  example_intro: >-
+    A real benchmark question that needs all three sources. No single source can answer it: the text finds papers with
+    the phrase, the graph finds papers by authors at the institution, and the structured data checks rank and venue.
+  why_hard:
+    - Each source can check only part of a question, so the answer lies in the overlap of several sources.
+    - Retrieved evidence is usually larger than a model can use well, so something must decide what survives.
+    - The three sources look completely different (sentences, relations, table rows), so combining them is not obvious.
+    - Querying every source for every question is slow and wasteful, but skipping a needed source loses the answer.
+    - Changing all of these at once makes it impossible to tell which change helped.
+  success:
+    - {name: Right answers, detail: "Answer F1 and exact match against the verified correct papers."}
+    - {name: Right evidence, detail: "Whether the correct papers reach the model and how early they are ranked."}
+    - {name: Lower cost, detail: "Tokens, model calls, retrieval calls and time per question."}
+    - {name: Proven differences, detail: "A difference counts only if a paired statistical test supports it."}
+
+# --------------------------------------------------------------------------------------------------------------- 2
+decomposition:
+  page_intro: How the problem is split into parts, each studied on its own before the best choices are combined.
+  principle: >-
+    One variable at a time first, integration second. In each study only one component of the pipeline changes; the
+    data, retrievers, answer model, prompt and budget stay fixed. The best choices are then combined in a final study.
+  pipeline:
+    - {id: Q, label: Question}
+    - {id: RQ3, label: Retrieval control, note: which sources, in what order, when to stop}
+    - {id: R, label: Retrievers, note: text, graph and structured search}
+    - {id: RQ1, label: Context management, note: what survives the budget}
+    - {id: RQ2, label: Fusion, note: how the three sources are combined}
+    - {id: A, label: Answer model, note: shared and fixed}
+  parts:
+    RQ1:
+      name: Context management
+      question: How should retrieved graph evidence be selected, ordered and trimmed so the answer survives a fixed budget?
+      varies: How graph evidence is selected, ordered and pruned.
+      fixed: The retrieved evidence, text and structured evidence (passed through unchanged), the answer model and prompt, a 24,000-character budget.
+      judged_by: Answer F1 and exact match, MRR, gold coverage, context tokens, latency.
+    RQ2:
+      name: Cross-modal fusion
+      question: How should evidence from text, graph and structured data be combined into one context?
+      varies: How the three evidence streams are aligned, selected and combined.
+      fixed: Every method receives the identical cached evidence bundle and may not retrieve anything new; same answer model; 24,000-character budget.
+      judged_by: Answer F1 and exact match, MRR, model calls, tokens, latency, stratified by whether the evidence can support an answer.
+    RQ3:
+      name: Retrieval control
+      question: Can a policy decide which sources to query, in what order and when to stop, without losing answers?
+      varies: The retrieval-control policy.
+      fixed: The three retrievers, the context format (8,000 characters per queried source), the answer model and prompt.
+      judged_by: Answer F1, source-selection F1, wasted retrieval, stopping accuracy, retrieval and model calls, tokens, latency.
+    RQ4:
+      name: Integration
+      question: What happens when the best choice from each part is combined into one system?
+      varies: The combination of components, chosen by a rule fixed before the results were known.
+      fixed: The questions, data, retrievers and answer model.
+      judged_by: The same metrics, compared with the always-query-everything control and with the chosen retrieval policy on its own.
+
+# --------------------------------------------------------------------------------------------------------------- 3
+foundation:
+  page_intro: The data the systems search and the questions they are tested on.
+  data:
+    intro: >-
+      The official STaRK-MAG scientific corpus is converted into three deliberately separate views of the same papers.
+      The views share nothing except the paper's official ID, so each retriever can only use its own kind of evidence.
+    views:
+      text: {name: Text, detail: "One document per paper: title and abstract. Searched by meaning with sentence embeddings."}
+      graph: {name: Graph, detail: "Authors, institutions, citations and fields of study as nodes and relations. Searched by following connections."}
+      structured: {name: Structured, detail: "A table of recorded facts: year, date, citation count, rank, venue, document type. Searched with exact, read-only queries."}
+    paper_example_intro: The same paper as each retriever sees it.
+  benchmark:
+    intro: >-
+      Test questions are generated from the data with their correct answers computed first and the wording written
+      afterwards, so the correct answer never depends on a language model. For every question that needs several
+      sources, removing any one source provably changes the answer.
+    variants_intro: Each base question has variants that test robustness.
+    variants:
+      normal: The question as written.
+      noisy: The same question with misleading distractor evidence added at evaluation time.
+      conflict: The same question with one fact deliberately contradicted in added evidence; the original record stays authoritative.
+      unanswerable: A version with a condition no paper satisfies; the correct answer is an empty set.
+    families: >-
+      The variants of one base question form a family. Families, not individual questions, are treated as independent in
+      every statistical test.
+
+# --------------------------------------------------------------------------------------------------------------- 4
+evaluation:
+  page_intro: How every result in this app is measured and when a difference counts.
+  metrics:
+    answer_f1: {name: Answer F1, direction: higher, plain: "How well the returned papers match the correct papers: balances returning the right ones and not returning wrong ones.", formula: "F1 = 2 x precision x recall / (precision + recall)", why: The main measure of answer quality.}
+    answer_em: {name: Exact match, direction: higher, plain: "1 if the returned set of papers is exactly the correct set, otherwise 0.", formula: "EM = 1 if returned = correct", why: The strictest measure of correctness.}
+    precision: {name: Precision, direction: higher, plain: "Of the papers returned, the share that are correct.", formula: "correct returned / all returned", why: Penalises wrong papers.}
+    recall: {name: Recall, direction: higher, plain: "Of the correct papers, the share that were returned.", formula: "correct returned / all correct", why: Penalises missed papers.}
+    mrr: {name: MRR, direction: higher, plain: "How early the first correct paper appears in the ranked evidence (1 = first place).", formula: "MRR = mean of 1 / rank of the first correct paper", why: Rewards putting a right paper at the top.}
+    recall_at_5: {name: Recall at 5, direction: higher, plain: "Share of the correct papers found among the top 5 ranked papers.", formula: "correct in top 5 / all correct", why: Tests whether the best evidence is near the top.}
+    gold_coverage: {name: Gold coverage, direction: higher, plain: "Share of the correct papers that appear anywhere in the context given to the model.", formula: "correct in context / all correct", why: A paper the model never sees cannot be answered.}
+    context_tokens: {name: Context tokens, direction: lower, plain: "Size of the evidence given to the model.", formula: "tokens of the context", why: Smaller context is cheaper and less distracting.}
+    input_tokens: {name: Input tokens, direction: lower, plain: "Tokens sent to the model per question, over all its calls.", formula: "sum over calls", why: Main driver of cost.}
+    total_tokens: {name: Tokens, direction: lower, plain: "Input plus output tokens per question, over all model calls.", formula: "input + output", why: Overall cost of answering.}
+    llm_calls: {name: Model calls, direction: lower, plain: "How many times the language model is called per question.", formula: "count", why: Each call adds cost and time.}
+    retrieval_calls: {name: Retrieval calls, direction: lower, plain: "How many times a retriever is called per question.", formula: "count", why: Each search adds time.}
+    latency: {name: Latency, direction: lower, plain: "Time to answer one question: retrieval time plus model compute plus local processing, excluding any waiting.", formula: "retrieval + model compute + local compute", why: Speed.}
+    source_f1: {name: Source-selection F1, direction: higher, plain: "How well the sources a policy queried match the sources the question actually needs.", formula: "F1 between queried and required sources", why: "Did the policy look in the right places?"}
+    unnecessary_retrieval: {name: Wasted retrieval, direction: lower, plain: "Share of queried sources the question did not need.", formula: "unneeded queried / all queried", why: Pure wasted effort.}
+    stopping_accuracy: {name: Stopping accuracy, direction: higher, plain: "1 if the policy stopped exactly when it had every needed source, otherwise 0.", formula: "stopped at the first step covering all needed sources", why: Neither too early nor too late.}
+    supportability: {name: Supportability, direction: none, plain: "Whether the evidence given to a fusion method contains all, some or none of the correct papers.", formula: "fully / partially / not supportable", why: Fusion cannot recover evidence that was never retrieved.}
+  statistics:
+    paired: >-
+      Two methods are compared on the same questions, so we look at the difference per question rather than comparing
+      two averages.
+    families: >-
+      Variants of one base question are not independent, so tests resample whole families instead of single questions.
+    bootstrap: >-
+      Families are resampled 10,000 times (fixed seed) to give a 95 % range for the average difference.
+    sign_flip: >-
+      Exact sign-flip test: if two methods were truly equal, each family's difference would be as likely positive as
+      negative. We count how many of all possible sign flips give a total at least as extreme as the real one. With 8
+      families the smallest possible p-value is 2/256; with 14 families it is 2/16,384.
+    holm: >-
+      Several pairs are tested at once, so p-values are adjusted with the Holm method. A difference is called
+      significant only if the adjusted p-value is below 0.05.
+    pareto: >-
+      A method is Pareto-optimal if no other method is at least as good on every axis (better answers, lower cost) and
+      strictly better on one. These are the reasonable trade-offs.
+  protocol:
+    - Every study's code, inputs, settings and models are fixed by checksum before any result exists; a run refuses to start if anything changed.
+    - Every model request and response is stored; results are rebuilt from these records by a replay that stops if any request differs from the one sent.
+    - Methods are run question by question (all methods for one question, then the next), so conditions are the same for every method.
+    - Failures are recorded as failures, never retried silently or hidden.
+
+# --------------------------------------------------------------------------------------------------------------- 5-7
+rq1:
+  page_intro: "Part 1: deciding what graph evidence survives a fixed context budget. Five strategies, the same evidence and the same answer model."
+  cohort: 32 questions with a graph component (8 families x 4 variants).
+  methods:
+    CM-B0:
+      name: Raw order
+      kind: control
+      one_line: Keep graph evidence in retrieved order until the budget is full.
+      steps: [Take the graph evidence in the order it was retrieved., Add items until the budget is reached., Nothing else is removed or reordered.]
+      cost: No extra model calls.
+    CM-B1:
+      name: Fixed top-K
+      kind: control
+      one_line: Keep only the 5 best-ranked papers and the graph paths that reach them.
+      steps: [Rank graph evidence as retrieved., Keep the 5 best papers and their connecting paths., Drop everything else.]
+      cost: No extra model calls.
+    CM-01:
+      name: KG2RAG-inspired
+      kind: method
+      inspired_by: KG2RAG
+      one_line: Grow and organise small evidence trees around the most relevant relations, then rank them with a reranker.
+      steps:
+        - Score graph relations against the question and take the 10 best as seeds.
+        - Expand one hop around the seeds.
+        - Split the result into connected pieces and build a maximum spanning tree for each.
+        - Write each tree out in depth-first order.
+        - Rank the trees with a cross-encoder reranker, remove duplicates and fill the budget in rank order.
+      cost: One reranker pass; no extra model calls.
+    CM-02:
+      name: G-Retriever-inspired (PCST)
+      kind: method
+      inspired_by: G-Retriever
+      one_line: Choose one small connected subgraph that collects the most relevant nodes and edges at the lowest cost.
+      steps:
+        - Give prizes to the 3 nodes and 5 edges most similar to the question.
+        - Give every edge a fixed cost.
+        - Solve a prize-collecting Steiner tree to find one connected subgraph with the best prize minus cost.
+        - Write the subgraph out and trim leaves until it fits the budget.
+      cost: No extra model calls.
+    CM-03:
+      name: QAFD-RAG-inspired (flow diffusion)
+      kind: method
+      inspired_by: QAFD-RAG
+      one_line: Let relevance flow outward from keyword-matched seeds and keep the nodes that collect enough flow.
+      steps:
+        - The model extracts the question's keywords (one extra call).
+        - Seed the 20 nodes most similar to those keywords.
+        - Spread relevance along edges weighted by query similarity until it settles.
+        - Keep nodes that received meaningful flow, plus the connectors between them.
+        - Trim the least relevant outer nodes until it fits the budget.
+      cost: One extra model call; the diffusion is slow.
+  findings:
+    - text: "No strategy improved answer quality with statistical support (all adjusted p-values = {P})."
+      values: {P: RQ1.test.answer_f1.max_p_holm}
+    - text: "CM-01 had the highest answer F1 ({F1}) and MRR ({MRR}), but used about {RATIO}x the input tokens of CM-B1."
+      values: {F1: RQ1.methods.CM-01.answer_f1, MRR: RQ1.methods.CM-01.mrr, RATIO: RQ1.ratio.input_tokens.CM-01/CM-B1}
+    - text: "CM-B1 kept a third of the evidence at equal or better quality and dominated the raw control: it is the efficient choice."
+      values: {}
+    - text: "Fewer than {COV} of the correct papers reached the context for any method: the limit is upstream retrieval, not context management."
+      values: {COV: RQ1.max.gold_coverage}
+  pareto_note: Reasonable trade-offs between answer quality and cost.
+
+rq2:
+  page_intro: "Part 2: combining text, graph and structured evidence. Every method gets the identical evidence and may not search again."
+  cohort: 24 frozen evidence bundles for multi-source questions (8 families x 3 variants).
+  supportability_intro: >-
+    Before any model call, each bundle was classified by whether it contains the correct papers. Fusion can only
+    combine what retrieval found.
+  methods:
+    CF-B0:
+      name: Raw concatenation
+      kind: control
+      one_line: Paste text, graph and structured evidence one after another.
+      steps: [Write all evidence in retrieved order., Stop when the budget is full.]
+      cost: One model call.
+    CF-B1:
+      name: Source-separated
+      kind: control
+      one_line: Three labelled sections, each with a third of the budget.
+      steps: [Split evidence into TEXT, GRAPH and STRUCTURED sections., Give each section a third of the budget.]
+      cost: One model call.
+    CF-01:
+      name: KAG-inspired entity alignment
+      kind: method
+      inspired_by: KAG
+      one_line: Group all evidence about the same paper or person together before writing the context.
+      steps:
+        - Attach every evidence item to its entity (explicit ID, then exact name, then a type-checked registry lookup).
+        - Group items that describe the same entity.
+        - Order groups by their best relevance, then by how many sources they cover.
+        - Write each group with its text, graph, structured and provenance parts, adding whole groups until the budget is full.
+      cost: One model call.
+    CF-02:
+      name: SAG-inspired dual-path selection
+      kind: method
+      inspired_by: SAG
+      one_line: The model picks the most useful structural items, then text fills the remaining slots.
+      steps:
+        - Treat graph and structured items as structural candidates and text as semantic candidates.
+        - Show the model a compact one-line list of the structural candidates.
+        - One model call selects up to 5 that work best together (one format repair; otherwise the most relevant 5).
+        - Fill up to 10 items with text in retrieved order.
+      cost: Two model calls.
+    CF-03:
+      name: MegaRAG-inspired late fusion
+      kind: method
+      inspired_by: MegaRAG
+      one_line: Reason over each source separately, then fuse the three findings.
+      steps:
+        - For each non-empty source, the model reads only that source and reports a finding with supporting evidence IDs.
+        - Supporting IDs are checked to belong to that source; a failed source is marked as no evidence.
+        - One final call combines the findings and may only cite papers they support.
+      cost: Up to four model calls.
+  findings:
+    - text: "All five methods returned an empty answer on all 24 bundles, so answer quality is identical (F1 = {F1})."
+      values: {F1: RQ2.methods.CF-B1.answer_f1}
+    - text: "Even where the correct paper was in the evidence, the model judged that no paper met every condition."
+      values: {}
+    - text: "The methods differ in cost: CF-B1 was the cheapest ({TOK} input tokens) and fastest ({LAT}), and the only Pareto-optimal method."
+      values: {TOK: RQ2.methods.CF-B1.input_tokens, LAT: RQ2.methods.CF-B1.latency}
+    - text: "{UNSUP} of the 24 bundles contain no correct paper at all: most of the limit comes from retrieval."
+      values: {UNSUP: RQ2.support.UNSUPPORTABLE}
+
+rq3:
+  page_intro: "Part 3: deciding which sources to search, in what order and when to stop. Five policies, the same retrievers and answer model."
+  cohort: 28 questions (all 14 families, normal and noisy variants).
+  methods:
+    AR-B0:
+      name: Always search everything
+      kind: control
+      one_line: Search text, then graph, then structured, for every question.
+      steps: [Query all three sources in a fixed order., Answer from everything retrieved.]
+      cost: One model call; three searches.
+    AR-B1:
+      name: Rule router
+      kind: control
+      one_line: Fixed keyword rules decide which sources a question needs.
+      steps:
+        - "Look for cues in the question: years, ranks or citation counts point to structured data; authors, institutions or citations point to the graph; topic phrases point to text."
+        - Query only those sources, once each, in a fixed order.
+        - Answer from what was retrieved.
+      cost: One model call.
+    AR-01:
+      name: Adaptive-RAG-inspired
+      kind: method
+      inspired_by: Adaptive-RAG
+      one_line: A small trained classifier predicts whether to search zero, one or several sources.
+      steps:
+        - A t5-base classifier, trained on separate training questions, predicts no search, one search or multi-step.
+        - For multi-step, after each search the model decides whether the evidence is enough and, if not, writes the next query.
+        - At most 3 searches; if the controller fails, stop and answer with what has been gathered.
+      cost: Extra model calls for the multi-step controller.
+    AR-02:
+      name: CRAG-inspired corrective retrieval
+      kind: method
+      inspired_by: CRAG
+      one_line: Score the retrieved evidence and search further only if it looks weak.
+      steps:
+        - Search the first routed source.
+        - A cross-encoder scores how relevant the evidence is, calibrated on separate training questions.
+        - GOOD stops, AMBIGUOUS adds the next source, BAD adds all remaining sources; at most 2 correction rounds.
+      cost: No extra model calls; a small scoring model.
+    AR-03:
+      name: AGENT-G-inspired agent
+      kind: method
+      inspired_by: AGENT-G
+      one_line: An agent picks one search per step, drafts an answer, and a validator decides whether to continue.
+      steps:
+        - The agent chooses one tool (text, graph, structured or stop) and its query.
+        - After each search a draft answer is produced and a validator checks it against the evidence.
+        - If rejected, a commentor gives feedback for the next step; up to 4 iterations with guards against repeating actions.
+      cost: Several model calls per question.
+  findings:
+    - text: "All five policies produced the same answers (F1 = {F1}), so answer quality did not separate them."
+      values: {F1: RQ3.methods.AR-B1.answer_f1}
+    - text: "The rule router chose sources better than searching everything (source-selection F1 {B1} vs {B0}, adjusted p = {P}) and used fewer tokens."
+      values: {B1: RQ3.methods.AR-B1.source_f1, B0: RQ3.methods.AR-B0.source_f1, P: RQ3.test.source_f1.AR-B1~AR-B0.p_holm}
+    - text: "The learned and agentic policies cost significantly more tokens without better answers (AR-01 +{D01}, AR-03 +{D03} tokens against the rule router)."
+      values: {D01: RQ3.test.total_tokens.AR-01~AR-B1.delta, D03: RQ3.test.total_tokens.AR-03~AR-B1.delta}
+    - text: "The agent wasted almost no retrieval ({W}) but needed {C} model calls per question to get there."
+      values: {W: RQ3.methods.AR-03.unnecessary_retrieval, C: RQ3.methods.AR-03.llm_calls}
+
+# --------------------------------------------------------------------------------------------------------------- 8
+rq4:
+  page_intro: "Part 4: the combined system, built from the best choice of each part by a rule fixed before the results were known."
+  cohort: The same 28 questions as part 3.
+  selection_rule: >-
+    For each part, take the methods on the quality-versus-cost Pareto front and choose the one with the highest answer
+    F1; break ties by fewer tokens, then by a fixed order. Context management was fixed to CM-B1 in advance for cost.
+  findings:
+    - text: "The rule selected {AR}, then CM-B1 for context, then {CF} for fusion."
+      values: {AR: RQ4.selection.R-AR, CF: RQ4.selection.R-CF}
+    - text: "The combined system gave the same answers as both comparisons (F1 = {F1})."
+      values: {F1: RQ4.methods.INT-1.answer_f1}
+    - text: "It kept the router's better source selection, significantly better than searching everything (+{D}, adjusted p = {P})."
+      values: {D: RQ4.test.source_f1.INT-1~AR-B0.delta, P: RQ4.test.source_f1.INT-1~AR-B0.p_holm}
+    - text: "It used more tokens than the router alone (+{T}), because the fusion stage writes a larger context."
+      values: {T: RQ4.test.total_tokens.INT-1~AR-B1.delta}
+
+# --------------------------------------------------------------------------------------------------------------- 9
+summary:
+  page_intro: What the four studies show together.
+  key_findings:
+    - Under a fixed answer model and fixed retrievers, simple controls were the best trade-offs in every part (fixed top-K context, source-separated fusion, rule routing).
+    - No context-management, fusion or retrieval-control method improved answer quality with statistical support.
+    - Methods did differ significantly in cost, and the more elaborate methods were the more expensive ones.
+    - The main limit is upstream: the correct papers rarely all reach the model for questions that need several sources.
+  limitations:
+    - Small cohorts of correlated variants (8 to 14 independent families); these are validation results, not a locked test.
+    - Labels are programmatically verified; human review of the test sets is outstanding.
+    - Some text questions use exact phrases, which suits keyword search better than the meaning-based text retriever.
+    - Under the fixed top-5 graph retriever, context management has little to trim for single-search policies.
+    - One answer model was used throughout.
+  future_work:
+    - Improve upstream retrieval coverage for multi-source questions.
+    - Run the locked test after human review of the test sets.
+    - Repeat the comparisons with a stronger answer model.
+
+# --------------------------------------------------------------------------------------------------------------- 10
+try_it:
+  page_intro: Build a pipeline from the studied components, ask a question, and inspect every step it takes.
+  live_note: >-
+    Live answers come from the configured answer model. They show how the pipeline behaves and are not part of the
+    evaluated results.
+  replay_note: >-
+    Live questions are off in this deployment. Pick one of the evaluated questions to replay its recorded run for any
+    component choice that was evaluated.
+  builder_help: Choose a retrieval policy and a fusion method. Context management is fixed to CM-B1, as in the combined system.
+  compare_help: Run two pipelines on the same question and compare their traces side by side.
+
+# --------------------------------------------------------------------------------------------------------------- 11
+reproducibility:
+  page_intro: How every number here can be traced back and re-run.
+  points:
+    - Each study has a frozen execution plan listing the checksum of every code file, input and model it uses.
+    - This app reads one data bundle exported from those studies; its checksum is shown below and checked at start-up.
+    - Every model request and response is stored, so any result can be rebuilt without calling the model again.
+
+glossary:
+  family: The variants of one base question; treated as one independent unit in statistics.
+  stress_variant: A modified version of a base question (noisy, conflict or unanswerable) used to test robustness.
+  pareto: A choice that no other choice beats on every axis at once.
+  holm: A correction that keeps the chance of any false "significant" result low when several pairs are tested.
+  oracle_sources: The sources a question truly needs, known from how it was constructed; used only for evaluation.
+  replay: Rebuilding results from stored model responses, checking that every request is identical to the one sent.
+  control: A deliberately simple strategy that a sophisticated method must beat to be worth its cost.

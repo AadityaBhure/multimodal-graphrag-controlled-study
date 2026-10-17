@@ -37,3 +37,4 @@ documentation/rq1_repair/configs_local/** text eol=lf
 research/integration/** text eol=lf
 scripts/run_rq4.py text eol=lf
 documentation/rq4/** text eol=lf
+showcase/content/** text eol=lf
