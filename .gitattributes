@@ -29,3 +29,7 @@ documentation/rq2_repair/** text eol=lf
 # Historical RQ2 files whose original working bytes are LF (recorded by the RQ2 freeze); keep them LF on checkout
 research/rq2/*.py text eol=lf
 scripts/prepare_phase8.py text eol=lf
+# Local-backend frozen plans/configs and backend module
+research/local_llm.py text eol=lf
+documentation/rq1_repair/execution_plan_local.json text eol=lf
+documentation/rq1_repair/configs_local/** text eol=lf

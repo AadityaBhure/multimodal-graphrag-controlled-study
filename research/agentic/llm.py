@@ -77,6 +77,7 @@ class DurableLLM:
             # Local model (research/local_llm.py): same request/response contract; no provider quota or pacing.
             from research.local_llm import chat as local_chat, LOCAL_MODEL
             transport, self.model, min_spacing_s, daily_budget = local_chat, LOCAL_MODEL, 0., 10 ** 12
+        self.local = local
         self.clock, self.sleep, self.min_spacing = clock, sleep, min_spacing_s
         self.state_path = self.root / 'state.json'
         self.transport = transport or self._groq_transport()
@@ -175,6 +176,8 @@ class DurableLLM:
             try:
                 raw, usage, finish, resp_headers = self.transport(payload)
                 latency = (time.perf_counter() - t0) * 1000
+                if getattr(self, 'local', False) and usage and usage.get('server_ms') is not None:
+                    latency = usage['server_ms']           # local: model compute time (excludes thermal breaks / HTTP)
                 row.update(status='complete', raw=raw, usage=usage, finish_reason=finish, latency_ms=latency, headers=resp_headers)
                 try: debit = limit - int(resp_headers.get('x-ratelimit-remaining-tokens'))
                 except (TypeError, ValueError): debit = 0

@@ -6,6 +6,8 @@ and returns the same fields the studies record (content, finish reason, prompt/c
 apply locally, so the response carries non-binding rate-limit headers.
 """
 from types import SimpleNamespace
+import subprocess
+import time
 import httpx
 
 LOCAL_MODEL = 'gpt-oss:20b'
@@ -25,13 +27,38 @@ def _request(payload):
     return body
 
 
+HOT_C, COOL_C, BREAK_S = 80, 70, 600
+THERMAL_LOG = []
+
+
+def gpu_temp():
+    try:
+        return int(subprocess.check_output(['nvidia-smi', '--query-gpu=temperature.gpu', '--format=csv,noheader,nounits'], text=True).strip().splitlines()[0])
+    except Exception:
+        return None
+
+
+def thermal_guard(sleep=time.sleep):
+    """Before a request: at >= 80 C take a 10-minute break, then wait until < 70 C (GPU protection; never inside latency)."""
+    t = gpu_temp()
+    if t is not None and t >= HOT_C:
+        THERMAL_LOG.append({'t': time.time(), 'temp': t}); sleep(BREAK_S)
+        while (gpu_temp() or 0) >= COOL_C:
+            sleep(30)
+
+
 def chat(payload, timeout=900):
-    """-> (content, usage{prompt_tokens, completion_tokens, total_tokens}, finish_reason, headers)."""
+    """-> (content, usage{prompt_tokens, completion_tokens, total_tokens, server_ms}, finish_reason, headers).
+
+    server_ms = model compute time reported by Ollama (prompt evaluation + generation, excluding model loading); the
+    clients record it as the call latency, so thermal breaks and HTTP overhead never count as latency."""
+    thermal_guard()
     r = httpx.post(OLLAMA_URL + '/api/chat', json=_request(payload), timeout=timeout)
     r.raise_for_status()
     j = r.json()
     pin, pout = j.get('prompt_eval_count'), j.get('eval_count')
-    usage = {'prompt_tokens': pin, 'completion_tokens': pout, 'total_tokens': (pin or 0) + (pout or 0)} if pin is not None else None
+    server_ms = ((j.get('prompt_eval_duration') or 0) + (j.get('eval_duration') or 0)) / 1e6
+    usage = {'prompt_tokens': pin, 'completion_tokens': pout, 'total_tokens': (pin or 0) + (pout or 0), 'server_ms': server_ms} if pin is not None else None
     return (j.get('message') or {}).get('content') or '', usage, j.get('done_reason') or 'stop', dict(NO_LIMIT_HEADERS)
 
 
@@ -42,7 +69,7 @@ class LocalClient:
 
     def _create(self, **payload):
         content, usage, finish, headers = chat(payload)
-        u = SimpleNamespace(prompt_tokens=usage['prompt_tokens'], completion_tokens=usage['completion_tokens']) if usage else None
+        u = SimpleNamespace(prompt_tokens=usage['prompt_tokens'], completion_tokens=usage['completion_tokens'], server_ms=usage['server_ms']) if usage else None
         result = SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=content), finish_reason=finish)], usage=u)
         return SimpleNamespace(parse=lambda: result, status_code=200, headers=headers)
 

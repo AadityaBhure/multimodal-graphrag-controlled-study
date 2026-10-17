@@ -115,6 +115,7 @@ class Dispatcher:
             try:
                 response=self.client.chat.completions.with_raw_response.create(**payload)
                 result=response.parse();elapsed=(time.time()-started)*1000
+                if getattr(result.usage,'server_ms',None) is not None:elapsed=result.usage.server_ms  # local: model compute time only
                 row.update(status='complete',http_status=response.status_code,raw=result.choices[0].message.content or '',
                     finish_reason=result.choices[0].finish_reason,usage={'llm_calls':1,'generation_ms':elapsed,
                         'input_tokens':result.usage.prompt_tokens if result.usage else None,
