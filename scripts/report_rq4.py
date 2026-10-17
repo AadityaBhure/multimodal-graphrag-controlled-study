@@ -6,7 +6,8 @@ from research.agentic import analysis as A
 from scripts.report_phase9 import intrinsic
 
 D = ROOT / 'documentation/rq4'
-RQ3 = ROOT / 'documentation/phase9/runs'
+S = '_local' if '--local' in sys.argv else ''
+RQ3 = ROOT / ('documentation/phase9/runs' + S)
 METRICS = ('answer_f1', 'answer_em', 'recall_at_5', 'source_f1', 'retrieval_calls', 'llm_calls', 'total_tokens', 'intrinsic_ms')
 
 
@@ -17,8 +18,8 @@ def load(directory, n=28):
 
 
 def main():
-    sel = json.loads((D / 'selection.json').read_text(encoding='utf-8'))
-    rows = {'INT-1': load(D / 'runs/INT-1'), 'AR-B0': load(RQ3 / 'AR-B0')}
+    sel = json.loads((D / ('selection' + S + '.json')).read_text(encoding='utf-8'))
+    rows = {'INT-1': load(D / ('runs' + S) / 'INT-1'), 'AR-B0': load(RQ3 / 'AR-B0')}
     if sel['R-AR'] != 'AR-B0':
         rows[sel['R-AR']] = load(RQ3 / sel['R-AR'])
     desc = {m: {k: A.summarize(r, k)['mean'] for k in METRICS} for m, r in rows.items()}
@@ -34,8 +35,8 @@ def main():
               for s in ('normal', 'noisy')}
     out = {'design': 'documentation/rq4/RQ4_DESIGN.md', 'selection': sel, 'descriptive': desc, 'paired_tests': tests, 'strata': strata,
            'errors': {m: sum(x['error'] for x in r) for m, r in rows.items()}}
-    (D / 'analysis.json').write_text(json.dumps(out, indent=1, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
-    print('WROTE', D / 'analysis.json', '| significant answer F1:', [k for k, v in tests['answer_f1'].items() if v['significant']])
+    (D / ('analysis' + S + '.json')).write_text(json.dumps(out, indent=1, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
+    print('WROTE', D / ('analysis' + S + '.json'), '| significant answer F1:', [k for k, v in tests['answer_f1'].items() if v['significant']])
 
 
 if __name__ == '__main__':
