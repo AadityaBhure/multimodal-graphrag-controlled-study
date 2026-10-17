@@ -33,3 +33,7 @@ scripts/prepare_phase8.py text eol=lf
 research/local_llm.py text eol=lf
 documentation/rq1_repair/execution_plan_local.json text eol=lf
 documentation/rq1_repair/configs_local/** text eol=lf
+# Frozen RQ4 code, plans and configs
+research/integration/** text eol=lf
+scripts/run_rq4.py text eol=lf
+documentation/rq4/** text eol=lf
