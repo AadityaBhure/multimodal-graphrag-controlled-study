@@ -13,6 +13,9 @@ import httpx
 LOCAL_MODEL = 'gpt-oss:20b'
 OLLAMA_URL = 'http://127.0.0.1:11434'
 NUM_CTX = 16384
+# The short per-role caps (128-256 tokens) were cost controls for the provider quota. This model reasons before answering
+# and its reasoning counts against the cap, so under the local backend every call uses the final-answer cap.
+LOCAL_CAP = 1024
 NO_LIMIT_HEADERS = {'x-ratelimit-limit-tokens': '8000', 'x-ratelimit-remaining-tokens': '8000', 'x-ratelimit-remaining-requests': '999'}
 
 

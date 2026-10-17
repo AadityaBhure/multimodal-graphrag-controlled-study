@@ -130,6 +130,9 @@ class DurableLLM:
 
     # ------------------------------------------------------------------ call
     def chat(self, role, system, user, cap, seed, json_mode=True):
+        if getattr(self, 'local', False):
+            from research.local_llm import LOCAL_CAP
+            cap = LOCAL_CAP                                  # local backend: one cap for every role
         payload = self.payload(role, system, user, cap, seed, json_mode, self.model)
         identity = content_hash(payload); path = self.root / 'stages' / (identity + '.json')
         with FileLock(str(self.root / 'llm.lock'), timeout=0):

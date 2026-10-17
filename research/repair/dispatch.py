@@ -46,7 +46,7 @@ def write(path,row):
 
 class Dispatcher:
     daily_budget=DAILY_TOKEN_BUDGET;max_rate_limited=MAX_RATE_LIMITED_ATTEMPTS;replay_only=False
-    model='openai/gpt-oss-120b';spacing=90
+    model='openai/gpt-oss-120b';spacing=90;local=False
 
     def __init__(self,root,initial_headers,max_requests,local=False):
         self.root=Path(root);self.root.mkdir(parents=True,exist_ok=True)
@@ -55,7 +55,7 @@ class Dispatcher:
         if local:
             # Local model (research/local_llm.py): same request/response contract; no provider quota or pacing.
             from research.local_llm import LocalClient,LOCAL_MODEL
-            self.key='local-no-key';self.client=LocalClient();self.model=LOCAL_MODEL;self.spacing=0;self.daily_budget=10**12
+            self.key='local-no-key';self.client=LocalClient();self.model=LOCAL_MODEL;self.spacing=0;self.daily_budget=10**12;self.local=True
             self.ready=time.time()
             return
         self.key=groq_key()
@@ -70,6 +70,9 @@ class Dispatcher:
         return re.sub(r'\b(?:org|proj)_[A-Za-z0-9_-]+','[REDACTED_ACCOUNT]',s)
 
     def call(self,stage,system,user,seed,cap):
+        if self.local:
+            from research.local_llm import LOCAL_CAP
+            cap=LOCAL_CAP  # local backend: one cap for every role
         payload={'model':self.model,'temperature':0,'seed':seed,'max_completion_tokens':cap,
             'reasoning_effort':'low','response_format':{'type':'json_object'},
             'messages':[{'role':'system','content':system},{'role':'user','content':user}]}
