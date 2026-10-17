@@ -31,6 +31,7 @@ METHODS = ('CF-B0', 'CF-B1', 'CF-01', 'CF-02', 'CF-03')
 MAX_CALLS = 24 * (1 + 1 + 1 + 3 + 5)          # upper bound incl. CF-02 repair and CF-03 fusion retry
 EXTERNAL_LEDGERS = (ROOT / 'artifacts/phase9/llm_stages/state.json', ROOT / 'documentation/rq1_repair/dispatch/state.json')
 SETTINGS = D / 'RQ2_CANONICAL_SETTINGS.md'
+LOCAL, S = False, ''          # --local: local model backend; outputs use the '_local' suffix (frozen Groq plan unchanged)
 
 
 def requests(qids):
@@ -78,12 +79,13 @@ def audit():
 def configs(inputs):
     out = []
     for m in METHODS:
-        cfg = RunnerConfig(config_id='rq2-canonical-v1-' + m, system_id=m, system_version=CanonicalFusionSystem.version, query_ids=tuple(sorted(inputs)),
-                           model_ids=('openai/gpt-oss-120b',), embedding_model='sentence-transformers/all-MiniLM-L6-v2', fusion_method=m,
+        from research.local_llm import LOCAL_MODEL
+        cfg = RunnerConfig(config_id=('rq2-local-v1-' if LOCAL else 'rq2-canonical-v1-') + m, system_id=m, system_version=CanonicalFusionSystem.version,
+                           query_ids=tuple(sorted(inputs)), model_ids=(LOCAL_MODEL if LOCAL else 'openai/gpt-oss-120b',), embedding_model='sentence-transformers/all-MiniLM-L6-v2', fusion_method=m,
                            retrieval_parameters={'bundle_manifest_sha256': digest(ROOT / 'documentation/phase8/bundle_manifest.json'),
                                                  'prompt_version': P.PROMPT_VERSION, 'settings_sha256': digest(SETTINGS), 'context_chars': 24000,
                                                  'final_cap': P.FINAL_CAP, 'temperature': 0, 'reasoning_effort': 'low'})
-        p = D / 'configs' / (m + '.json'); save(p, cfg.model_dump(mode='json')); out.append({'path': p.relative_to(D).as_posix(), 'sha256': digest(p)})
+        p = D / ('configs' + S) / (m + '.json'); save(p, cfg.model_dump(mode='json')); out.append({'path': p.relative_to(D).as_posix(), 'sha256': digest(p)})
     return out
 
 
@@ -96,20 +98,21 @@ def freeze():
         raise SystemExit('local audit has not passed')
     impl = {p.relative_to(ROOT).as_posix(): digest(p) for p in sorted((ROOT / 'research/repair/rq2_canonical').glob('*.py'))}
     for extra in ('research/repair/dispatch.py', 'research/repair/schedule.py', 'research/rq2/fusion.py', 'research/rq2/contracts.py',
-                  'research/baselines/generation.py', 'scripts/run_rq2_canonical.py', 'scripts/prepare_phase8.py'):
+                  'research/baselines/generation.py', 'scripts/run_rq2_canonical.py', 'scripts/prepare_phase8.py', 'research/local_llm.py'):
         impl[extra] = digest(ROOT / extra)
-    plan = {'version': 'rq2-canonical-v1', 'configs': configs(inputs), 'implementation_sha256': impl, 'queries': sorted(inputs),
+    from research.local_llm import LOCAL_MODEL
+    plan = {'version': 'rq2-local-v1' if LOCAL else 'rq2-canonical-v1', 'backend': 'local (Ollama)' if LOCAL else 'groq', 'configs': configs(inputs), 'implementation_sha256': impl, 'queries': sorted(inputs),
             'settings_sha256': digest(SETTINGS), 'supportability_sha256': digest(D / 'supportability.json'), 'local_audit_sha256': digest(D / 'local_audit.json'),
             'bundle_manifest_sha256': digest(ROOT / 'documentation/phase8/bundle_manifest.json'), 'prompt_version': P.PROMPT_VERSION,
-            'maximum_successful_calls': MAX_CALLS, 'model': 'openai/gpt-oss-120b', 'temperature': 0, 'reasoning_effort': 'low',
+            'maximum_successful_calls': MAX_CALLS, 'model': LOCAL_MODEL if LOCAL else 'openai/gpt-oss-120b', 'temperature': 0, 'reasoning_effort': 'low',
             'admission': 'content + 128 <= 8000; successful-call counting; rolling 24 h ledger 190k shared with other studies; query-major provider order; replay_only runner',
             'external_ledgers': [p.relative_to(ROOT).as_posix() for p in EXTERNAL_LEDGERS], 'test_human_test': False, 'cohort_frozen_before_outcomes': True}
-    save(D / 'execution_plan.json', plan)
-    print('FROZEN rq2-canonical-v1:', len(impl), 'files,', len(plan['queries']), 'bundles, max', MAX_CALLS, 'calls')
+    save(D / ('execution_plan' + S + '.json'), plan)
+    print('FROZEN', plan['version'] + ':', len(impl), 'files,', len(plan['queries']), 'bundles, max', MAX_CALLS, 'calls')
 
 
 def execute():
-    plan = json.loads((D / 'execution_plan.json').read_text(encoding='utf-8'))
+    plan = json.loads((D / ('execution_plan' + S + '.json')).read_text(encoding='utf-8'))
     for p, sha in plan['implementation_sha256'].items():
         if digest(ROOT / p) != sha:
             raise SystemExit('Frozen RQ2 code changed: ' + p)
@@ -118,7 +121,7 @@ def execute():
             raise SystemExit('Frozen RQ2 config changed: ' + c['path'])
     inputs = load_inputs(); assert sorted(inputs) == plan['queries']
     registry = load_registry(inputs); reader, qs = requests(sorted(inputs))
-    provenance = code_provenance(); provpath = D / 'execution_code.json'
+    provenance = code_provenance(); provpath = D / ('execution_code' + S + '.json')
     if provpath.exists():
         old = json.loads(provpath.read_text(encoding='utf-8'))
         if old['source_tree_hash'] != provenance['source_tree_hash']:
@@ -127,22 +130,27 @@ def execute():
     else:
         save(provpath, provenance)
     headers = json.loads((ROOT / 'documentation/rq1_repair/provider_preflight/diagnostic.json').read_text())['completion']['headers']
-    dispatcher = SharedQuotaDispatcher(D / 'dispatch', headers, plan['maximum_successful_calls'], EXTERNAL_LEDGERS)
+    if LOCAL:
+        from research.repair.dispatch import Dispatcher
+        dispatcher = object.__new__(SharedQuotaDispatcher)       # local backend: no provider quota to share
+        Dispatcher.__init__(dispatcher, D / ('dispatch' + S), headers, plan['maximum_successful_calls'], local=True); dispatcher.external_ledgers = ()
+    else:
+        dispatcher = SharedQuotaDispatcher(D / 'dispatch', headers, plan['maximum_successful_calls'], EXTERNAL_LEDGERS)
     cfgs = {c['path'].split('/')[-1][:-5]: RunnerConfig.model_validate_json((D / c['path']).read_text(encoding='utf-8')) for c in plan['configs']}
     try:
         ahead = {m: CanonicalFusionSystem(m, inputs, registry, dispatcher.call) for m in METHODS}
         def one(qid, m):
             seed = int(content_hash({'seed': cfgs[m].seed, 'query_id': qid})[:8], 16); seed_everything(seed)
             ahead[m].execute(SystemInput(query_id=qid, question=qs[qid].question, seed=seed, overlay=reader.overlay(qs[qid])))
-        prefetch(interleaved(inputs, METHODS), one, D / 'prefetch')
+        prefetch(interleaved(inputs, METHODS), one, D / ('prefetch' + S))
         dispatcher.replay_only = True
         for m in METHODS:
             t = time.perf_counter()
-            run(cfgs[m], BENCH, D / 'runs' / m, CanonicalFusionSystem(m, inputs, registry, dispatcher.call), provenance=provenance)
+            run(cfgs[m], BENCH, D / ('runs' + S) / m, CanonicalFusionSystem(m, inputs, registry, dispatcher.call), provenance=provenance)
             print('METHOD COMPLETE', m, round(time.perf_counter() - t, 1), flush=True)
-        write(D / 'execution_status.json', {'status': 'executed_pending_analysis'})
+        write(D / ('execution_status' + S + '.json'), {'status': 'executed_pending_analysis'})
     except Paused as exc:
-        write(D / 'execution_status.json', {'status': 'paused', 'reason': str(exc)}); raise
+        write(D / ('execution_status' + S + '.json'), {'status': 'paused', 'reason': str(exc)}); raise
     finally:
         dispatcher.close()
 
@@ -151,5 +159,8 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser(); g = ap.add_mutually_exclusive_group(required=True)
     for f in ('supportability', 'audit', 'freeze', 'execute'):
         g.add_argument('--' + f, action='store_true')
+    ap.add_argument('--local', action='store_true')
     a = ap.parse_args()
+    if a.local:
+        LOCAL, S = True, '_local'
     (supportability if a.supportability else audit if a.audit else freeze if a.freeze else execute)()
