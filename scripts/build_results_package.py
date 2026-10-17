@@ -27,7 +27,9 @@ def rq1_view(a):
             desc.setdefault(t['method'], {})[t['metric']] = t['mean']
     tests = {'%s vs %s' % (c['a'], c['b']): {'mean_delta': c['mean'], 'ci95_family_bootstrap': c['ci95'], 'p_sign_flip': c['p_cluster_sign_permutation'],
                                              'p_holm': c.get('p_holm'), 'significant': (c.get('p_holm') or 1) < .05} for c in a['paired_f1']}
-    return {'descriptive': desc, 'paired_tests': {'answer_f1': tests}, 'pareto': ['CM-B1', 'CM-01', 'CM-02']}
+    from research.agentic.analysis import pareto
+    front = pareto({m: desc[m] for m in desc}, ('f1', 'mrr'), ('input_tokens', 'intrinsic_total_ms'))
+    return {'descriptive': desc, 'paired_tests': {'answer_f1': tests}, 'pareto': front}
 
 
 def fmt(v):

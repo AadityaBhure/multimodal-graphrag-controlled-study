@@ -40,3 +40,6 @@ Approved by the user: at most two weeks remain, bounded by the free Groq quota (
 | 12–14 | reserve | RQ4 analysis, results package |
 
 Changes: RQ3 runs before RQ2 (independent of RQ1/RQ2 outcomes); RQ3 cohort 56 → 28 (all 14 families, normal + noisy); RQ2 fusion-isolation study dropped; Phase 11 locked test out of scope — all results are validation results. Unchanged: methods, prompts, models, caps, the RQ2 24-bundle primary study, no test/human_test, no post-hoc tuning.
+
+## Status 2026-10-17 — studies complete (local backend)
+All four studies were re-run from scratch on one local model (`LOCAL_BACKEND.md`; decision log PR-13) and are complete: RQ1, RQ3, RQ2 and RQ4 local runs, each with 0 errors, analysed per their frozen plans. Results: `documentation/results/RESULTS.md`; paper draft: `documentation/paper/PAPER_DRAFT.md`. Remaining outside this scope: the locked final test and the 2,801 human reviews.
