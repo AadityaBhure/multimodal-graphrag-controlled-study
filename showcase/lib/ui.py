@@ -17,12 +17,12 @@ LIGHT = ('--ink:#0f172a;--body:#1e293b;--muted:#475569;--faint:#64748b;--line:#e
          '--blue:#1d4ed8;--blue-soft:#eff6ff;--blue-line:#bfdbfe;--note-bg:#f8fafc;--caution-bg:#fffbeb;--good-bg:#f0fdf4;--ok-line:#bbf7d0;'
          '--warn-line:#fde68a;--best-bg:#ecfdf5;--best-ink:#065f46;--hl-t:#e0e7ff;--hl-g:#ccfbf1;--hl-s:#ffedd5;--hover:#fafcff;--ok:#15803d;--no:#b91c1c;'
          '--b-control-bg:#e2e8f0;--b-control:#334155;--b-method-bg:#dbeafe;--b-method:#1e40af;--b-sig-bg:#dcfce7;--b-sig:#166534;--b-ns-bg:#f1f5f9;'
-         '--b-ns:#64748b;--b-par-bg:#fef3c7;--b-par:#92400e;--b-rep-bg:#e0e7ff;--b-rep:#3730a3')
+         '--b-ns:#64748b;--b-par-bg:#fef3c7;--b-par:#92400e;--b-rep-bg:#e0e7ff;--b-rep:#3730a3;--win-bg:#fffbeb;--win-line:#f59e0b')
 DARK = ('--ink:#f1f5f9;--body:#e2e8f0;--muted:#cbd5e1;--faint:#94a3b8;--line:#334155;--line2:#475569;--soft:#1e293b;--card:#0f172a;'
         '--blue:#93c5fd;--blue-soft:#172554;--blue-line:#1e40af;--note-bg:#1e293b;--caution-bg:#3b2a07;--good-bg:#052e16;--ok-line:#166534;'
         '--warn-line:#a16207;--best-bg:#064e3b;--best-ink:#a7f3d0;--hl-t:#312e81;--hl-g:#134e4a;--hl-s:#7c2d12;--hover:#172036;--ok:#4ade80;--no:#f87171;'
         '--b-control-bg:#334155;--b-control:#e2e8f0;--b-method-bg:#1e3a8a;--b-method:#dbeafe;--b-sig-bg:#14532d;--b-sig:#bbf7d0;--b-ns-bg:#1e293b;'
-        '--b-ns:#94a3b8;--b-par-bg:#78350f;--b-par:#fef3c7;--b-rep-bg:#312e81;--b-rep:#e0e7ff')
+        '--b-ns:#94a3b8;--b-par-bg:#78350f;--b-par:#fef3c7;--b-rep-bg:#312e81;--b-rep:#e0e7ff;--win-bg:#2a1f05;--win-line:#d97706')
 
 CSS = """
 <style>
@@ -90,6 +90,15 @@ table.sc .i{cursor:help;color:var(--faint);font-weight:400}
 .tl .e .h{font-weight:700}.tl .e .m{color:var(--faint);font-size:.82rem}
 .tl .e code{font-size:.8rem;white-space:pre-wrap;word-break:break-word}
 .small{font-size:.84rem;color:var(--muted)}
+.winner{display:flex;gap:16px;align-items:flex-start;border:2px solid var(--win-line);background:var(--win-bg);border-radius:14px;padding:14px 18px;margin:10px 0}
+.winner .cup{font-size:2.2rem;line-height:1}
+.winner h3{margin:0 0 4px 0;padding:0;font-size:1.35rem;color:var(--ink)}
+.winner p{margin:0;color:var(--body);font-size:1rem;line-height:1.5}
+.badge.win{background:var(--win-line);color:#fff}
+.sit{border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;padding:10px 14px;background:var(--card);height:100%;box-sizing:border-box}
+.sit .w{font-size:.78rem;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
+.sit h4{margin:2px 0 4px 0;font-size:1.02rem;color:var(--ink)}
+.sit p{margin:0;color:var(--body);font-size:.92rem;line-height:1.45}
 </style>
 """
 
@@ -103,8 +112,12 @@ header[data-testid="stHeader"]{display:none}
 
 
 def dark():
-    """True when the browser shows the app in a dark theme (a host that does not apply the launch theme)."""
+    """Dark styling only when the app really is dark: a configured theme (launch.py, container) decides; without one,
+    the browser's theme does (hosts that start the app without the launcher)."""
     try:
+        base = st.get_option('theme.base')
+        if base in ('light', 'dark'):
+            return base == 'dark'
         return getattr(st.context.theme, 'type', None) == 'dark'
     except Exception:          # no browser context (tests, bare mode)
         return False
@@ -259,3 +272,31 @@ def nav_footer(prev=None, next_=None):
         c1.page_link(prev[0], label='← ' + prev[1])
     if next_:
         c2.page_link(next_[0], label=next_[1] + ' →')
+
+
+def winner_card(kicker, title, text):
+    html('<div class="winner"><div class="cup">🏆</div><div><div class="kicker">%s</div><h3>%s</h3><p>%s</p></div></div>' % (e(kicker), e(title), e(text)))
+
+
+def situation_card(when, title, text, color):
+    html('<div class="sit" style="border-left-color:%s"><div class="w">%s</div><h4>%s</h4><p>%s</p></div>' % (color, e(when), e(title), e(text)))
+
+
+def ranking_table(overall, desc, metrics_text, names=None):
+    """Overall-performance ranking: rank (and value) on each measure, rank total and scaled score; winner first."""
+    axes = overall['axes']
+    head = ''.join('<th title="%s">%s <span class="i">ⓘ</span><br><span class="dir">rank (value) · %s</span></th>'
+                   % (e((metrics_text.get(a['metric']) or {}).get('plain', '')), e((metrics_text.get(a['metric']) or {}).get('name', a['metric'])),
+                      '↑ better' if a['direction'] == 'higher' else '↓ better') for a in axes)
+    rows = []
+    for pos, m in enumerate(overall['order'], 1):
+        cells = ''.join('<td><b>%s</b> <span class="dir">(%s)</span></td>' % (e(fmt(overall['ranks'][m][a['metric']], 'rank')), e(fmt_metric(desc[m].get(a['metric']), a['metric'])))
+                        for a in axes)
+        win = m == overall['winner']
+        label = '<span class="swatch" style="background:%s"></span><b>%s</b> %s%s' % (method_color(m), e(m), e((names or {}).get(m, '')),
+                                                                                    ' ' + badge('🏆 overall winner', 'win') if win else '')
+        rows.append('<tr><td>%d</td><td>%s</td>%s<td%s><b>%s</b></td><td>%s</td></tr>' % (
+            pos, label, cells, ' class="best"' if win else '', e(fmt(overall['total'][m], 'rank')), e(fmt(overall['scaled'][m], 'rate'))))
+    html('<table class="sc"><thead><tr><th>#</th><th>Method</th>%s<th title="Sum of the ranks; lower is better">Rank total<br><span class="dir">↓ better</span></th>'
+         '<th title="Mean of the measures scaled to 0-1 (1 = best on that measure); a check on the rank total">Scaled score<br><span class="dir">↑ better</span></th>'
+         '</tr></thead><tbody>%s</tbody></table>' % (head, ''.join(rows)))

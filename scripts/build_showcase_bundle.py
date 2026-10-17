@@ -36,6 +36,7 @@ REL = {'AUTHOR-WRITES-PAPER': 'WRITES', 'AUTHOR-AFFILIATED_WITH-INSTITUTION': 'A
        'PAPER-HAS_TOPIC-FIELD_OF_STUDY': 'HAS_TOPIC'}
 REL_ID = {0: 'AUTHOR-AFFILIATED_WITH-INSTITUTION', 1: 'PAPER-CITES-PAPER', 2: 'PAPER-HAS_TOPIC-FIELD_OF_STUDY', 3: 'AUTHOR-WRITES-PAPER'}
 REL_TYPES = {'WRITES': ('author', 'paper'), 'AFFILIATED_WITH': ('author', 'institution'), 'CITES': ('paper', 'paper'), 'HAS_TOPIC': ('paper', 'field_of_study')}
+RANKING = DOC / 'results/overall_ranking.json'
 EXAMPLE_FAMILY = 'generated:69a22c3b4989b07ed6c3'   # a text+graph+structured family present in RQ1, RQ2 and RQ3
 GRAPH_VIEW_NODES, GRAPH_VIEW_EDGES = 60, 140         # display cap only; the caption states what is shown
 
@@ -549,12 +550,22 @@ def build():
     results = {'RQ1': rq1_results(), 'RQ2': rq_results('RQ2'), 'RQ3': rq_results('RQ3'), 'RQ4': rq_results('RQ4')}
     for rq in results:
         results[rq].update(methods=METHODS[rq], controls=CONTROLS[rq], pareto_axes=dict(zip(('higher', 'lower'), PARETO_AXES.get(rq, ([], [])))))
+    ranking = load(RANKING)                                      # overall winners (scripts/build_results_package.py, PR-15)
+    for rq, part in ranking['parts'].items():
+        assert all(abs(part['total'][m] - sum(part['ranks'][m].values())) < 1e-9 for m in part['total']), rq
+        results[rq]['overall'] = {**part, 'rule': ranking['rule']}
+    results['RQ4']['combined'] = ranking['combined']
     titles = set()
     store = Stores(DATA, WORK, BaselineOptions(), modalities=('text', 'graph', 'structured'))
     try:
         ex = {'RQ1': rq1_explorer(store, titles), 'RQ2': rq2_explorer(titles), 'RQ3': rq3_explorer(titles), 'RQ4': rq4_explorer(titles)}
         cohorts = {rq: e['queries'] for rq, e in ex.items()}
         queries = query_table(reader, cohorts, titles)
+        for rq in ('RQ3', 'RQ4'):                                   # group sizes for Parts 3-4 (Parts 1-2 carry them from their analyses)
+            n = Counter()
+            for q in cohorts[rq]:
+                n['stress:' + queries[q]['stress']] += 1; n['modality:' + queries[q]['modality']] += 1
+            results[rq]['strata_n'] = dict(sorted(n.items()))
         found = foundation(store, reader, cohorts, titles)
         ids = sorted(titles); papers = {}
         for i in range(0, len(ids), 400):
@@ -568,7 +579,7 @@ def build():
              'stats_demo.json': dump(stats_demo(results))}
     for rq, e in ex.items():
         files['explorer_%s.json.gz' % rq.lower()] = gzip.compress(dump(e), compresslevel=9, mtime=0)
-    sources = sorted([*ANALYSIS.values(), DOC / 'rq2_repair/supportability.json', DOC / 'rq4/selection_local.json', DOC / 'SCOPE_REVISION_2026-10-15.json',
+    sources = sorted([*ANALYSIS.values(), RANKING, DOC / 'rq2_repair/supportability.json', DOC / 'rq4/selection_local.json', DOC / 'SCOPE_REVISION_2026-10-15.json',
                       BENCH / 'validation.jsonl', BENCH / 'benchmark_stats.json', DATA / 'manifest.json'])
     manifest = {'bundle_version': 1, 'files': {k: {'sha256': hashlib.sha256(v).hexdigest(), 'bytes': len(v)} for k, v in sorted(files.items())},
                 'sources': {p.relative_to(ROOT).as_posix(): digest(p) for p in sources},

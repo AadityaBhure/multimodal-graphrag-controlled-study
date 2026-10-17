@@ -9,6 +9,9 @@ A finding is written once with named placeholders, e.g. "F1 = {F1}", and a `valu
     RQx.max.<metric>                              largest method mean
     RQ2.support.<CLASS>                           number of RQ2 bundles in a supportability class
     RQ4.selection.<key>                           a component chosen by the frozen RQ4 rule
+    RQx.overall.winner | RQx.overall.total.<M>    overall winner of a part / a method's rank total
+    RQx.strata.<dim>.<value>.<method>.<metric>    mean within one question group (e.g. modality.G)
+    RQx.n.<dim>.<value>                           number of questions in that group
 
 A binding may end in |pct, |ratio, |tokens, |rate, |p or |text to override the default format of its metric.
 """
@@ -71,6 +74,18 @@ def resolve(key, results):
             value, kind = r['supportability']['counts'][parts[2]], 'count'
         elif what == 'selection':
             value, kind = r['selection'][parts[2]], 'text'
+        elif what == 'overall':
+            if parts[2] == 'winner':
+                value, kind = r['overall']['winner'], 'text'
+            elif parts[2] == 'total':
+                value, kind = r['overall']['total'][parts[3]], 'rank'
+            else:
+                raise BindingError(key)
+        elif what == 'strata':
+            dim, val, method, metric = parts[2], parts[3], parts[4], parts[5]
+            value, kind = r['strata'][dim][val][method][metric], kind_of(metric)
+        elif what == 'n':
+            value, kind = r['strata_n']['%s:%s' % (parts[2], parts[3])], 'count'
         else:
             raise BindingError(key)
     except (KeyError, IndexError, ValueError) as exc:

@@ -56,6 +56,8 @@ def fmt(value, kind='number', sign=False):
         return '< 0.001' if value < 0.001 else number(value, 3)
     if kind == 'ratio':
         return number(value, 1)
+    if kind == 'rank':
+        return number(value, 0 if abs(value - round(value)) < 1e-9 else 1)
     return number(value, 3 if abs(value) < 100 else 0, sign)
 
 

@@ -84,3 +84,39 @@ Selection: {"CM": "CM-B1", "R-AR": "AR-B1", "R-CF": "CF-B1", "rq2_analysis_sha25
 
 ![RQ4](fig_rq4_quality_cost.png)
 
+## Overall ranking (one winner per part)
+
+Rank 1-5 on each frozen Pareto axis of the part (equal weight, average ranks for ties); lowest total wins; ties: higher answer F1, fewer tokens, then B1, 01, 02, 03, B0. Check: mean of min-max scaled axis scores.
+
+**RQ1 — winner: CM-B1** (scaled-score check: CM-B1; quality-first rule: CM-01)
+
+| Method | rank: answer_f1 | rank: mrr | rank: input_tokens | rank: latency | Rank total | Scaled score |
+|---|---|---|---|---|---|---|
+| CM-B1 | 2 | 2 | 1 | 2 | 7 | 0.838 |
+| CM-01 | 1 | 1 | 5 | 4 | 11 | 0.667 |
+| CM-02 | 3 | 5 | 2 | 1 | 11 | 0.501 |
+| CM-B0 | 4.5 | 3 | 4 | 3 | 14.5 | 0.417 |
+| CM-03 | 4.5 | 4 | 3 | 5 | 16.5 | 0.246 |
+
+**RQ2 — winner: CF-B1** (scaled-score check: CF-B1; quality-first rule: CF-B1)
+
+| Method | rank: answer_f1 | rank: input_tokens | rank: latency | Rank total | Scaled score |
+|---|---|---|---|---|---|
+| CF-B1 | 3 | 1 | 1 | 5 | 1.000 |
+| CF-02 | 3 | 2 | 4 | 9 | 0.858 |
+| CF-B0 | 3 | 3 | 3 | 9 | 0.746 |
+| CF-01 | 3 | 5 | 2 | 10 | 0.645 |
+| CF-03 | 3 | 4 | 5 | 12 | 0.388 |
+
+**RQ3 — winner: AR-B1** (scaled-score check: AR-B1; quality-first rule: AR-B1)
+
+| Method | rank: answer_f1 | rank: source_f1 | rank: total_tokens | rank: latency | Rank total | Scaled score |
+|---|---|---|---|---|---|---|
+| AR-B1 | 3 | 1 | 1 | 1 | 6 | 1.000 |
+| AR-02 | 3 | 4 | 2 | 2 | 11 | 0.878 |
+| AR-B0 | 3 | 5 | 3 | 3 | 14 | 0.711 |
+| AR-01 | 3 | 3 | 4 | 4 | 14 | 0.733 |
+| AR-03 | 3 | 2 | 5 | 5 | 15 | 0.493 |
+
+Combined (RQ4): winners {'RQ1': 'CM-B1', 'RQ2': 'CF-B1', 'RQ3': 'AR-B1'}; INT-1 pipeline AR-B1 -> CM-B1 -> CF-B1; identical: True
+

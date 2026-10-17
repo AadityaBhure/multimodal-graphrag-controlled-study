@@ -4,7 +4,7 @@ import io
 import pandas as pd
 import streamlit as st
 from showcase.lib import state, ui, charts, explorer
-from showcase.lib.content import findings as render_findings
+from showcase.lib.content import findings as render_findings, render as render_text
 from showcase.lib.fmt import metric as fmt_metric, fmt
 from showcase.lib.ui import e, html
 
@@ -78,6 +78,41 @@ def results(rq, S, R, C):
         k = st.pills('Metric', opts, default=opts[0], key=rq + '_metric', format_func=lambda x: dict(COLUMNS[rq])[x], label_visibility='collapsed') or opts[0]
         charts.method_bars(R['descriptive'], R['methods'], k, dict(COLUMNS[rq])[k], ci=R.get('ci95'), pareto=R.get('pareto', []))
         st.caption((M.get(k) or {}).get('plain', '') + (' Whiskers: family-clustered 95 % bootstrap interval of the mean.' if R.get('ci95') else ''))
+
+
+def ordinal(r):
+    r = float(r)
+    if abs(r - round(r)) > 1e-9:
+        return 'shared %s' % fmt(r, 'rank')
+    r = int(round(r))
+    return '%d%s' % (r, {1: 'st', 2: 'nd', 3: 'rd'}.get(r if r < 20 else r % 10, 'th'))
+
+
+def winner_banner(rq, S, R):
+    o, ov = R['overall'], S['overall']
+    w = o['winner']
+    ui.winner_card('Overall winner of Part %d' % PART[rq], '%s · %s' % (w, S['methods'][w]['name']), render_text(ov['summary']['text'], ov['summary']['values'],
+                                                                                                        state.bundle().results))
+
+
+def overall(rq, S, R, C):
+    o, ov, M = R['overall'], S['overall'], C['evaluation']['metrics']
+    names = {m: S['methods'][m]['name'] for m in R['methods']}
+    ui.section('Overall winner', 'overall', C['evaluation']['overall']['rule'])
+    ui.ranking_table(o, R['descriptive'], M, names=names)
+    w, runner = o['order'][0], o['order'][1]
+    ranks = ', '.join('%s on %s' % (ordinal(o['ranks'][w][a['metric']]), (M.get(a['metric']) or {}).get('name', a['metric']).lower()) for a in o['axes'])
+    check = ('Averaging the scaled scores instead of the ranks picks the same winner.' if o['winner_scaled'] == w
+             else 'Averaging the scaled scores instead of the ranks would pick %s.' % o['winner_scaled'])
+    ui.callout('%s ranks %s: rank total %s against %s for the runner-up, %s. %s' % (w, ranks, fmt(o['total'][w], 'rank'), fmt(o['total'][runner], 'rank'), runner, check), 'good')
+    st.caption(C['evaluation']['overall']['note'])
+    st.markdown('#### When another strategy is the better pick')
+    sits = ov['situations']
+    for i in range(0, len(sits), 2):
+        for col, s_ in zip(st.columns(2), sits[i:i + 2]):
+            with col:
+                ui.situation_card(s_['when'], '%s · %s' % (s_['pick'], S['methods'][s_['pick']]['name']), render_text(s_['text'], s_['values'], state.bundle().results),
+                                  ui.method_color(s_['pick']))
 
 
 def tests(rq, R, C):
@@ -158,7 +193,7 @@ def render(rq):
     S, R, part = C[rq.lower()], B.results[rq], C['decomposition']['parts'][rq]
     ui.page_header('Part %d of 4' % PART[rq], 'Part %d · %s' % (PART[rq], part['name']), S['page_intro'],
                    chips=[S['cohort'], '%d independent families' % R['cohort']['families'], '5 strategies'])
-    ui.toc([('question', 'The question'), ('strategies', 'Strategies'), ('results', 'Results'), ('tests', 'Real differences?'),
+    ui.toc([('question', 'The question'), ('strategies', 'Strategies'), ('results', 'Results'), ('overall', 'Overall winner'), ('tests', 'Real differences?'),
             ('findings', 'Findings'), ('breakdown', 'Breakdown')] + ([('support', 'Supportability')] if rq == 'RQ2' else [])
            + ([('stops', 'Stopping')] if rq == 'RQ3' else []) + [('explore', 'Look inside one question')])
     ui.section('The question', 'question')
@@ -166,8 +201,10 @@ def render(rq):
     for col, (t, k) in zip(st.columns(3), (('What changes', 'varies'), ('What stays fixed', 'fixed'), ('Judged by', 'judged_by'))):
         with col:
             html('<div class="card tight"><h4>%s</h4><p>%s</p></div>' % (e(t), e(part[k])))
+    winner_banner(rq, S, R)
     strategies(rq, S, R)
     results(rq, S, R, C)
+    overall(rq, S, R, C)
     tests(rq, R, C)
     findings(rq, S, R)
     breakdown(rq, R, C)

@@ -1,0 +1,237 @@
+{
+ "combined": {
+  "matches_rq4": true,
+  "rq4_pipeline": [
+   "AR-B1",
+   "CM-B1",
+   "CF-B1"
+  ],
+  "winners": {
+   "RQ1": "CM-B1",
+   "RQ2": "CF-B1",
+   "RQ3": "AR-B1"
+  }
+ },
+ "parts": {
+  "RQ1": {
+   "axes": [
+    {
+     "direction": "higher",
+     "metric": "answer_f1"
+    },
+    {
+     "direction": "higher",
+     "metric": "mrr"
+    },
+    {
+     "direction": "lower",
+     "metric": "input_tokens"
+    },
+    {
+     "direction": "lower",
+     "metric": "latency"
+    }
+   ],
+   "order": [
+    "CM-B1",
+    "CM-01",
+    "CM-02",
+    "CM-B0",
+    "CM-03"
+   ],
+   "ranks": {
+    "CM-01": {
+     "answer_f1": 1.0,
+     "input_tokens": 5.0,
+     "latency": 4.0,
+     "mrr": 1.0
+    },
+    "CM-02": {
+     "answer_f1": 3.0,
+     "input_tokens": 2.0,
+     "latency": 1.0,
+     "mrr": 5.0
+    },
+    "CM-03": {
+     "answer_f1": 4.5,
+     "input_tokens": 3.0,
+     "latency": 5.0,
+     "mrr": 4.0
+    },
+    "CM-B0": {
+     "answer_f1": 4.5,
+     "input_tokens": 4.0,
+     "latency": 3.0,
+     "mrr": 3.0
+    },
+    "CM-B1": {
+     "answer_f1": 2.0,
+     "input_tokens": 1.0,
+     "latency": 2.0,
+     "mrr": 2.0
+    }
+   },
+   "scaled": {
+    "CM-01": 0.6674683243028385,
+    "CM-02": 0.5009679685988124,
+    "CM-03": 0.24589068868516173,
+    "CM-B0": 0.4167677910392016,
+    "CM-B1": 0.8383675656480358
+   },
+   "total": {
+    "CM-01": 11.0,
+    "CM-02": 11.0,
+    "CM-03": 16.5,
+    "CM-B0": 14.5,
+    "CM-B1": 7.0
+   },
+   "winner": "CM-B1",
+   "winner_quality_first": "CM-01",
+   "winner_scaled": "CM-B1"
+  },
+  "RQ2": {
+   "axes": [
+    {
+     "direction": "higher",
+     "metric": "answer_f1"
+    },
+    {
+     "direction": "lower",
+     "metric": "input_tokens"
+    },
+    {
+     "direction": "lower",
+     "metric": "latency"
+    }
+   ],
+   "order": [
+    "CF-B1",
+    "CF-02",
+    "CF-B0",
+    "CF-01",
+    "CF-03"
+   ],
+   "ranks": {
+    "CF-01": {
+     "answer_f1": 3.0,
+     "input_tokens": 5.0,
+     "latency": 2.0
+    },
+    "CF-02": {
+     "answer_f1": 3.0,
+     "input_tokens": 2.0,
+     "latency": 4.0
+    },
+    "CF-03": {
+     "answer_f1": 3.0,
+     "input_tokens": 4.0,
+     "latency": 5.0
+    },
+    "CF-B0": {
+     "answer_f1": 3.0,
+     "input_tokens": 3.0,
+     "latency": 3.0
+    },
+    "CF-B1": {
+     "answer_f1": 3.0,
+     "input_tokens": 1.0,
+     "latency": 1.0
+    }
+   },
+   "scaled": {
+    "CF-01": 0.6448630466391501,
+    "CF-02": 0.8582403539354342,
+    "CF-03": 0.3878426298639064,
+    "CF-B0": 0.745874238554963,
+    "CF-B1": 1.0
+   },
+   "total": {
+    "CF-01": 10.0,
+    "CF-02": 9.0,
+    "CF-03": 12.0,
+    "CF-B0": 9.0,
+    "CF-B1": 5.0
+   },
+   "winner": "CF-B1",
+   "winner_quality_first": "CF-B1",
+   "winner_scaled": "CF-B1"
+  },
+  "RQ3": {
+   "axes": [
+    {
+     "direction": "higher",
+     "metric": "answer_f1"
+    },
+    {
+     "direction": "higher",
+     "metric": "source_f1"
+    },
+    {
+     "direction": "lower",
+     "metric": "total_tokens"
+    },
+    {
+     "direction": "lower",
+     "metric": "latency"
+    }
+   ],
+   "order": [
+    "AR-B1",
+    "AR-02",
+    "AR-B0",
+    "AR-01",
+    "AR-03"
+   ],
+   "ranks": {
+    "AR-01": {
+     "answer_f1": 3.0,
+     "latency": 4.0,
+     "source_f1": 3.0,
+     "total_tokens": 4.0
+    },
+    "AR-02": {
+     "answer_f1": 3.0,
+     "latency": 2.0,
+     "source_f1": 4.0,
+     "total_tokens": 2.0
+    },
+    "AR-03": {
+     "answer_f1": 3.0,
+     "latency": 5.0,
+     "source_f1": 2.0,
+     "total_tokens": 5.0
+    },
+    "AR-B0": {
+     "answer_f1": 3.0,
+     "latency": 3.0,
+     "source_f1": 5.0,
+     "total_tokens": 3.0
+    },
+    "AR-B1": {
+     "answer_f1": 3.0,
+     "latency": 1.0,
+     "source_f1": 1.0,
+     "total_tokens": 1.0
+    }
+   },
+   "scaled": {
+    "AR-01": 0.7329995044699849,
+    "AR-02": 0.8778221409366248,
+    "AR-03": 0.49324324324324326,
+    "AR-B0": 0.7112184383789733,
+    "AR-B1": 1.0
+   },
+   "total": {
+    "AR-01": 14.0,
+    "AR-02": 11.0,
+    "AR-03": 15.0,
+    "AR-B0": 14.0,
+    "AR-B1": 6.0
+   },
+   "winner": "AR-B1",
+   "winner_quality_first": "AR-B1",
+   "winner_scaled": "AR-B1"
+  }
+ },
+ "rule": "Rank 1-5 on each frozen Pareto axis of the part (equal weight, average ranks for ties); lowest total wins; ties: higher answer F1, fewer tokens, then B1, 01, 02, 03, B0. Check: mean of min-max scaled axis scores."
+}

@@ -1,5 +1,5 @@
 {
- "bundle_sha256": "3522d098bb5d99ddebb6855edd9878078db709a55447d28f0d01530153e14cfb",
+ "bundle_sha256": "0d0c896f0c17e2649af0b008656dcd495dce50a61d7f6a20ff6e56e4775737d6",
  "bundle_version": 1,
  "files": {
   "explorer_rq1.json.gz": {
@@ -31,8 +31,8 @@
    "sha256": "1f40e38adecfa594c4831c7f3f31c110995564046ee97efb47bb21c2014d78c3"
   },
   "results.json": {
-   "bytes": 55073,
-   "sha256": "9c8adb9627fc6f8a64e882279f212b3aeddfffaa05ce552a01c5904697238a2a"
+   "bytes": 58764,
+   "sha256": "12fca7536a605e2551a052a22a4e413e6cbf5ef4d26bd0918d4c1e41e21be6ee"
   },
   "stats_demo.json": {
    "bytes": 10869,
@@ -71,6 +71,7 @@
   "data/MMG_STARK_MAG/manifest.json": "dd8b516d6a50bb17de70e6e14c7eded7be0192a16be4c7687d534d3388c053b8",
   "documentation/SCOPE_REVISION_2026-10-15.json": "0853e9801e88492aaf608f1aef4dd4845e04097e0c969d7e735bf2519b469c0d",
   "documentation/phase9/analysis_local.json": "58f3b71bf1ea6a7a85a40394b5aef39a5df89540646efcdc2b01c4938ce48c8f",
+  "documentation/results/overall_ranking.json": "1714e9c3f83dea8eca4cd66682d2f8bce0880050fabe7b757528c3f3fcdb7643",
   "documentation/rq1_repair/analysis_local.json": "39dd2eb638b889748cd064ec00d5c1d924d303563b5ecfc237b257e8224385cc",
   "documentation/rq2_repair/analysis_local.json": "ddb2cf48810fa4226690fef1781a45a5a5c7a604b80a0c0819c1cc8b9e909b91",
   "documentation/rq2_repair/supportability.json": "1b43c55f0b4303974c42c6099747157ca5908ce31a5b99e5bbfc48166cbac473",

@@ -14,22 +14,26 @@ name_of = {**{m: v['name'] for m, v in C['rq3']['methods'].items()}, **{m: v['na
            **{m: v['name'] for m, v in C['rq1']['methods'].items()}, 'INT-1': 'Combined system'}
 
 ui.page_header('Part 4 of 4', 'Part 4 · Combined system', S['page_intro'], chips=[S['cohort'], '%d independent families' % R['cohort']['families']])
-ui.toc([('choice', 'How the parts were chosen'), ('results', 'Results'), ('tests', 'Real differences?'), ('findings', 'Findings'),
+ui.toc([('choice', 'The three winners combined'), ('results', 'Results'), ('tests', 'Real differences?'), ('findings', 'Findings'),
         ('explore', 'Look inside one question'), ('scoreboard', 'Final scoreboard')])
 
-ui.section('How the parts were chosen', 'choice')
-ui.callout(S['selection_rule'], 'note', title='Selection rule (fixed before any result was known)')
-why = {sel['R-AR']: 'Part 3: the only Pareto-optimal policy%s.' % ('' if len(RES['RQ3']['pareto']) == 1 else 's') if len(RES['RQ3']['pareto']) == 1
-       else 'Part 3: highest answer F1 among the Pareto-optimal policies (%s).' % ', '.join(RES['RQ3']['pareto']),
-       'CM-B1': 'Part 1: fixed in advance for cost (Pareto-optimal, about a third of the tokens of the raw control).',
-       sel['R-CF']: 'Part 2: the only Pareto-optimal fusion method.' if len(RES['RQ2']['pareto']) == 1
-       else 'Part 2: highest answer F1 among the Pareto-optimal methods (%s).' % ', '.join(RES['RQ2']['pareto'])}
+ui.section('The three winners combined', 'choice', 'The combined system chains the overall winner of each part, in pipeline order.')
+comb = R['combined']
 boxes = []
-for i, (m, part) in enumerate(((sel['R-AR'], 'Retrieval control'), ('CM-B1', 'Context management'), (sel['R-CF'], 'Fusion')), 1):
-    boxes.append('<div class="s rq" style="min-width:250px;max-width:330px;text-align:left"><span class="tag">%s</span><br><b><span class="swatch" style="background:%s"></span>%s · %s</b>'
-                 '<small>%s</small></div>' % (e(part), method_color(m), e(m), e(name_of.get(m, '')), e(why[m])))
-html('<div class="pipe"><div class="s"><b>Question</b></div><div class="a">&#10140;</div>%s<div class="a">&#10140;</div><div class="s"><b>Answer</b></div></div>'
-     % '<div class="a">&#10140;</div>'.join(boxes))
+for rq, part in (('RQ3', 'Retrieval control'), ('RQ1', 'Context management'), ('RQ2', 'Fusion')):
+    o = RES[rq]['overall']; m = o['winner']; runner = o['order'][1]
+    boxes.append('<div class="s rq" style="text-align:left"><span class="tag">Winner of Part %s</span><br><b><span class="swatch" style="background:%s"></span>%s · %s</b>'
+                 '<small>%s · rank total %s (runner-up %s: %s)</small></div>' % (rq[-1], method_color(m), e(m), e(name_of.get(m, '')), e(part),
+                                                                                e(fmt(o['total'][m], 'rank')), e(runner), e(fmt(o['total'][runner], 'rank'))))
+html('<div class="pipe"><div class="s" style="flex:0 0 90px"><b>Question</b></div><div class="a">&#10140;</div>%s<div class="a">&#10140;</div>'
+     '<div class="s" style="flex:0 0 90px"><b>Answer</b></div></div>' % '<div class="a">&#10140;</div>'.join(boxes))
+if comb['matches_rq4']:
+    ui.callout('The selection rule written down before any result was known (best answer F1 among the Pareto-optimal methods, with context management fixed '
+               'to CM-B1 for cost) picked the same three components, so the system evaluated here is exactly the combination of the three winners.', 'good')
+else:
+    ui.callout('The pre-registered selection rule picked %s; the overall winners are %s.' % (' -> '.join(comb['rq4_pipeline']), comb['winners']), 'caution')
+with st.expander('The pre-registered selection rule'):
+    st.markdown(S['selection_rule'])
 
 ui.section('Results', 'results', 'The combined system against searching everything (AR-B0) and the chosen policy on its own (AR-B1, recorded in Part 3) '
            'on the same %d questions.' % R['cohort']['queries'])
@@ -48,7 +52,7 @@ ui.findings(render_findings(S, RES))
 ui.section('Look inside one question', 'explore', 'The combined system’s three stages for one question.')
 explorer.rq4()
 
-ui.section('Final scoreboard', 'scoreboard', 'One row per part: the reasonable trade-offs, the strongest and cheapest strategy, and what the tests support.')
+ui.section('Final scoreboard', 'scoreboard', 'One row per part: the overall winner, the reasonable trade-offs, the strongest and cheapest strategy, and what the tests support.')
 rows = []
 for rq, tok in (('RQ1', 'input_tokens'), ('RQ2', 'input_tokens'), ('RQ3', 'total_tokens')):
     r = RES[rq]; d = r['descriptive']
@@ -57,14 +61,15 @@ for rq, tok in (('RQ1', 'input_tokens'), ('RQ2', 'input_tokens'), ('RQ3', 'total
     cheap = min(r['methods'], key=lambda m: (d[m][tok], r['methods'].index(m)))
     sig_q = sum(t['significant'] for t in r['tests'].get('answer_f1', []))
     sig_other = {mk: sum(t['significant'] for t in ts) for mk, ts in r['tests'].items() if mk != 'answer_f1'}
-    rows.append({'Part': 'Part %s · %s' % (rq[-1], C['decomposition']['parts'][rq]['name']), 'Pareto set': ', '.join(r['pareto']),
+    rows.append({'Part': 'Part %s · %s' % (rq[-1], C['decomposition']['parts'][rq]['name']), 'Overall winner': '🏆 %s · %s' % (r['overall']['winner'], name_of.get(r['overall']['winner'], '')),
+                 'Pareto set': ', '.join(r['pareto']),
                  'Highest answer F1': ('all tied (%s)' % fmt(f1, 'rate')) if len(top) == len(r['methods']) else '%s (%s)' % (', '.join(top), fmt(f1, 'rate')),
                  'Cheapest': '%s (%s tokens)' % (cheap, fmt(d[cheap][tok], 'tokens')),
                  'Significant answer-F1 differences': '%d of %d pairs' % (sig_q, len(r['tests'].get('answer_f1', []))),
                  'Other significant differences': ', '.join('%s: %d pairs' % ((M.get(mk) or {}).get('name', mk), n) for mk, n in sorted(sig_other.items()) if n)
                                                   or ('none' if sig_other else 'not tested')})
 d4 = R['descriptive']
-rows.append({'Part': 'Part 4 · Combined system', 'Pareto set': '—', 'Highest answer F1': 'all tied (%s)' % fmt(d4['INT-1']['answer_f1'], 'rate'),
+rows.append({'Part': 'Part 4 · Combined system', 'Overall winner': ' → '.join(R['combined']['rq4_pipeline']), 'Pareto set': '—', 'Highest answer F1': 'all tied (%s)' % fmt(d4['INT-1']['answer_f1'], 'rate'),
              'Cheapest': '%s (%s tokens)' % (min(R['methods'], key=lambda m: d4[m]['total_tokens']), fmt(min(d4[m]['total_tokens'] for m in R['methods']), 'tokens')),
              'Significant answer-F1 differences': '%d of %d pairs' % (sum(t['significant'] for t in R['tests']['answer_f1']), len(R['tests']['answer_f1'])),
              'Other significant differences': ', '.join('%s: %d pairs' % ((M.get(mk) or {}).get('name', mk), sum(t['significant'] for t in ts))

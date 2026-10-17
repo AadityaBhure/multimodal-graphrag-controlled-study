@@ -143,3 +143,23 @@ def test_explorers_respond_to_choices(bundle):
         cmp = next(s for s in at.selectbox if s.label.startswith('Compare'))
         cmp.set_value(other).run()
         assert not at.exception, (path, [e.value for e in at.exception])
+
+
+def test_overall_winners_are_reproducible_and_consistent(bundle):
+    """The ranking in the bundle is recomputed here from the method means; the content names the same winners; the
+    combined system is the chain of the three winners."""
+    from scripts.build_results_package import average_ranks
+    content = load_content()
+    for rq in ('RQ1', 'RQ2', 'RQ3'):
+        o, d = bundle.results[rq]['overall'], bundle.results[rq]['descriptive']
+        total = {m: 0. for m in bundle.results[rq]['methods']}
+        for a in o['axes']:
+            r = average_ranks({m: d[m][a['metric']] for m in total}, a['direction'] == 'higher')
+            for m in total:
+                total[m] += r[m]
+        assert total == o['total'], rq
+        assert min(total, key=lambda m: (total[m], o['order'].index(m))) == o['winner'] == content[rq.lower()]['overall']['winner'], rq
+        for s in content[rq.lower()]['overall']['situations']:
+            assert s['pick'] in bundle.results[rq]['methods'] and s['pick'] != o['winner'], (rq, s['pick'])
+    c = bundle.results['RQ4']['combined']
+    assert c['matches_rq4'] and c['rq4_pipeline'] == [bundle.results[rq]['overall']['winner'] for rq in ('RQ3', 'RQ1', 'RQ2')]
