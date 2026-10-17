@@ -40,3 +40,4 @@ documentation/rq4/** text eol=lf
 showcase/content/** text eol=lf
 # Showcase data bundle: checksummed bytes, never converted
 showcase/bundle/** -text
+showcase/Dockerfile text eol=lf
