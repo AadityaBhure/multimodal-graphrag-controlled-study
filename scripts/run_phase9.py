@@ -44,8 +44,8 @@ def cohort(split):
     return sorted(q.query_id for q in qs)
 
 
-def check_plan():
-    plan = json.loads((PHASE9 / 'execution_plan.json').read_text(encoding='utf-8'))
+def check_plan(local=False):
+    plan = json.loads((PHASE9 / ('execution_plan_local.json' if local else 'execution_plan.json')).read_text(encoding='utf-8'))
     for rel, sha in plan['implementation_sha256'].items():
         if digest(ROOT / rel) != sha:
             raise SystemExit('Frozen Phase 9 code changed: ' + rel)
@@ -63,7 +63,7 @@ def main():
     ap.add_argument('--local', action='store_true', help='local model backend (research/local_llm.py); separate stage store')
     a = ap.parse_args()
     primary = a.mode == 'primary'
-    plan = check_plan() if primary else None
+    plan = check_plan(a.local) if primary else None
     split = 'validation' if primary else 'train'
     qids = primary_cohort() if primary else cohort(split)[:a.limit]
     if primary and plan['primary_cohort'] != qids:

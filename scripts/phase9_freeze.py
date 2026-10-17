@@ -8,9 +8,9 @@ from research.evaluation.benchmark import digest, BenchmarkReader
 from research.agentic.prompts import PROMPT_VERSION_HASH
 from scripts.run_phase9 import primary_cohort
 
-def main():
+def main(local=False):
     code = {p.relative_to(ROOT).as_posix(): digest(p) for p in sorted((ROOT / 'research/agentic').glob('*.py'))}
-    for extra in ('scripts/run_phase9.py', 'scripts/phase9_freeze.py', 'research/repair/schedule.py', 'research/baselines/retrieval.py', 'research/baselines/stores.py',
+    for extra in ('scripts/run_phase9.py', 'scripts/phase9_freeze.py', 'research/repair/schedule.py', 'research/local_llm.py', 'research/baselines/retrieval.py', 'research/baselines/stores.py',
                   'research/baselines/structured.py', 'research/baselines/generation.py', 'research/baselines/system.py'):
         code[extra] = digest(ROOT / extra)
     artifacts = {}
@@ -25,17 +25,19 @@ def main():
     qids = primary_cohort()
     assert len(qids) == 28
     reader = BenchmarkReader(ROOT / 'data/MMG_STARK_MAG/benchmark')
-    plan = {'version': 'phase9-execution-plan-v1', 'implementation_sha256': code, 'artifact_sha256': artifacts, 'prompt_version_hash': PROMPT_VERSION_HASH,
+    from research.local_llm import LOCAL_MODEL
+    plan = {'version': 'phase9-execution-plan-local-v1' if local else 'phase9-execution-plan-v1', 'backend': 'local (Ollama)' if local else 'groq',
+            'model': LOCAL_MODEL if local else 'openai/gpt-oss-120b', 'implementation_sha256': code, 'artifact_sha256': artifacts, 'prompt_version_hash': PROMPT_VERSION_HASH,
             'primary_cohort': qids, 'scope_revision': 'two-week-scope-v1 (14 families x normal + noisy)',
             'provider_order': 'query-major prefetch, then method-major replay with replay_only', 'primary_cohort_sha256': content_hash(qids), 'benchmark_manifest_sha256': reader.manifest_hash,
             'splits_used_for_training_or_calibration': ['train (frozen partition only)'], 'test_human_test_used': False,
             'stopping_accuracy_definition': 'documentation/phase9/PHASE9_SPEC_CONSISTENCY_AUDIT.md (frozen before any validation outcome)'}
     plan['plan_sha256'] = content_hash({k: v for k, v in plan.items()})
-    out = ROOT / 'documentation/phase9/execution_plan.json'
+    out = ROOT / ('documentation/phase9/execution_plan_local.json' if local else 'documentation/phase9/execution_plan.json')
     if out.exists():
         raise SystemExit('execution_plan.json already exists; a changed plan needs an explicit new version')
     out.write_text(canonical_json(plan) + '\n', encoding='utf-8', newline='\n')
     print('FROZEN', plan['plan_sha256'][:16], len(code), 'code files,', len(artifacts), 'artifacts, cohort', len(qids))
 
 if __name__ == '__main__':
-    main()
+    main('--local' in sys.argv)
