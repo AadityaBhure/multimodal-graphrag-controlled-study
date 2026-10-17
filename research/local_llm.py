@@ -1,0 +1,50 @@
+"""Local model backend (Ollama) behind the same request/response contract as the Groq client.
+
+Requests keep the frozen shape {model, temperature, seed, max_completion_tokens, reasoning_effort, response_format,
+messages}; this module maps them to Ollama's native /api/chat (format json, think level, temperature, seed, num_predict)
+and returns the same fields the studies record (content, finish reason, prompt/completion token usage). No rate limits
+apply locally, so the response carries non-binding rate-limit headers.
+"""
+from types import SimpleNamespace
+import httpx
+
+LOCAL_MODEL = 'gpt-oss:20b'
+OLLAMA_URL = 'http://127.0.0.1:11434'
+NUM_CTX = 16384
+NO_LIMIT_HEADERS = {'x-ratelimit-limit-tokens': '8000', 'x-ratelimit-remaining-tokens': '8000', 'x-ratelimit-remaining-requests': '999'}
+
+
+def _request(payload):
+    body = {'model': payload['model'], 'messages': payload['messages'], 'stream': False,
+            'options': {'temperature': payload.get('temperature', 0), 'seed': payload.get('seed'), 'num_predict': payload.get('max_completion_tokens'),
+                        'num_ctx': NUM_CTX}}
+    if payload.get('response_format', {}).get('type') == 'json_object':
+        body['format'] = 'json'
+    if payload.get('reasoning_effort'):
+        body['think'] = payload['reasoning_effort']
+    return body
+
+
+def chat(payload, timeout=900):
+    """-> (content, usage{prompt_tokens, completion_tokens, total_tokens}, finish_reason, headers)."""
+    r = httpx.post(OLLAMA_URL + '/api/chat', json=_request(payload), timeout=timeout)
+    r.raise_for_status()
+    j = r.json()
+    pin, pout = j.get('prompt_eval_count'), j.get('eval_count')
+    usage = {'prompt_tokens': pin, 'completion_tokens': pout, 'total_tokens': (pin or 0) + (pout or 0)} if pin is not None else None
+    return (j.get('message') or {}).get('content') or '', usage, j.get('done_reason') or 'stop', dict(NO_LIMIT_HEADERS)
+
+
+class LocalClient:
+    """Drop-in for groq.Groq used by research/repair/dispatch.Dispatcher (chat.completions.with_raw_response.create)."""
+    def __init__(self):
+        self.chat = SimpleNamespace(completions=SimpleNamespace(with_raw_response=SimpleNamespace(create=self._create)))
+
+    def _create(self, **payload):
+        content, usage, finish, headers = chat(payload)
+        u = SimpleNamespace(prompt_tokens=usage['prompt_tokens'], completion_tokens=usage['completion_tokens']) if usage else None
+        result = SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=content), finish_reason=finish)], usage=u)
+        return SimpleNamespace(parse=lambda: result, status_code=200, headers=headers)
+
+    def close(self):
+        pass

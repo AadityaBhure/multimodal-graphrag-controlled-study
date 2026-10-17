@@ -69,8 +69,14 @@ class LLMResult:
 class DurableLLM:
     """transport(payload) -> (raw_text, usage_dict, finish_reason, headers_dict); injectable for offline tests."""
 
-    def __init__(self, root, transport=None, clock=time.time, sleep=time.sleep, initial_headers=None, min_spacing_s=2.5, daily_budget=TPD_SAFETY):
+    model = MODEL
+
+    def __init__(self, root, transport=None, clock=time.time, sleep=time.sleep, initial_headers=None, min_spacing_s=2.5, daily_budget=TPD_SAFETY, local=False):
         self.root = Path(root); (self.root / 'stages').mkdir(parents=True, exist_ok=True)
+        if local:
+            # Local model (research/local_llm.py): same request/response contract; no provider quota or pacing.
+            from research.local_llm import chat as local_chat, LOCAL_MODEL
+            transport, self.model, min_spacing_s, daily_budget = local_chat, LOCAL_MODEL, 0., 10 ** 12
         self.clock, self.sleep, self.min_spacing = clock, sleep, min_spacing_s
         self.state_path = self.root / 'state.json'
         self.transport = transport or self._groq_transport()
@@ -114,8 +120,8 @@ class DurableLLM:
         durable_write(self.state_path, canonical_json(state) + '\n')
 
     @staticmethod
-    def payload(role, system, user, cap, seed, json_mode=True):
-        p = {'model': MODEL, 'temperature': 0, 'seed': seed, 'max_completion_tokens': cap, 'reasoning_effort': 'low',
+    def payload(role, system, user, cap, seed, json_mode=True, model=MODEL):
+        p = {'model': model, 'temperature': 0, 'seed': seed, 'max_completion_tokens': cap, 'reasoning_effort': 'low',
              'messages': [{'role': 'system', 'content': system}, {'role': 'user', 'content': user}]}
         if json_mode:
             p['response_format'] = {'type': 'json_object'}
@@ -123,7 +129,7 @@ class DurableLLM:
 
     # ------------------------------------------------------------------ call
     def chat(self, role, system, user, cap, seed, json_mode=True):
-        payload = self.payload(role, system, user, cap, seed, json_mode)
+        payload = self.payload(role, system, user, cap, seed, json_mode, self.model)
         identity = content_hash(payload); path = self.root / 'stages' / (identity + '.json')
         with FileLock(str(self.root / 'llm.lock'), timeout=0):
             if path.exists():

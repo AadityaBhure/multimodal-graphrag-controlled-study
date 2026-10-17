@@ -46,11 +46,18 @@ def write(path,row):
 
 class Dispatcher:
     daily_budget=DAILY_TOKEN_BUDGET;max_rate_limited=MAX_RATE_LIMITED_ATTEMPTS;replay_only=False
+    model='openai/gpt-oss-120b';spacing=90
 
-    def __init__(self,root,initial_headers,max_requests):
+    def __init__(self,root,initial_headers,max_requests,local=False):
         self.root=Path(root);self.root.mkdir(parents=True,exist_ok=True)
         self.maximum=max_requests;self.initial=initial_headers
         self.encoder=tiktoken.get_encoding('o200k_harmony')
+        if local:
+            # Local model (research/local_llm.py): same request/response contract; no provider quota or pacing.
+            from research.local_llm import LocalClient,LOCAL_MODEL
+            self.key='local-no-key';self.client=LocalClient();self.model=LOCAL_MODEL;self.spacing=0;self.daily_budget=10**12
+            self.ready=time.time()
+            return
         self.key=groq_key()
         if not self.key:raise Paused('Groq credential missing')
         from groq import Groq
@@ -63,7 +70,7 @@ class Dispatcher:
         return re.sub(r'\b(?:org|proj)_[A-Za-z0-9_-]+','[REDACTED_ACCOUNT]',s)
 
     def call(self,stage,system,user,seed,cap):
-        payload={'model':'openai/gpt-oss-120b','temperature':0,'seed':seed,'max_completion_tokens':cap,
+        payload={'model':self.model,'temperature':0,'seed':seed,'max_completion_tokens':cap,
             'reasoning_effort':'low','response_format':{'type':'json_object'},
             'messages':[{'role':'system','content':system},{'role':'user','content':user}]}
         identity=content_hash({'stage':stage,'payload':payload});path=self.root/'stages'/(identity+'.json')
@@ -87,7 +94,7 @@ class Dispatcher:
             if used+need>self.daily_budget:
                 resume=datetime.fromtimestamp(min(e[0] for e in window)+WINDOW_SECONDS,timezone.utc).isoformat() if window else 'now'
                 raise Paused(f'Daily token budget: {used} provider tokens in the last 24 h + {need} needed > {self.daily_budget}; resume after {resume}')
-            target=max(self.ready,state['last_start']+90)
+            target=max(self.ready,state['last_start']+self.spacing)
             for kind,need in [('tokens',reserved),('requests',1)]:
                 remaining=headers.get('x-ratelimit-remaining-'+kind)
                 if remaining is None:raise Paused('Quota state unavailable')

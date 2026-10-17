@@ -60,6 +60,7 @@ def main():
     ap.add_argument('--mode', choices=('primary', 'smoke'), required=True)
     ap.add_argument('--methods', nargs='+', choices=METHODS, default=list(METHODS))
     ap.add_argument('--limit', type=int, default=2)
+    ap.add_argument('--local', action='store_true', help='local model backend (research/local_llm.py); separate stage store')
     a = ap.parse_args()
     primary = a.mode == 'primary'
     plan = check_plan() if primary else None
@@ -69,9 +70,10 @@ def main():
         raise SystemExit('Frozen plan cohort differs from the scope revision cohort')
     options = BaselineOptions()
     store = Stores(ROOT / 'data/MMG_STARK_MAG', ARTIFACTS / 'work/run', options, modalities=('text', 'graph', 'structured'))
-    root = (PHASE9 / 'runs') if primary else (ARTIFACTS / 'smoke')
+    suffix = '_local' if a.local else ''
+    root = (PHASE9 / ('runs' + suffix)) if primary else (ARTIFACTS / ('smoke' + suffix))
     tools = Tools(store, options, ARTIFACTS / 'tool_cache')
-    llm = DurableLLM(ARTIFACTS / 'llm_stages')
+    llm = DurableLLM(ARTIFACTS / ('llm_stages' + suffix), local=a.local)
     provenance = code_provenance()
     status = {}
     try:
