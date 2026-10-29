@@ -1,0 +1,1537 @@
+{
+ "p01_problem": {
+  "name": "p01_problem",
+  "path": "",
+  "caption": "The problem",
+  "title": "Multi-Modal GraphRAG",
+  "view": "p01_problem__view.png",
+  "full": "p01_problem__full.png",
+  "sidebar_px": 300,
+  "height_px": 2538,
+  "crops": [
+   {
+    "file": "p01_problem__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     400
+    ]
+   },
+   {
+    "file": "p01_problem__02.png",
+    "section_id": "statement",
+    "section": "The problem",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     443
+    ]
+   },
+   {
+    "file": "p01_problem__03.png",
+    "section_id": "example",
+    "section": "A real question",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1185
+    ]
+   },
+   {
+    "file": "p01_problem__04.png",
+    "section_id": "hard",
+    "section": "Why it is hard",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     539
+    ]
+   },
+   {
+    "file": "p01_problem__05.png",
+    "section_id": "success",
+    "section": "What counts as better",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     345
+    ]
+   }
+  ],
+  "sections": [
+   "The problem",
+   "A real question",
+   "Why it is hard",
+   "What counts as better"
+  ]
+ },
+ "p02_parts": {
+  "name": "p02_parts",
+  "path": "parts",
+  "caption": "Four parts",
+  "title": "Four parts, one variable at a time",
+  "view": "p02_parts__view.png",
+  "full": "p02_parts__full.png",
+  "sidebar_px": 300,
+  "height_px": 1803,
+  "crops": [
+   {
+    "file": "p02_parts__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     323
+    ]
+   },
+   {
+    "file": "p02_parts__02.png",
+    "section_id": "pipeline",
+    "section": "The pipeline",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     452
+    ]
+   },
+   {
+    "file": "p02_parts__03.png",
+    "section_id": "parts",
+    "section": "The four parts",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     900
+    ]
+   },
+   {
+    "file": "p02_parts__04.png",
+    "section_id": "order",
+    "section": "How they fit together",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     323
+    ]
+   }
+  ],
+  "sections": [
+   "The pipeline",
+   "The four parts",
+   "How they fit together"
+  ]
+ },
+ "p03_data": {
+  "name": "p03_data",
+  "path": "data",
+  "caption": "Data and benchmark",
+  "title": "Data and benchmark",
+  "view": "p03_data__view.png",
+  "full": "p03_data__full.png",
+  "sidebar_px": 300,
+  "height_px": 3690,
+  "crops": [
+   {
+    "file": "p03_data__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     323
+    ]
+   },
+   {
+    "file": "p03_data__02.png",
+    "section_id": "views",
+    "section": "Three views of one corpus",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     903
+    ]
+   },
+   {
+    "file": "p03_data__03.png",
+    "section_id": "paper",
+    "section": "One paper, three views",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1472
+    ]
+   },
+   {
+    "file": "p03_data__04.png",
+    "section_id": "benchmark",
+    "section": "The benchmark",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     792
+    ]
+   },
+   {
+    "file": "p03_data__05.png",
+    "section_id": "variants",
+    "section": "Variants of one question",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     442
+    ]
+   },
+   {
+    "file": "p03_data__06.png",
+    "section_id": "cohorts",
+    "section": "Which questions each part uses",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     415
+    ]
+   }
+  ],
+  "sections": [
+   "Three views of one corpus",
+   "One paper, three views",
+   "The benchmark",
+   "Variants of one question",
+   "Which questions each part uses"
+  ]
+ },
+ "p03_data_conflict": {
+  "name": "p03_data_conflict",
+  "path": "data",
+  "caption": "Data and benchmark (conflict variant tab)",
+  "title": "Data and benchmark",
+  "view": "p03_data_conflict__view.png",
+  "full": "p03_data_conflict__full.png",
+  "sidebar_px": 300,
+  "height_px": 3458,
+  "crops": [
+   {
+    "file": "p03_data_conflict__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     323
+    ]
+   },
+   {
+    "file": "p03_data_conflict__02.png",
+    "section_id": "views",
+    "section": "Three views of one corpus",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     529
+    ]
+   },
+   {
+    "file": "p03_data_conflict__03.png",
+    "section_id": "paper",
+    "section": "One paper, three views",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1473
+    ]
+   },
+   {
+    "file": "p03_data_conflict__04.png",
+    "section_id": "benchmark",
+    "section": "The benchmark",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     791
+    ]
+   },
+   {
+    "file": "p03_data_conflict__05.png",
+    "section_id": "variants",
+    "section": "Variants of one question",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     527
+    ]
+   },
+   {
+    "file": "p03_data_conflict__06.png",
+    "section_id": "cohorts",
+    "section": "Which questions each part uses",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     414
+    ]
+   }
+  ],
+  "sections": [
+   "Three views of one corpus",
+   "One paper, three views",
+   "The benchmark",
+   "Variants of one question",
+   "Which questions each part uses"
+  ]
+ },
+ "p04_metrics": {
+  "name": "p04_metrics",
+  "path": "metrics",
+  "caption": "Metrics and statistics",
+  "title": "Metrics and statistics",
+  "view": "p04_metrics__view.png",
+  "full": "p04_metrics__full.png",
+  "sidebar_px": 300,
+  "height_px": 4339,
+  "crops": [
+   {
+    "file": "p04_metrics__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     323
+    ]
+   },
+   {
+    "file": "p04_metrics__02.png",
+    "section_id": "metrics",
+    "section": "Metrics",
+    "part": 1,
+    "parts": 2,
+    "size": [
+     1425,
+     1414
+    ]
+   },
+   {
+    "file": "p04_metrics__03.png",
+    "section_id": "metrics",
+    "section": "Metrics",
+    "part": 2,
+    "parts": 2,
+    "size": [
+     1425,
+     764
+    ]
+   },
+   {
+    "file": "p04_metrics__04.png",
+    "section_id": "playground",
+    "section": "Try the answer metrics",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     427
+    ]
+   },
+   {
+    "file": "p04_metrics__05.png",
+    "section_id": "stats",
+    "section": "When is a difference real?",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     670
+    ]
+   },
+   {
+    "file": "p04_metrics__06.png",
+    "section_id": "signflip",
+    "section": "Sign-flip test on real results",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     878
+    ]
+   },
+   {
+    "file": "p04_metrics__07.png",
+    "section_id": "pareto",
+    "section": "Reasonable trade-offs: the Pareto set",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     289
+    ]
+   },
+   {
+    "file": "p04_metrics__08.png",
+    "section_id": "protocol",
+    "section": "Protocol",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     388
+    ]
+   }
+  ],
+  "sections": [
+   "Metrics",
+   "Try the answer metrics",
+   "When is a difference real?",
+   "Sign-flip test on real results",
+   "Reasonable trade-offs: the Pareto set",
+   "Protocol"
+  ]
+ },
+ "p05_rq1": {
+  "name": "p05_rq1",
+  "path": "context",
+  "caption": "Part 1 · Context management",
+  "title": "Part 1 · Context management",
+  "view": "p05_rq1__view.png",
+  "full": "p05_rq1__full.png",
+  "sidebar_px": 300,
+  "height_px": 7828,
+  "crops": [
+   {
+    "file": "p05_rq1__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     373
+    ]
+   },
+   {
+    "file": "p05_rq1__02.png",
+    "section_id": "question",
+    "section": "The question",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     563
+    ]
+   },
+   {
+    "file": "p05_rq1__03.png",
+    "section_id": "strategies",
+    "section": "The five strategies",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1127
+    ]
+   },
+   {
+    "file": "p05_rq1__04.png",
+    "section_id": "results",
+    "section": "Results",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1329
+    ]
+   },
+   {
+    "file": "p05_rq1__05.png",
+    "section_id": "overall",
+    "section": "Overall winner",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1179
+    ]
+   },
+   {
+    "file": "p05_rq1__06.png",
+    "section_id": "tests",
+    "section": "Is any difference real?",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     989
+    ]
+   },
+   {
+    "file": "p05_rq1__07.png",
+    "section_id": "findings",
+    "section": "What we found",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     446
+    ]
+   },
+   {
+    "file": "p05_rq1__08.png",
+    "section_id": "breakdown",
+    "section": "Breakdown",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     640
+    ]
+   },
+   {
+    "file": "p05_rq1__09.png",
+    "section_id": "explore",
+    "section": "Look inside one question",
+    "part": 1,
+    "parts": 3,
+    "size": [
+     1425,
+     1092
+    ]
+   },
+   {
+    "file": "p05_rq1__10.png",
+    "section_id": "explore",
+    "section": "Look inside one question",
+    "part": 2,
+    "parts": 3,
+    "size": [
+     1425,
+     1712
+    ]
+   },
+   {
+    "file": "p05_rq1__11.png",
+    "section_id": "explore",
+    "section": "Look inside one question",
+    "part": 3,
+    "parts": 3,
+    "size": [
+     1425,
+     55
+    ]
+   }
+  ],
+  "sections": [
+   "The question",
+   "The five strategies",
+   "Results",
+   "Overall winner",
+   "Is any difference real?",
+   "What we found",
+   "Breakdown",
+   "Look inside one question"
+  ]
+ },
+ "p06_rq2": {
+  "name": "p06_rq2",
+  "path": "fusion",
+  "caption": "Part 2 · Fusion",
+  "title": "Part 2 · Cross-modal fusion",
+  "view": "p06_rq2__view.png",
+  "full": "p06_rq2__full.png",
+  "sidebar_px": 300,
+  "height_px": 6644,
+  "crops": [
+   {
+    "file": "p06_rq2__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     423
+    ]
+   },
+   {
+    "file": "p06_rq2__02.png",
+    "section_id": "question",
+    "section": "The question",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     563
+    ]
+   },
+   {
+    "file": "p06_rq2__03.png",
+    "section_id": "strategies",
+    "section": "The five strategies",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1070
+    ]
+   },
+   {
+    "file": "p06_rq2__04.png",
+    "section_id": "results",
+    "section": "Results",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1185
+    ]
+   },
+   {
+    "file": "p06_rq2__05.png",
+    "section_id": "overall",
+    "section": "Overall winner",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     954
+    ]
+   },
+   {
+    "file": "p06_rq2__06.png",
+    "section_id": "tests",
+    "section": "Is any difference real?",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     842
+    ]
+   },
+   {
+    "file": "p06_rq2__07.png",
+    "section_id": "findings",
+    "section": "What we found",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     421
+    ]
+   },
+   {
+    "file": "p06_rq2__08.png",
+    "section_id": "breakdown",
+    "section": "Breakdown",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     640
+    ]
+   },
+   {
+    "file": "p06_rq2__09.png",
+    "section_id": "support",
+    "section": "Could the evidence support an answer?",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     532
+    ]
+   },
+   {
+    "file": "p06_rq2__10.png",
+    "section_id": "explore",
+    "section": "Look inside one question",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1390
+    ]
+   }
+  ],
+  "sections": [
+   "The question",
+   "The five strategies",
+   "Results",
+   "Overall winner",
+   "Is any difference real?",
+   "What we found",
+   "Breakdown",
+   "Could the evidence support an answer?",
+   "Look inside one question"
+  ]
+ },
+ "p07_rq3": {
+  "name": "p07_rq3",
+  "path": "retrieval-control",
+  "caption": "Part 3 · Retrieval control",
+  "title": "Part 3 · Retrieval control",
+  "view": "p07_rq3__view.png",
+  "full": "p07_rq3__full.png",
+  "sidebar_px": 300,
+  "height_px": 7999,
+  "crops": [
+   {
+    "file": "p07_rq3__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     423
+    ]
+   },
+   {
+    "file": "p07_rq3__02.png",
+    "section_id": "question",
+    "section": "The question",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     537
+    ]
+   },
+   {
+    "file": "p07_rq3__03.png",
+    "section_id": "strategies",
+    "section": "The five strategies",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1008
+    ]
+   },
+   {
+    "file": "p07_rq3__04.png",
+    "section_id": "results",
+    "section": "Results",
+    "part": 1,
+    "parts": 2,
+    "size": [
+     1425,
+     1045
+    ]
+   },
+   {
+    "file": "p07_rq3__05.png",
+    "section_id": "results",
+    "section": "Results",
+    "part": 2,
+    "parts": 2,
+    "size": [
+     1425,
+     622
+    ]
+   },
+   {
+    "file": "p07_rq3__06.png",
+    "section_id": "overall",
+    "section": "Overall winner",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1292
+    ]
+   },
+   {
+    "file": "p07_rq3__07.png",
+    "section_id": "tests",
+    "section": "Is any difference real?",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     841
+    ]
+   },
+   {
+    "file": "p07_rq3__08.png",
+    "section_id": "findings",
+    "section": "What we found",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     472
+    ]
+   },
+   {
+    "file": "p07_rq3__09.png",
+    "section_id": "breakdown",
+    "section": "Breakdown",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     640
+    ]
+   },
+   {
+    "file": "p07_rq3__10.png",
+    "section_id": "stops",
+    "section": "How each policy stopped",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1215
+    ]
+   },
+   {
+    "file": "p07_rq3__11.png",
+    "section_id": "explore",
+    "section": "Look inside one question",
+    "part": 1,
+    "parts": 2,
+    "size": [
+     1425,
+     717
+    ]
+   },
+   {
+    "file": "p07_rq3__12.png",
+    "section_id": "explore",
+    "section": "Look inside one question",
+    "part": 2,
+    "parts": 2,
+    "size": [
+     1425,
+     901
+    ]
+   }
+  ],
+  "sections": [
+   "The question",
+   "The five strategies",
+   "Results",
+   "Overall winner",
+   "Is any difference real?",
+   "What we found",
+   "Breakdown",
+   "How each policy stopped",
+   "Look inside one question"
+  ]
+ },
+ "p08_rq4": {
+  "name": "p08_rq4",
+  "path": "combined",
+  "caption": "Part 4 · Combined system",
+  "title": "Part 4 · Combined system",
+  "view": "p08_rq4__view.png",
+  "full": "p08_rq4__full.png",
+  "sidebar_px": 300,
+  "height_px": 3610,
+  "crops": [
+   {
+    "file": "p08_rq4__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     373
+    ]
+   },
+   {
+    "file": "p08_rq4__02.png",
+    "section_id": "choice",
+    "section": "The three winners combined",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     573
+    ]
+   },
+   {
+    "file": "p08_rq4__03.png",
+    "section_id": "results",
+    "section": "Results",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     457
+    ]
+   },
+   {
+    "file": "p08_rq4__04.png",
+    "section_id": "tests",
+    "section": "Is any difference real?",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     407
+    ]
+   },
+   {
+    "file": "p08_rq4__05.png",
+    "section_id": "findings",
+    "section": "What we found",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     446
+    ]
+   },
+   {
+    "file": "p08_rq4__06.png",
+    "section_id": "explore",
+    "section": "Look inside one question",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1475
+    ]
+   },
+   {
+    "file": "p08_rq4__07.png",
+    "section_id": "scoreboard",
+    "section": "Final scoreboard",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     511
+    ]
+   }
+  ],
+  "sections": [
+   "The three winners combined",
+   "Results",
+   "Is any difference real?",
+   "What we found",
+   "Look inside one question",
+   "Final scoreboard"
+  ]
+ },
+ "p09_summary": {
+  "name": "p09_summary",
+  "path": "conclusions",
+  "caption": "Conclusions",
+  "title": "Conclusions",
+  "view": "p09_summary__view.png",
+  "full": "p09_summary__full.png",
+  "sidebar_px": 300,
+  "height_px": 3459,
+  "crops": [
+   {
+    "file": "p09_summary__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     458
+    ]
+   },
+   {
+    "file": "p09_summary__02.png",
+    "section_id": "winners",
+    "section": "The winners",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     684
+    ]
+   },
+   {
+    "file": "p09_summary__03.png",
+    "section_id": "combined",
+    "section": "The combined system",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     523
+    ]
+   },
+   {
+    "file": "p09_summary__04.png",
+    "section_id": "situations",
+    "section": "When to pick something else",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1181
+    ]
+   },
+   {
+    "file": "p09_summary__05.png",
+    "section_id": "key",
+    "section": "Key findings",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     495
+    ]
+   },
+   {
+    "file": "p09_summary__06.png",
+    "section_id": "limits",
+    "section": "Limitations",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     381
+    ]
+   },
+   {
+    "file": "p09_summary__07.png",
+    "section_id": "next",
+    "section": "Next steps",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     331
+    ]
+   }
+  ],
+  "sections": [
+   "The winners",
+   "The combined system",
+   "When to pick something else",
+   "Key findings",
+   "Limitations",
+   "Next steps"
+  ]
+ },
+ "p10_try": {
+  "name": "p10_try",
+  "path": "try",
+  "caption": "Try a question (recorded runs)",
+  "title": "Try a question",
+  "view": "p10_try__view.png",
+  "full": "p10_try__full.png",
+  "sidebar_px": 300,
+  "height_px": 1921,
+  "crops": [
+   {
+    "file": "p10_try__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 2,
+    "size": [
+     1425,
+     1051
+    ]
+   },
+   {
+    "file": "p10_try__02.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 2,
+    "parts": 2,
+    "size": [
+     1425,
+     1120
+    ]
+   }
+  ],
+  "sections": []
+ },
+ "p10_try_live": {
+  "name": "p10_try_live",
+  "path": "try",
+  "caption": "Try a question (live run builder)",
+  "title": "Try a question",
+  "view": "p10_try_live__view.png",
+  "full": "p10_try_live__full.png",
+  "sidebar_px": 300,
+  "height_px": 1335,
+  "crops": [
+   {
+    "file": "p10_try_live__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1438
+    ]
+   }
+  ],
+  "sections": []
+ },
+ "p11_repro": {
+  "name": "p11_repro",
+  "path": "reproducibility",
+  "caption": "Reproducibility",
+  "title": "Reproducibility",
+  "view": "p11_repro__view.png",
+  "full": "p11_repro__full.png",
+  "sidebar_px": 300,
+  "height_px": 2902,
+  "crops": [
+   {
+    "file": "p11_repro__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     323
+    ]
+   },
+   {
+    "file": "p11_repro__02.png",
+    "section_id": "how",
+    "section": "How results are protected",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     493
+    ]
+   },
+   {
+    "file": "p11_repro__03.png",
+    "section_id": "bundle",
+    "section": "This app’s data",
+    "part": 1,
+    "parts": 2,
+    "size": [
+     1425,
+     1339
+    ]
+   },
+   {
+    "file": "p11_repro__04.png",
+    "section_id": "bundle",
+    "section": "This app’s data",
+    "part": 2,
+    "parts": 2,
+    "size": [
+     1425,
+     591
+    ]
+   },
+   {
+    "file": "p11_repro__05.png",
+    "section_id": "setup",
+    "section": "Setup",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     262
+    ]
+   },
+   {
+    "file": "p11_repro__06.png",
+    "section_id": "rebuild",
+    "section": "Rebuild",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     359
+    ]
+   }
+  ],
+  "sections": [
+   "How results are protected",
+   "This app’s data",
+   "Setup",
+   "Rebuild"
+  ]
+ },
+ "p01_present": {
+  "name": "p01_present",
+  "path": "?present=1",
+  "caption": "Presentation mode",
+  "title": "Multi-Modal GraphRAG",
+  "view": "p01_present__view.png",
+  "full": "p01_present__full.png",
+  "sidebar_px": 0,
+  "height_px": 2692,
+  "crops": [
+   {
+    "file": "p01_present__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1800,
+     400
+    ]
+   },
+   {
+    "file": "p01_present__02.png",
+    "section_id": "statement",
+    "section": "The problem",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1800,
+     490
+    ]
+   },
+   {
+    "file": "p01_present__03.png",
+    "section_id": "example",
+    "section": "A real question",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1800,
+     1277
+    ]
+   },
+   {
+    "file": "p01_present__04.png",
+    "section_id": "hard",
+    "section": "Why it is hard",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1800,
+     551
+    ]
+   },
+   {
+    "file": "p01_present__05.png",
+    "section_id": "success",
+    "section": "What counts as better",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1800,
+     380
+    ]
+   }
+  ],
+  "sections": [
+   "The problem",
+   "A real question",
+   "Why it is hard",
+   "What counts as better"
+  ]
+ },
+ "p10_try_compare": {
+  "name": "p10_try_compare",
+  "path": "try",
+  "caption": "Try a question (two recorded pipelines side by side)",
+  "title": "Try a question",
+  "view": "p10_try_compare__view.png",
+  "full": "p10_try_compare__full.png",
+  "sidebar_px": 300,
+  "height_px": 2301,
+  "crops": [
+   {
+    "file": "p10_try_compare__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 3,
+    "size": [
+     1425,
+     1051
+    ]
+   },
+   {
+    "file": "p10_try_compare__02.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 2,
+    "parts": 3,
+    "size": [
+     1425,
+     1540
+    ]
+   },
+   {
+    "file": "p10_try_compare__03.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 3,
+    "parts": 3,
+    "size": [
+     1425,
+     55
+    ]
+   }
+  ],
+  "sections": []
+ },
+ "p10_try_expanded": {
+  "name": "p10_try_expanded",
+  "path": "try",
+  "caption": "Try a question (model calls and exact context opened)",
+  "title": "Try a question",
+  "view": "p10_try_expanded__view.png",
+  "full": "p10_try_expanded__full.png",
+  "sidebar_px": 300,
+  "height_px": 2323,
+  "crops": [
+   {
+    "file": "p10_try_expanded__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 3,
+    "size": [
+     1425,
+     1051
+    ]
+   },
+   {
+    "file": "p10_try_expanded__02.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 2,
+    "parts": 3,
+    "size": [
+     1425,
+     1567
+    ]
+   },
+   {
+    "file": "p10_try_expanded__03.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 3,
+    "parts": 3,
+    "size": [
+     1425,
+     55
+    ]
+   }
+  ],
+  "sections": []
+ },
+ "p07_rq3_compare": {
+  "name": "p07_rq3_compare",
+  "path": "retrieval-control",
+  "caption": "Part 3 explorer, two policies side by side",
+  "title": "Part 3 · Retrieval control",
+  "view": "p07_rq3_compare__view.png",
+  "full": "p07_rq3_compare__full.png",
+  "sidebar_px": 300,
+  "height_px": 7900,
+  "crops": [
+   {
+    "file": "p07_rq3_compare__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     423
+    ]
+   },
+   {
+    "file": "p07_rq3_compare__02.png",
+    "section_id": "question",
+    "section": "The question",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     537
+    ]
+   },
+   {
+    "file": "p07_rq3_compare__03.png",
+    "section_id": "strategies",
+    "section": "The five strategies",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1008
+    ]
+   },
+   {
+    "file": "p07_rq3_compare__04.png",
+    "section_id": "results",
+    "section": "Results",
+    "part": 1,
+    "parts": 2,
+    "size": [
+     1425,
+     1045
+    ]
+   },
+   {
+    "file": "p07_rq3_compare__05.png",
+    "section_id": "results",
+    "section": "Results",
+    "part": 2,
+    "parts": 2,
+    "size": [
+     1425,
+     622
+    ]
+   },
+   {
+    "file": "p07_rq3_compare__06.png",
+    "section_id": "overall",
+    "section": "Overall winner",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     1292
+    ]
+   },
+   {
+    "file": "p07_rq3_compare__07.png",
+    "section_id": "tests",
+    "section": "Is any difference real?",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     841
+    ]
+   },
+   {
+    "file": "p07_rq3_compare__08.png",
+    "section_id": "findings",
+    "section": "What we found",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     472
+    ]
+   },
+   {
+    "file": "p07_rq3_compare__09.png",
+    "section_id": "breakdown",
+    "section": "Breakdown",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     640
+    ]
+   },
+   {
+    "file": "p07_rq3_compare__10.png",
+    "section_id": "stops",
+    "section": "How each policy stopped",
+    "part": 1,
+    "parts": 1,
+    "size": [
+     1425,
+     665
+    ]
+   },
+   {
+    "file": "p07_rq3_compare__11.png",
+    "section_id": "explore",
+    "section": "Look inside one question",
+    "part": 1,
+    "parts": 2,
+    "size": [
+     1425,
+     717
+    ]
+   },
+   {
+    "file": "p07_rq3_compare__12.png",
+    "section_id": "explore",
+    "section": "Look inside one question",
+    "part": 2,
+    "parts": 2,
+    "size": [
+     1425,
+     1328
+    ]
+   }
+  ],
+  "sections": [
+   "The question",
+   "The five strategies",
+   "Results",
+   "Overall winner",
+   "Is any difference real?",
+   "What we found",
+   "Breakdown",
+   "How each policy stopped",
+   "Look inside one question"
+  ]
+ },
+ "p10_try_liverun": {
+  "name": "p10_try_liverun",
+  "path": "try",
+  "caption": "Try a question (a live run)",
+  "title": "Try a question",
+  "view": "p10_try_liverun__view.png",
+  "full": "p10_try_liverun__full.png",
+  "sidebar_px": 300,
+  "height_px": 2282,
+  "crops": [
+   {
+    "file": "p10_try_liverun__01.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 1,
+    "parts": 2,
+    "size": [
+     1425,
+     1453
+    ]
+   },
+   {
+    "file": "p10_try_liverun__02.png",
+    "section_id": "header",
+    "section": "Page header",
+    "part": 2,
+    "parts": 2,
+    "size": [
+     1425,
+     1169
+    ]
+   }
+  ],
+  "sections": []
+ }
+}
